@@ -1,0 +1,117 @@
+$height-of-navbar: 80px;
+
+.navbar-container {
+    background-color: white;
+    border-top: 2px solid #bcbcbc;
+    bottom: 0;
+    // cursor: pointer;
+    display: flex;
+    height: $height-of-navbar;
+    left: 0;
+    margin: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+
+    $svg-size: 40px;
+    svg {
+        height: $svg-size;
+        width: $svg-size;
+    } 
+
+    $img-size: 25px;
+    img {
+        height: $img-size;
+        width: $img-size;
+    }
+}
+
+.navbar-li {
+    align-items: center;
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.navbar-image {
+    display: none;
+}
+
+.page-with-navbar {
+    height: 100%;
+    padding-bottom: $height-of-navbar + 10px;
+}
+
+.navbar-li a {
+    align-items: center;
+    color: #4d5054;
+    display: flex;
+    flex-direction: column;
+    // height: 100%;
+    width: 100%;
+}
+
+.selected-navbar-icon > a {
+    color: var(--light-blue);
+}
+
+@media only screen and (min-width: 700px) {
+    .navbar-container {
+        border-top: none;
+        flex-direction: column;
+        height: 100%;
+        position: static;
+        top: 0;
+        width: 180px;
+
+        .profile-icon {
+            display: none;
+        }
+    }
+
+    .navbar-icon {
+        display: none;
+    }
+
+    .navbar-image {
+        display: block;
+    }
+
+    $li-vertical-padding: 16px;
+    $li-horizontal-padding: 14px;
+    .navbar-li  {
+        border-radius: var(--default-border-radius);
+        box-sizing: border-box;
+        font-size: 20px;
+        justify-content: center;
+        margin-bottom: 12px;
+        padding-left: $li-horizontal-padding;
+        padding-right: $li-horizontal-padding;
+
+        a {
+            color: var(--dark-gray);
+            flex-direction: row;
+            height: 50px;
+        }
+    }
+
+    .navbar-li:hover {
+        background-color: #e2e2e2;
+    }
+
+    .navbar-link-text {
+        margin-left: 12px;
+    }
+
+    .selected-navbar-icon {
+        background-color: #ddf4ff;
+        border: 2px solid #84d8ff;
+    }    
+}
+
+@media only screen and (min-width: 992px) {
+    .navbar-statistics-option {
+        display: none;
+    }
+}

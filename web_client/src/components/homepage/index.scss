@@ -1,0 +1,201 @@
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    // height: 100vh;
+    justify-content: space-between;
+}
+
+.homepage-contents {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.level-required-msg {
+    font-size: 17px;
+    font-weight: 400;
+    position: absolute;
+    top: 15%;
+}
+
+.current-level-info-and-links-container {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.discord-or-have-any-questions-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 30px auto 10px auto;
+    // position: absolute;
+}
+
+.discord-link-container {
+    align-items: center;
+    color: #4d5054;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+$discord-icon-size: 40px;
+#discord-icon {
+    color: #5865f2;
+    height: $discord-icon-size;
+    width: $discord-icon-size;
+}
+
+.links-to-learning-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    // height: 250px;
+    justify-content: space-between;
+    width: 100%;
+
+    a {
+        width: 48.5%;
+    }
+}
+
+.links-to-learning-container > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.do-more-reviews-msg {
+    font-size:  15px;
+    font-weight: 400;
+}
+
+// @media only screen and (min-width: 565px) {
+//     .homepage-contents {
+//         width: 84%;
+//     }
+
+//     .links-to-learning-container {
+//         height: auto;
+
+//         a {
+//             width: 48%;
+//         }
+//     }
+
+//     .discord-or-have-any-questions-container {
+//         font-size: 18px;
+//         width: 565px;
+//     }
+// }
+
+// .links-to-learning-container-first-row {
+//     margin-bottom: 9px;
+// }
+
+// .links-to-learning-container-second-row {
+//     margin-bottom: 23px;
+// }
+
+.feature-coming-soon {
+    opacity: .6;
+}
+// @media only screen and (min-width: 780px) {
+//     .level-required-msg {
+//         font-size: 20px;
+//         font-weight: 400;
+//         position: absolute;
+//         top: 15%;
+//     }
+
+//     .do-more-reviews-msg {
+//         font-size:  18px;
+//         font-weight: 400;
+//     }
+
+//     .homepage-contents {
+//         padding-top: 60px;
+//         width: 650px;
+//     }
+    
+//     .levels-blocked-msg {
+//         font-size: 18px;
+//     }
+// }
+
+@media only screen and (min-width: 992px) {
+    // .homepage-container {
+    //     display: flex;
+    //     flex-direction: column;
+    //     // height: 100vh;
+    //     justify-content: space-between;
+    //     position: relative;
+    // }
+
+
+    .homepage-contents .current-level-info-and-links-container {
+        width: 370px;
+    }
+
+    .homepage-contents {
+        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
+// @media only screen and (min-width: 970px) {
+//     .current-level-info-and-links-container {
+//         width: 60%;
+//     }
+
+    
+
+    // .links-to-learning-container {
+    //     margin-top: 45px;
+
+    //     a {
+    //         display: flex;
+    //         justify-content: center;
+    //     }
+    // }
+// }
+
+@media only screen and (min-width: 1080px) {
+    .homepage-contents {
+        justify-content: space-between;
+
+        .current-level-info-and-links-container {
+            width: 420px;
+        }
+    }
+
+    // .homepage-contents > div {
+    //     width: 360px;
+    // }
+}
+
+@media only screen and (min-width: 1200px) {
+    .homepage-contents {
+
+        .current-level-info-and-links-container {
+            width: 430px;
+        }
+    }
+    
+    // .homepage-contents > div {
+    //     width: 386px;
+    // }
+}
+
+@media only screen and (min-width: 1350px) {
+    .homepage-contents {
+        .current-level-info-and-links-container {
+            width: 550px;
+        }
+    }
+    
+    // .homepage-contents > div {
+    //     width: 420px;
+    // }
+}

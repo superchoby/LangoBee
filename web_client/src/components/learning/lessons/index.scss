@@ -1,0 +1,150 @@
+.lesson-container {
+    background-color: #EAEAEA;
+}
+
+.levels-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.lessons-content-preview {
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: var(--default-border-radius);
+    margin: 0 auto;
+    outline: none;
+    overflow: auto;
+    position: absolute;    
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    z-index: 1000;
+}
+
+.lessons-level-select-container {
+    width: 100%;
+}
+
+.content-in-level-li {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.lessons-learning-loading-msg {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.lesson-preview-header {
+    color: var(--dark-gray);
+}
+
+.more-lessons-to-come-msg {
+    font-size: 25px;
+    margin: 50px auto;
+}
+
+.subjects-for-this-level-ul {
+    // margin: 0 auto;
+    text-transform: capitalize;
+    // width: 80%;
+
+    // li {
+        // list-style: initial;
+    // }
+}
+
+// .hiragana-content-in-level-li::marker,
+// .katakana-content-in-level-li::marker {
+//     font-size: 40px;
+//     // color: var(--med-blue);
+// }
+
+// .kanji-content-in-level-li::marker {
+//     color: rgb(226, 95, 112);
+// }
+
+// .grammar-content-in-level-li::marker {
+//     color: var(--light-green);
+// }
+
+// .vocabulary-content-in-level-li::marker {
+//     color: var(--light-purple);
+// }
+
+// .radical-content-in-level-li::marker {
+//     color: rgb(239, 198, 98);
+// }
+
+.remaining-subjects-that-can-be-studied-today {
+    margin-bottom: 15px;
+}
+
+.article-preview-description {
+    margin-bottom: 20px;
+}
+
+.explain-srs-limit-button {
+    color: var(--link-blue);
+    font-size: 18px;
+}
+
+.srs-limit-explanation {
+    margin-top: 15px;
+}
+
+.lesson-levels-button-container {
+    display: flex;
+
+    button {
+        border-radius: 12px;
+        color: white;
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 auto;
+        padding: 10px 20px;
+    }
+}
+
+.start-lesson-button {
+    background-color: var(--light-blue);
+}
+
+.cancel-lesson-button {
+    background-color: var(--gray-button);
+}
+
+@media only screen and (min-width: 700px) {
+    .lessons-level-select-container {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .lessons-level-select-container {
+        margin: 0 auto;
+        width: 50%;
+    }
+
+    .lessons-content-preview {
+        font-size: 19px;
+        // padding: 30px;
+    }
+
+    .lesson-preview-header {
+        font-size: 30px;
+    }
+
+    .lesson-levels-button-container button {
+        font-size: 20px;
+        margin-top: 40px;
+        padding: 12px 24px;
+    }
+}

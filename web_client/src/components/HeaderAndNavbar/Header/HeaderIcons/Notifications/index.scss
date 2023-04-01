@@ -1,0 +1,36 @@
+.notifications-icon-container {
+    cursor: pointer;
+    position: relative;
+}
+
+$notification-icon-size: 30px;
+.notifications-icon {
+    color: var(--gray);
+    height: $notification-icon-size;
+    width: $notification-icon-size;
+}
+
+$new-notifications-dot-size: 6px;
+.new-notifications-dot {
+    background-color: #FF6652;
+    border-radius: 50%;
+    height: $new-notifications-dot-size;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: $new-notifications-dot-size;
+}
+
+.notifications-container {
+    width: 150px;
+
+    p {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (min-width: 490px) {  
+    .notifications-container {
+        width: 180px;
+    }
+}

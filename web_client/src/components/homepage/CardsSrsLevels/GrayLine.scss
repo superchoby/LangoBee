@@ -1,0 +1,16 @@
+$gray-line-height: 7px;
+.gray-line {
+    background-color: #CCCCCC;
+    flex: .45;
+    height: $gray-line-height;
+}
+
+.left-gray-line {
+    border-top-right-radius: ($gray-line-height / 2);
+    border-bottom-right-radius: ($gray-line-height / 2);
+}
+
+.right-gray-line{
+    border-top-left-radius: ($gray-line-height / 2);
+    border-bottom-left-radius: ($gray-line-height / 2);
+}

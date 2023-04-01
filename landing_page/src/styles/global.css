@@ -1,0 +1,19 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+#discord-icon {
+    color: #5865f2;
+    height: 40px;
+    width: 40px;
+}
+
+.discord-link-container {
+    align-items: center;
+    color: #727272 !important;
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+}

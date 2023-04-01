@@ -1,0 +1,65 @@
+.reviews-lessons-tracker-container {
+    border: 2px solid #e5e5e5;
+    border-radius: var(--default-border-radius);
+    display: flex;
+    flex-direction: column;
+    height: 330px;
+    justify-content: space-around;
+}
+
+.reviews-and-lessons-statistic-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviews-and-lessons-statistic-header {
+    margin-top: 0;
+}
+
+.reviews-and-lessons-statistic-number {
+    font-size: 32px;
+    // text-decoration: underline;
+    // text-decoration-color: var(--light-green);
+    // text-decoration-thickness: 5px;
+}
+
+.reviews-and-lessons-statistic-number-green::after {
+    content: "";
+    background-color: var(--light-green);
+    border-radius: 10px;
+    display: block;
+    height: .2em;
+    margin: 0 auto;
+    width: 1.5em;
+}
+
+.reviews-and-lessons-statistic-number-purple::after {
+    content: "";
+    background-color: var(--light-purple);
+    border-radius: 10px;
+    display: block;
+    height: .2em;
+    margin: 0 auto;
+    width: 1.5em;
+}
+
+@media only screen and (min-width: 992px) {
+    $vertical-padding: 25px;
+    .reviews-lessons-tracker-container {
+        flex-direction: row;
+        height: auto;
+        padding-bottom: $vertical-padding;
+        padding-top: $vertical-padding;
+    }    
+
+    .reviews-and-lessons-statistic-header {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (min-width: 1350px) {
+    .reviews-lessons-tracker-container {
+        flex-direction: column;
+        padding: 0px 20px;
+    }    
+}

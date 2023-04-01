@@ -1,0 +1,23 @@
+.exercises-container {
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    width: 85%;
+
+    h2 {
+        margin-bottom: 0;
+        margin-top: 0;
+    }   
+}
+
+.exercise-options-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 600px) {
+    .exercise-options-container {
+        flex-direction: row;
+    }
+}

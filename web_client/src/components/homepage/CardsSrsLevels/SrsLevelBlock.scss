@@ -1,0 +1,21 @@
+.srs-level-block-stage-name {
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+}
+
+@media only screen and (min-width: 565px) {
+    .srs-level-block-stage-name {
+        font-size: 15px;
+    }    
+}
+
+@media only screen and (min-width: 770px) {
+    .srs-level-block-stage-name {
+        font-size: 16px;
+    }    
+
+    .srs-level-block-container {
+        font-size: 19px;
+    }
+}

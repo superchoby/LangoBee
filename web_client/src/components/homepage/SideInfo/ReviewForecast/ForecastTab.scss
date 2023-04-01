@@ -1,0 +1,67 @@
+.card-for-hour-container {
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.forecast-tab-container {
+    background-color: white;
+    border-bottom: 1.5px solid #DADADA;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+}
+
+.forecast-tab-container-open {
+    padding-bottom: 0;
+}
+
+.forecast-arrow-icon-and-day-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+.current-day-name {
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cards-gained-and-view-more-caret-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.day-with-reviews {
+    color: var(--light-blue);
+}
+
+.day-without-reviews {
+    color: gray;
+}
+
+.day-name-and-card-count-container {
+    height: 40px;
+    width: 100%;
+}
+
+.forecast-tab-view-caret {
+    color: var(--dark-gray);
+    font-size: 26px;
+    stroke-width: .3px;
+}
+
+.reviews-gained-and-total-container {
+    // display: flex;
+    // width: 70px;
+
+    // div {
+    //     flex: .5;
+    // }
+}
+
+.review-forecast-cards-gained-in-a-day {
+    color: var(--dark-gray);
+    font-size: 19px;
+    font-weight: 600;
+}

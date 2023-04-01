@@ -1,0 +1,16 @@
+.modal-container {
+    align-items: center;
+    background-color: #EAEAEA;
+    border: 2px solid #d1d1d1;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgb(0 0 0 / 20%);
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    justify-content: space-around;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+}

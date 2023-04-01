@@ -1,0 +1,57 @@
+.information-about-site-pages-container div {
+    text-align: left;
+}
+
+.levels-breakdown-container {
+    margin: 40px auto 20px auto;
+    width: 220px;
+
+    .levels-breakdown-header {
+        display: block;
+        font-size: 25px;
+        font-weight: 500;
+        margin-bottom: 22px;
+    }
+
+    .levels-breakdown-stage-name {
+        font-weight: 500;
+        text-decoration: underline;
+    }
+}
+
+.levels-breakdown-name-container {
+    align-items: center;
+    display: flex;
+}
+
+$levels-color-circle-size: 20px;
+.levels-color-circle {
+    border-radius: 50%;
+    height: $levels-color-circle-size;
+    margin-right: 10px;
+    width: $levels-color-circle-size;
+}
+
+.beginner-levels-color-circle {
+    background-color: var(--med-blue);
+}
+
+.novice-levels-color-circle {
+    background-color: rgb(239, 198, 98);
+}
+
+.intermediate-levels-color-circle {
+    background-color: rgb(226, 95, 112);
+}
+
+.expert-levels-color-circle {
+    background-color: var(--light-green);
+}
+
+.master-levels-color-circle {
+    background-color: var(--light-purple);
+}
+
+.levels-breakdown-example {
+    margin-bottom: 15px;
+}

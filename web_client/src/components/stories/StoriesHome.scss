@@ -1,0 +1,40 @@
+.set-of-story-choices-with-header {
+    text-align: left;
+}
+
+.story-choice {
+    // align-items: center;
+    // display: flex;
+    // flex-direction: column;
+    display: inline-block;
+}
+
+$story-choice-link-size: 140px;
+.story-choice-link {
+    align-items: center;
+    border: var(--default-border);
+    border-radius: var(--default-border-radius);
+    color: var(--dark-gray);
+    display: flex;
+    font-size: 22px;
+    font-weight: 500;
+    height: $story-choice-link-size;
+    justify-content: center;
+    text-align: center;
+    width: $story-choice-link-size;
+}
+
+.story-choice-recommended-level {
+    font-size: 17px;
+    text-align: center;
+    margin: 5px auto 0 auto;
+    width: 130px;
+}
+
+@media only screen and (min-width: 992px) {
+    $story-choice-link-size: 160px;
+    .story-choice-link {
+        height: $story-choice-link-size;
+        width: $story-choice-link-size;
+    }
+}

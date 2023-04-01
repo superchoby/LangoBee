@@ -1,0 +1,180 @@
+.hiragana-katakana-dropdown {
+    display: inline;
+
+    .hiragana-katakana-dropdown-control {
+        padding-right: 30px;
+    }
+}
+
+.frq-correct-answer {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 15px 0;
+    visibility: hidden;
+}
+
+.frq-correct-answer-reveal {
+    visibility: visible;
+}
+
+.keyboard-info-container {
+    font-size: 19px;
+    margin-top: 8px;
+}
+
+.typing-in-hiragana-or-katakana-container {
+    margin-bottom: 8px;
+}
+
+.typing-in-hiragana-or-katakana-indicator {
+    font-weight: 600;
+}
+
+.click-for-keyboard-tips {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.click-for-keyboard-tips:hover {
+    text-decoration: underline;
+}
+
+.view-more-info-button {
+    color: #00AAFF;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.extra-info-on-question-container {
+    margin: 20px auto 0 auto;
+    width: 330px;
+}
+
+.extra-info-on-question-container > div {
+    margin-top: 10px;
+}
+
+.extra-info-header-on-question {
+    font-size: 20px;
+}
+
+.kana-vocab-question-text {
+    font-weight: 500;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.kana-vocab-question-text-many-chars {
+    font-size: 45px;
+    line-height: 45px;
+}
+
+.kana-vocab-question-text-few-chars {
+    font-size: 65px;
+    line-height: 65px;
+}
+
+.kana-vocab-question-subject-type-container {
+    display: inline-flex;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 20px auto;
+    text-transform: capitalize;
+}
+
+.kana-vocab-question-subject-type {
+    margin-right: 20px;
+}
+
+// .kana-vocab-question-input-bar:focus {
+//     border-color: var(--gray);
+// }
+
+
+@media only screen and (min-width: 455px) {
+    .kana-vocab-question-input-bar {
+        width: 410px;
+    }    
+}
+
+@media only screen and (min-width: 730px) {
+    .extra-info-on-question-container {
+        width: 400px;
+    }
+    
+    .extra-info-header-on-question {
+        font-size: 22px;
+    }
+    
+    .extra-info-explanation-on-question {
+        font-size: 17px;
+    }
+
+    .keyboard-info-container {
+        font-size: 20px;
+    }
+
+    .kana-vocab-question-text-many-chars {
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    .kana-vocab-question-text-few-chars {
+        font-size: 75px;
+        line-height: 75px;
+    }
+
+    .kana-vocab-question-subject-type-container {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .kana-vocab-question-input-bar {
+      height: 70px;
+      margin: 15px auto;
+      width: 480px;
+    }
+
+    .kana-vocab-question-text-many-chars {
+        font-size: 55px;
+        line-height: 55px;
+    }
+
+    .kana-vocab-question-text-few-chars {
+        font-size: 85px;
+        line-height: 85px;
+    }
+
+    .typing-in-hiragana-or-katakana-container {
+        font-size: 24px;
+    }
+}
+  
+
+@media only screen and (min-width: 1070px) {
+    .extra-info-on-question-container {
+        width: 480px;
+    }
+    
+    .extra-info-header-on-question {
+        font-size: 23px;
+    }
+    
+    .extra-info-explanation-on-question {
+        font-size: 18px;
+    }
+
+    .kana-vocab-question-text-many-chars {
+        font-size: 60px;
+        line-height: 60px;
+    }
+
+    .kana-vocab-question-text-few-chars {
+        font-size: 95px;
+        line-height: 95px;
+    }
+}

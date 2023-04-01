@@ -1,0 +1,28 @@
+.completed-both-sides-of-question-indicator {
+    align-items: center;
+    border-radius: 9px;
+    display: flex;
+    font-size: 22px;
+    font-weight: 500;
+    justify-content: space-around;
+    margin: 0 auto;
+    height: 40px;
+    width: 160px;
+}
+
+.srs-card-lvl-up-msg {
+    background-color: #af0;
+    color: #7ab700;
+}
+
+.srs-card-lvl-down-msg {
+    background-color: #f03;
+    color: #99001f;
+}
+
+@media only screen and (min-width: 700px) {
+    .completed-both-sides-of-question-indicator {
+        font-size: 25px;
+        width: 200px;
+    }
+}

@@ -1,0 +1,22 @@
+.game-rules-container {
+    margin-top: 20px;
+
+    .show-rules-button {
+        border-radius: 10px;
+        color: var(--light-blue);
+        cursor: pointer;
+        display: flex;
+        font-size: 22px;
+        font-weight: 400;
+        justify-content: center;
+        margin: 0 auto 10px auto;
+    }
+
+    .game-rules-header {
+        text-align: left;
+    }
+
+    li {
+        text-align: left;
+    }
+}

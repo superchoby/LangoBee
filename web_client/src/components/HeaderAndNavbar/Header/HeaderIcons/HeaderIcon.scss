@@ -1,0 +1,61 @@
+@use 'sass:math';
+
+.header-element-icon-container {
+    position: relative;
+}
+
+$tooltip-triangle-dimensions: 14px;
+$tooltip-border-width: .5px;
+.tooltip-triangle {
+    box-sizing: border-box;
+    position: absolute;
+    background-color: #c7d1d3;
+    // border: $tooltip-border-width solid #c7d1d3;
+    border-left: $tooltip-border-width solid #aaaaaa;
+    border-top: $tooltip-border-width solid #aaaaaa;
+    border-radius: 2px;
+    content: "";
+    height: $tooltip-triangle-dimensions;
+    left: 50%;
+    transform: translateZ(0) rotate(45deg);
+    // transform-origin: top left;
+    width: $tooltip-triangle-dimensions;
+    // left: calc(100% + -20px);
+}
+
+.tooltip-contents-container {
+    position: absolute;
+    z-index: 2;
+}
+
+.rightmost-header-element {
+    right: 0;
+}
+
+.not-rightmost-header-element {
+    transform: translateX(-50%);
+}
+
+$tooltip-contents-padding: 18px;
+.tooltip-contents {
+    background-color: #c7d1d3;
+    border: .5px solid #aaaaaa;
+    border-radius: 3px;
+    // height: auto;
+    margin-top: math.div($tooltip-triangle-dimensions + $tooltip-border-width, 2) or calc(($tooltip-triangle-dimensions + $tooltip-border-width + 5) / 2);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: $tooltip-contents-padding;
+    padding-right: $tooltip-contents-padding;
+}
+
+.header-element-container {
+    margin-left: 10px;
+    position: relative;
+}
+
+@media only screen and (min-width: 490px) {  
+    .header-element-container {
+        margin-left: 20px;
+    }
+}

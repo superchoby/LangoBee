@@ -1,0 +1,332 @@
+.concept-presenter-container {
+    box-sizing: border-box;
+    // display: flex;
+    font-size: 16px;
+    justify-content: space-between;
+    margin: 0 auto 10px auto;
+    position: relative;
+    width: 100%;
+}
+
+.learning-section-container {
+    // height: 100vh;
+    margin: 0 auto;
+    outline: none;
+    position: relative;
+    width: 90%;
+}
+
+.subject-presenter-wrapper {
+    display: flex;
+    // margin: 40px 0 30px 0;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.lesson-learning-progress-tracker {
+    display: flex;
+    justify-content: center;
+    margin-right: 6px;
+}
+
+// .concept-and-explanation-container-for-kana {
+//     background-color: ;
+// }
+.lesson-learning-subject-type-indicator {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.concept-and-explanation-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+.lessons-learning-back-button-container {
+    margin: 20px auto 10px auto;
+}
+
+.concept-and-explanation-container-for-radical {
+    color: var(--light-purple);
+}
+
+.concept-and-explanation-container-for-kanji {
+    color: var(--med-blue);
+}
+
+.concept-and-explanation-container-for-vocabulary {
+    color: var(--light-green);
+}
+
+// .concept-and-explanation-container-for-grammar {
+//     background-color: ;
+// }
+
+.concept-being-taught {
+    font-weight: 400;
+    margin: 0 auto;
+}
+
+.concept-being-taught-smaller-font {
+    font-size: 60px;
+}
+
+.concept-being-taught-larger-font {
+    font-size: 40px;
+}
+
+.explanation-header {
+    font-size: 45px;
+}
+
+.lesson-learning-button-options-container {
+    background-color: white;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 20px;
+    left: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.lesson-progress-and-quiz-button {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+$dot-size: 10px;
+$dot-margin: 4px;
+.lesson-learning-progress-tracker-dot {
+    background-color: #e5e5e5;
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: $dot-size;
+    margin: 0 $dot-margin;
+    width: $dot-size;
+}
+
+.currently-viewing-lesson-learning-progress-tracker-dot {
+    background-color: var(--strong-yellow);
+    border-radius: calc($dot-size / 2);
+    margin: 0;
+    transition: width .5s, margin .5s;
+    width: calc($dot-size + 2 * $dot-margin);
+}
+
+.start-quiz-button {
+    align-items: center;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    font-size: 17px;
+    height: 30px;
+    justify-content: space-around;
+    background-color: var(--gray-button);
+    width: 78px;
+}
+
+.already-know-subject-button {
+    color: white;
+    background-color: var(--light-blue);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+.start-quiz-button-active {
+    background-color: var(--strong-yellow);
+    color: var(--dark-gray)
+}
+
+.lessons-session-ready-to-start-quiz-modal-overlay {
+    align-items: center;
+    background-color: rgba(150,150,150, 0.75);
+    display: flex;
+    inset: 0px;
+    justify-content: center;
+    position: fixed;
+}
+
+.lessons-session-ready-to-start-quiz-modal {
+    // align-items: center;
+    background-color: white;
+    border-radius: var(--default-border-radius);
+    box-sizing: border-box;
+    color: var(--dark-gray);
+    display: flex;
+    flex-direction: column;
+    height: 180px;
+    outline: none;
+    padding: 0 20px;
+    position: relative;
+    width: 90%;
+
+    h3 {
+        margin-bottom: 5px;
+    }
+}
+
+.lessons-session-ready-to-start-quiz-modal-buttons-container {
+    border-top: 1px solid #e5e5e5;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    padding: 10px 0;
+    position: absolute;
+    width: 100%;
+
+    button {
+        // background-color: blue;
+        border-radius: 12px;
+        // color: white;
+        font-size: 16px;
+        font-weight: 500;
+        height: 40px;
+        padding: 0 13px;
+    }
+}
+
+.lessons-session-dont-start-quiz-button {
+    background-color: var(--gray-button);
+    color: var(--dark-gray);
+    margin-right: 15px;
+}
+
+.lessons-session-start-quiz-button {
+    background-color: var(--strong-yellow);
+    color: var(--dark-gray)
+}
+
+.kana-mnemonic-container {
+    text-align: left;
+}
+
+@media only screen and (min-width: 400px) {
+    .lesson-learning-button-options-container {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 407px;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .concept-being-taught-smaller-font {
+        font-size: 70px;
+    }
+    
+    .concept-being-taught-larger-font {
+        font-size: 50px;
+    }
+    
+    .explanation-header {
+        font-size: 50px;
+    }
+
+    .lesson-learning-progress-tracker-dot {
+        $size: 10px;
+        background-color: #e5e5e5;
+        border-radius: 50%;
+        box-sizing: border-box;
+        height: $size;
+        margin: 0 5px;
+        width: $size;
+    }
+    
+    .currently-viewing-lesson-learning-progress-tracker-dot {
+        background-color: var(--strong-yellow);
+        border-radius: 5px;
+        $size: 20px;
+        margin: 0;
+        transition: width .5s, margin .5s;
+        width: $size;
+    }
+    
+    .start-quiz-button {
+        font-size: 19px;
+        height: 36px;
+        width: 96px;
+    }
+
+    .lessons-session-ready-to-start-quiz-modal {
+        height: 240px;
+        padding: 20px 30px;
+        width: 370px;
+    }
+
+    .lesson-learning-button-options-container {
+        width: 550px;
+    }
+
+    .already-know-subject-button {
+        font-size: 17px;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    .learning-section-container {
+        width: 80%;
+    }
+
+    .start-quiz-button {
+        font-size: 20px;
+        height: 42px;
+        width: 112px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .concept-being-taught-smaller-font {
+        font-size: 80px;
+    }
+    
+    .concept-being-taught-larger-font {
+        font-size: 55px;
+    }
+    
+    .explanation-header {
+        font-size: 55px;
+    }
+
+    .lesson-learning-subject-type-indicator {
+        font-size: 25px;
+    }
+}
+
+@media only screen and (min-width: 1150px) {
+    .learning-section-container {
+        width: 70%;
+    }
+
+    .concept-being-taught-smaller-font {
+        font-size: 90px;
+    }
+    
+    .concept-being-taught-larger-font {
+        font-size: 60px;
+    }
+    
+    .explanation-header {
+        font-size: 60px;
+    }
+
+    .lesson-learning-subject-type-indicator {
+        font-size: 30px;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .learning-section-container {
+        width: 980px;
+    }
+    
+}

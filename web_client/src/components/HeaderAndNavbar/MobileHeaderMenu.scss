@@ -1,0 +1,32 @@
+.mobile-header-menu-container {
+    background-attachment: fixed;
+    background-color: #EAEAEA;
+    position: absolute;
+    overflow: none;
+    top: 0;
+    left: 100%;
+    margin-top: 0;
+    padding-left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 7;
+
+    li {
+        align-items: center;
+        border-bottom: .4px solid gray;
+        cursor: pointer;
+        display: flex;
+        font-size: 25px;
+        font-weight: 500;
+        height: 60px;
+        list-style: none;
+        padding-left: 25px;
+        text-align: left;
+    }
+}
+
+.mobile-header-menu-container-active {
+    left: 0;
+    transition: left .2s;
+}
+

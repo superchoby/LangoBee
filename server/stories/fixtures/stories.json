@@ -1,0 +1,271 @@
+[
+  {
+    "model": "stories.Story",
+    "pk": 1,
+    "fields": {
+      "title": "Two People and Their Countries",
+      "slug": "two_people_and_their_countries",
+      "recommended_level": 15,
+      "audio_link": "",
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 1,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ロバート</speaker> はじめまして！私はロバートです。あなたは？",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 2,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ひみこ</speaker> ひみこです。よろしくおねがいします。",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 3,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ロバート</speaker> ひみこさんは日本じんですか？",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 4,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ひみこ</speaker> はい、日本じんです。ロバートさんは？",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 5,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ロバート</speaker> わたしはアメリカじんです。",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 6,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ひみこ</speaker> アメリカはちいさいですか？",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 7,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ロバート</speaker> いいえ、アメリカはとてもおおきいです。日本は？",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 8,
+    "fields": {
+      "header": null,
+      "text": "<speaker>ひみこ</speaker> いいえ、小さいです。",
+      "story": [
+        "Japanese",
+        "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 1,
+    "fields": {
+      "translation_text": "Robert: Nice to meet you! I am Robert. What is your name?",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 1
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 2,
+    "fields": {
+      "translation_text": "Himiko: My name is Himiko! Nice to meet you.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 2
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 3,
+    "fields": {
+      "translation_text": "Are you Japanese?",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 3
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 4,
+    "fields": {
+      "translation_text": "Yes, I am Japanese. What about you?",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 4
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 5,
+    "fields": {
+      "translation_text": "I am an American.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 5
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 6,
+    "fields": {
+      "translation_text": "Is America small?",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 6
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 7,
+    "fields": {
+      "translation_text": "No, America is very big. Is Japan big?",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 7
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 8,
+    "fields": {
+      "translation_text": "No, Japan is small.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 8
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 1,
+    "fields": {
+      "words_being_explained": "あなたは？",
+      "explanation": "This pattern of (name/pronoun) + は？ is often used to ask the person what they themselves just explained. So that is why あなたは？ alone is translated as \"What is your name?\"",
+      "translation_being_explained": 1
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 2,
+    "fields": {
+      "words_being_explained": "ひみこです",
+      "explanation": "This is enough to say the whole \"my name is\" part because of the context.",
+      "translation_being_explained": 2
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 3,
+    "fields": {
+      "words_being_explained": "よろしくおねがいします",
+      "explanation": "Almost always said after the other person starts with はじめまして",
+      "translation_being_explained": 2
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 4,
+    "fields": {
+      "words_being_explained": "ひみこさん",
+      "explanation": "Since these people have just met, Robert adds さん after Himiko's name which is a sign of respect.",
+      "translation_being_explained": 3
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 5,
+    "fields": {
+      "words_being_explained": "ひみこさんは",
+      "explanation": "In English we often say \"you\" in place of someone's name so the translation of ひみこさんは was translated into \"you\" instead of \"Himiko\" to provide a more natural translation but in Japanese \"you\" is almost never used once you know someone's name. It can be considered very cold to use it when you already know someone's name.",
+      "translation_being_explained": 3
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 6,
+    "fields": {
+      "words_being_explained": "ロバートさんは？",
+      "explanation": "Like before, what is being asked here is implied based on how Himiko said she is Japanese.",
+      "translation_being_explained": 4
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 7,
+    "fields": {
+      "words_being_explained": "とてもおおきい",
+      "explanation": "Like English, Japanese adverbs are placed before the adjective/verb to explain it further.",
+      "translation_being_explained": 7
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 8,
+    "fields": {
+      "words_being_explained": "小さいです",
+      "explanation": "This is enough to say the whole \"Japan is small\" part because of the context",
+      "translation_being_explained": 8
+    }
+  }
+]

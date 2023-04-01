@@ -1,0 +1,39 @@
+$lessons-divider-padding: 20px;
+.lessons-divider {
+    align-items: flex-start;
+    border-radius: var(--default-border-radius);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: Varela Round;
+    justify-content: center;
+    margin-bottom: 60px;
+    padding-left: $lessons-divider-padding;
+    padding-right: $lessons-divider-padding;
+    height: 110px;
+}
+
+.lessons-page-element-color-1 {
+    background-color: var(--light-blue);
+}
+
+.lessons-page-element-color-2 {
+    background-color: var(--light-pink);
+}
+
+.lessons-divider-header {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.lessons-divider-subheader {
+    font-size: 18px;
+    text-align: left;
+}
+
+@media only screen and (min-width: 700px) {
+    .lessons-divider {
+        margin-top: 10px;
+    }
+}

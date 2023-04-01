@@ -1,0 +1,74 @@
+.read-story-container {
+    margin: 0 auto;
+    padding-bottom: 60px;
+    width: 80%;
+}
+
+.story-speaker-name {
+    font-weight: 600;
+}
+
+.story-speakers-line {
+    text-align: left;
+}
+
+.story-reader-story-title {
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+
+.story-quizzes-coming-soon-msg {
+    margin: 70px 0;
+    
+    p {
+        font-size: 17px;
+    }
+}
+
+.story-reader-leave-page-links {
+    align-items: center;
+    border-radius: 14px;
+    display: inline-flex;
+    font-size: 18px;
+    font-weight: 500;
+    height: 40px;
+    justify-content: center;
+    width: 100px;
+}
+
+.story-reader-leave-page-links-home {
+    background-color: var(--light-blue);
+    color: white;
+    margin-right: 15px;
+}
+
+.story-reader-leave-page-links-stories {
+    background-color: var(--strong-yellow);
+    color: var(--dark-gray);
+}
+
+.story-reader-leave-page-links-container {
+    display: block;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 700px) {
+    .story-reader-story-title {
+        font-size: 32px;
+        margin-top: 50px;
+    }
+}
+
+@media only screen and (min-width: 920px) {
+    .story-reader-leave-page-links {
+        font-size: 19px;
+        height: 45px;
+        width: 110px;
+    }
+}
+
+@media only screen and (min-width: 1120px) {
+    .read-story-container {
+        width: 900px;
+    }
+}

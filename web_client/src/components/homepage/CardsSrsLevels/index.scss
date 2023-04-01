@@ -1,0 +1,41 @@
+// .cards-srs-levels-container {
+//     padding-left: 0;
+//     padding-right: 0;
+//     width: 100%;
+// }
+
+// .your-cards-srs-levels-header-container {
+//     padding: 0 15px;
+// }
+
+.srs-levels-block-container {
+    display: flex;
+
+    > div {
+        display: flex;
+        flex-direction: column;
+        height: 60px;
+        justify-content: space-between;
+        width: 20%;
+    }
+}
+
+@media only screen and (min-width: 565px) {
+    .your-cards-srs-levels-header-container {
+        margin-bottom: 10px;
+    }
+    
+    .srs-levels-block-container > div {
+        height: 65px;
+    }
+}
+
+@media only screen and (min-width: 970px) {
+    // .cards-srs-levels-container {
+    //     margin-top: 10px;
+    // }
+
+    .srs-levels-block-container > div {
+        height: 70px;
+    }
+}

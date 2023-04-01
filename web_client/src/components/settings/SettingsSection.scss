@@ -1,0 +1,24 @@
+.settings-section-container {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.settings-section-title {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.settings-section-container-bottom-border {
+    border-bottom: 1px solid gray;
+}
+
+@media only screen and (min-width: 900px) {
+    .settings-section-title {
+        font-size: 25px;
+    }    
+
+    .settings-section-container {
+        font-size: 18px;
+    }    
+}
