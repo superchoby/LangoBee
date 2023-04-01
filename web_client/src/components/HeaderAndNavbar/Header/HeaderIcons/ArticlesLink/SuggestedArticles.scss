@@ -1,0 +1,31 @@
+.suggested-articles-list {
+    background-color: rgb(244, 244, 244);
+    border-radius: 5px;
+}
+
+.article-to-read-li {
+    cursor: pointer;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 15px 0;
+    width: 80%;
+
+    span {
+        font-size: 18px;
+    }
+
+    button {
+        color: #00AAFF;
+        font-size: 15px;
+    }
+}
+
+.article-to-read-border-bottom {
+    border-bottom: 3px solid rgba(160, 160, 160, .5);
+}
+
+.remove-this-suggested-article {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1s, opacity 1s linear;
+}

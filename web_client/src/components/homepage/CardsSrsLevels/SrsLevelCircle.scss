@@ -1,0 +1,48 @@
+.srs-level-circle-container {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+$size: 16px;
+.srs-level-circle {
+    border-radius: 50%;
+    height: $size;
+    margin: 0 auto;
+    width: $size;
+}
+
+.cards-within-sub-levels-container {
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-left: auto;
+    margin-right: 0;
+    padding: 10px 5px;
+    position: absolute;
+    width: 100px;
+    z-index: 3;
+
+    div {
+        text-align: left;
+    }
+}
+
+@media only screen and (min-width: 780px) {
+    $size: 19px;
+    .srs-level-circle {
+        height: $size;
+        width: $size;
+    }
+
+    .cards-within-sub-levels-container {
+        width: 120px;
+        
+    }
+}

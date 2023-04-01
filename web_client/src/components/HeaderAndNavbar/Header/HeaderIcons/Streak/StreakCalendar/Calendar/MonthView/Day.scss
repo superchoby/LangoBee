@@ -1,0 +1,63 @@
+.streak-fire-icon {
+    height: 30px;
+    position: absolute;
+    width: 30px;
+    top: 0; left: 0; bottom: 0; right: 0;
+    margin: auto auto 11.5px auto;
+    z-index: 1;
+}
+
+.today-indicator {
+    align-items: center;
+    background: #00AAFF;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    height: 26px;
+    justify-content: center;
+    margin: 0 auto;
+    width: 26px;
+}
+
+.today-streak-indicator {
+    background: #ff9600;
+    color: white;
+    height: 18px;
+    width: 18px;
+}
+
+.center-streak-indicator-circle {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-day-number {
+    font-weight: 600;
+    position: 'relative';
+    z-index: 2;
+}
+
+.streak-day {
+    align-items: center;
+    background-color: rgb(255, 151, 0, .3);
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    width: 100%;
+}
+
+.beginning-of-streak {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+
+.end-of-streak {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.lone-streak-day {
+    border-radius: 50%;
+    width: 30px;
+}

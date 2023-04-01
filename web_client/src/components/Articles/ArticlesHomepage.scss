@@ -1,0 +1,23 @@
+.articles-category-section-container {
+    h2 {
+        text-align: left;
+        text-decoration: underline;
+    }
+    li {
+        margin-bottom: 8px;
+        text-align: left;
+    }
+
+    a {
+        color: #4d5054;
+        font-size: 22px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}
+
+.more-articles-to-come-out-msg {
+    margin-top: 30px;
+}

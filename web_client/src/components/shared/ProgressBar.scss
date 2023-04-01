@@ -1,0 +1,45 @@
+.quiz-progress-bar {
+    height: 15px;
+    background-color: rgb(224, 224, 222);
+    border-radius: 50px;
+    width: 250px;
+}
+
+.progress-container-wrapper{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.progress-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.current-amt-points-to-total-ratio {
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+@media only screen and (min-width: 455px) {
+    .quiz-progress-bar {
+        width: 320px;
+    }
+
+}
+
+@media only screen and (min-width: 575px) {
+    .quiz-progress-bar {
+        width: 400px;
+    }
+
+}
+
+@media only screen and (min-width: 700px) {
+    .quiz-progress-bar {
+        width: 450px;
+    }
+}

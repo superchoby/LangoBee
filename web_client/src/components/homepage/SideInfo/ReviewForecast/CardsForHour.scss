@@ -1,0 +1,37 @@
+.cards-for-hour {
+    display: flex;
+    height: 20px;
+    margin-bottom: 6px;
+    // justify-content: space-between;
+}
+
+.cards-in-an-hr-bar-container {
+    align-items: center;
+    display: flex;
+    width: 58%;
+}
+
+.cards-in-an-hr-bar {
+    background-color: var(--light-blue);
+    border-start-end-radius: 10px;
+    border-end-end-radius: 10px;
+    height: 12px;
+}
+
+.reviews-gained-and-total-container {
+    margin-left: auto;
+}
+
+.hour-string {
+    width: 50px;
+}
+
+.card-gained-in-hour-and-total {
+    margin-left: auto;
+    width: 80px;
+}
+
+.review-forecast-cards-gained-in-an-hour {
+    font-size: 17px;
+    font-weight: 500;
+}

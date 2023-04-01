@@ -1,0 +1,120 @@
+.story-reader-section-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.stories-contents-and-translation-button-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+.story-reader-stories-contents {
+    font-size: 17px;
+    margin: 0 0 5px 0;
+    text-align: left;
+}
+
+.story-section-translation {
+    font-size: 17px;
+    text-align: left;
+}
+
+.story-section-translation-explanation-container {
+    font-size: 17px;
+}
+
+.story-section-button {
+    align-items: center;
+    border-radius: 10px;
+    color: var(--gray);
+    display: flex;
+    font-size: 16px;
+    justify-content: center;
+}
+
+.story-section-translate-button:hover {
+    background-color: var(--gray-button);
+    border-radius: 10px;
+    color: var(--dark-gray);
+}
+
+.story-section-translate-button:active {
+    background-color: var(--gray);
+}
+
+.story-section-hide-translation-button {
+    background-color: var(--strong-yellow);
+    color: var(--dark-gray);
+}
+
+.story-section-hide-translation-button {
+    background-color: var(--strong-yellow);
+    color: var(--dark-gray);
+}
+
+.story-section-translation-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    // margin-left: 20px;
+}
+
+.story-section-translation-header {
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.story-section-words-being-explained {
+    font-weight: 500;
+}
+
+.story-section-explanation-button {
+    // background-color: var(--light-blue);
+    color: var(--light-blue);
+}
+
+.story-section-explanation-button:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.story-section-translation-explanation-container {
+    text-align: left;
+    margin: 0 0 0 40px;
+
+    li {
+        list-style-type: disc;
+    }
+}
+
+@media only screen and (min-width: 820px) {
+    .stories-contents-and-translation-button-container {
+        align-items: center;
+        // display: flex;
+        flex-direction: row;
+    }
+    
+    .story-section-translation-container {
+        align-items: center;
+        // display: flex;
+        flex-direction: row;
+    }
+}
+
+@media only screen and (min-width: 1120px) {
+    .story-reader-stories-contents {
+        font-size: 18px;
+    }
+
+    .story-section-translation {
+        font-size: 18px;
+    }
+
+    .story-section-translation-explanation-container {
+        font-size: 18px;
+    }
+}

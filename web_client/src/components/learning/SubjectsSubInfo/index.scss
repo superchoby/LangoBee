@@ -1,0 +1,187 @@
+.explanation-container {
+    font-size: 28px;
+}
+
+.subject-presenter-section-subheader {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.pronunciation-container {
+    $speaker-size: 40px;
+    font-size: 18px;
+
+    .speaker-icon {
+        cursor: pointer;
+        height: $speaker-size;
+        width: $speaker-size;
+    }
+}
+
+.romaji-explanation {
+    font-size: 30px;
+}
+
+.subject-presenter-section-subsection {
+    text-align: left;
+}
+
+.subject-presenter-sections-headers-container {
+    // display: flex;
+    border-bottom: 1px solid gray;
+}
+
+.subject-presenter-sections-header {
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    padding: 5px 16px;
+}
+
+.grammar-subject-explanation {
+    // margin-bottom: 100px;
+}
+
+.last-subject-presenter-section-subsection {
+    margin-bottom: 100px;
+}
+
+.subject-presenter-sections-header:hover {
+    background-color: var(--strong-yellow);
+    opacity: .6;
+}
+
+.subject-presenter-selected-header {
+    background-color: var(--strong-yellow);
+}
+
+.subject-presenter-selected-header:hover {
+    opacity: 1;
+}
+
+.subject-presenter-audio-player-container {
+    cursor: pointer;
+}
+
+.subject-presenter-section-play-audio {
+    height: 35px;
+    width: 35px;
+}
+
+.list-of-other-japanese-subjects {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+$other-japanese-subjects-character-size: 40px;
+.other-japanese-subjects-character {
+    align-items: center;
+    background-color: var(--light-blue);
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    font-size: 20px;
+    font-weight: 600;
+    height: $other-japanese-subjects-character-size;
+    justify-content: center;
+    margin-bottom: 5px;
+    width: $other-japanese-subjects-character-size;
+}
+
+.other-japanese-subjects-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+    text-align: center;
+}
+
+.other-japanese-subjects-description {
+    font-weight: bold;
+}
+
+$mnemonic-image-size: 150px;
+.subjects-sub-info-mnemonic-image {
+    display: block;
+    height: $mnemonic-image-size;
+    margin: 0 auto;
+    width: $mnemonic-image-size;
+}
+
+@media only screen and (min-width: 500px) {
+    .subject-presenter-sections-header {
+        font-size: 22px;
+    }
+
+    .subject-presenter-section-subheader {
+        font-size: 22px;
+    }
+
+    .subject-presenter-section-contents {
+        font-size: 17px;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    $mnemonic-image-size: 280px;
+    .subjects-sub-info-mnemonic-image {
+        height: $mnemonic-image-size;
+        width: $mnemonic-image-size;
+    }
+}
+
+@media only screen and (min-width: 775px) {
+    .subject-presenter-sections-header {
+        font-size: 24px;
+    }
+
+    .subject-presenter-section-subheader {
+        font-size: 24px;
+    }
+
+    .subject-presenter-section-contents {
+        font-size: 18px;
+    }
+    
+    $other-japanese-subjects-character-size: 50px;
+    .other-japanese-subjects-character {
+        font-size: 24px;
+        height: $other-japanese-subjects-character-size;
+        width: $other-japanese-subjects-character-size;
+    }
+
+    .other-japanese-subjects-description {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (min-width: 1150px) {
+    $other-japanese-subjects-character-size: 60px;
+    .other-japanese-subjects-character {
+        font-size: 28px;
+        height: $other-japanese-subjects-character-size;
+        width: $other-japanese-subjects-character-size;
+    }
+
+    .other-japanese-subjects-description {
+        font-size: 22px;
+    }
+}
+
+@media only screen and (min-width: 1350px) {
+    .subject-presenter-sections-header {
+        font-size: 26px;
+    }
+
+    .subject-presenter-section-subheader {
+        font-size: 26px;
+    }
+
+    .subject-presenter-section-contents {
+        font-size: 19px;
+    }
+}
+

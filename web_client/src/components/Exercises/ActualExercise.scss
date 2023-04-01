@@ -1,0 +1,20 @@
+.actual-exercise-container {
+    font-size: 17px;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.actual-exercise-contents-no-header {
+    margin-top: 20px;
+}
+
+@media only screen and (min-width: 600px) {
+    .actual-exercise-container {
+        font-size: 19px;
+    }
+
+    .actual-exercise-contents-no-header {
+        margin-top: 40px;
+    }
+    
+}

@@ -1,0 +1,59 @@
+.grammar-fill-in-input {
+    background-color: #EAEAEA;
+    border: none;
+    border-bottom: 4px solid;
+    border-bottom-color: black;
+    font-size: 25px;
+    font-weight: 600;
+    padding: 0 5px;
+    outline: none;
+    text-align: center;
+}
+
+.grammar-fill-in-input-container {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.grammar-correct-answer {
+    border-bottom-color: #88CC00;
+    color: #88CC00;
+    font-weight: bold;
+}
+
+.grammar-incorrectAnswer {
+    border-bottom-color: #ff0033;
+    color: #ff0033;
+    text-decoration: line-through;
+    text-decoration-thickness: 4px;
+}
+
+.invalid-input-grammar {
+    animation: shake 0.7s ease-in-out 0s 2;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-5px, 0, 0);
+    }
+
+    20%, 80% {
+        transform: translate3d(5px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-9px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(9px, 0, 0);
+    }
+}
+
+
+
+@media only screen and (min-width: 787px) {  
+    .grammar-fill-in-input {
+        font-size: 35px;
+    }
+}

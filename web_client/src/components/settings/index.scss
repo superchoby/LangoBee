@@ -1,0 +1,83 @@
+.settings-page-container {
+    // margin-top: 60px;
+}
+
+.change-pfp-button {
+    color: var(--link-blue);
+    font-size: 18px;
+}
+
+.settings-change-pfp-container {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+$settings-pfp-container-size: 50px;
+.settings-pfp-container {
+    border-radius: calc($settings-pfp-container-size / 2);
+    // font-size: `${fontSize}px`;
+    height: $settings-pfp-container-size;
+    width: $settings-pfp-container-size;
+}
+
+.settings-header {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.settings-sections {
+    font-size: 18px;
+    margin: 20px auto 0 auto;
+    text-align: left;
+    width: 80%;
+}
+
+.user-profile-info-container {
+    margin-bottom: 10px;
+}
+
+.settings-change-button {
+    color: var(--light-blue);
+    font-size: 17px;
+}
+
+.change-lessons-limit-input-container {
+    font-style: italic;
+}
+
+.change-lessons-limit-input {
+    width: 50px;
+}
+
+.profile-info-settings-container {
+    // display: flex;
+    // justify-content: center;
+}
+
+.settings-username-header {
+    font-weight: 500;
+}
+
+.change-setting-input {
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 7px;
+    // width: 150px;
+}
+
+.editing-username-buttons > button {
+    color: var(--link-blue);
+    font-size: 18px;
+}
+
+.incorrect-srs-limit-set {
+    color: red;
+}
+
+@media only screen and (min-width: 842px) {  
+    .settings-sections {
+        width: 675px;
+    }
+}

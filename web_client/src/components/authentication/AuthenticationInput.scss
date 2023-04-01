@@ -1,0 +1,63 @@
+.authentication-input-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    input:focus {
+        outline: none;
+    }
+
+    label {
+        margin-bottom: 5px;
+    }
+}
+
+.authentication-input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 50px;
+    padding: 6px 20px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    background-color: #F4F4F4;
+    background-image: none;
+    border: 1.8px solid #D0D0D0;
+    border-radius: 10px;
+    // -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    // box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    width: 100%;
+}
+
+.authentication-input::placeholder {
+    color: #757575;
+    font-weight: 600;
+}
+
+.authentication-input:focus {
+    outline: 1px solid gray;
+}
+
+.authentication-error-msg {
+    color: red;
+    display: block;
+    margin-bottom:8px;
+}
+
+.authentication-input-label-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media only screen and (min-width: 530px) {  
+    .authentication-input {
+        font-size: 16px;
+        height: 55px;
+    }
+}

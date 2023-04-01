@@ -1,0 +1,23 @@
+.default-button-container {
+    align-items: center;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    font-weight: 600;
+    justify-content: center;
+}
+
+.default-button-container:active {
+    opacity: .6;
+}
+
+.small-default-button {
+    font-size: 15px;
+    height: 40px;
+    width: 90px;
+}
+
+.blue-default-button {
+    background-color: #31A8EC;
+}

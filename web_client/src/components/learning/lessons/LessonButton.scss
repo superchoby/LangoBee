@@ -1,0 +1,185 @@
+$level-button-size: 70px;
+$level-border-size: 5px;
+$levels-button-size: $level-button-size + $level-border-size + 15px;
+
+.levels-button {
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    height: $levels-button-size;
+    width: $levels-button-size;
+    margin-bottom: 20px;
+    position: relative;
+    justify-content: center;
+}
+
+.levels-button::before {
+    content: "";
+    border: $level-border-size solid white;
+    position: absolute;
+    height: $level-button-size;
+    width: $level-button-size;
+    border-radius: 50%;
+}
+
+.unavailable-levels-button::before {
+    background-color: gray;
+}
+
+.level-buttons-level {
+    position: relative;
+    font-size: 40px;
+    font-weight: 400;
+    color: white;
+}
+
+$colored-level-button-color: var(--light-blue);
+
+.colored-level-button-1::before {
+    background-color: var(--light-blue);
+}
+
+.colored-level-button-2::before {
+    background-color: var(--light-pink);
+}
+
+
+.levels-button-progress {
+    background: conic-gradient($colored-level-button-color 100deg, #ededed 0deg);
+}
+
+$furthest-positions: 120px;
+$second-furthest-positions: 80px;
+.level-button-with-position-1 {
+    margin-right: $furthest-positions;
+}
+
+.level-button-with-position-2 {
+    margin-right: $second-furthest-positions;
+}
+
+.level-button-with-position-4 {
+    margin-left: $second-furthest-positions;
+}
+
+.level-button-with-position-5 {
+    margin-left: $furthest-positions;
+}
+
+$size-completed-crown-size: 36px;
+.level-completed-crown {
+    bottom: 2px;
+    height: $size-completed-crown-size;
+    position: absolute;
+    right: 2px;
+    width: $size-completed-crown-size;
+}
+
+.lesson-button-article-icon {
+    color: black;
+    height: 50px;
+    position: relative;
+    width: 50px;
+}
+
+// @keyframes current-level-button-indicator-bob-up-and-down {
+//     0%   {bottom: 100%;}
+//     25%  {bottom: calc(100% + 2.5px);}
+//     50%  {bottom: calc(100% + 5px);}
+//     100% {bottom: calc(100% + 10px);}
+// }
+
+// @keyframes current-level-button-indicator-bob-up-and-down {
+//     from   {bottom: 90%;}
+//     to  {bottom: calc(90% + 5px);}
+// }
+
+@keyframes current-level-button-indicator-bob-up-and-down {
+    from   {left: -50%;}
+    to  {left: -40%;}
+}
+
+// .current-level-button-indicator-container {
+//     animation-direction: alternate;
+//     animation-iteration-count: infinite;
+//     animation-name: current-level-button-indicator-bob-up-and-down;
+//     animation-timing-function: ease-out;
+//     animation-duration: .7s;
+//     background-color: #FFFFFF;
+//     border-radius: 10px;
+//     bottom: 90%;
+//     left: 50%;
+//     position: absolute;
+//     transform: translateX(-50%);
+// }
+
+.current-level-button-indicator-container {
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-name: current-level-button-indicator-bob-up-and-down;
+    animation-timing-function: ease-out;
+    animation-duration: .5s;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    // left: -50%;
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.current-level-button-indicator {
+    border: 2px solid #e5e5e5;
+    border-radius: var(--web-ui_popover-border-radius,15px);
+    box-sizing: border-box;
+    overflow: hidden;
+    transform: translateZ(0);
+    color: var(--dark-gray);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    line-height: 1;
+    padding: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+// .current-level-button-indicator-tooltip-container {
+//     box-sizing: border-box;
+//     position: absolute;
+//     left: calc(50% - 10px);
+//     height: 10px;
+//     overflow: hidden;
+//     width: 20px;
+//     margin: 0 10px;
+//     top: calc(100% - 2px);
+//     transform: translateX(-50%) rotate(180deg);
+// }
+
+.current-level-button-indicator-tooltip-container {
+    box-sizing: border-box;
+    position: absolute;
+    left: calc(50% - 10px);
+    height: 10px;
+    overflow: hidden;
+    left: calc(100% - 6.5px);
+    width: 20px;
+    margin: 0 10px;
+    top: calc(50% - 2px);
+    transform: translateX(-50%) rotate(90deg);
+}
+
+.current-level-button-indicator-tooltip {
+    box-sizing: border-box;
+    position: absolute;
+    background-color: #fff;
+    border: 2px solid #e5e5e5;
+    border-radius: 2px;
+    content: "";
+    height: 14.14427px;
+    left: 50%;
+    transform: translateZ(0) rotate(
+45deg);
+    transform-origin: top left;
+    width: 14.14427px;
+}

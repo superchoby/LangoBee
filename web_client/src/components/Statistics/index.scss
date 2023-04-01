@@ -1,0 +1,39 @@
+.statistics-container {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.statistics-container > div {
+    margin-bottom: 30px;
+}
+
+.statistics-container-on-homepage {
+    display: none;
+}
+
+@media only screen and (min-width: 380px) {
+    .statistics-container-on-statistics-page {
+        width: 342px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .statistics-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 1350px) {
+    .statistics-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .statistics-container > div {
+        box-sizing: border-box;
+        height: 280px;
+        width: 48%;
+    }
+}

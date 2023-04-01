@@ -1,0 +1,49 @@
+.grammar-question-container {
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+
+.translation-text-to-emphasize {
+    border-bottom: 4px solid black;
+    color: black;
+    font-weight: 500;
+}
+
+.explanation-for-incorrect-guess-on-grammar-question {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 20px auto 30px auto;
+    width: 90%;
+}
+
+.grammar-formality {
+    font-weight: bold;
+}
+
+.grammar-formality-container {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+@media only screen and (min-width: 546px) {  
+    .explanation-for-incorrect-guess-on-grammar-question {
+        width: 80%;
+    }
+}
+
+
+@media only screen and (min-width: 787px) {  
+    .grammar-question-container {
+        font-size: 35px;
+    }
+
+    .grammar-formality-container {
+        font-size: 30px;
+    }
+    
+
+    .explanation-for-incorrect-guess-on-grammar-question {
+        font-size: 22px;
+        width: 630px;
+    }
+}

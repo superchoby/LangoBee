@@ -1,0 +1,83 @@
+.authentication-page-wrapper {
+    margin: 70px auto 0 auto;
+    text-align: left;
+    width: 85%;
+
+    h2 {
+        color: var(--dark-gray);
+        font-size: 27px;
+        margin: 15px 0;
+    }
+
+    img {
+        height: 65px;
+        margin-bottom: 15px;
+    }
+}
+
+.authentication-submit-button {
+    align-items: center;
+    background-color: #F9C210;
+    border-radius: 10px;
+    color: var(--dark-gray);
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    height: 55px;
+    justify-content: center;
+    width: 100%;
+}
+
+.authentication-submit-button:active {
+    opacity: .7;
+}
+
+.authentication-page-wrapper-inputs-container {
+    margin-bottom: 35px;
+    width: 100%;
+}
+
+.authentication-page-wrapper-inputs-container > input {
+    margin-bottom: 18px;
+}
+
+.authentication-form-container {
+    margin: 40px 0 40px 0;
+}
+
+.authentication-page-wrapper-alternative-links-container {
+    a:hover {
+        text-decoration: underline;
+    }
+}
+
+.authentication-page-wrapper-alternative-links-container > div {
+    margin-top: 20px;
+}
+
+@media only screen and (min-width: 360px) {  
+    .authentication-page-wrapper {
+        width: 306px;
+    }
+}
+
+@media only screen and (min-width: 530px) {  
+    .authentication-page-wrapper {
+        h2 {
+            font-size: 36px;
+        }
+
+        img {
+            height: 110px;
+        }
+    }
+
+    .authentication-page-message {
+        font-size: 18px;
+    }
+
+    .authentication-page-wrapper-alternative-links-container {
+        font-size: 17px;
+    }
+}

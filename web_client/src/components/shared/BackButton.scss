@@ -1,0 +1,39 @@
+.page-back-button {
+    align-items: center;
+    color: #00AAFF;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    display: inline-flex;
+    cursor: pointer;
+    font-size: 18px;
+    height: 100%;
+}
+
+.page-back-button:active {
+    color: white;
+    background-color: gray;
+    opacity: .4;
+}
+
+.page-back-button-container {
+    display: flex;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 440px) {
+    // .page-back-button-container {
+    //     width: 450px;
+    // }
+
+    .page-back-button {
+        font-size: 23px;
+    } 
+}
+
+// @media only screen and (min-width: 775px) {
+//     .page-back-button-container {
+//         width: 620px;
+//     }
+// }

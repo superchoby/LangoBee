@@ -1,0 +1,35 @@
+$exercise-option-container-size: 200px;
+
+.exercise-option {
+    background-color: var(--light-gray-background);
+    border-radius: var(--default-border-radius);
+    border: 1px solid #dedee0;
+    box-sizing: border-box;
+    color: var(--dark-gray);
+    height: $exercise-option-container-size;
+    margin-bottom: 30px;
+    padding: 0 15px;
+    width: $exercise-option-container-size;
+
+    $svg-size: 40px;
+    svg {
+        height: $svg-size;
+        width: $svg-size;
+    }
+}
+
+.exercise-option-that-coming-soon {
+    cursor: default;
+    opacity: .6;
+}
+
+.exercise-option-description {
+    font-size: 17px;
+}
+
+@media only screen and (min-width: 600px) {
+    .exercise-option {
+        margin-bottom: 0;
+        margin-right: 20px;
+    }
+}

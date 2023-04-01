@@ -1,0 +1,37 @@
+.no-upcoming-reviews-msg {
+    font-size: 18px;
+    text-align: left;
+}
+
+.reviews-forecast-description {
+    font-size: 17px;
+    margin-top: 0px;
+    text-align: left;
+}
+
+.what-does-this-chart-mean {
+    color: var(--link-blue);
+    cursor: pointer;
+}
+
+.total-amt-of-cards-to-review-this-week {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.total-amt-of-cards-to-review-this-week:hover {
+    text-decoration: underline;
+}
+
+@media only screen and (min-width: 700px) {
+    .reviews-forecast-description {
+        font-size: 19px;
+    }
+}
+
+@media only screen and (min-width: 970px) {
+    .each-days-forecast-container {
+        width: 100%;
+    }
+}
