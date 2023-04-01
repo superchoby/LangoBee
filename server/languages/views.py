@@ -103,10 +103,10 @@ class GetUsersSubjectsForLessons(APIView):
         users_progress_on_course = UsersProgressOnCourse.objects.get(user=request.user, course=course)
 
         subjects_to_learn = []
-        # for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
-        #     for subject in course_level.subjects.all():
-        #         if not request.user.subjects.filter(pk=subject.id).exists():
-        #             subjects_to_learn.append(subject)
+        for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
+            for subject in course_level.subjects.all():
+                if not request.user.subjects.filter(pk=subject.id).exists():
+                    subjects_to_learn.append(subject)
 
         subjects_to_learn.extend(users_progress_on_course.current_level.subjects.all().order_by('position_in_course_level'))
         
