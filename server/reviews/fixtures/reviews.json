@@ -1,0 +1,144 @@
+[
+  {
+    "pk": 1,
+    "model": "reviews.SpacedRepetitionSystem",
+    "fields": {
+      "finished_position": 9,
+      "name": "default"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "reviews.SpacedRepetitionSystem",
+    "fields": {
+      "finished_position": 5,
+      "name": "fast"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 1,
+      "time_until_next_review": 4,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 2,
+      "time_until_next_review": 8,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 3,
+      "time_until_next_review": 24,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 4,
+      "time_until_next_review": 48,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 5,
+      "time_until_next_review": 168,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 6,
+      "time_until_next_review": 336,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 7,
+      "time_until_next_review": 720,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 8,
+      "time_until_next_review": 2880,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 9,
+      "time_until_next_review": null,
+      "system_this_belongs_to": "default"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 1,
+      "time_until_next_review": 2,
+      "system_this_belongs_to": "fast"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 2,
+      "time_until_next_review": 4,
+      "system_this_belongs_to": "fast"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 3,
+      "time_until_next_review": 8,
+      "system_this_belongs_to": "fast"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 4,
+      "time_until_next_review": 24,
+      "system_this_belongs_to": "fast"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "reviews.SpacedRepetitionSystemStages",
+    "fields": {
+      "stage": 5,
+      "time_until_next_review": null,
+      "system_this_belongs_to": "fast"
+    }
+  }
+]
