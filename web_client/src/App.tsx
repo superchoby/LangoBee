@@ -48,7 +48,7 @@ const tokenInvalidMsg = 'Given token not valid for any token type'
 const userNotFoundMessage = "User not found"
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
 
-axios.defaults.baseURL = isInDevelopmentEnv ? 'http://127.0.0.1:8000' : 'https://japanese-learning-site-server.herokuapp.com'
+axios.defaults.baseURL = isInDevelopmentEnv ? 'http://127.0.0.1:8000' : 'https://langobee-server.herokuapp.com/'
 
 const ResetUserInfoWrapper = ({ children }: { children: JSX.Element }): JSX.Element => {
   const dispatch = useAppDispatch()
