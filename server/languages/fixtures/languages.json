@@ -1,0 +1,248 @@
+[
+  {
+    "pk": 1,
+    "model": "languages.Language",
+    "fields": {
+      "name": "Japanese"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "languages.Language",
+    "fields": {
+      "name": "English"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "languages.Course",
+    "fields": {
+      "name": "main",
+      "language_this_course_teaches": [
+        "Japanese"
+      ],
+      "language_taught_in": [
+        "English"
+      ]
+    }
+  },
+  {
+    "pk": 1,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 1,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 2,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 2,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 3,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 3,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 4,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 4,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 5,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 5,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 6,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 6,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 7,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 7,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 8,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 8,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 9,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 9,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 10,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 10,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 11,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 11,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 12,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 12,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 13,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 13,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 1,
+    "model": "languages.LanguageStandardsLevels",
+    "fields": {
+      "name": "Pre JLPT",
+      "description": "Learning the beautiful alphabet",
+      "level_it_starts_at": [
+        1,
+        "Japanese",
+        "main"
+      ],
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
+    "pk": 2,
+    "model": "languages.LanguageStandardsLevels",
+    "fields": {
+      "name": "JLPT N5",
+      "description": "Getting started with the essentials",
+      "level_it_starts_at": [
+        10,
+        "Japanese",
+        "main"
+      ],
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
+    "pk": 3,
+    "model": "languages.LanguageStandardsLevels",
+    "fields": {
+      "name": "JLPT N4",
+      "description": "Learning to deal with basic situations",
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
+    "pk": 4,
+    "model": "languages.LanguageStandardsLevels",
+    "fields": {
+      "name": "JLPT N3",
+      "description": "Getting comfortable with everyday situations",
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
+    "pk": 5,
+    "model": "languages.LanguageStandardsLevels",
+    "fields": {
+      "name": "JLPT N2",
+      "description": "Staring to understand Japanese in advanced contexts",
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
+    "pk": 6,
+    "model": "languages.LanguageStandardsLevels",
+    "fields": {
+      "name": "JLPT N1",
+      "description": "Mastery of Japanese in a variety of circumstances",
+      "language": [
+        "Japanese"
+      ]
+    }
+  }
+]
