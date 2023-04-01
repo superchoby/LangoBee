@@ -31,6 +31,7 @@ DEBUG = not isInProdEnviron
 ALLOWED_HOSTS = [
     'https://japanese-learning-site-server.herokuapp.com',
     'http://127.0.0.1:8000',
+    'https://langobee-server.herokuapp.com/'
 ]
 
 # Application definition
