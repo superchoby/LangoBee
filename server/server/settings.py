@@ -117,24 +117,41 @@ DATABASES = {
     }
 
 if isInProdEnviron:
-    DATABASES = {
+    # DATABASES = {
 
+    #     'default': {
+
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+    #         'NAME': 'ec2-54-160-96-70.compute-1.amazonaws.com',
+
+    #         'USER': 'hmgrlbxxgaehew',
+
+    #         'PASSWORD': '23d5550e71d7a3c7b30d5c68a49b01322ff5562f8fee0a66495759cc32e6ff84',
+
+    #         'HOST': 'ec2-54-160-96-70.compute-1.amazonaws.com',
+
+    #         'PORT': '5432',
+
+    #     }
+
+    # }
+    DATABASES = {
         'default': {
 
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-            'NAME': 'ec2-54-160-96-70.compute-1.amazonaws.com',
+            'NAME': os.environ['DATABASE_NAME'],
 
-            'USER': 'hmgrlbxxgaehew',
+            'USER': os.environ['DATABASE_USER'],
 
-            'PASSWORD': '23d5550e71d7a3c7b30d5c68a49b01322ff5562f8fee0a66495759cc32e6ff84',
+            'PASSWORD': os.environ['DATABASE_PASSWORD'],
 
-            'HOST': 'ec2-54-160-96-70.compute-1.amazonaws.com',
+            'HOST': os.environ['DATABASE_HOST'],
 
             'PORT': '5432',
 
         }
-
     }
 
 
