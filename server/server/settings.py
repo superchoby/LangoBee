@@ -26,13 +26,12 @@ isInProdEnviron = 'SECRET_KEY' in os.environ
 SECRET_KEY = os.environ['SECRET_KEY'] if isInProdEnviron else 'dummy key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'https://japanese-learning-site-server.herokuapp.com',
     'http://127.0.0.1:8000',
     'https://langobee-server.herokuapp.com/',
-    'https://main.d3h37ozabdygf3.amplifyapp.com/'
 ]
 
 # Application definition
@@ -100,6 +99,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5000",
     'https://app.langobee.com',
     'https://www.langobee.com',
+    'https://main.d3h37ozabdygf3.amplifyapp.com/'
 ]
 
 # Database
