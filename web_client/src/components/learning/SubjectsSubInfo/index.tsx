@@ -21,11 +21,8 @@ import {
     JapaneseVocabularySubjectAudioFiles,
 } from '../lessons/SubjectTypes'
 import { toKatakana } from 'wanakana'
-import useSound from 'use-sound'
-import { AUDIO_FILE_BASE_URL } from "src/components/shared/values"
 import { HiSpeakerWave } from 'react-icons/hi2'
 import './index.scss' 
-import { current } from "@reduxjs/toolkit"
 
 interface SubjectsSubInfoSectionProps {
     subheader: string
@@ -91,6 +88,7 @@ const SubjectsSubInfoAudioSection = ({
       pronunciationComponents.push(
         <div 
           className='subject-presenter-section-contents subject-presenter-audio-player-container' 
+          key={i}
           onClick={() => (new Audio(file)).play() }
         >
           <HiSpeakerWave className='subject-presenter-section-play-audio' /> 
