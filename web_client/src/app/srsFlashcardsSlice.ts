@@ -9,6 +9,7 @@ interface SrsCards {
       name: 'fast' | 'default'
     }
   }
+  userAlreadyKnowsThis: boolean
 }
 
 // currentStage: number

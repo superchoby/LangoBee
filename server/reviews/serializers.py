@@ -40,7 +40,8 @@ class ReviewsLevelAndDateSerializer(serializers.ModelSerializer):
             'user',
             'next_review_date',
             'current_level',
-            'times_this_was_completed'
+            'times_this_was_completed',
+            'user_already_knows_this'
             # 'isFastReviewCard',
         ]
 
