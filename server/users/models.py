@@ -18,15 +18,15 @@ class User(AbstractUser):
         course = self.courses.get(language_this_course_teaches=self.languages.get(name=language), name=course_name)
         users_progress_on_course = self.progress_on_courses.get(course=course)
         users_progress_on_course.current_level = course.levels.get(number=level)
-
         
-        # subjects_to_mark_as_known = []
-        # for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
-        #     for subject in course_level.subjects.all():
-        #         if not self.subjects.filter(pk=subject.id).exists():
-        #             subjects_to_mark_as_known.append(subject)
-
-        # self.reviews.bulk_create([self.reviews(user=self, subject=subject, user_already_knows_this=True) for subject in subjects_to_mark_as_known])
+        subjects_to_mark_as_known = []
+        for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
+            for subject in course_level.subjects.all():
+                if not self.subjects.filter(pk=subject.id).exists():
+                    subjects_to_mark_as_known.append(subject)
+        #  Reviews models file imports user so I put import statement all the way down here so no circular dependency issue
+        from reviews.models import Review
+        self.reviews.bulk_create([Review(user=self, subject=subject, user_already_knows_this=True) for subject in subjects_to_mark_as_known])
         users_progress_on_course.save()
 
     def __str__(self):
