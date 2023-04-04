@@ -103,10 +103,10 @@ class GetUsersSubjectsForLessons(APIView):
         users_progress_on_course = UsersProgressOnCourse.objects.get(user=request.user, course=course)
 
         subjects_to_learn = []
-        # for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
-        #     for subject in course_level.subjects.all():
-        #         if not request.user.subjects.filter(pk=subject.id).exists():
-        #             subjects_to_learn.append(subject)
+        for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
+            for subject in course_level.subjects.all():
+                if not request.user.subjects.filter(pk=subject.id).exists():
+                    subjects_to_learn.append(subject)
 
         subjects_to_learn.extend(users_progress_on_course.current_level.subjects.all().order_by('position_in_course_level'))
         
@@ -122,11 +122,11 @@ class GetUsersSubjectsForLessons(APIView):
             subjects_divided_by_type[subject.japanese_subject_type if hasattr(subject, 'japanese_subject_type') else subject.subject_type].append(subject)
         
         subjects_arranged_by_type = [
-            # *subjects_divided_by_type['kana'],
-            # *subjects_divided_by_type['radical'],
-            # *subjects_divided_by_type['kanji'],
+            *subjects_divided_by_type['kana'],
+            *subjects_divided_by_type['radical'],
+            *subjects_divided_by_type['kanji'],
             *subjects_divided_by_type['vocabulary'],
-            # *subjects_divided_by_type['grammar'],
+            *subjects_divided_by_type['grammar'],
         ]
 
         subjects_to_send_to_user = []
@@ -146,17 +146,12 @@ class GetUsersSubjectsForLessons(APIView):
                 if subject['japanese_subject_type'] == 'kanji':
                     subject['kanji_contained_within_this'] = map(get_kanji_data, subject['kanji_contained_within_this'])
                     # sort this based on jlpt and then whether or not common word
-                    # print(len(subject['vocabulary_that_uses_this']))
-                    # subject['vocabulary_that_uses_this'] = sorted(subject['vocabulary_that_uses_this'], key=sort_vocab_examples_for_kanji)[:5]
+                    subject['vocabulary_that_uses_this'] = sorted(subject['vocabulary_that_uses_this'], key=sort_vocab_examples_for_kanji)[:5]
                 elif subject['japanese_subject_type'] == 'radical':
                     # There are often so many results for kanji that use a radical so this helps filter out the obscure kanji
                     kanji_that_uses_this = filter(lambda kanji: kanji['grade'] is not None and kanji['freq'] is not None, subject['kanji_that_uses_this'])
                     kanji_that_uses_this = sorted(kanji_that_uses_this, key=lambda x: [x['grade'], x['stroke_count'], x['freq']])[:4]
                     subject['kanji_that_uses_this'] = kanji_that_uses_this
-        # else:
-        #     print('invalid')
-        #     return Response(subjects_to_teach.errors)
-
         return Response({
             'subjects_to_teach': subjects_to_teach
         })
