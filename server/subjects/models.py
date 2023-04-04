@@ -129,9 +129,13 @@ class JapaneseVocabulary(JapaneseSubject):
     reading_mnemonic = models.TextField(null=True)
     main_meanings_to_use = ArrayField(models.CharField(max_length=20), default=list)
     main_text_representation = models.CharField(null=True, max_length=30)
-    audio_file = models.TextField(null=True)
     is_a_counter_word = models.BooleanField(default=False)
     jmdict = models.OneToOneField('jmdict.JMDictEntries', on_delete=models.SET_NULL, null=True)
+
+class JapaneseVocabularyAudioFile(models.Model):
+    file = models.TextField()
+    last_high_pitch = models.PositiveIntegerField(null=True)
+    vocabulary = models.ForeignKey(JapaneseVocabulary, on_delete=models.CASCADE, related_name='audio_files')
 
 class CustomJapaneseVocabularyQuestions(models.Model):
     vocabulary = models.ForeignKey(JapaneseVocabulary, on_delete=models.CASCADE)

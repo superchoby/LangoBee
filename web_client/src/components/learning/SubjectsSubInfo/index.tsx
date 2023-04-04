@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react"
+import { useEffect, useState, FC, useMemo } from "react"
 import { 
     JapaneseSubjectData,
     KANA_TYPE,
@@ -17,11 +17,10 @@ import {
     SubjectInfoToDisplay,
     isAHiraganaChar,
     isAKatakanaChar,
-    GrammarFormalityAndDescriptions
+    GrammarFormalityAndDescriptions,
+    JapaneseVocabularySubjectAudioFiles,
 } from '../lessons/SubjectTypes'
 import { toKatakana } from 'wanakana'
-import useSound from 'use-sound'
-import { AUDIO_FILE_BASE_URL } from "src/components/shared/values"
 import { HiSpeakerWave } from 'react-icons/hi2'
 import './index.scss' 
 
@@ -29,31 +28,88 @@ interface SubjectsSubInfoSectionProps {
     subheader: string
     children: JSX.Element
     isLastSubsection?: boolean
-    audioFile?: string
 }
 
 export const SubjectsSubInfoSection = ({
     subheader,
     children,
-    isLastSubsection,
-    audioFile
+    isLastSubsection
 }: SubjectsSubInfoSectionProps) => {
-  const audioFileExists = audioFile != null && audioFile.length > 0
-  const [play] = useSound(audioFileExists ? `${AUDIO_FILE_BASE_URL}${audioFile}` : '')
 
   return (
     <div className={`subject-presenter-section-subsection ${isLastSubsection ? 'last-subject-presenter-section-subsection' : ''}`}>
         <h3 className='subject-presenter-section-subheader'>{subheader}</h3>
-        {audioFileExists ? (
-          <div 
-            className='subject-presenter-section-contents subject-presenter-audio-player-container' 
-            onClick={() => play()}
-          >
-            <HiSpeakerWave className='subject-presenter-section-play-audio' />
+        <div className='subject-presenter-section-contents'>{children}</div>
+    </div>
+  )
+}
+
+const HIGH_PITCH = 'high'
+const LOW_PITCH = 'low'
+
+interface SubjectsSubInfoAudioSectionProps {
+  isLastSubsection?: boolean
+  audioFiles: JapaneseVocabularySubjectAudioFiles[]
+  characters: string[]
+}
+
+const SubjectsSubInfoAudioSection = ({
+  isLastSubsection,
+  audioFiles,
+  characters
+}: SubjectsSubInfoAudioSectionProps) => {
+  const pronunciationComponents = useMemo(() => {
+    const pronunciationComponents: JSX.Element[] = []
+    for (let i=0; i<audioFiles.length; ++i) {
+      const { file, lastHighPitch } = audioFiles[i]
+      let pitchGraph: JSX.Element[] = []
+      let currentPitch: typeof HIGH_PITCH | typeof LOW_PITCH = lastHighPitch === 1 ? HIGH_PITCH : LOW_PITCH
+      let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
+      for (let j=1; j<=characters[i].length; ++j) {
+        // let className = currentPitch === LOW_PITCH ? 'pitch-breakdown-low' : 'pitch-breakdown-high'
+        let className = ''
+        if (currentPitch === LOW_PITCH) {
+          className = 'pitch-breakdown-low'
+          if (!hasAlreadyGottenHigh) {
+            className += ' pitch-breakdown-low-to-high'
+            currentPitch = HIGH_PITCH
+            hasAlreadyGottenHigh = true
+          }
+        } else {
+          className = 'pitch-breakdown-high'
+          if (j === lastHighPitch) {
+            className += ' pitch-breakdown-high-to-low'
+            currentPitch = LOW_PITCH
+          }
+        }
+
+        pitchGraph.push(<span className={className} key={j}>{characters[i][j-1]}</span>)
+      }
+      pronunciationComponents.push(
+        <div 
+          className='subject-presenter-section-contents subject-presenter-audio-player-container' 
+          key={i}
+          onClick={() => (new Audio(file)).play() }
+        >
+          <HiSpeakerWave className='subject-presenter-section-play-audio' /> 
+          <div className='subject-presenter-character-pitch-breakdown'>
+            {pitchGraph.length > 0 ? (pitchGraph) : (
+              <span>{characters[i]}</span>
+            )}
           </div>
-        ) : (
-          <div className='subject-presenter-section-contents'>{children}</div>
-        )}
+        </div>
+      )
+    }
+
+    return pronunciationComponents
+  }, [audioFiles, characters])
+  
+  
+  return (
+    <div className={`subject-presenter-section-subsection ${isLastSubsection ? 'last-subject-presenter-section-subsection' : ''}`}>
+        <h3 className='subject-presenter-section-subheader'>Pronunciation</h3>
+        {pronunciationComponents}
+          
     </div>
   )
 }
@@ -138,6 +194,11 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
           const kanaSubject = subject as KanaSubject
           const kanaMnemonicImage = kanaSubject.mnemonicImage
           const kanaSubjectInfoToDisplay: JSX.Element[] = []
+          if (kanaSubject.audioFile != null) {
+            kanaSubjectInfoToDisplay.push(
+              <SubjectsSubInfoAudioSection key='Pronunciation' audioFiles={[{file: kanaSubject.audioFile, lastHighPitch: null}]} characters={['']} />
+            )
+          }
           if (isForQuiz) {
             kanaSubjectInfoToDisplay.push(
               <SubjectsSubInfoSection subheader='Reading' key='Reading'>
@@ -334,7 +395,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             subjectMainDescription: mainMeaningsToUseForKanji.length > 0 ? mainMeaningsToUseForKanji.join(', ') : kanjiSubject.meanings[0],
             subjectType: KANJI_TYPE,
             subjectInfoToDisplay: isForQuiz ? [
-                
                 {
                   header: 'Meaning',
                   content: kanjiMeaningSubjectContentForQuiz
@@ -349,49 +409,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 },
                 kanjiReadingsSubjectContentForLesson
             ]
-            // [
-            //   {
-            //     header: 'Meaning',
-            //       content: [
-            //         (
-            //           <SubjectsSubInfoSection subheader='Meaning Mnemonic' key='Meaning Mnemonic'>
-            //             {kanjiMeaningMnemonic.length > 0 ? parseHtmlString(kanjiMeaningMnemonic) : <>No mnemonic yet</>}
-            //           </SubjectsSubInfoSection>
-            //         ),
-            //         // TODO: issue with like not showing the first meaning during quizzes because first one is removed via slice
-            //         isForQuiz ? (
-            //           <>
-            //           </>
-            //         ) : (
-            //          radicalMeaningsRemoved.length > 1 ? (
-            //             <SubjectsSubInfoSection subheader='Other Meanings' key='Other Meanings' isLastSubsection={true}>
-            //               <div>{radicalMeaningsRemoved.slice(1).join(', ')}</div>
-            //             </SubjectsSubInfoSection>
-            //           ) : <></>
-            //         )
-
-            //       ]
-            //   },
-            //   {
-            //     header: 'Readings',
-            //       content: [
-            //         (
-            //           <SubjectsSubInfoSection subheader='Onyomi' key='Onyomi'>
-            //             <div>
-            //               {onyomi.map(reading => toKatakana(reading)).join(', ')}
-            //             </div>
-            //           </SubjectsSubInfoSection>
-            //         ),
-            //         (
-            //           <SubjectsSubInfoSection subheader='Kunyomi' key='Kunyomi' isLastSubsection={true}>
-            //             <div>
-            //               {onlyUniqueKunyomi.join(', ')}
-            //             </div>
-            //           </SubjectsSubInfoSection>
-            //         )
-            //       ]
-            //   }
-            // ]
           }
 
         case VOCABULARY_TYPE:
@@ -407,7 +424,8 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             meaningMnemonic: vocabMeaningMnemonic,
             mainMeaningsToUse: mainMeaningsToUseForVocab,
             mainTextRepresentation,
-            readingMnemonic: vocabReadingMnemonic
+            readingMnemonic: vocabReadingMnemonic,
+            audioFiles
           } = vocabularySubject
           const mainTextRepresentationExists = mainTextRepresentation != null && mainTextRepresentation.length > 0
           const isAKanaWord = sense[0].misc.includes('uk') || kanjiVocabulary.length === 0
@@ -433,7 +451,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 (
                   <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition'>
                     <div className='list-of-other-japanese-subjects'>
-                      <JapaneseExamplesAndContainedSubjects 
+                      <JapaneseExamplesAndContainedSubjects
                         subjects={dataForKanjiInThisWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 
                       />
                     </div>
@@ -449,8 +467,9 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
               if (i >= otherMeanings.length) {
                 otherMeanings.push([])
               }
+              const { misc } = sense[i]
               const { text } = sense[i].gloss[j]
-              if (text && !mainMeaningsToUseForVocab.includes(text)) {
+              if (text && !mainMeaningsToUseForVocab.includes(text) && !misc.includes('vulg')) {
                 otherMeanings[i].push(text)
               }
             }
@@ -495,22 +514,22 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             header: 'Meaning',
             content: vocabularySubjectInfoToDisplayMeaning
           })
+
+          const vocabularySubjectInfoReadingContent: JSX.Element[] = []
+          if (audioFiles.length > 0) {
+            vocabularySubjectInfoReadingContent.push((
+              <SubjectsSubInfoAudioSection key='Pronunciation' audioFiles={audioFiles} characters={kanaVocabulary.filter(({common}) => common).map(({text}) => text)}/>
+            ))
+          }
+
           if (!isAKanaWord) {
-            vocabularySubjectInfoToDisplay.push({
-              header: 'Reading',
-              content: [
-                (
-                  <SubjectsSubInfoSection subheader='Pronunciation' key='Pronunciation' audioFile={`${jmDictId}.mp3`}>
-                    {/* <span className='bold-span'>
-                      {kanaVocabulary[0].text}
-                    </span> */}
-                    <></>
-                  </SubjectsSubInfoSection>
-                ),
+            vocabularySubjectInfoReadingContent.push(
+              ...[
                 (
                   <SubjectsSubInfoSection subheader='Reading' key='Reading'>
                     <span className='bold-span'>
-                      {kanaVocabulary[0].text}
+                      {kanaVocabulary.filter(({common}) => common).map(({text}) => text).join(', ')}
+                      {/* kanaVocabulary[0].text */}
                     </span>
                   </SubjectsSubInfoSection>
                 ),
@@ -521,8 +540,15 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                     </>
                       
                   </SubjectsSubInfoSection>
-                ),
+                )
               ]
+            )
+          }
+          
+          if (vocabularySubjectInfoReadingContent.length > 0) {
+            vocabularySubjectInfoToDisplay.push({
+              header: 'Reading',
+              content: vocabularySubjectInfoReadingContent
             })
           }
 
@@ -531,7 +557,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             subjectMainDescription: mainMeaningToUse!,
             subjectType: VOCABULARY_TYPE,
             subjectInfoToDisplay: vocabularySubjectInfoToDisplay,
-            audioFile: `${jmDictId}.mp3`
+            audioFile: audioFiles.length > 0 ? audioFiles[0].file : ''
           }
   
         case EXERCISE_TYPE:

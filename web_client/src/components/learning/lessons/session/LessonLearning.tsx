@@ -16,8 +16,6 @@ import { useNavigate } from 'react-router-dom'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { LESSONS_PATH } from 'src/paths'
 import { BackButton } from 'src/components/shared/BackButton'
-import useSound from 'use-sound'
-import { AUDIO_FILE_BASE_URL } from 'src/components/shared/values'
 
 export interface LearningCardProp extends LearningFlashcard {
   pronunciationFileKey: string

@@ -117,8 +117,10 @@ class GetUsersSubjectsForLessons(APIView):
             'vocabulary': [],
             'grammar': [],
         }
+
         for subject in subjects_to_learn:
             subjects_divided_by_type[subject.japanese_subject_type if hasattr(subject, 'japanese_subject_type') else subject.subject_type].append(subject)
+        
         subjects_arranged_by_type = [
             *subjects_divided_by_type['kana'],
             *subjects_divided_by_type['radical'],
@@ -126,7 +128,6 @@ class GetUsersSubjectsForLessons(APIView):
             *subjects_divided_by_type['vocabulary'],
             *subjects_divided_by_type['grammar'],
         ]
-        
 
         subjects_to_send_to_user = []
         for subject in subjects_arranged_by_type:
@@ -139,19 +140,18 @@ class GetUsersSubjectsForLessons(APIView):
                 break
 
         subjects_to_teach = SubjectPolymorphicSerializer(subjects_to_send_to_user, many=True).data
+
         for subject in subjects_to_teach:
             if 'japanese_subject_type' in subject:
                 if subject['japanese_subject_type'] == 'kanji':
                     subject['kanji_contained_within_this'] = map(get_kanji_data, subject['kanji_contained_within_this'])
                     # sort this based on jlpt and then whether or not common word
-                    # print(len(subject['vocabulary_that_uses_this']))
-                    # subject['vocabulary_that_uses_this'] = sorted(subject['vocabulary_that_uses_this'], key=sort_vocab_examples_for_kanji)[:5]
+                    subject['vocabulary_that_uses_this'] = sorted(subject['vocabulary_that_uses_this'], key=sort_vocab_examples_for_kanji)[:5]
                 elif subject['japanese_subject_type'] == 'radical':
                     # There are often so many results for kanji that use a radical so this helps filter out the obscure kanji
                     kanji_that_uses_this = filter(lambda kanji: kanji['grade'] is not None and kanji['freq'] is not None, subject['kanji_that_uses_this'])
                     kanji_that_uses_this = sorted(kanji_that_uses_this, key=lambda x: [x['grade'], x['stroke_count'], x['freq']])[:4]
                     subject['kanji_that_uses_this'] = kanji_that_uses_this
-
         return Response({
             'subjects_to_teach': subjects_to_teach
         })

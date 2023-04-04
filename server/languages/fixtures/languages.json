@@ -170,6 +170,17 @@
     }
   },
   {
+    "pk": 14,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 14,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
     "pk": 1,
     "model": "languages.LanguageStandardsLevels",
     "fields": {

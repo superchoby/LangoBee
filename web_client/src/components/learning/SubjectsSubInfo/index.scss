@@ -62,12 +62,45 @@
 }
 
 .subject-presenter-audio-player-container {
+    align-items: center;
     cursor: pointer;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.subject-presenter-pitch-explanation {
+    color: var(--link-blue);
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 0;
 }
 
 .subject-presenter-section-play-audio {
     height: 35px;
+    margin-right: 10px;
     width: 35px;
+}
+
+$pitch-breakdown-border: 1px solid var(--light-blue);
+
+.pitch-breakdown-low {
+    border-bottom: $pitch-breakdown-border;
+}
+
+.pitch-breakdown-high {
+    border-top: $pitch-breakdown-border;
+}
+
+.pitch-breakdown-only-char {
+    border-right: $pitch-breakdown-border;
+}
+
+.pitch-breakdown-low-to-high {
+    border-right: $pitch-breakdown-border;
+}
+
+.pitch-breakdown-high-to-low {
+    border-right: $pitch-breakdown-border;
 }
 
 .list-of-other-japanese-subjects {
