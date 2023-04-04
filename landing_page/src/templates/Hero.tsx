@@ -12,7 +12,7 @@ const Hero = () => (
     <Section yPadding="py-6">
       <NavbarTwoColumns logo={<Logo xl />}>
         <li>
-          <Link href={!process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://app.LangoBee.com'}>
+          <Link href={!process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.langobee.com'}>
             <a>Sign in</a>
           </Link>
         </li>
@@ -29,7 +29,7 @@ const Hero = () => (
         }
         description="The most efficient way to go from student to sensei"
         button={
-          <Link href={!process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://app.LangoBee.com'}>
+          <Link href={!process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.langobee.com'}>
             <a>
               <Button xl>Begin my Journey</Button>
             </a>

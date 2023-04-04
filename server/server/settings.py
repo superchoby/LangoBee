@@ -97,7 +97,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:5000",
-    'https://app.langobee.com',
+    'https://www.langobee.com',
     'https://www.langobee.com',
     'https://main.d3h37ozabdygf3.amplifyapp.com'
 ]
