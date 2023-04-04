@@ -177,15 +177,20 @@ export interface JMDict {
     sense: JMDictSense[]
 }
 
+export interface JapaneseVocabularySubjectAudioFiles {
+    file: string
+    lastHighPitch: number | null
+}
+
 export interface JapaneseVocabularySubject {
     kanjiThatThisUses: { character: string, meanings: string[]} []
     meaningMnemonic: string
     readingMnemonic: string
     mainMeaningsToUse: string[]
     mainTextRepresentation: string
-    audioFile?: string
     jmdict: JMDict
     customQuestions: CustomSubjectQuestion[]
+    audioFiles: JapaneseVocabularySubjectAudioFiles[]
 }
 
 export interface JapaneseExerciseSubject {

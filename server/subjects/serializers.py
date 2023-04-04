@@ -11,7 +11,8 @@ from .models import (
     GrammarQuestion,
     GrammarQuestionTranslation,
     SubjectExample,
-    SubjectExampleTranslation
+    SubjectExampleTranslation,
+    JapaneseVocabularyAudioFile
 )
 from languages.serializers import LanguageSerializer
 from jmdict.serializers import JMDictEntriesSerializer
@@ -96,7 +97,8 @@ class KanaSerializer(serializers.ModelSerializer):
             'mnemonic_explanation',
             'mnemonic_image',
             'mnemonic_image_content_type',
-            'custom_questions'
+            'custom_questions',
+            'audio_file'
         ]
 
 class KanjiComponentSerializer(serializers.ModelSerializer):
@@ -167,11 +169,21 @@ class KanjiSerializer(serializers.ModelSerializer):
             'main_meanings_to_use'
             # 'vocabulary_that_uses_this'
         ]
+
+class JapaneseVocabularyAudioFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JapaneseVocabularyAudioFile
+        editable=False
+        fields = [
+            'file',
+            'last_high_pitch'
+        ]
         
 class JapaneseVocabularySerializer(serializers.ModelSerializer):
     jmdict = JMDictEntriesSerializer()
     kanji_that_this_uses = KanjiComponentSerializer(many=True)
     custom_questions = CustomSubjectQuestionsSerializer(many=True)
+    audio_files = JapaneseVocabularyAudioFileSerializer(many=True)
 
     class Meta:
         model = JapaneseVocabulary
@@ -184,7 +196,8 @@ class JapaneseVocabularySerializer(serializers.ModelSerializer):
             'main_meanings_to_use',
             'main_text_representation',
             'jmdict',
-            'custom_questions'
+            'custom_questions',
+            'audio_files'
         ]
 
 class GrammarQuestionTranslationSerializer(serializers.ModelSerializer):

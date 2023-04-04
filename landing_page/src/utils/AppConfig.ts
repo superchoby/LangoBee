@@ -1,6 +1,6 @@
 export const AppConfig = {
-  site_name: 'Japanese Heroes',
-  title: 'Japanese Heroes',
+  site_name: 'LangoBee',
+  title: 'LangoBee',
   description: 'The best way to learn Japanese',
   locale: 'en',
 };

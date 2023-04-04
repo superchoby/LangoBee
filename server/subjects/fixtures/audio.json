@@ -1,0 +1,38 @@
+[
+    {
+        "model": "subjects.JapaneseVocabularyAudioFile",
+        "pk": 29730,
+        "fields": {
+        "file": "http://d1ymdibvv3e2ww.cloudfront.net/audio/1319210(1).mp3",
+        "last_high_pitch": 2,
+        "vocabulary": 49729
+        }
+    },
+    {
+        "model": "subjects.JapaneseVocabularyAudioFile",
+        "pk": 54662,
+        "fields": {
+        "file": "http://d1ymdibvv3e2ww.cloudfront.net/audio/1579470(1).mp3",
+        "last_high_pitch": 1,
+        "vocabulary": 74661
+        }
+    },
+    {
+        "model": "subjects.JapaneseVocabularyAudioFile",
+        "pk": 198694,
+        "fields": {
+        "file": "http://d1ymdibvv3e2ww.cloudfront.net/audio/1319210(2).mp3",
+        "last_high_pitch": 1,
+        "vocabulary": 49729
+        }
+    },
+    {
+        "model": "subjects.JapaneseVocabularyAudioFile",
+        "pk": 198695,
+        "fields": {
+        "file": "http://d1ymdibvv3e2ww.cloudfront.net/audio/1579470(2).mp3",
+        "last_high_pitch": 1,
+        "vocabulary": 74661
+        }
+    }
+]

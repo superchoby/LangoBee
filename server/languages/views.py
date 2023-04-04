@@ -103,10 +103,10 @@ class GetUsersSubjectsForLessons(APIView):
         users_progress_on_course = UsersProgressOnCourse.objects.get(user=request.user, course=course)
 
         subjects_to_learn = []
-        for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
-            for subject in course_level.subjects.all():
-                if not request.user.subjects.filter(pk=subject.id).exists():
-                    subjects_to_learn.append(subject)
+        # for course_level in course.levels.order_by('number')[:users_progress_on_course.current_level.number - 1]:
+        #     for subject in course_level.subjects.all():
+        #         if not request.user.subjects.filter(pk=subject.id).exists():
+        #             subjects_to_learn.append(subject)
 
         subjects_to_learn.extend(users_progress_on_course.current_level.subjects.all().order_by('position_in_course_level'))
         
@@ -117,16 +117,17 @@ class GetUsersSubjectsForLessons(APIView):
             'vocabulary': [],
             'grammar': [],
         }
+
         for subject in subjects_to_learn:
             subjects_divided_by_type[subject.japanese_subject_type if hasattr(subject, 'japanese_subject_type') else subject.subject_type].append(subject)
-        subjects_arranged_by_type = [
-            *subjects_divided_by_type['kana'],
-            *subjects_divided_by_type['radical'],
-            *subjects_divided_by_type['kanji'],
-            *subjects_divided_by_type['vocabulary'],
-            *subjects_divided_by_type['grammar'],
-        ]
         
+        subjects_arranged_by_type = [
+            # *subjects_divided_by_type['kana'],
+            # *subjects_divided_by_type['radical'],
+            # *subjects_divided_by_type['kanji'],
+            *subjects_divided_by_type['vocabulary'],
+            # *subjects_divided_by_type['grammar'],
+        ]
 
         subjects_to_send_to_user = []
         for subject in subjects_arranged_by_type:
@@ -139,6 +140,7 @@ class GetUsersSubjectsForLessons(APIView):
                 break
 
         subjects_to_teach = SubjectPolymorphicSerializer(subjects_to_send_to_user, many=True).data
+
         for subject in subjects_to_teach:
             if 'japanese_subject_type' in subject:
                 if subject['japanese_subject_type'] == 'kanji':
@@ -151,6 +153,9 @@ class GetUsersSubjectsForLessons(APIView):
                     kanji_that_uses_this = filter(lambda kanji: kanji['grade'] is not None and kanji['freq'] is not None, subject['kanji_that_uses_this'])
                     kanji_that_uses_this = sorted(kanji_that_uses_this, key=lambda x: [x['grade'], x['stroke_count'], x['freq']])[:4]
                     subject['kanji_that_uses_this'] = kanji_that_uses_this
+        # else:
+        #     print('invalid')
+        #     return Response(subjects_to_teach.errors)
 
         return Response({
             'subjects_to_teach': subjects_to_teach
