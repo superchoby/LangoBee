@@ -57,7 +57,7 @@ export const LessonLearning = ({
     subjectMainDescription,
     subjectInfoToDisplay,
     subjectType,
-    audioFile
+    audioFiles
   } = subjectPresenterPropValues
   // eventualy add feature so it plays right away
   // const [play] = useSound((audioFile != null && audioFile.length) > 0 ? `${AUDIO_FILE_BASE_URL}${audioFile}` : '.mp4')
@@ -87,6 +87,17 @@ export const LessonLearning = ({
       changeSubjectPresenterPropValues(getPropsForSubjectsInfo(subjectsToTeach[currentSubjectIdx], false))
     }
   }, [currentSubjectIdx, subjectsToTeach])
+
+  useEffect(() => {
+    if (audioFiles != null && audioFiles.length > 0) {
+      (new Audio(audioFiles[0])).play()
+      .then(_ => {
+        if (audioFiles.length > 1) {
+          (new Audio(audioFiles[1])).play()
+        }
+      })
+    }
+  }, [audioFiles])
 
   useEffect(() => {
     if (subjectInfoToDisplay.length > 0) {
