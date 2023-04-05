@@ -1,5 +1,5 @@
 import { QuizGenerator } from "../../shared/QuizGenerator"
-import { JapaneseSubjectData } from "../lessons/SubjectTypes"
+import { JapaneseSubjectData, JapaneseVocabularySubject, KANA_TYPE, KANJI_TYPE, KanaSubject, KanjiSubject, VOCABULARY_TYPE } from "../lessons/SubjectTypes"
 import { useAppDispatch } from 'src/app/hooks'
 import { userAddedMoreSubjectsToReview } from '../../../app/userSlice'
 import { useState, useEffect } from "react"
@@ -75,6 +75,30 @@ export const LearningQuizGenerator = ({
                 messageOnTop: isCurrentlyDoingLesson ? LEARNED_ITEMS_WILL_GO_IN_REVIEW_MSG : GOOD_JOB_REVIEWING_MSG
             }}
             onCompletedAllSubjectsQuestions={(subjectId: number, userGotCorrect: boolean) => {
+                for (let i=0; i<content.length; ++i) {
+                    if (content[i].subjectId === subjectId) {
+                        if (content[i].subjectType === KANA_TYPE) {
+                            const {
+                                audioFile
+                            } = content[i] as KanaSubject
+                            (new Audio(audioFile)).play()
+                        } else if (content[i].subjectType === VOCABULARY_TYPE) {
+                            const {
+                                audioFiles
+                            } = content[i] as JapaneseVocabularySubject
+                            (new Audio(audioFiles[0].file)).play()
+                            .then(_ => {
+                                // if the kanji word vocab has two common pronunciations,
+                                // play the second one in the callback
+                                console.log('hey man')
+                                if (audioFiles.length > 1) {
+                                    (new Audio(audioFiles[1].file)).play()
+                                }
+                            })
+                            }
+                        break
+                    }
+                }
                 if (isCurrentlyDoingLesson) {
                     dispatch(userAddedMoreSubjectsToReview())
                 }

@@ -361,47 +361,6 @@ export const QuizGenerator = ({
                               </div>
                               {questionComponent}
                             </div>
-                            {/* {
-                                isAGrammarQuestion(questionsOrder[0].questionContents)
-                                  ? (
-                                      <GrammarQuestion
-                                        question={questionsOrder[0].questionContents}
-                                        changeCurrentAnswerStatus={changeCurrentAnswerStatus}
-                                        choiceSubmitted={choiceHasBeenSubmitted}
-                                        currentAnswerStatus={currentAnswerStatus}
-                                        changeIsInvalidInput={changeIsInvalidInput}
-                                        hasInvalidInputClass={hasInvalidInputClass}
-                                      />
-                                    )
-                                  : (
-                                      isAKanaVocabQuestion(questionsOrder[0].questionContents)
-                                        ? <KanaVocabQuestion
-                                            conceptType={japaneseDatabase[questionsOrder[0].conceptAssociatedWith].conceptType as 'Hiragana' | 'Katakana' | 'Vocabulary'}
-                                            question={questionsOrder[0]}
-                                            changeCurrentAnswerStatus={changeCurrentAnswerStatus}
-                                            choiceSubmitted={choiceHasBeenSubmitted}
-                                            currentAnswerStatus={currentAnswerStatus}
-                                            changeAnswerHasBeenEntered={changeAnswerHasBeenEntered}
-                                            hasInvalidInputClass={hasInvalidInputClass}
-                                            changeHasInvalidInputClass={changeHasInvalidInputClass}
-                                            isInvalidInput={isInvalidInput}
-                                            changeIsInvalidInput={changeIsInvalidInput}
-                                            changeGuessIsRightButWrongKana={changeGuessIsRightButWrongKana}
-                                            typingInHiragana={typingInHiragana}
-                                          />
-                                        : <ConjugationQuestion
-                                            // @ts-expect-error
-                                            question={questionsOrder[0].questionContents}
-                                            choiceSubmitted={choiceHasBeenSubmitted}
-                                            currentAnswerStatus={currentAnswerStatus}
-                                            changeCurrentAnswerStatus={changeCurrentAnswerStatus}
-                                            changeAnswerHasBeenEntered={changeAnswerHasBeenEntered}
-                                            changeIsInvalidInput={changeIsInvalidInput}
-                                            hasInvalidInputClass={hasInvalidInputClass}
-                                          />
-                                    )
-
-                            } */}
                         </div>
                     )
                 }

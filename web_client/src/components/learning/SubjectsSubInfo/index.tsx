@@ -58,6 +58,7 @@ const SubjectsSubInfoAudioSection = ({
   audioFiles,
   characters
 }: SubjectsSubInfoAudioSectionProps) => {
+
   const pronunciationComponents = useMemo(() => {
     const pronunciationComponents: JSX.Element[] = []
     for (let i=0; i<audioFiles.length; ++i) {
@@ -126,7 +127,7 @@ export interface SubjectsInfoForComponents {
     subjectMainDescription: string
     subjectType: JapaneseSubjectType
     subjectInfoToDisplay: SubjectInfoToDisplay[]
-    audioFile?: string
+    audioFiles?: string[]
 }
 
 export const parseHtmlString = (htmlString: string, className?: string) => {
@@ -246,7 +247,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 content: kanaSubjectInfoToDisplay
               }
             ],
-            audioFile: kanaSubject.audioFile
+            audioFiles: [kanaSubject.audioFile]
           }
         
         case RADICAL_TYPE:
@@ -557,7 +558,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             subjectMainDescription: mainMeaningToUse!,
             subjectType: VOCABULARY_TYPE,
             subjectInfoToDisplay: vocabularySubjectInfoToDisplay,
-            audioFile: audioFiles.length > 0 ? audioFiles[0].file : ''
+            audioFiles: audioFiles.map(({file}) => file)
           }
   
         case EXERCISE_TYPE:
