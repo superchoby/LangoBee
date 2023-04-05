@@ -109,6 +109,7 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'LangoBeeLocal',
+            # 'NAME': 'prodcopy',
             'USER': 'postgres',
             'PASSWORD': '1superchoby',
             'HOST': '127.0.0.1',

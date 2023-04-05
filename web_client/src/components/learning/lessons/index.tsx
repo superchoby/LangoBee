@@ -99,6 +99,7 @@ export const Lessons = (): JSX.Element => {
         user_read_current_levels_article,
         this_levels_article
       } = res.data
+
       changeUserReadCurrentLevelsArticle(user_read_current_levels_article)
       changeSubjectsRemainingAtCurrentLevel(subjects_remaining_in_this_level)
       changeCurrentLevelOnCourse(users_current_level)
