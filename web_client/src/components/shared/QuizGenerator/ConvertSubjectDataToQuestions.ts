@@ -29,6 +29,18 @@ import {
 } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { SubjectsAnsweredStatus } from '.'
 
+const KANJI_TO_NUMBER = {
+  '一': { hiragana: 'いち', number: 1 },
+  '二': { hiragana: 'に', number: 2 },
+  '三': { hiragana: 'さん', number: 3 },
+  '四': { hiragana: 'よん,し', number: 4 },
+  '五': { hiragana: 'ご', number: 5 },
+  '六': { hiragana: 'ろく', number: 6 },
+  '七': { hiragana: 'なな,しち', number: 7 },
+  '八': { hiragana: 'はち', number: 8 },
+  '九': { hiragana: 'きゅう', number: 9 },
+  '十': { hiragana: 'じゅう', number: 10 },
+}
 
 export interface QuizQuestion {
   questionContents: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType
@@ -114,102 +126,235 @@ export const convertSubjectDataToQuestions = (subjectData: JapaneseSubjectData[]
         }
 
         const {
-          jmdict: {
+          jmdict,
+          mainMeaningsToUse,
+          counterWordInfo,
+          mainTextRepresentation,
+          acceptableResponsesButNotWhatLookingFor
+        } = vocabularySubject
+
+        const mainTextRepresentationExists = mainTextRepresentation != null && mainTextRepresentation.length > 0
+
+        if (jmdict != null) {
+          const {
             sense,
             kanjiVocabulary,
             kanaVocabulary,
             jmDictId
-          },
-          mainMeaningsToUse,
-        } = vocabularySubject
+          } = jmdict
 
-        if (vocabularySubject.customQuestions.length > 0) {
-          shuffle(vocabularySubject.customQuestions, { copy: true }).slice(0, 2).forEach((question) => {
+          if (vocabularySubject.customQuestions.length > 0) {
+            shuffle(vocabularySubject.customQuestions, { copy: true }).slice(0, 2).forEach((question) => {
+              newQuestionsOrder.push({
+                questionContents: {
+                  answers: question.answers.map(answer => ({ answer, distanceToAllow: Math.floor(answer.length * .25) })),
+                  acceptableResponsesButNotWhatLookingFor: [],
+                  answerIsInJapanese: false,
+                  question: question.question,
+                  questionIsOfTypeString: true,
+                  questionPrompt: TRANSLATE_JAPANESE_VOCAB_PROMPT,
+                  inputPlaceholder: 'Meaning',
+                  pronunciationFile: ''
+                },
+                subjectData: concept
+              })})
+  
+              timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
+                timesAnswered: 0,
+                timesNeedsToBeAnsweredBeforeCompletion: 2,
+                userGotCorrect: true
+              }
+          } else {
+            const allMeanings: string[] = [...mainMeaningsToUse, ...getAllVocabsMeanings(sense)]
+  
+            const vocabIsUsuallyWrittenInKana = sense[0].misc.includes('uk') || kanjiVocabulary.length === 0
+            const mainVocabularyToUse = mainTextRepresentationExists ? mainTextRepresentation : (vocabIsUsuallyWrittenInKana ? kanaVocabulary[0].text : kanjiVocabulary[0].text)
+
             newQuestionsOrder.push({
               questionContents: {
-                answers: question.answers.map(answer => ({ answer, distanceToAllow: Math.floor(answer.length * .25) })),
-                acceptableResponsesButNotWhatLookingFor: [],
+                answers: allMeanings.flatMap((meaning) => {
+                  const answers = [
+                    {
+                      answer: meaning,
+                      distanceToAllow: Math.floor(meaning.length * .25)
+                    }
+                  ]
+                  const openingParenIdx = meaning.indexOf('(')
+                  const closingParenIdx = meaning.indexOf(')')
+                  if (openingParenIdx !== -1 && closingParenIdx !== -1) {
+                    const answerWithoutParenthesis = (meaning.substring(0, openingParenIdx) + meaning.substring(closingParenIdx + 1)).trim()
+                    answers.push(
+                      {
+                        answer: answerWithoutParenthesis,
+                        distanceToAllow: Math.floor(answerWithoutParenthesis.length * .25)
+                      }
+                    )
+                  }
+                  return answers
+                }),
+                acceptableResponsesButNotWhatLookingFor: acceptableResponsesButNotWhatLookingFor.map(({response, reason}) => ({
+                  acceptableResponse: response,
+                  whyNotLookingFor: reason,
+                  acceptableResponseIsJapanese: false
+                })),
                 answerIsInJapanese: false,
-                question: question.question,
+                question: mainVocabularyToUse,
                 questionIsOfTypeString: true,
                 questionPrompt: TRANSLATE_JAPANESE_VOCAB_PROMPT,
                 inputPlaceholder: 'Meaning',
+                pronunciationFile: `${jmDictId}.mp3`
+              },
+              subjectData: concept
+            })
+    
+            if (vocabIsUsuallyWrittenInKana) {
+                timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
+                    timesAnswered: 0,
+                    timesNeedsToBeAnsweredBeforeCompletion: 1,
+                    userGotCorrect: true
+                }
+            } else {
+                newQuestionsOrder.push({
+                    questionContents: {
+                      answers: kanaVocabulary.map(({text}) => ({
+                        answer: text,
+                        distanceToAllow: 0
+                      })),
+                      acceptableResponsesButNotWhatLookingFor: [],
+                      answerIsInJapanese: true,
+                      question: mainVocabularyToUse,
+                      questionIsOfTypeString: true,
+                      questionPrompt: TRANSLATE_JAPANESE_VOCAB_PROMPT,
+                      inputPlaceholder: 'Reading',
+                      pronunciationFile: `${jmDictId}.mp3`
+                    },
+                    subjectData: concept
+                })
+                timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
+                    timesAnswered: 0,
+                    timesNeedsToBeAnsweredBeforeCompletion: 2,
+                    userGotCorrect: true
+                }
+            }
+          }
+        } else {
+          // is counter info
+          const {
+            character,
+            usage,
+            howToAskForHowMany,
+            objectsThisIsUsedToCount,
+            specialNumbers,
+            normalReading
+          } = counterWordInfo!
+
+
+          let kanjiAnswer = ''
+          let hiraganaAnswer = ''
+          let isANumber = false
+          let isTheHowMuchVersion = false
+          if (mainTextRepresentation.includes(' ')) {
+            const [kanjiVersion, hiraganaVersion] = mainTextRepresentation.split(' ')
+            kanjiAnswer = kanjiVersion
+            hiraganaAnswer = hiraganaVersion
+            if (kanjiVersion === howToAskForHowMany.characters) {
+              isTheHowMuchVersion = true
+            } else {
+              isANumber = true
+            }
+          }
+
+          if (isTheHowMuchVersion) {
+            newQuestionsOrder.push({
+                questionContents: {
+                  answers: [
+                    {
+                      answer: hiraganaAnswer.slice(1, -1),
+                      distanceToAllow: 0
+                    },
+                    {
+                      answer: kanjiAnswer,
+                      distanceToAllow: 0
+                    },
+                  ],
+                  acceptableResponsesButNotWhatLookingFor: [],
+                  answerIsInJapanese: true,
+                  question: `How many ${objectsThisIsUsedToCount[Math.floor(Math.random() * objectsThisIsUsedToCount.length)].plural}?`,
+                  questionIsOfTypeString: true,
+                  questionPrompt: "the appropriate Japanese counter you use if you were asking this question",
+                  inputPlaceholder: 'Counter',
+                  pronunciationFile: ''
+                },
+                subjectData: concept
+            })
+            timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
+                timesAnswered: 0,
+                timesNeedsToBeAnsweredBeforeCompletion: 1,
+                userGotCorrect: true
+            }
+          } else if (isANumber) {
+            // KANJI_TO_NUMBER
+            const { number } = KANJI_TO_NUMBER[(kanjiAnswer.length > 1 ? kanjiAnswer.slice(0, -1) : kanjiAnswer) as keyof typeof KANJI_TO_NUMBER]
+
+            newQuestionsOrder.push({
+              questionContents: {
+                answers: [
+                  {
+                    answer: hiraganaAnswer.slice(1, -1),
+                    distanceToAllow: 0
+                  },
+                  {
+                    answer: kanjiAnswer,
+                    distanceToAllow: 0
+                  },
+                ],
+                acceptableResponsesButNotWhatLookingFor: [],
+                answerIsInJapanese: true,
+                question: `${number} ${objectsThisIsUsedToCount[Math.floor(Math.random() * objectsThisIsUsedToCount.length)][number === 1 ? 'singular' : 'plural']}`,
+                questionIsOfTypeString: true,
+                questionPrompt: "the appropriate Japanese counter",
+                inputPlaceholder: 'Counter',
                 pronunciationFile: ''
               },
               subjectData: concept
-            })})
-
+            })
             timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
-              timesAnswered: 0,
-              timesNeedsToBeAnsweredBeforeCompletion: 2,
-              userGotCorrect: true
+                timesAnswered: 0,
+                timesNeedsToBeAnsweredBeforeCompletion: 1,
+                userGotCorrect: true
             }
-        } else {
-          const allMeanings: string[] = [...mainMeaningsToUse, ...getAllVocabsMeanings(sense)]
-
-          const vocabIsUsuallyWrittenInKana = sense[0].misc.includes('uk') || kanjiVocabulary.length === 0
-          const mainVocabularyToUse = vocabIsUsuallyWrittenInKana  ? kanaVocabulary[0].text : kanjiVocabulary[0].text
-          newQuestionsOrder.push({
-            questionContents: {
-              answers: allMeanings.flatMap((meaning) => {
-                const answers = [
-                  {
-                    answer: meaning,
-                    distanceToAllow: Math.floor(meaning.length * .25)
-                  }
-                ]
-                const openingParenIdx = meaning.indexOf('(')
-                const closingParenIdx = meaning.indexOf(')')
-                if (openingParenIdx !== -1 && closingParenIdx !== -1) {
-                  const answerWithoutParenthesis = (meaning.substring(0, openingParenIdx) + meaning.substring(closingParenIdx + 1)).trim()
-                  answers.push(
-                    {
-                      answer: answerWithoutParenthesis,
-                      distanceToAllow: Math.floor(answerWithoutParenthesis.length * .25)
-                    }
-                  )
-                }
-                return answers
-              }),
-              acceptableResponsesButNotWhatLookingFor: [],
-              answerIsInJapanese: false,
-              question: mainVocabularyToUse,
-              questionIsOfTypeString: true,
-              questionPrompt: TRANSLATE_JAPANESE_VOCAB_PROMPT,
-              inputPlaceholder: 'Meaning',
-              pronunciationFile: `${jmDictId}.mp3`
-            },
-            subjectData: concept
-          })
-  
-          if (vocabIsUsuallyWrittenInKana) {
-              timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
-                  timesAnswered: 0,
-                  timesNeedsToBeAnsweredBeforeCompletion: 1,
-                  userGotCorrect: true
-              }
           } else {
+            const specialNumbersKanji = specialNumbers.map(({number}) => number)
+            const normalPronunciationNumbers = Object.keys(KANJI_TO_NUMBER).filter(number => !specialNumbersKanji.includes(number))
+            
+            for (const number of shuffle(normalPronunciationNumbers, { copy: true }).slice(0, 2)) {
+              const {
+                number: romanNumeral,
+                hiragana
+              } = KANJI_TO_NUMBER[number as keyof typeof KANJI_TO_NUMBER]
+
               newQuestionsOrder.push({
-                  questionContents: {
-                    answers: kanaVocabulary.map(({text}) => ({
-                      answer: text,
-                      distanceToAllow: 0
-                    })),
-                    acceptableResponsesButNotWhatLookingFor: [],
-                    answerIsInJapanese: true,
-                    question: kanjiVocabulary[0].text,
-                    questionIsOfTypeString: true,
-                    questionPrompt: TRANSLATE_JAPANESE_VOCAB_PROMPT,
-                    inputPlaceholder: 'Reading',
-                    pronunciationFile: `${jmDictId}.mp3`
-                  },
-                  subjectData: concept
+                questionContents: {
+                  answers: hiragana.split(',').map((reading) => ({
+                    answer: `${reading}${normalReading}`,
+                    distanceToAllow: 0
+                  })),
+                  acceptableResponsesButNotWhatLookingFor: [],
+                  answerIsInJapanese: true,
+                  question: `${romanNumeral} ${objectsThisIsUsedToCount[Math.floor(Math.random() * objectsThisIsUsedToCount.length)][romanNumeral === 1 ? 'singular' : 'plural']}`,
+                  questionIsOfTypeString: true,
+                  questionPrompt: "the appropriate Japanese counter",
+                  inputPlaceholder: 'Counter',
+                  pronunciationFile: ''
+                },
+                subjectData: concept
               })
               timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
                   timesAnswered: 0,
                   timesNeedsToBeAnsweredBeforeCompletion: 2,
                   userGotCorrect: true
               }
+            }
           }
         }
       } else if (concept.japaneseSubjectType === RADICAL_TYPE) {

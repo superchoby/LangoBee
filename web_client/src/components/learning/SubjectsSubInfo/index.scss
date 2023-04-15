@@ -144,6 +144,39 @@ $mnemonic-image-size: 150px;
     width: $mnemonic-image-size;
 }
 
+.counter-word-numbers-chart {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+$counter-word-row-padding: 10px;
+.counter-word-row {
+    display: flex;
+    border-bottom: var(--default-border);
+    padding-bottom: $counter-word-row-padding;
+    padding-top: $counter-word-row-padding;
+}
+
+.counter-word-row-text {
+    display: flex;
+    // justify-content: space-between;
+    text-align: center;
+    width: 150px;
+
+    div {
+        flex: 1 1 0px;
+    }
+}
+
+.counter-word-row-text-bold {
+    font-weight: bold;
+}
+
+.counter-word-row-kanji {
+    border-right: var(--default-border);
+    // margin-right: 10px;
+}
+
 @media only screen and (min-width: 500px) {
     .subject-presenter-sections-header {
         font-size: 22px;
@@ -189,6 +222,10 @@ $mnemonic-image-size: 150px;
     .other-japanese-subjects-description {
         font-size: 20px;
     }
+
+    .counter-word-row-text {
+        width: 180px;
+    }
 }
 
 @media only screen and (min-width: 1150px) {
@@ -201,6 +238,10 @@ $mnemonic-image-size: 150px;
 
     .other-japanese-subjects-description {
         font-size: 22px;
+    }
+
+    .counter-word-row-text {
+        width: 200px;
     }
 }
 

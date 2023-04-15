@@ -12,7 +12,12 @@ from .models import (
     GrammarQuestionTranslation,
     SubjectExample,
     SubjectExampleTranslation,
-    JapaneseVocabularyAudioFile
+    JapaneseVocabularyAudioFile,
+    JapaneseCounterWord,
+    JapaneseCounterWordHowToAskForHowMany,
+    JapaneseCounterWordObjects,
+    JapaneseCounterWordSpecialNumber,
+    AcceptableResponsesButNotWhatLookingFor
 )
 from languages.serializers import LanguageSerializer
 from jmdict.serializers import JMDictEntriesSerializer
@@ -47,7 +52,7 @@ class SubjectSerializer(serializers.ModelSerializer):
             'position_in_course_level',
             'subject_type',
             'srs_type',
-            'has_unique_subject_model'
+            'has_unique_subject_model',
         ]
 
 class JapaneseSubjectSerializer(serializers.ModelSerializer):
@@ -72,7 +77,8 @@ subjects_serializer_fields = [
     'id',
     'srs_type',
     'subject_type',
-    'has_unique_subject_model'
+    'has_unique_subject_model',
+    'note'
 ]
 
 japanese_subjects_serializer_fields = [
@@ -167,7 +173,6 @@ class KanjiSerializer(serializers.ModelSerializer):
             'radicals_used',
             'kanji_contained_within_this',
             'main_meanings_to_use'
-            # 'vocabulary_that_uses_this'
         ]
 
 class JapaneseVocabularyAudioFileSerializer(serializers.ModelSerializer):
@@ -178,12 +183,68 @@ class JapaneseVocabularyAudioFileSerializer(serializers.ModelSerializer):
             'file',
             'last_high_pitch'
         ]
-        
+
+class JapaneseCounterWordHowToAskForHowManySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JapaneseCounterWordHowToAskForHowMany
+        editable = False
+        fields = [
+            'characters',
+            'reading'
+        ]
+
+class JapaneseCounterWordObjectsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JapaneseCounterWordObjects
+        editable = False
+        fields = [
+            'singular',
+            'plural'
+        ]
+
+class JapaneseCounterWordSpecialNumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JapaneseCounterWordSpecialNumber
+        editable = False
+        fields = [
+            'number',
+            'reading',
+            'explanation',
+        ]
+
+class JapaneseCounterWordSerializer(serializers.ModelSerializer):
+    how_to_ask_for_how_many = JapaneseCounterWordHowToAskForHowManySerializer()
+    objects_this_is_used_to_count = JapaneseCounterWordObjectsSerializer(many=True)
+    special_numbers = JapaneseCounterWordSpecialNumberSerializer(many=True)
+
+    class Meta:
+        model = JapaneseCounterWord
+        editable = False
+        fields = [
+            'character',
+            'usage',
+            'normal_reading',
+            'how_to_ask_for_how_many',
+            'objects_this_is_used_to_count',
+            'special_numbers'
+        ]
+
+class AcceptableResponsesButNotWhatLookingForSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcceptableResponsesButNotWhatLookingFor
+        editable = False
+        fields = [
+            'response',
+            'reason',
+        ]
+            
 class JapaneseVocabularySerializer(serializers.ModelSerializer):
     jmdict = JMDictEntriesSerializer()
     kanji_that_this_uses = KanjiComponentSerializer(many=True)
     custom_questions = CustomSubjectQuestionsSerializer(many=True)
     audio_files = JapaneseVocabularyAudioFileSerializer(many=True)
+    counter_word_info = JapaneseCounterWordSerializer()
+    acceptable_responses_but_not_what_looking_for = AcceptableResponsesButNotWhatLookingForSerializer(many=True)
 
     class Meta:
         model = JapaneseVocabulary
@@ -197,7 +258,9 @@ class JapaneseVocabularySerializer(serializers.ModelSerializer):
             'main_text_representation',
             'jmdict',
             'custom_questions',
-            'audio_files'
+            'audio_files',
+            'counter_word_info',
+            'acceptable_responses_but_not_what_looking_for'
         ]
 
 class GrammarQuestionTranslationSerializer(serializers.ModelSerializer):

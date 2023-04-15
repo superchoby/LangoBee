@@ -20,7 +20,7 @@ import {
     GrammarFormalityAndDescriptions,
     JapaneseVocabularySubjectAudioFiles,
 } from '../lessons/SubjectTypes'
-import { toKatakana } from 'wanakana'
+import { toKatakana, isKana } from 'wanakana'
 import { HiSpeakerWave } from 'react-icons/hi2'
 import './index.scss' 
 
@@ -44,6 +44,30 @@ export const SubjectsSubInfoSection = ({
   )
 }
 
+const KANJI_TO_NUMBER = {
+  '一': { hiragana: 'いち', number: 1 },
+  '二': { hiragana: 'に', number: 2 },
+  '三': { hiragana: 'さん', number: 3 },
+  '四': { hiragana: 'よん,し', number: 4 },
+  '五': { hiragana: 'ご', number: 5 },
+  '六': { hiragana: 'ろく', number: 6 },
+  '七': { hiragana: 'なな,しち', number: 7 },
+  '八': { hiragana: 'はち', number: 8 },
+  '九': { hiragana: 'きゅう', number: 9 },
+  '十': { hiragana: 'じゅう', number: 10 },
+  '十一': { hiragana: 'じゅういち', number: 11 },
+  '十二': { hiragana: 'じゅうに', number: 12 },
+  '十三': { hiragana: 'じゅうさん', number: 13 },
+  '十四': { hiragana: 'じゅうよん', number: 14 },
+  '十五': { hiragana: 'じゅうご', number: 15 },
+  '十六': { hiragana: 'じゅうろく', number: 16 },
+  '十七': { hiragana: 'じゅうなな', number: 17 },
+  '十八': { hiragana: 'じゅうはち', number: 18 },
+  '十九': { hiragana: 'じゅうきゅう', number: 19 },
+  '二十': { hiragana: 'にじゅう', number: 20 },
+}
+
+
 const HIGH_PITCH = 'high'
 const LOW_PITCH = 'low'
 
@@ -53,11 +77,14 @@ interface SubjectsSubInfoAudioSectionProps {
   characters: string[]
 }
 
+const SMALL_KANA = 'ゃゅょっャュョッ'
+
 const SubjectsSubInfoAudioSection = ({
   isLastSubsection,
   audioFiles,
   characters
 }: SubjectsSubInfoAudioSectionProps) => {
+  
 
   const pronunciationComponents = useMemo(() => {
     const pronunciationComponents: JSX.Element[] = []
@@ -66,19 +93,23 @@ const SubjectsSubInfoAudioSection = ({
       let pitchGraph: JSX.Element[] = []
       let currentPitch: typeof HIGH_PITCH | typeof LOW_PITCH = lastHighPitch === 1 ? HIGH_PITCH : LOW_PITCH
       let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
+      let smallCharsSeen = 0
+      const lastHighPitchAccountForSmallKana = lastHighPitch != null ? lastHighPitch + characters[i].split('').filter(char => !SMALL_KANA.includes(char)).length : null
       for (let j=1; j<=characters[i].length; ++j) {
-        // let className = currentPitch === LOW_PITCH ? 'pitch-breakdown-low' : 'pitch-breakdown-high'
+        if (SMALL_KANA.includes(characters[i][j-1])) {
+          smallCharsSeen += 1
+        }
         let className = ''
         if (currentPitch === LOW_PITCH) {
           className = 'pitch-breakdown-low'
-          if (!hasAlreadyGottenHigh) {
+          if (!hasAlreadyGottenHigh && j < characters[i].length && !SMALL_KANA.includes(characters[i][j])) {
             className += ' pitch-breakdown-low-to-high'
             currentPitch = HIGH_PITCH
             hasAlreadyGottenHigh = true
           }
         } else {
           className = 'pitch-breakdown-high'
-          if (j === lastHighPitch) {
+          if (j === lastHighPitchAccountForSmallKana) {
             className += ' pitch-breakdown-high-to-low'
             currentPitch = LOW_PITCH
           }
@@ -163,6 +194,7 @@ interface JapaneseExamplesAndContainedSubjectsProps {
 const JapaneseExamplesAndContainedSubjects = ({
   subjects,
 }: JapaneseExamplesAndContainedSubjectsProps) => {
+
   return (
     <div className='list-of-other-japanese-subjects'>
       {subjects.map((subject) => {
@@ -415,150 +447,354 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
         case VOCABULARY_TYPE:
           const vocabularySubject = subject as JapaneseVocabularySubject
           const {
-            jmdict: {
-              kanjiVocabulary,
-              kanaVocabulary,
-              sense,
-              jmDictId
-            },
+            jmdict,
             kanjiThatThisUses,
             meaningMnemonic: vocabMeaningMnemonic,
             mainMeaningsToUse: mainMeaningsToUseForVocab,
             mainTextRepresentation,
             readingMnemonic: vocabReadingMnemonic,
-            audioFiles
+            audioFiles,
+            counterWordInfo
           } = vocabularySubject
+          // TODO: do something with this notes
+          const { note } = subject
           const mainTextRepresentationExists = mainTextRepresentation != null && mainTextRepresentation.length > 0
-          const isAKanaWord = sense[0].misc.includes('uk') || kanjiVocabulary.length === 0
-          const mainVocabularyToUse = mainTextRepresentationExists ? mainTextRepresentation : (isAKanaWord ? kanaVocabulary[0].text : kanjiVocabulary[0].text)
-          let mainMeaningToUse = (mainMeaningsToUseForVocab.length > 0 ? mainMeaningsToUseForVocab[0] : sense[0].gloss[0].text)! 
-          const openingParenIdx = mainMeaningToUse.indexOf('(')
-          const closingParenIdx = mainMeaningToUse.indexOf(')')
-          if (openingParenIdx !== -1 && closingParenIdx !== -1) {
-            mainMeaningToUse = (mainMeaningToUse.substring(0, openingParenIdx) + mainMeaningToUse.substring(closingParenIdx + 1)).trim()
-          }          
-          const vocabularySubjectInfoToDisplay: SubjectInfoToDisplay[] = []
-          if (!isAKanaWord) {
-            const dataForKanjiInThisWord = mainVocabularyToUse
-            .split('')
-            .filter(char => (
-              !isAHiraganaChar(char) && !isAKatakanaChar(char)
-            )).map((kanji) => 
-              (kanjiThatThisUses.filter(({character}) => character === kanji)[0])
-            )
+
+          if (jmdict != null) {
+            const {
+              kanjiVocabulary,
+              kanaVocabulary,
+              sense
+            } = jmdict
+
+            // Gonna test out instead of the "uk" check just do this based on if the kanjiVersion is labeled as not common
+            // TODO: do check to make sure liek things that shoudln't be labeled as UK really dont have it 
+            const isAKanaWord = sense[0].misc.includes('uk') || kanjiVocabulary.length === 0
+            // const isAKanaWord = kanjiVocabulary.length === 0 || !kanjiVocabulary[0].common
+            const mainVocabularyToUse = mainTextRepresentationExists ? mainTextRepresentation : (isAKanaWord ? kanaVocabulary[0].text : kanjiVocabulary[0].text)
+            let usingCustomMainMeaning = mainMeaningsToUseForVocab.length > 0
+            let mainMeaningToUse = (usingCustomMainMeaning ? mainMeaningsToUseForVocab[0] : sense[0].gloss[0].text)! 
+            if (!usingCustomMainMeaning) {
+              const openingParenIdx = mainMeaningToUse.indexOf('(')
+              const closingParenIdx = mainMeaningToUse.indexOf(')')
+              if (openingParenIdx !== -1 && closingParenIdx !== -1) {
+                mainMeaningToUse = (mainMeaningToUse.substring(0, openingParenIdx) + mainMeaningToUse.substring(closingParenIdx + 1)).trim()
+              }          
+            }
+            const vocabularySubjectInfoToDisplay: SubjectInfoToDisplay[] = []
+            if (!isAKanaWord) {
+              const dataForKanjiInThisWord = mainVocabularyToUse
+              .split('')
+              .filter(char => (
+                !isAHiraganaChar(char) && !isAKatakanaChar(char)
+              )).map((kanji) => 
+                (kanjiThatThisUses.filter(({character}) => character === kanji)[0])
+              )
+
+              console.log(dataForKanjiInThisWord, vocabularySubject, kanjiThatThisUses)
+
+              vocabularySubjectInfoToDisplay.push({
+                header: 'Composition',
+                content: [
+                  (
+                    <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition'>
+                      <div className='list-of-other-japanese-subjects'>
+                        <JapaneseExamplesAndContainedSubjects
+                          subjects={dataForKanjiInThisWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 
+                        />
+                      </div>
+                    </SubjectsSubInfoSection>
+                  )
+                ]
+              })
+            }
+    
+            const otherMeanings: string[][] = [[...mainMeaningsToUseForVocab]]
+            for (let i=0; i<sense.length; ++i) {
+              for (let j=0; j<sense[i].gloss.length; j++) {
+                if (i >= otherMeanings.length) {
+                  otherMeanings.push([])
+                }
+                const { misc } = sense[i]
+                const { text } = sense[i].gloss[j]
+                if (text && !mainMeaningsToUseForVocab.includes(text) && !misc.includes('vulg')) {
+                  otherMeanings[i].push(text)
+                }
+              }
+            }
+    
+            const vocabularySubjectInfoToDisplayMeaning: JSX.Element[] = []
+            const vocabHasOneTypeOfOtherMeanings = otherMeanings.length > 0 && otherMeanings[0].length > 0
+            const vocabHasMultipleTypesOfMeanings = otherMeanings.length > 1
+            vocabularySubjectInfoToDisplayMeaning.push((
+              <SubjectsSubInfoSection subheader='Meaning Mnemonic' key='Meaning Mnemonic' isLastSubsection={!vocabHasOneTypeOfOtherMeanings && !vocabHasMultipleTypesOfMeanings}>
+                <div>
+                  {vocabMeaningMnemonic.length > 0 ? parseHtmlString(vocabMeaningMnemonic) : 'There is no meaning mnemonic for this yet'}
+                </div>
+              </SubjectsSubInfoSection>
+            ))
+            
+            if (vocabHasOneTypeOfOtherMeanings) {
+              vocabularySubjectInfoToDisplayMeaning.push(
+                <SubjectsSubInfoSection subheader='Common Meanings' key='Other Common Meanings' isLastSubsection={!vocabHasMultipleTypesOfMeanings}>
+                  <div>
+                    <span style={{fontWeight: 'bold'}}>{otherMeanings[0][0]}</span> {otherMeanings[0].length > 1 ? (`, ${otherMeanings[0].slice(1).join(', ')}`) : ''}
+                  </div>
+                </SubjectsSubInfoSection>
+              )
+    
+              if (vocabHasMultipleTypesOfMeanings) {
+                vocabularySubjectInfoToDisplayMeaning.push(
+                  <SubjectsSubInfoSection subheader='Less Common Meanings' key='Less Common Meanings' isLastSubsection={true}>
+                    <div>
+                      {otherMeanings.slice(1).map((meanings, idx) => (
+                        <div>
+                          <span>{idx + 1}</span>. <span>{meanings.join(', ')}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </SubjectsSubInfoSection>
+                )
+              }
+            }
+    
             vocabularySubjectInfoToDisplay.push({
-              header: 'Composition',
+              header: 'Meaning',
+              content: vocabularySubjectInfoToDisplayMeaning
+            })
+
+            const vocabularySubjectInfoReadingContent: JSX.Element[] = []
+            if (audioFiles.length > 0) {
+              vocabularySubjectInfoReadingContent.push((
+                <SubjectsSubInfoAudioSection key='Pronunciation' audioFiles={audioFiles} characters={kanaVocabulary.filter(({common}) => common).map(({text}) => text)}/>
+              ))
+            }
+
+            if (!isAKanaWord) {
+              vocabularySubjectInfoReadingContent.push(
+                ...[
+                  (
+                    <SubjectsSubInfoSection subheader='Reading' key='Reading'>
+                      <span className='bold-span'>
+                        {kanaVocabulary.filter(({common}) => common).map(({text}) => text).join(', ')}
+                        {/* kanaVocabulary[0].text */}
+                      </span>
+                    </SubjectsSubInfoSection>
+                  ),
+                  (
+                    <SubjectsSubInfoSection subheader='Reading Mnemonic' key='Reading Mnemonic' isLastSubsection={true}>
+                      <>
+                        {vocabReadingMnemonic.length > 0 ? parseHtmlString(vocabReadingMnemonic) : 'There is no reading mnemonic for this yet'}
+                      </>
+                        
+                    </SubjectsSubInfoSection>
+                  )
+                ]
+              )
+            }
+            
+            if (vocabularySubjectInfoReadingContent.length > 0) {
+              vocabularySubjectInfoToDisplay.push({
+                header: 'Reading',
+                content: vocabularySubjectInfoReadingContent
+              })
+            }
+
+            return {
+              subjectText: mainVocabularyToUse,
+              subjectMainDescription: mainMeaningToUse!,
+              subjectType: VOCABULARY_TYPE,
+              subjectInfoToDisplay: vocabularySubjectInfoToDisplay,
+              audioFiles: audioFiles.map(({file}) => file)
+            }
+          } else {
+            // is counter info
+            const {
+              character,
+              usage,
+              howToAskForHowMany,
+              objectsThisIsUsedToCount,
+              specialNumbers,
+              normalReading
+            } = counterWordInfo!
+
+            const counterWordSubjectInfo: {header: string, content: JSX.Element[]}[] = []
+            if (kanjiThatThisUses.length > 0) {
+              counterWordSubjectInfo.push({
+                header: 'Composition',
+                content: [
+                  (
+                    <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition' isLastSubsection={true}>
+                      <div className='list-of-other-japanese-subjects'>
+                        {isKana(character)}
+                        <JapaneseExamplesAndContainedSubjects
+                          subjects={kanjiThatThisUses.map((data) => ({ ...data, type: KANJI_TYPE }))} 
+                        />
+                      </div>
+                    </SubjectsSubInfoSection>
+                  )
+                ]
+              })
+            }
+
+            let counterWordTextForSubject = mainTextRepresentation
+            let counterWordReadingForSubject = ''
+            let isASpecialCountNumber = false
+            let isTheHowMuchVersion = false
+            if (mainTextRepresentation.includes(' ')) {
+              const [kanjiVersion, hiraganaVersion] = mainTextRepresentation.split(' ')
+              if (kanjiVersion === howToAskForHowMany.characters) {
+                counterWordTextForSubject = character === 'つ' ? howToAskForHowMany.reading : howToAskForHowMany.characters
+                counterWordReadingForSubject = howToAskForHowMany.reading
+                isTheHowMuchVersion = true
+              } else {
+                isASpecialCountNumber = true
+                counterWordTextForSubject = kanjiVersion
+                counterWordReadingForSubject = hiraganaVersion.slice(1, -1)
+              }
+            }
+
+            const specialNumberToReading = specialNumbers.reduce((accumulator, {number, reading, explanation}) => (
+              {
+                ...accumulator,
+                [number]: {
+                  reading,
+                  explanation
+                }
+              }
+            ), {} as {[number: string]: {reading: string, explanation?: string}})
+
+            const CounterWordRow = ({word, reading, explanation, bold}: {word: string, reading: string, explanation?: string, bold: boolean}) => {
+              return (
+                <div className='counter-word-row'>
+                  <div className={`counter-word-row-text ${bold ? 'counter-word-row-text-bold' : ''}`}>
+                    <div className='counter-word-row-kanji'>{word}</div>
+                    <div>{reading}</div>
+                  </div>
+                  <div>{explanation}</div>
+                </div>
+              )
+            }
+
+            const counterWordNumbersChart: JSX.Element[] = []
+
+            const numberLimit = character === '日' ? '二十' : '十'
+            for (const number of Object.keys(KANJI_TO_NUMBER)) {
+              const word = number === '十' && character === 'つ' ? `${number}` : `${number}${character}`
+              const bold = number === (counterWordTextForSubject.length > 1 ? counterWordTextForSubject.slice(0, -1) : counterWordTextForSubject)
+              const numbersHiragana = KANJI_TO_NUMBER[number as keyof typeof KANJI_TO_NUMBER].hiragana
+              if (specialNumberToReading.hasOwnProperty(number)) {
+                counterWordNumbersChart.push(
+                  <CounterWordRow 
+                    word={word} 
+                    key={word}
+                    reading={specialNumberToReading[number].reading} 
+                    explanation={specialNumberToReading[number].explanation} 
+                    bold={bold}
+                  />
+                )
+              } else {
+                counterWordNumbersChart.push(
+                  <CounterWordRow 
+                    word={word} 
+                    key={word}
+                    reading={numbersHiragana.includes(',') ? `${numbersHiragana.split(',')[0]}${normalReading}/${numbersHiragana.split(',')[1]}${normalReading}` : `${numbersHiragana}${normalReading}`} 
+                    bold={bold}
+                  />
+                )
+              }
+              if (number === numberLimit) {
+                break
+              }
+            }
+
+            if (isTheHowMuchVersion) {
+              counterWordNumbersChart.unshift(
+                <CounterWordRow 
+                  word={howToAskForHowMany.characters} 
+                  key={howToAskForHowMany.characters}
+                  reading={howToAskForHowMany.reading} 
+                  bold={isTheHowMuchVersion}
+                />
+              )
+            } else {
+              counterWordNumbersChart.push(
+                <CounterWordRow 
+                  word={howToAskForHowMany.characters} 
+                  key={howToAskForHowMany.characters}
+                  reading={howToAskForHowMany.reading} 
+                  bold={isTheHowMuchVersion}
+                />
+              )
+            }
+
+            const readingTheCounterUses = specialNumbers.length > 0 ? (
+              `The counter generally uses ${normalReading} as the reading however there are some exceptions.`
+            ) : (
+              `The counter uses ${normalReading} as the reading.`
+            )
+
+            counterWordSubjectInfo.push({
+              header: 'Description',
               content: [
                 (
-                  <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition'>
-                    <div className='list-of-other-japanese-subjects'>
-                      <JapaneseExamplesAndContainedSubjects
-                        subjects={dataForKanjiInThisWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 
-                      />
+                  <SubjectsSubInfoSection subheader='Usage' key='Usage'>
+                    <div>
+                      {character === 'つ' ? usage : `This is the ${usage} counter. ${readingTheCounterUses}`}
+                      {character === 'つ' && (
+                        <>
+                          <br />
+                          <br />
+                          <div style={{fontWeight: 'bold'}}>Specific Examples:</div>
+                          <ul>
+                            {objectsThisIsUsedToCount.slice(3).map(({ plural })=> (
+                              <li style={{textTransform: 'capitalize'}}>{plural}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  </SubjectsSubInfoSection>
+                ),
+                (
+                  <SubjectsSubInfoSection subheader='Chart' key='Chart' isLastSubsection={true}>
+                    <div className='counter-word-numbers-chart'>
+                      {counterWordNumbersChart}
                     </div>
                   </SubjectsSubInfoSection>
                 )
               ]
             })
-          }
-  
-          const otherMeanings: string[][] = [[...mainMeaningsToUseForVocab]]
-          for (let i=0; i<sense.length; ++i) {
-            for (let j=0; j<sense[i].gloss.length; j++) {
-              if (i >= otherMeanings.length) {
-                otherMeanings.push([])
-              }
-              const { misc } = sense[i]
-              const { text } = sense[i].gloss[j]
-              if (text && !mainMeaningsToUseForVocab.includes(text) && !misc.includes('vulg')) {
-                otherMeanings[i].push(text)
-              }
+
+            if (counterWordReadingForSubject.length > 0) {
+              counterWordSubjectInfo.push({
+                header: 'Reading',
+                content: [
+                  (
+                    <SubjectsSubInfoSection subheader='Reading' key='Reading' isLastSubsection={true}>
+                      <span className='bold-span'>
+                        {counterWordReadingForSubject}
+                      </span>
+                    </SubjectsSubInfoSection>
+                  )
+                ]
+              })
             }
-          }
-  
-          const vocabularySubjectInfoToDisplayMeaning: JSX.Element[] = []
-          const vocabHasOneTypeOfOtherMeanings = otherMeanings.length > 0 && otherMeanings[0].length > 0
-          const vocabHasMultipleTypesOfMeanings = otherMeanings.length > 1
-          vocabularySubjectInfoToDisplayMeaning.push((
-            <SubjectsSubInfoSection subheader='Meaning Mnemonic' key='Meaning Mnemonic' isLastSubsection={!vocabHasOneTypeOfOtherMeanings && !vocabHasMultipleTypesOfMeanings}>
-              <div>
-                {vocabMeaningMnemonic.length > 0 ? parseHtmlString(vocabMeaningMnemonic) : 'There is no meaning mnemonic for this yet'}
-              </div>
-            </SubjectsSubInfoSection>
-          ))
-          
-          if (vocabHasOneTypeOfOtherMeanings) {
-            vocabularySubjectInfoToDisplayMeaning.push(
-              <SubjectsSubInfoSection subheader='Common Meanings' key='Other Common Meanings' isLastSubsection={!vocabHasMultipleTypesOfMeanings}>
-                <div>
-                  <span style={{fontWeight: 'bold'}}>{otherMeanings[0][0]}</span> {otherMeanings[0].length > 1 ? (`, ${otherMeanings[0].slice(1).join(', ')}`) : ''}
-                </div>
-              </SubjectsSubInfoSection>
-            )
-  
-            if (vocabHasMultipleTypesOfMeanings) {
-              vocabularySubjectInfoToDisplayMeaning.push(
-                <SubjectsSubInfoSection subheader='Less Common Meanings' key='Less Common Meanings' isLastSubsection={true}>
-                  <div>
-                    {otherMeanings.slice(1).map((meanings, idx) => (
-                      <div>
-                        <span>{idx + 1}</span>. <span>{meanings.join(', ')}</span>
-                      </div>
-                    ))}
-                  </div>
-                </SubjectsSubInfoSection>
-              )
+
+            let counterWordMainDescription = mainMeaningsToUseForVocab[0]
+            if (isTheHowMuchVersion) {
+              counterWordMainDescription = 'How many'
+            } else if (isASpecialCountNumber) {
+              counterWordMainDescription = `${KANJI_TO_NUMBER[(counterWordTextForSubject.length > 1 ? counterWordTextForSubject.slice(0, -1) : counterWordTextForSubject) as keyof typeof KANJI_TO_NUMBER].number}`
             }
-          }
-  
-          vocabularySubjectInfoToDisplay.push({
-            header: 'Meaning',
-            content: vocabularySubjectInfoToDisplayMeaning
-          })
 
-          const vocabularySubjectInfoReadingContent: JSX.Element[] = []
-          if (audioFiles.length > 0) {
-            vocabularySubjectInfoReadingContent.push((
-              <SubjectsSubInfoAudioSection key='Pronunciation' audioFiles={audioFiles} characters={kanaVocabulary.filter(({common}) => common).map(({text}) => text)}/>
-            ))
-          }
-
-          if (!isAKanaWord) {
-            vocabularySubjectInfoReadingContent.push(
-              ...[
-                (
-                  <SubjectsSubInfoSection subheader='Reading' key='Reading'>
-                    <span className='bold-span'>
-                      {kanaVocabulary.filter(({common}) => common).map(({text}) => text).join(', ')}
-                      {/* kanaVocabulary[0].text */}
-                    </span>
-                  </SubjectsSubInfoSection>
-                ),
-                (
-                  <SubjectsSubInfoSection subheader='Reading Mnemonic' key='Reading Mnemonic' isLastSubsection={true}>
-                    <>
-                      {vocabReadingMnemonic.length > 0 ? parseHtmlString(vocabReadingMnemonic) : 'There is no reading mnemonic for this yet'}
-                    </>
-                      
-                  </SubjectsSubInfoSection>
-                )
-              ]
-            )
-          }
-          
-          if (vocabularySubjectInfoReadingContent.length > 0) {
-            vocabularySubjectInfoToDisplay.push({
-              header: 'Reading',
-              content: vocabularySubjectInfoReadingContent
-            })
-          }
-
-          return {
-            subjectText: mainVocabularyToUse,
-            subjectMainDescription: mainMeaningToUse!,
-            subjectType: VOCABULARY_TYPE,
-            subjectInfoToDisplay: vocabularySubjectInfoToDisplay,
-            audioFiles: audioFiles.map(({file}) => file)
+            return {
+              subjectText: counterWordTextForSubject,
+              subjectMainDescription: counterWordMainDescription,
+              subjectType: VOCABULARY_TYPE,
+              subjectInfoToDisplay: counterWordSubjectInfo,
+              audioFiles: audioFiles.map(({file}) => file)
+            }
           }
   
         case EXERCISE_TYPE:

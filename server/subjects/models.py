@@ -122,6 +122,23 @@ class Kanji(JapaneseSubject):
 
     def natural_key(self):
         return self.character
+    
+class JapaneseCounterWordManager(models.Manager):
+    def get_by_natural_key(self, character):
+        return self.get(character=character)
+    
+class JapaneseCounterWord(models.Model):
+    character = models.CharField(max_length=1)
+    usage = models.TextField()
+    normal_reading = models.CharField(max_length=5)
+
+    objects = JapaneseCounterWordManager()
+
+    def __str__(self):
+        return self.character
+
+    def natural_key(self):
+        return (self.character)
 
 class JapaneseVocabulary(JapaneseSubject):
     kanji_that_this_uses = models.ManyToManyField(Kanji, related_name='vocabulary_that_uses_this')
@@ -129,8 +146,30 @@ class JapaneseVocabulary(JapaneseSubject):
     reading_mnemonic = models.TextField(null=True)
     main_meanings_to_use = ArrayField(models.CharField(max_length=20), default=list)
     main_text_representation = models.CharField(null=True, max_length=30)
-    is_a_counter_word = models.BooleanField(default=False)
+    
     jmdict = models.OneToOneField('jmdict.JMDictEntries', on_delete=models.SET_NULL, null=True)
+    counter_word_info = models.ForeignKey(JapaneseCounterWord, on_delete=models.CASCADE, related_name='vocabulary', null=True)
+
+class AcceptableResponsesButNotWhatLookingFor(models.Model):
+    response = models.TextField()
+    reason = models.TextField()
+    vocabulary = models.ForeignKey(JapaneseVocabulary, on_delete=models.CASCADE, related_name='acceptable_responses_but_not_what_looking_for')
+
+class JapaneseCounterWordHowToAskForHowMany(models.Model):
+    characters = models.CharField(max_length=10, null=True)
+    reading = models.CharField(max_length=10)
+    counter_word = models.OneToOneField(JapaneseCounterWord, on_delete=models.CASCADE, related_name='how_to_ask_for_how_many')
+
+class JapaneseCounterWordObjects(models.Model):
+    singular = models.CharField(max_length=20)
+    plural = models.CharField(max_length=20)
+    counter_word = models.ForeignKey(JapaneseCounterWord, on_delete=models.CASCADE, related_name='objects_this_is_used_to_count')
+
+class JapaneseCounterWordSpecialNumber(models.Model):
+    number = models.CharField(max_length=3)
+    reading = models.CharField(max_length=10)
+    counter_word = models.ForeignKey(JapaneseCounterWord, on_delete=models.CASCADE, related_name='special_numbers')
+    explanation = models.TextField(null=True) 
 
 class JapaneseVocabularyAudioFile(models.Model):
     file = models.TextField()

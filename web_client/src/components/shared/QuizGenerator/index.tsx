@@ -3,12 +3,13 @@ import shuffle from 'shuffle-array'
 import { isAGrammarQuestion } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { IoMdClose } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
-import { JapaneseSubjectData } from '../../learning/lessons/SubjectTypes'
+import { JapaneseSubjectData, VOCABULARY_TYPE } from '../../learning/lessons/SubjectTypes'
 import { convertSubjectDataToQuestions, QuizQuestion } from './ConvertSubjectDataToQuestions'
 import { KanaVocabQuestion } from './KanaVocabQuestion'
+import { KanaVocabQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { SubjectsSubInfo, getPropsForSubjectsInfo } from '../../learning/SubjectsSubInfo'
 import { QuizResultsPage } from './QuizResultsPage'
-
+import { isKana } from 'wanakana'
 import { HOME_PATH } from 'src/paths'
 import Modal from 'react-modal'
 import './index.scss'
@@ -17,6 +18,30 @@ import { GrammarQuestion } from './GrammarQuestion'
 export const correctlyAnsweredType = 'correctly answered'
 export const incorrectlyAnsweredType = 'incorrectly answered'
 export const notYetAnsweredType = 'not yet answered'
+
+const putTheVocabQuestionsAskingMeaningsFirst = (questions: QuizQuestion[]) => {
+  const rearrangedQuestions = [...questions]
+  const shuffledQuestions: { [subjectId: string]: true } = {}
+  for (let i=0; i<rearrangedQuestions.length; ++i) {
+    const { subjectData: { japaneseSubjectType, subjectId }, questionContents } = rearrangedQuestions[i]
+    if (japaneseSubjectType === VOCABULARY_TYPE) {
+      const { question, inputPlaceholder } = questionContents as KanaVocabQuestionType
+      if (!shuffledQuestions.hasOwnProperty(subjectId) && typeof(question) === 'string' && !isKana(question) && inputPlaceholder === 'Reading') {
+        for (let j=i+1; j<rearrangedQuestions.length; ++j) {
+          if (rearrangedQuestions[j].subjectData.subjectId === subjectId && (rearrangedQuestions[j].questionContents as KanaVocabQuestionType).inputPlaceholder === 'Meaning') {
+            const temp = rearrangedQuestions[i]
+            rearrangedQuestions[i] = rearrangedQuestions[j]
+            rearrangedQuestions[j] = temp
+            shuffledQuestions[subjectId] = true
+            break
+          }
+        }
+      }
+    }
+  }
+  
+  return rearrangedQuestions
+}
 
 export interface SubjectsAnsweredStatus {
   [subjectId: number]: {
@@ -87,7 +112,7 @@ export const QuizGenerator = ({
           changeQuestionsOrder(questionsOrderCopy)
         } else {
           questionsOrderCopy.push(currentQuestion)
-          changeQuestionsOrder(questionsOrderCopy)
+          changeQuestionsOrder(putTheVocabQuestionsAskingMeaningsFirst(questionsOrderCopy))
         }
         changeChoiceHasBeenSubmitted(false)
         changeCurrentAnswerStatus('incorrect')
@@ -145,9 +170,9 @@ export const QuizGenerator = ({
       timesSubjectAnsweredAndNeedsToBeAnswered,
       newQuestionsOrder
     } = convertSubjectDataToQuestions(content)
-
+    const shuffledQuestions = shuffle(newQuestionsOrder, { copy: true })
     changeTimesSubjectAnsweredAndNeedsToBeAnswered(timesSubjectAnsweredAndNeedsToBeAnswered)
-    changeQuestionsOrder(shuffle(newQuestionsOrder, { copy: true }))
+    changeQuestionsOrder(putTheVocabQuestionsAskingMeaningsFirst(shuffledQuestions))
     changeUsersTotalPoints(0)
     changeChoiceHasBeenSubmitted(false)
     changeHideFinishButton(false)
@@ -291,7 +316,6 @@ export const QuizGenerator = ({
             } = resultsPageInfo
               return (
                 <QuizResultsPage 
-                  // isShowingResultsForLesson={isCurrentlyDoingLesson}
                   correctSubjects={correctSubjects}
                   incorrectSubjects={incorrectSubjects}
                   hasIncorrectSection={hasIncorrectSection}

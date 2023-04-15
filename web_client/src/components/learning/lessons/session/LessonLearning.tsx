@@ -105,12 +105,6 @@ export const LessonLearning = ({
     }
   }, [subjectInfoToDisplay])
 
-  // useEffect(() => {
-  //   if (audioFile != null && audioFile.length > 0) {
-  //     play()
-  //   }
-  // }, [audioFile, play])
-
   const markUserAsKnowingSubject = () => {
     changeMarkingUserAsKnowingSubject(true)
     axios.post('reviews/', { subjectId: subjectsToTeach[currentSubjectIdx].subjectId, userKnows: true })
@@ -151,6 +145,7 @@ export const LessonLearning = ({
   }
 
   const cardConceptLargeOrSmallFont = subjectText.length < 4 ? 'concept-being-taught-smaller-font' : 'concept-being-taught-larger-font'
+  const descriptionLargeOrSmallFont = subjectMainDescription.length > 12 ? 'subject-main-description-smaller-font' : 'subject-main-description-larger-font'
 
   return (
         <div 
@@ -180,7 +175,7 @@ export const LessonLearning = ({
                   />
                   <div className={`concept-and-explanation-container ${`concept-and-explanation-container-for-${subjectType}`}`}>
                     <h1 className={`concept-being-taught ${cardConceptLargeOrSmallFont}`}>{subjectText}</h1>
-                    <span className='explanation-header'>{subjectMainDescription}</span>
+                    <span className={`explanation-header ${descriptionLargeOrSmallFont}`}>{subjectMainDescription}</span>
                   </div>
                   <ForwardBackButton
                       onClick={() => { handleGoingForwardOrBack(true) }}

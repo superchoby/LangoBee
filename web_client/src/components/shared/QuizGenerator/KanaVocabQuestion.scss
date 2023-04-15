@@ -89,9 +89,9 @@
     margin-right: 20px;
 }
 
-// .kana-vocab-question-input-bar:focus {
-//     border-color: var(--gray);
-// }
+.vocab-question-meaning-hint-for-kanji-words-with-multiple-readings {
+    font-size: 22px;
+}
 
 
 @media only screen and (min-width: 455px) {
@@ -129,6 +129,10 @@
 
     .kana-vocab-question-subject-type-container {
         font-size: 28px;
+    }
+
+    .vocab-question-meaning-hint-for-kanji-words-with-multiple-readings {
+        font-size: 26px;
     }
 }
 
@@ -176,5 +180,9 @@
     .kana-vocab-question-text-few-chars {
         font-size: 95px;
         line-height: 95px;
+    }
+
+    .vocab-question-meaning-hint-for-kanji-words-with-multiple-readings {
+        font-size: 30px;
     }
 }

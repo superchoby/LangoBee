@@ -5,13 +5,13 @@ import levenshtein from 'damerau-levenshtein'
 import {
   KanaVocabQuestionType,
 } from '../../../context/JapaneseDatabaseContext/SharedVariables'
-import useSound from 'use-sound'
-import { useAppSelector } from '../../../app/hooks'
+// import useSound from 'use-sound'
 import { InputBar } from 'src/components/shared/InputBar'
 import 'react-dropdown/style.css'
 import { KeyboardTips } from './KeyboardTips'
 import { QuizQuestion } from './ConvertSubjectDataToQuestions'
-import { AUDIO_FILE_BASE_URL } from '../values'
+import { VOCABULARY_TYPE } from 'src/components/learning/lessons/SubjectTypes'
+import { getPropsForSubjectsInfo } from '../../learning/SubjectsSubInfo'
 
 interface KanaVocabQuestionProps {
   question: QuizQuestion
@@ -94,7 +94,7 @@ export const KanaVocabQuestion = ({
     inputPlaceholder: string
   })
 
-  const [play] = useSound(pronunciationFile.length > 0 ? `${AUDIO_FILE_BASE_URL}${pronunciationFile}` : '.mp4')
+  // const [play] = useSound(pronunciationFile.length > 0 ? `${AUDIO_FILE_BASE_URL}${pronunciationFile}` : '.mp4')
 
   useEffect(() => {
     changeShowExtraInfo(false)
@@ -105,11 +105,9 @@ export const KanaVocabQuestion = ({
   useEffect(() => {
     if (!choiceSubmitted) { // reset user input if going to new Q
       changeCurrentGuess('')
-    } else {
-      console.log('shoudl be playin')
-      play()
-    }
-  }, [choiceSubmitted, play])
+    } 
+  }, [choiceSubmitted, 
+  ])
 
   useEffect(() => {
     let guessIsCorrect = false
@@ -183,11 +181,12 @@ export const KanaVocabQuestion = ({
               `}
             >
                 {questionText}
-                {/* {(conceptType === 'Vocabulary' && (lessThanLesson7AndHiraganaQues || lessThanLesson16AndKatakanaQues) &&
-                <div className='romaji-explanation'>
-                    {toRomaji(questionText as string)}
-                </div>)} */}
             </h2>
+            {japaneseSubjectType === VOCABULARY_TYPE && inputPlaceholder === 'Reading' && (
+              <div className='vocab-question-meaning-hint-for-kanji-words-with-multiple-readings'>
+                ({getPropsForSubjectsInfo(subjectData, true).subjectMainDescription})
+              </div>
+            )}
             <div className='kana-vocab-question-subject-type-container'>
               <div className={`kana-vocab-question-subject-type concept-and-explanation-container-for-${japaneseSubjectType}`}>{japaneseSubjectType}</div>
               <div>{inputPlaceholder}</div>

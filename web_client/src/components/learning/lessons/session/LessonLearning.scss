@@ -81,8 +81,13 @@
     font-size: 40px;
 }
 
-.explanation-header {
-    font-size: 45px;
+
+.subject-main-description-smaller-font {
+    font-size: 38px;
+}
+
+.subject-main-description-larger-font {
+    font-size: 45px
 }
 
 .lesson-learning-button-options-container {
@@ -228,10 +233,14 @@ $dot-margin: 4px;
         font-size: 50px;
     }
     
-    .explanation-header {
-        font-size: 50px;
+    .subject-main-description-smaller-font {
+        font-size: 38px;
     }
-
+    
+    .subject-main-description-larger-font {
+        font-size: 45px
+    }
+    
     .lesson-learning-progress-tracker-dot {
         $size: 10px;
         background-color: #e5e5e5;
@@ -293,10 +302,14 @@ $dot-margin: 4px;
         font-size: 55px;
     }
     
-    .explanation-header {
-        font-size: 55px;
+    .subject-main-description-smaller-font {
+        font-size: 42px;
     }
-
+    
+    .subject-main-description-larger-font {
+        font-size: 50px
+    }
+    
     .lesson-learning-subject-type-indicator {
         font-size: 25px;
     }
@@ -315,8 +328,12 @@ $dot-margin: 4px;
         font-size: 60px;
     }
     
-    .explanation-header {
-        font-size: 60px;
+    .subject-main-description-smaller-font {
+        font-size: 48px;
+    }
+    
+    .subject-main-description-larger-font {
+        font-size: 55px
     }
 
     .lesson-learning-subject-type-indicator {

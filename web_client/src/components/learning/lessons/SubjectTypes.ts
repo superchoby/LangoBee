@@ -182,15 +182,38 @@ export interface JapaneseVocabularySubjectAudioFiles {
     lastHighPitch: number | null
 }
 
+interface JapaneseCounterVocab {
+    character: string
+    usage: string
+    normalReading: string
+    howToAskForHowMany: {
+        characters: string
+        reading: string
+    }
+    objectsThisIsUsedToCount: {
+        singular: string
+        plural: string
+    }[]
+    specialNumbers: {
+        number: string
+        reading: string
+        explanation?: string
+    }[]
+}
 export interface JapaneseVocabularySubject {
     kanjiThatThisUses: { character: string, meanings: string[]} []
     meaningMnemonic: string
     readingMnemonic: string
     mainMeaningsToUse: string[]
     mainTextRepresentation: string
-    jmdict: JMDict
+    jmdict?: JMDict
     customQuestions: CustomSubjectQuestion[]
     audioFiles: JapaneseVocabularySubjectAudioFiles[]
+    counterWordInfo?: JapaneseCounterVocab
+    acceptableResponsesButNotWhatLookingFor: {
+        response: string
+        reason: string
+    }[]
 }
 
 export interface JapaneseExerciseSubject {
@@ -261,4 +284,5 @@ export type JapaneseSubjectData = (
     subjectId: number
     hasUniqueSubjectModel: boolean
     subjectType: string
+    note?: string
 }

@@ -3,6 +3,7 @@ import { getPropsForSubjectsInfo } from '../../../learning/SubjectsSubInfo'
 import { Link } from 'react-router-dom'
 import { HOME_PATH } from 'src/paths'
 import { Header } from 'src/components/HeaderAndNavbar/Header'
+import { Fragment } from 'react'
 import './index.scss'
 
 interface QuizResultsSubjectsResultsProps {
@@ -26,7 +27,9 @@ const QuizResultsSubjectsResults = ({
                 
                 return componentForEachSubject != null ? 
                     (
-                        componentForEachSubject(subjectText, card.subjectId)
+                        <Fragment key={subjectText}>
+                            {componentForEachSubject(subjectText, card.subjectId)}
+                        </Fragment>
                     ) : (
                         <div className='specific-subjects-quiz-results' key={subjectText}>
                             {/* <div className='specific-subjects-quiz-results-new-review-level'>{reviewLevel}</div> */}
