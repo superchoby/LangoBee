@@ -143,7 +143,6 @@ class GetUsersSubjectsForLessons(APIView):
             if reached_num_of_cards_to_teach_in_one_lesson_limit or reached_srs_limit:
                 break
         
-        print(subjects_to_send_to_user)
         subjects_to_teach = SubjectPolymorphicSerializer(subjects_to_send_to_user, many=True).data
         for subject in subjects_to_teach:
             if 'japanese_subject_type' in subject:

@@ -491,8 +491,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 (kanjiThatThisUses.filter(({character}) => character === kanji)[0])
               )
 
-              console.log(dataForKanjiInThisWord, vocabularySubject, kanjiThatThisUses)
-
               vocabularySubjectInfoToDisplay.push({
                 header: 'Composition',
                 content: [

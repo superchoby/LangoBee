@@ -61,7 +61,7 @@ export const LessonSession = (): JSX.Element => {
             isFastReviewCard: subject.srsType === 'fast'
         }
       }
-
+      console.log(subjectsToLearn)
       changeSubjectsToLearn(subjectsToLearn)
       changeSubjectsAndTheirInitialReviewInfo(subjectsAndReviewInfo)
       changeSubjectsForLessonHasBeenFetched(true)
