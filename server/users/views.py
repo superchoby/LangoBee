@@ -203,3 +203,9 @@ class UserSrsLimit(APIView):
         user.save()
         return Response(status=status.HTTP_200_OK)
         
+class DeleteUser(APIView):
+    def get(self, request):
+        user = request.user
+        user.delete()
+        return Response(status=status.HTTP_200_OK)
+    

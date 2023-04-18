@@ -5,6 +5,7 @@ import { ProfilePic } from '../shared/ProfilePic'
 import { useAppSelector } from '../../app/hooks'
 import { updateSrsLimit } from 'src/app/userSlice'
 import { useAppDispatch } from '../../app/hooks'
+import { DeleteAccount } from './DeleteAccount'
 import axios from 'axios'
 import './index.scss'
 
@@ -56,9 +57,16 @@ export const Settings = (): JSX.Element => {
         }
     }
 
+    
+
     const handleLessonsLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         changeCurrentLessonLimit(parseInt(event.target.value))
     }
+
+    // TODO: Add delete account for testing purproses
+    // then will have test flow user can sign up, then go in and set review to 500, do the lessons
+    // then get the reviews all ready by creating new endoint to make all reviews avialb,e
+    // speed run that then delete acc after
 
   return (
         <div className='settings-page-container'>
@@ -105,7 +113,7 @@ export const Settings = (): JSX.Element => {
                         <div>Thank you for using the site since its beginning days! The site will forever be free for you as thanks :)</div>
                     </div>
                 </SettingsSection> */}
-                <SettingsSection title='Profile Info' isTheLastSection={true} >
+                <SettingsSection title='Profile Info' isTheLastSection={false} >
                     <div className='profile-info-settings-container'>
                         <div className='settings-change-pfp-container'>
                             <ProfilePic containerClassName='settings-pfp-container' />
@@ -133,6 +141,10 @@ export const Settings = (): JSX.Element => {
                             } */}
                         </div>
                     </div>
+                </SettingsSection>
+
+                <SettingsSection title='Delete Account' isTheLastSection={true} >
+                    <DeleteAccount />
                 </SettingsSection>
             </div>
         </div>

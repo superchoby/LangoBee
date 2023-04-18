@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useAppSelector } from './app/hooks'
 import { useNavigate } from 'react-router-dom'
+import { LOGIN_PATH } from './paths'
 import ClipLoader from 'react-spinners/ClipLoader'
 import axios from 'axios'
 import { HOME_PATH } from './paths'
@@ -24,7 +25,7 @@ export const DefaultPage = (): JSX.Element => {
               navigate(HOME_PATH)
             })
             .catch(_err => {
-              navigate('/login')
+              navigate(LOGIN_PATH)
             })
         })
     }

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { FiLogOut } from 'react-icons/fi'
 import { IoSettingsOutline } from 'react-icons/io5'
+import { LOGIN_PATH } from 'src/paths'
 import './ProfileMenu.scss'
 
 interface ProfileMenuLiProps {
@@ -28,7 +29,7 @@ export const ProfileMenu = (): JSX.Element => {
   }
 
   const logoutUser = (): void => {
-    navigate('/login')
+    navigate(LOGIN_PATH)
   }
 
   return (
