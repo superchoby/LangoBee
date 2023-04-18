@@ -1905,6 +1905,11 @@
     "fields": {
       "name": "JLPT N1",
       "description": "Mastery of Japanese in a variety of circumstances",
+      "level_it_starts_at": [
+        138,
+        "Japanese",
+        "main"
+      ],
       "language": [
         "Japanese"
       ]

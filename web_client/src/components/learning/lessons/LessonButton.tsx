@@ -36,6 +36,7 @@ const colors = {
     3: 'strong-yellow',
     4: 'red',
     5: 'light-green',
+    6: 'light-purple'
 }
 
 export const LessonButton = ({
@@ -73,7 +74,7 @@ export const LessonButton = ({
             {buttonType === LEVEL_BUTTON_TYPE ? (
                 <span className="level-buttons-level">{level}</span>
             ) : (
-                <MdOutlineArticle className="level-buttons-level" />
+                <MdOutlineArticle className="level-buttons-level" data-testid={currentButton && 'read-this-levels-article-button'} />
             )}
             
             {hasCompletedThisButton && <img src={crown} alt="completed" className='level-completed-crown' />}

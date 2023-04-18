@@ -4,6 +4,7 @@ import './App.scss'
 import { BrowserRouter, Routes, Route, useNavigate, Outlet } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
 import { Login } from './components/authentication/login'
+import { LOGIN_PATH } from './paths'
 import { Signup } from './components/authentication/signup'
 import { Reviews } from './components/learning/reviews'
 import axios from 'axios'
@@ -116,7 +117,7 @@ const ProtectedRoute = (): JSX.Element => {
 
                 return await axios(config)
               } catch (error) {
-                window.location.href = isInDevelopmentEnv ? 'http://localhost:3000/login' : 'https://www.langobee.com/login'
+                window.location.href = isInDevelopmentEnv ? `http://localhost:3000/${LOGIN_PATH}` : `https://www.langobee.com/${LOGIN_PATH}`
               }
             }
           }
@@ -165,7 +166,7 @@ const ProtectedRoute = (): JSX.Element => {
           })
           .catch(_err => {
             setFinishedVerifyingToken(false)
-            navigate('/login')
+            navigate(LOGIN_PATH)
           })
       })
   }, [access, dispatch, navigate, refresh])
@@ -202,7 +203,7 @@ function App (): JSX.Element {
             <Route path="/Games" element={<GamesHomepage />} />
           </Route>
 
-          <Route path="/login" element={(
+          <Route path={LOGIN_PATH} element={(
             <ResetUserInfoWrapper>
               <Login />
             </ResetUserInfoWrapper>

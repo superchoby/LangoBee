@@ -4,6 +4,7 @@ import axios from 'axios'
 import { AuthenticationInput } from './AuthenticationInput'
 import './ResetPassword.scss'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
+import { LOGIN_PATH } from 'src/paths'
 
 export const ResetPassword = (): JSX.Element => {
   const [resetTokenIsValid, changeResetTokenIsValid] = useState(true)
@@ -63,13 +64,13 @@ export const ResetPassword = (): JSX.Element => {
         authenticationProcessErrorMessage={errorMsg}
         alternativeLinks={
           <div>
-              Remember your password? <Link to='/login'>Log In</Link>
+              Remember your password? <Link to={LOGIN_PATH}>Log In</Link>
           </div>
         }
         infoHasBeenSubmitted={passwordHasBeenChanged}
         contentToShowAfterSubmit={
           <div className='default-reset-password-container'>
-              <span>Return to <Link to='/login'>Log In</Link></span>
+              <span>Return to <Link to={LOGIN_PATH}>Log In</Link></span>
           </div>
         }
         inputs={[

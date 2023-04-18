@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import './ForgotPassword.scss'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
+import { LOGIN_PATH } from 'src/paths'
 
 function ValidateEmail (email: string): boolean {
   if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -75,7 +76,7 @@ export const ForgotPassword = (): JSX.Element => {
         authenticationProcessErrorMessage={errorMsg}
         alternativeLinks={
           <div>
-              Remember your password? <Link to='/login'>Log In</Link>
+              Remember your password? <Link to={LOGIN_PATH}>Log In</Link>
           </div>
         }
         inputs={[

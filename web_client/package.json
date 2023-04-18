@@ -55,16 +55,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "plugin:cypress/recommended"
-    ],
-    "env": {
-      "cypress/globals": true
-    },
-    "plugins": [
-      "cypress"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -99,7 +90,6 @@
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
-    "eslint-plugin-cypress": "^2.13.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-prettier": "^4.2.1",

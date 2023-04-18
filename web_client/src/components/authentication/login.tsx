@@ -83,6 +83,7 @@ export const Login = (): JSX.Element => {
               type='text'
               value={emailOrUsername}
               changeValue={changeEmailOrUsername}
+              key='username or email'
           />,
           <AuthenticationInput
               id='login-password-input'
@@ -91,6 +92,7 @@ export const Login = (): JSX.Element => {
               type='password'
               value={password}
               changeValue={changePassword}
+              key='password'
           />
         ]}
         formName='login-form'

@@ -8,7 +8,8 @@ from .views import (
     UpdateExperiencePoints,
     GetUsersStats,
     UserSrsView,
-    UserSrsLimit
+    UserSrsLimit,
+    DeleteUser
 )
 
 urlpatterns = [
@@ -20,5 +21,6 @@ urlpatterns = [
     path('upload-pfp/', UserUploadPfp.as_view()),
     path('update-exp-points/', UpdateExperiencePoints.as_view()),
     path('srs-info/', UserSrsView.as_view()),
-    path('change-srs-limit/', UserSrsLimit.as_view())
+    path('change-srs-limit/', UserSrsLimit.as_view()),
+    path('delete/', DeleteUser.as_view()),
 ]

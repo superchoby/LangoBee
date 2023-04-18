@@ -1,0 +1,46 @@
+.delete-account-button {
+    background-color: var(--gray-button);
+    border-radius: 10px;
+    font-size: 18px;
+    margin-right: 20px;
+    padding: 10px 15px;
+}
+
+.delete-account-button-confirm {
+    background-color: var(--light-blue);
+    color: white;
+}
+
+.delete-account-input {
+    border-color: gray;
+    border-radius: 8px;
+    font-size: 18px;
+    height: 30px;
+    padding-left: 15px;
+    width: 200px;
+}
+
+.delete-account-permanently-delete-msg {
+    font-style: italic;
+}
+
+.delete-account-success {
+    height: auto;
+}
+
+.delete-account-confirmation-container {
+    display: flex;
+    flex-direction: column;
+    height: 170px;
+    justify-content: space-between;
+    
+    p {
+        margin: 0;
+    }
+}
+
+@media only screen and (min-width: 842px) {  
+    .delete-account-confirmation-container {
+        height: 130px;
+    }
+}
