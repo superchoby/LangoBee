@@ -13,6 +13,28 @@ class GetLevelsForLanguagesCourse(APIView):
         language = Language.objects.get(name=language)
         course = Course.objects.get(language_this_course_teaches=language, name=course)
         users_progress_on_course = UsersProgressOnCourse.objects.get(user=request.user, course=course)
+
+        article_progress = None
+        this_levels_article = None
+        try:
+            this_levels_article = users_progress_on_course.current_level.article
+            if this_levels_article:
+                article_progress = UsersArticleProgress.objects.get(user=request.user, article=this_levels_article).user_finished_reading_this
+        except ObjectDoesNotExist:
+            article_progress = False
+        
+        return Response({
+            'users_current_level': CourseLevelSerializer(users_progress_on_course.current_level).data['number'],
+            'all_levels': CourseLevelSerializer(course.levels.all(), many=True).data,
+            'user_read_current_levels_article': article_progress,
+            'this_levels_article': ArticleSerializer(this_levels_article).data
+        })
+    
+class GetRemainingSubjectsForLevel(APIView):
+    def get(self, request, language, course):
+        language = Language.objects.get(name=language)
+        course = Course.objects.get(language_this_course_teaches=language, name=course)
+        users_progress_on_course = UsersProgressOnCourse.objects.get(user=request.user, course=course)
         subjects_remaining_in_this_level = {
             'hiragana': 0,
             'katakana': 0,
@@ -51,23 +73,10 @@ class GetLevelsForLanguagesCourse(APIView):
                         subjects_remaining_in_this_level[subject_type] += 1
                 else:
                     subjects_remaining_in_this_level['grammar'] += 1
-                    
-        article_progress = None
-        this_levels_article = None
-        try:
-            this_levels_article = users_progress_on_course.current_level.article
-            if this_levels_article:
-                article_progress = UsersArticleProgress.objects.get(user=request.user, article=this_levels_article).user_finished_reading_this
-        except ObjectDoesNotExist:
-            article_progress = False
         
         return Response({
             'subjects_remaining_in_this_level': subjects_remaining_in_this_level,
-            'users_current_level': CourseLevelSerializer(users_progress_on_course.current_level).data['number'],
             'subjects_already_done_this_level': subjects_already_done_this_level,
-            'all_levels': CourseLevelSerializer(course.levels.all(), many=True).data,
-            'user_read_current_levels_article': article_progress,
-            'this_levels_article': ArticleSerializer(this_levels_article).data
         })
 
 def get_kanji_data(kanji):

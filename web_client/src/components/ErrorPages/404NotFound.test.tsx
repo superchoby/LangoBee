@@ -10,6 +10,7 @@ describe("Not Found Page Tests", () => {
                 <NotFoundPage />
             </BrowserRouter>
         )
+        // @ts-ignore
         expect(screen.getByText(couldntFindMsg)).toBeInTheDocument()
     })
 })

@@ -32,7 +32,10 @@ interface LessonButtonProps {
 
 const colors = {
     1: 'light-blue',
-    2: 'light-pink'
+    2: 'light-pink',
+    3: 'strong-yellow',
+    4: 'red',
+    5: 'light-green',
 }
 
 export const LessonButton = ({

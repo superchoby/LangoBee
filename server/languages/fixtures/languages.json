@@ -830,6 +830,996 @@
     }
   },
   {
+    "pk": 74,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 74,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 75,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 75,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 76,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 76,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 77,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 77,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 78,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 78,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 79,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 79,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 80,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 80,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 81,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 81,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 82,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 82,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 83,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 83,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 84,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 84,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 85,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 85,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 86,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 86,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 87,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 87,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 88,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 88,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 89,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 89,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 90,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 90,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 91,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 91,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 92,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 92,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 93,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 93,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 94,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 94,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 95,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 95,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 96,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 96,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 97,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 97,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 98,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 98,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 99,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 99,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 100,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 100,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 101,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 101,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 102,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 102,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 103,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 103,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 104,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 104,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 105,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 105,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 106,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 106,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 107,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 107,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 108,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 108,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 109,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 109,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 110,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 110,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 111,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 111,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 112,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 112,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 113,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 113,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 114,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 114,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 115,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 115,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 116,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 116,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 117,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 117,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 118,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 118,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 119,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 119,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 120,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 120,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 121,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 121,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 122,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 122,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 123,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 123,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 124,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 124,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 125,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 125,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 126,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 126,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 127,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 127,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 128,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 128,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 129,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 129,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 130,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 130,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 131,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 131,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 132,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 132,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 133,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 133,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 134,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 134,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 135,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 135,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 136,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 136,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 137,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 137,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 138,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 138,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 139,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 139,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 140,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 140,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 141,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 141,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 142,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 142,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 143,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 143,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 144,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 144,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 145,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 145,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 146,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 146,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 147,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 147,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 148,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 148,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 149,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 149,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 150,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 150,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 151,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 151,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 152,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 152,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 153,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 153,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 154,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 154,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 155,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 155,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 156,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 156,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 157,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 157,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 158,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 158,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 159,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 159,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 160,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 160,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 161,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 161,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 162,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 162,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
+    "pk": 163,
+    "model": "languages.CourseLevels",
+    "fields": {
+      "number": 163,
+      "course": [
+        "Japanese",
+        "main"
+      ]
+    }
+  },
+  {
     "pk": 1,
     "model": "languages.LanguageStandardsLevels",
     "fields": {
@@ -867,6 +1857,11 @@
     "fields": {
       "name": "JLPT N4",
       "description": "Learning to deal with basic situations",
+      "level_it_starts_at": [
+        47,
+        "Japanese",
+        "main"
+      ],
       "language": [
         "Japanese"
       ]
@@ -878,6 +1873,11 @@
     "fields": {
       "name": "JLPT N3",
       "description": "Getting comfortable with everyday situations",
+      "level_it_starts_at": [
+        73,
+        "Japanese",
+        "main"
+      ],
       "language": [
         "Japanese"
       ]
@@ -889,6 +1889,11 @@
     "fields": {
       "name": "JLPT N2",
       "description": "Staring to understand Japanese in advanced contexts",
+      "level_it_starts_at": [
+        113,
+        "Japanese",
+        "main"
+      ],
       "language": [
         "Japanese"
       ]

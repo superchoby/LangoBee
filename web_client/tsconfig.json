@@ -25,9 +25,11 @@
       "rsg-components/*": [
         "node_modules/react-styleguidist/lib/client/rsg-components/*"
       ]
-    }
+    },
+    // "types": ["cypress", "node"]
   },
   "include": [
-    "src"
+    "src",
+    "**/*.ts"
   ]
 }
