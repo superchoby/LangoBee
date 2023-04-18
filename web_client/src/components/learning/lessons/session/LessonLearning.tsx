@@ -150,6 +150,7 @@ export const LessonLearning = ({
   return (
         <div 
           className='learning-section-container' 
+          data-testid='learning-section' 
           onKeyDown={({ key }) => {
             if (key === 'ArrowLeft') {
               handleGoingForwardOrBack(false)
@@ -160,7 +161,7 @@ export const LessonLearning = ({
             }
           }}
           tabIndex={0}
-          >    
+        >    
           <div className='lessons-learning-back-button-container'>
             <BackButton />
           </div>
@@ -267,6 +268,7 @@ export const LessonLearning = ({
               </button>
               <button 
                 className='lessons-session-start-quiz-button'
+                data-testid='lessons-session-start-quiz-button'
                 onClick={startQuiz}
               >
                 Quiz me!

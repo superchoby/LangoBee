@@ -112,7 +112,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class UserUploadPfp(APIView):
     def post(self, request, format=None):
         try:
-            User.objects.get(id=request.user.id).update(profilePicture=request.data['pfpId'])
+            User.objects.get(id=request.user.id).update(profile_picture=request.data['pfpId'])
             return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

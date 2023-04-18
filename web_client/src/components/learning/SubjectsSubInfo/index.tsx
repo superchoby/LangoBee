@@ -84,58 +84,62 @@ const SubjectsSubInfoAudioSection = ({
   audioFiles,
   characters
 }: SubjectsSubInfoAudioSectionProps) => {
-  
 
   const pronunciationComponents = useMemo(() => {
     const pronunciationComponents: JSX.Element[] = []
-    for (let i=0; i<audioFiles.length; ++i) {
-      const { file, lastHighPitch } = audioFiles[i]
-      let pitchGraph: JSX.Element[] = []
-      let currentPitch: typeof HIGH_PITCH | typeof LOW_PITCH = lastHighPitch === 1 ? HIGH_PITCH : LOW_PITCH
-      let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
-      let smallCharsSeen = 0
-      const lastHighPitchAccountForSmallKana = lastHighPitch != null ? lastHighPitch + characters[i].split('').filter(char => !SMALL_KANA.includes(char)).length : null
-      for (let j=1; j<=characters[i].length; ++j) {
-        if (SMALL_KANA.includes(characters[i][j-1])) {
-          smallCharsSeen += 1
-        }
-        let className = ''
-        if (currentPitch === LOW_PITCH) {
-          className = 'pitch-breakdown-low'
-          if (!hasAlreadyGottenHigh && j < characters[i].length && !SMALL_KANA.includes(characters[i][j])) {
-            className += ' pitch-breakdown-low-to-high'
-            currentPitch = HIGH_PITCH
-            hasAlreadyGottenHigh = true
+    if (characters != null && characters.length > 0) {
+      
+      for (let i=0; i<audioFiles.length; ++i) {
+        const { file, lastHighPitch } = audioFiles[i]
+        let pitchGraph: JSX.Element[] = []
+        let currentPitch: typeof HIGH_PITCH | typeof LOW_PITCH = lastHighPitch === 1 ? HIGH_PITCH : LOW_PITCH
+        let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
+        let smallCharsSeen = 0
+        if (lastHighPitch != null) {
+          const lastHighPitchAccountForSmallKana = lastHighPitch + characters[i].split('').filter(char => SMALL_KANA.includes(char)).length
+          for (let j=1; j<=characters[i].length; ++j) {
+            if (SMALL_KANA.includes(characters[i][j-1])) {
+              smallCharsSeen += 1
+            }
+            let className = ''
+            if (currentPitch === LOW_PITCH) {
+              className = 'pitch-breakdown-low'
+              if (!hasAlreadyGottenHigh && j < characters[i].length && !SMALL_KANA.includes(characters[i][j])) {
+                className += ' pitch-breakdown-low-to-high'
+                currentPitch = HIGH_PITCH
+                hasAlreadyGottenHigh = true
+              }
+            } else {
+              className = 'pitch-breakdown-high'
+              if (j === lastHighPitchAccountForSmallKana) {
+                className += ' pitch-breakdown-high-to-low'
+                currentPitch = LOW_PITCH
+              }
+            }
+            console.log(currentPitch)
+            pitchGraph.push(<span className={className} key={j}>{characters[i][j-1]}</span>)
           }
-        } else {
-          className = 'pitch-breakdown-high'
-          if (j === lastHighPitchAccountForSmallKana) {
-            className += ' pitch-breakdown-high-to-low'
-            currentPitch = LOW_PITCH
-          }
         }
-
-        pitchGraph.push(<span className={className} key={j}>{characters[i][j-1]}</span>)
-      }
-      pronunciationComponents.push(
-        <div 
-          className='subject-presenter-section-contents subject-presenter-audio-player-container' 
-          key={i}
-          onClick={() => (new Audio(file)).play() }
-        >
-          <HiSpeakerWave className='subject-presenter-section-play-audio' /> 
-          <div className='subject-presenter-character-pitch-breakdown'>
-            {pitchGraph.length > 0 ? (pitchGraph) : (
-              <span>{characters[i]}</span>
-            )}
+        
+        pronunciationComponents.push(
+          <div 
+            className='subject-presenter-section-contents subject-presenter-audio-player-container' 
+            key={i}
+            onClick={() => (new Audio(file)).play() }
+          >
+            <HiSpeakerWave className='subject-presenter-section-play-audio' /> 
+            <div className='subject-presenter-character-pitch-breakdown'>
+              {pitchGraph.length > 0 ? (pitchGraph) : (
+                <span>{characters[i]}</span>
+              )}
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
     }
-
+    
     return pronunciationComponents
   }, [audioFiles, characters])
-  
   
   return (
     <div className={`subject-presenter-section-subsection ${isLastSubsection ? 'last-subject-presenter-section-subsection' : ''}`}>
@@ -562,9 +566,10 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             })
 
             const vocabularySubjectInfoReadingContent: JSX.Element[] = []
+            const commonKanaRepresentations = kanaVocabulary.filter(({common}) => common).map(({text}) => text)
             if (audioFiles.length > 0) {
               vocabularySubjectInfoReadingContent.push((
-                <SubjectsSubInfoAudioSection key='Pronunciation' audioFiles={audioFiles} characters={kanaVocabulary.filter(({common}) => common).map(({text}) => text)}/>
+                <SubjectsSubInfoAudioSection key='Pronunciation' audioFiles={audioFiles} characters={commonKanaRepresentations.length > 0 ? commonKanaRepresentations : [kanaVocabulary[0].text]}/>
               ))
             }
 

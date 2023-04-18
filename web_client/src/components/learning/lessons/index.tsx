@@ -142,7 +142,6 @@ export const Lessons = (): JSX.Element => {
       console.error(err)
     })
   }, [])
-  console.log(levelsList)
   
   const levels = []
   let levelsForCurrentStandard: JSX.Element[] = []
@@ -173,7 +172,7 @@ export const Lessons = (): JSX.Element => {
               hideHereIndicator={showThisLevelsContents}
               percentOfContentsComplete={userReadCurrentLevelsArticle ? 100 : 0}
               buttonType={ARTICLE_BUTTON_TYPE}
-              color={(levels.length % 5) + 1}
+              color={(levels.length % 6) + 1}
             />
           )
 
@@ -199,7 +198,7 @@ export const Lessons = (): JSX.Element => {
               (subjectsCompletedForCurrentLevel / (Object.values(subjectsRemainingAtCurrentLevel).reduce((sum, val) => sum + val, 0) + subjectsCompletedForCurrentLevel)) * 100
             ) : 1}
             buttonType={LEVEL_BUTTON_TYPE}
-            color={(levels.length % 5) + 1}
+            color={(levels.length % 6) + 1}
           />
         )
         const {
@@ -212,7 +211,7 @@ export const Lessons = (): JSX.Element => {
       }
       levels.push((
         <div key={standardsLevel.name}>
-          <LessonsDivider header={standardsLevel.name} subheader={standardsLevel.description} color={(levels.length % 5) + 1} />
+          <LessonsDivider header={standardsLevel.name} subheader={standardsLevel.description} color={(levels.length % 6) + 1} />
           <div className='levels-container'>
             {levelsForCurrentStandard}
           </div>
@@ -242,7 +241,7 @@ export const Lessons = (): JSX.Element => {
       ) : (
         <>
           {levels}
-          <div className='more-lessons-to-come-msg'>More Lessons to come soon ! ✍️ </div>
+          {/* <div className='more-lessons-to-come-msg'>More Lessons to come soon ! ✍️ </div> */}
         </>
       )}
       
@@ -302,7 +301,7 @@ export const Lessons = (): JSX.Element => {
 
             <div className='lesson-levels-button-container'>
               <button className='cancel-lesson-button' onClick={() => changeShowThisLevelsContents(false)}>Cancel</button>
-              <button className='start-lesson-button' onClick={() => navigate(LESSONS_SESSION_PATH)}>START</button>
+              <button className='start-lesson-button' onClick={() => navigate(LESSONS_SESSION_PATH)}>Start</button>
             </div>
           </>
         ) : (
