@@ -44,6 +44,17 @@ $colored-level-button-color: var(--light-blue);
     background-color: var(--light-pink);
 }
 
+.colored-level-button-3::before {
+    background-color: var(--strong-yellow);
+}
+
+.colored-level-button-4::before {
+    background-color: var(--red);
+}
+
+.colored-level-button-5::before {
+    background-color: var(--light-green);
+}
 
 .levels-button-progress {
     background: conic-gradient($colored-level-button-color 100deg, #ededed 0deg);

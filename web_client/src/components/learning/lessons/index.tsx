@@ -80,6 +80,7 @@ export const Lessons = (): JSX.Element => {
   const [currentLevelOnCourse, changeCurrentLevelOnCourse] = useState(1)
   const [userReadCurrentLevelsArticle, changeUserReadCurrentLevelsArticle] = useState(false)
   const [currentlyFetchingLevels, changeCurrentlyFetchingLevels] = useState(true)
+  const [currentlyFetchingRemainingSubjectsForLevel, changeCurrentlyFetchingRemainingSubjectsForLevel] = useState(true)
   const [thisLevelsArticle, changeThisLevelsArticle] = useState<{title: string, slug: string} | null>(null)
   const [usersSrsCountAndLimit, changeUsersSrsCountAndLimit] = useState({
     srsLimit: 0,
@@ -92,18 +93,15 @@ export const Lessons = (): JSX.Element => {
     axios.get('/languages/levels_for_course/Japanese/main')
     .then(res => {
       const { 
-        subjects_remaining_in_this_level,
+        // subjects_remaining_in_this_level,
         users_current_level,
-        subjects_already_done_this_level,
         all_levels,
         user_read_current_levels_article,
         this_levels_article
       } = res.data
 
       changeUserReadCurrentLevelsArticle(user_read_current_levels_article)
-      changeSubjectsRemainingAtCurrentLevel(subjects_remaining_in_this_level)
       changeCurrentLevelOnCourse(users_current_level)
-      changeSubjectsCompletedForCurrentLevel(subjects_already_done_this_level)
       changeLevelsList(all_levels.map((level: any) => ({...level, standardsLevel: level.standards_level})))
       changeCurrentlyFetchingLevels(false)
       changeThisLevelsArticle(this_levels_article)
@@ -111,6 +109,22 @@ export const Lessons = (): JSX.Element => {
     .catch(err => {
       console.error(err)
       changeCurrentlyFetchingLevels(false)
+    })
+
+    axios.get('/languages/levels_for_course/current_remaining_subjects_for_level/Japanese/main')
+    .then(res => {
+      const { 
+        subjects_remaining_in_this_level,
+        subjects_already_done_this_level
+      } = res.data
+
+      changeSubjectsCompletedForCurrentLevel(subjects_already_done_this_level)
+      changeSubjectsRemainingAtCurrentLevel(subjects_remaining_in_this_level)
+      changeCurrentlyFetchingRemainingSubjectsForLevel(false)
+    })
+    .catch(err => {
+      console.error(err)
+      changeCurrentlyFetchingRemainingSubjectsForLevel(false)
     })
 
     axios.get('/users/srs-info/')
@@ -128,6 +142,7 @@ export const Lessons = (): JSX.Element => {
       console.error(err)
     })
   }, [])
+  console.log(levelsList)
   
   const levels = []
   let levelsForCurrentStandard: JSX.Element[] = []
@@ -140,6 +155,7 @@ export const Lessons = (): JSX.Element => {
     if (standardsLevel != null && standardsLevel.name !== currentStandardsLevelName) {
       levelsForCurrentStandard = []
       let j = i
+
       while (j < levelsList.length && (levelsList[j].standardsLevel === null || j === i)) {
         const { number, article } = levelsList[j]
         const thisButtonIsForTheCurrentLevel = number === currentLevelOnCourse
@@ -251,19 +267,32 @@ export const Lessons = (): JSX.Element => {
         ) : (srsLimit - srsSubjectsAddedToday > 0? (
           <>
             <h2 className='lesson-preview-header'>Lesson Preview</h2>
-            {showThisLevelsContents && (
-              <ul className='subjects-for-this-level-ul'>
-                {['hiragana', 'katakana', 'radical', 'kanji', 'vocabulary', 'grammar'].reduce((accumulator: JSX.Element[], subjectType) => {
-                  // @ts-ignore
-                  if (subjectsRemainingAtCurrentLevel.hasOwnProperty(subjectType) && subjectsRemainingAtCurrentLevel[subjectType] > 0) {
-                    // @ts-ignore
-                    return [...accumulator, <SubjectsForLevelLi subjectType={subjectType} count={subjectsRemainingAtCurrentLevel[subjectType]!} key={subjectType} />]
-                  }
-
-                  return [...accumulator]
-                }, [] as JSX.Element[])}
-              </ul>
-            )}
+            {
+              currentlyFetchingRemainingSubjectsForLevel ? (
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <ClipLoader />
+                  Fetching the Content
+                </div>
+              ) : (
+                <>
+                  {showThisLevelsContents && (
+                    <ul className='subjects-for-this-level-ul'>
+                      {['hiragana', 'katakana', 'radical', 'kanji', 'vocabulary', 'grammar'].reduce((accumulator: JSX.Element[], subjectType) => {
+                        // @ts-ignore
+                        if (subjectsRemainingAtCurrentLevel.hasOwnProperty(subjectType) && subjectsRemainingAtCurrentLevel[subjectType] > 0) {
+                          // @ts-ignore
+                          return [...accumulator, <SubjectsForLevelLi subjectType={subjectType} count={subjectsRemainingAtCurrentLevel[subjectType]!} key={subjectType} />]
+                        }
+      
+                        return [...accumulator]
+                      }, [] as JSX.Element[])}
+                    </ul>
+                  )}
+                </>
+              )
+            }
+            
+            
             <div className='remaining-subjects-that-can-be-studied-today'>
               <div>
                 {srsLimit - srsSubjectsAddedToday} more subjects you can study today. 
