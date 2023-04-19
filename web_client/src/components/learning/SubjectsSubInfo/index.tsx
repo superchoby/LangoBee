@@ -116,7 +116,6 @@ const SubjectsSubInfoAudioSection = ({
                 currentPitch = LOW_PITCH
               }
             }
-            console.log(currentPitch)
             pitchGraph.push(<span className={className} key={j}>{characters[i][j-1]}</span>)
           }
         }
@@ -487,10 +486,11 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             }
             const vocabularySubjectInfoToDisplay: SubjectInfoToDisplay[] = []
             if (!isAKanaWord) {
-              const dataForKanjiInThisWord = mainVocabularyToUse
+              const thisWordsKanji = kanjiThatThisUses.map(({character}) => character)
+              const dataForKanjiInTheMainKanjiVersionOfTheWord = mainVocabularyToUse
               .split('')
               .filter(char => (
-                !isAHiraganaChar(char) && !isAKatakanaChar(char)
+                thisWordsKanji.includes(char)
               )).map((kanji) => 
                 (kanjiThatThisUses.filter(({character}) => character === kanji)[0])
               )
@@ -502,7 +502,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                     <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition'>
                       <div className='list-of-other-japanese-subjects'>
                         <JapaneseExamplesAndContainedSubjects
-                          subjects={dataForKanjiInThisWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 
+                          subjects={dataForKanjiInTheMainKanjiVersionOfTheWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 
                         />
                       </div>
                     </SubjectsSubInfoSection>

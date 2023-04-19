@@ -1,10 +1,10 @@
 describe("Learning", () => {
-    before(() => {
+    beforeEach(() => {
         cy.login()
       })
   
       context("Lessons", () => {
-        it('User can go to lessons and finsih them', () => {
+        it('User can go to lessons and click the level to view the concepts', () => {
             cy.visit('/lessons')
             // is an article button
             cy.get('button')
@@ -18,12 +18,21 @@ describe("Learning", () => {
                 cy.get('button').contains('Start').click()
             })           
             
-            for (let i=0;i<5;++i) {
-                cy.get('.learning-forward-button').click()
-            }       
+            // for (let i=0;i<5;++i) {
+            //     cy.get('.learning-forward-button').click()
+            // }       
             
-            cy.getByDataId('lessons-session-start-quiz-button').click()
-          })
+            // cy.getByDataId('lessons-session-start-quiz-button').click()
+        })
+
+        it('All subjects are presented properly', () => {
+            cy.visit('/lessons/session')
+            for (let i=0;i<100;++i) {
+                cy.get('.learning-forward-button').click()
+            }
+
+
+        })
       })
       
 })

@@ -40,6 +40,11 @@ export const LessonSession = (): JSX.Element => {
   const [subjectsAndTheirInitialReviewInfo, changeSubjectsAndTheirInitialReviewInfo] = useState<{ [subjectId: number]: { level: number, isFastReviewCard: boolean} }>({})
 
   useEffect(() => {
+    // @ts-ignore
+    console.log(window.CYPRESS)
+    if (process.env.CYPRESS) {
+      console.log("YES YPRESS")
+    }
     axios.get('/languages/lesson_session/Japanese/main/')
     .then(res => {
       const {

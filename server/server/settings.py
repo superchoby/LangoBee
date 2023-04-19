@@ -26,7 +26,7 @@ isInProdEnviron = 'SECRET_KEY' in os.environ
 SECRET_KEY = os.environ['SECRET_KEY'] if isInProdEnviron else 'dummy key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = not isInProdEnviron
 
 ALLOWED_HOSTS = [
     'https://japanese-learning-site-server.herokuapp.com',

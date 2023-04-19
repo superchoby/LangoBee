@@ -190,6 +190,15 @@ export const convertSubjectDataToQuestions = (subjectData: JapaneseSubjectData[]
                       }
                     )
                   }
+
+                  const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+                  if (specialChars.test(meaning)) {
+                    const answerWithNoSpecialChars = meaning.split('').filter(char => !specialChars.test(char)).join('')
+                    answers.push({
+                      answer: answerWithNoSpecialChars,
+                      distanceToAllow: Math.floor(answerWithNoSpecialChars.length * .25)
+                    })
+                  }
                   return answers
                 }),
                 acceptableResponsesButNotWhatLookingFor: acceptableResponsesButNotWhatLookingFor.map(({response, reason}) => ({
