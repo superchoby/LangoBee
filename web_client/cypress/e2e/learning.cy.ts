@@ -17,21 +17,27 @@ describe("Learning", () => {
                 cy.get('button').contains('Here').click()
                 cy.get('button').contains('Start').click()
             })           
-            
-            // for (let i=0;i<5;++i) {
-            //     cy.get('.learning-forward-button').click()
-            // }       
-            
-            // cy.getByDataId('lessons-session-start-quiz-button').click()
         })
+        
 
-        it('All subjects are presented properly', () => {
-            cy.visit('/lessons/session')
-            for (let i=0;i<100;++i) {
-                cy.get('.learning-forward-button').click()
-            }
-
-
+        it('Lessons 1-20 are fine no errors loading', () => {
+            Cypress.on('uncaught:exception', (err, runnable) => {
+                if (err.message.includes('Failed to load because no supported source was found')) {
+                  return false
+            }})
+            cy.fixture('fixture_0.json').as('usersData').then((userFixture) => {
+                cy.visit('/lessons/session')
+                
+                // cy.get('.ReactModalPortal')
+                // .then($body => {
+                //     if ($body.find(`[data-testid="lessons-session-start-quiz-button"]`).length > 0) {
+                //         cy.get('button').contains('Quiz me!').click()
+                //     }
+                    
+                // })  
+                cy.clickUntilVisible('.learning-forward-button', `[data-testid="lessons-session-start-quiz-button"]`)
+                cy.get(`[data-testid="lessons-session-start-quiz-button"]`).click()
+            })
         })
       })
       

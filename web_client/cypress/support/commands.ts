@@ -11,3 +11,18 @@ Cypress.Commands.add('login', () => {
 Cypress.Commands.add('getByDataId', (dataId) => {
   return cy.get(`[data-testid=${dataId}]`)
 })
+
+Cypress.Commands.add('clickUntilVisible', (buttonToClick: string, buttonToAppear: string) => {
+
+  cy.get('.ReactModalPortal')
+  .then($body => {
+      if ($body.find(buttonToAppear).length > 0) {
+          // cy.get('button').contains('Quiz me!').click()
+          return 
+      } else {
+        cy.get(buttonToClick).click()
+        cy.clickUntilVisible(buttonToClick, buttonToAppear);
+      }
+      
+  })  
+});
