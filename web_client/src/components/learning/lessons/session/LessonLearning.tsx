@@ -90,12 +90,14 @@ export const LessonLearning = ({
 
   useEffect(() => {
     if (audioFiles != null && audioFiles.length > 0) {
-      (new Audio(audioFiles[0])).play()
-      .then(_ => {
+      const firstAudio = (new Audio(audioFiles[0]))
+
+      firstAudio.onended = _ => {
         if (audioFiles.length > 1) {
           (new Audio(audioFiles[1])).play()
         }
-      })
+      }
+      firstAudio.play()
     }
   }, [audioFiles])
 

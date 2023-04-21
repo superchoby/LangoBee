@@ -87,14 +87,15 @@ export const LearningQuizGenerator = ({
                                 audioFiles
                             } = content[i] as JapaneseVocabularySubject
                             if (audioFiles.length > 0) {
-                                (new Audio(audioFiles[0].file)).play()
-                                .then(_ => {
-                                    // if the kanji word vocab has two common pronunciations,
-                                    // play the second one in the callback
+                                const firstAudio = (new Audio(audioFiles[0].file))
+                                firstAudio.onended = _ => {
                                     if (audioFiles.length > 1) {
+                                        // if the kanji word vocab has two common pronunciations,
+                                    // play the second one in the callback
                                         (new Audio(audioFiles[1].file)).play()
                                     }
-                                })
+                                }
+                                firstAudio.play()
                             }
                         }
                         break
