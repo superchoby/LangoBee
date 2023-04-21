@@ -15,8 +15,6 @@ import {
     JapaneseExerciseSubject,
     EXERCISE_TYPE,
     SubjectInfoToDisplay,
-    isAHiraganaChar,
-    isAKatakanaChar,
     GrammarFormalityAndDescriptions,
     JapaneseVocabularySubjectAudioFiles,
 } from '../lessons/SubjectTypes'
@@ -67,7 +65,6 @@ const KANJI_TO_NUMBER = {
   '二十': { hiragana: 'にじゅう', number: 20 },
 }
 
-
 const HIGH_PITCH = 'high'
 const LOW_PITCH = 'low'
 
@@ -116,7 +113,7 @@ const SubjectsSubInfoAudioSection = ({
                 currentPitch = LOW_PITCH
               }
             }
-            console.log(currentPitch)
+
             pitchGraph.push(<span className={className} key={j}>{characters[i][j-1]}</span>)
           }
         }
