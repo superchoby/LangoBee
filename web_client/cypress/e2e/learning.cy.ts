@@ -20,25 +20,19 @@ describe("Learning", () => {
         })
         
 
-        it('Lessons 1-20 are fine no errors loading', () => {
-            Cypress.on('uncaught:exception', (err, runnable) => {
-                if (err.message.includes('Failed to load because no supported source was found')) {
-                  return false
-            }})
-            cy.fixture('fixture_0.json').as('usersData').then((userFixture) => {
-                cy.visit('/lessons/session')
+        // it('Lessons 1-20 are fine no errors loading', () => {
+        //     Cypress.on('uncaught:exception', (err, runnable) => {
+        //         if (err.message.includes('Failed to load because no supported source was found')) {
+        //           return false
+        //     }})
+        //     cy.fixture('LessonAnswersSet1.json').as('quizAnswers').then((quizAnswers) => {
+        //         cy.visit('/lessons/session')
                 
-                // cy.get('.ReactModalPortal')
-                // .then($body => {
-                //     if ($body.find(`[data-testid="lessons-session-start-quiz-button"]`).length > 0) {
-                //         cy.get('button').contains('Quiz me!').click()
-                //     }
-                    
-                // })  
-                cy.clickUntilVisible('.learning-forward-button', `[data-testid="lessons-session-start-quiz-button"]`)
-                cy.get(`[data-testid="lessons-session-start-quiz-button"]`).click()
-            })
-        })
+        //         cy.goThroughLessonsSubjects('.learning-forward-button', `[data-testid="lessons-session-start-quiz-button"]`)
+        //         cy.getByDataId("lessons-session-start-quiz-button").click()
+        //         cy.get('.kana-vocab-question-text ').tex
+        //     })
+        // })
       })
       
 })

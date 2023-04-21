@@ -368,9 +368,17 @@ export const convertSubjectDataToQuestions = (subjectData: JapaneseSubjectData[]
         }
       } else if (concept.japaneseSubjectType === RADICAL_TYPE) {
         const radicalSubject = concept as RadicalSubject
+        // radicalSubject.meaning.includes('katakana') ? `${radicalSubject.meaning}, ${radicalSubject.meaning.split('katakana').join('').trim()}` : radicalSubject.meaning,
+        const radicalAnswers = [{answer: radicalSubject.meaning, distanceToAllow: Math.floor(radicalSubject.meaning.length * .25)}]
+        if (radicalSubject.meaning.includes('katakana')) {
+          radicalAnswers.push({
+            answer: radicalSubject.meaning.split('katakana').join('').trim(),
+            distanceToAllow: 0,
+          })
+        }
         newQuestionsOrder.push({
           questionContents: {
-            answers: [{answer: radicalSubject.meaning, distanceToAllow: Math.floor(radicalSubject.meaning.length * .25)}],
+            answers: radicalAnswers,
             acceptableResponsesButNotWhatLookingFor: [],
             answerIsInJapanese: false,
             question: radicalSubject.character,

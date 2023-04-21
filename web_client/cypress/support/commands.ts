@@ -12,17 +12,29 @@ Cypress.Commands.add('getByDataId', (dataId) => {
   return cy.get(`[data-testid=${dataId}]`)
 })
 
-Cypress.Commands.add('clickUntilVisible', (buttonToClick: string, buttonToAppear: string) => {
-
+Cypress.Commands.add('goThroughLessonsSubjects', (buttonToClick: string, buttonToAppear: string) => {
   cy.get('.ReactModalPortal')
   .then($body => {
       if ($body.find(buttonToAppear).length > 0) {
-          // cy.get('button').contains('Quiz me!').click()
           return 
       } else {
         cy.get(buttonToClick).click()
-        cy.clickUntilVisible(buttonToClick, buttonToAppear);
+        cy.goThroughLessonsSubjects(buttonToClick, buttonToAppear);
       }
-      
   })  
 });
+
+// Cypress.Commands.add('answerQuestions', (answerData) => {
+//   cy.getByDataId('quiz-generator-container')
+//   .then($body => {
+//       if ($body.find(`[data-testid="kana-vocab-question-container"]`).length > 0) {
+//         // $body.find(`[data-testid="kana-vocab-question-container"]`)
+//         cy.get('[data-testid="quiz-generator-container"]')
+//         .find('[data-testid="kana-vocab-question-container"]')
+//         .then($el => { cy.log($el[0].innerText) })
+//       } else {
+//         cy.get(buttonToClick).click()
+//         cy.goThroughLessonsSubjects(buttonToClick, buttonToAppear);
+//       }
+//   })  
+// });

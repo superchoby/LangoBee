@@ -96,6 +96,7 @@ const SubjectsSubInfoAudioSection = ({
         let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
         let smallCharsSeen = 0
         if (lastHighPitch != null) {
+          debugger
           const lastHighPitchAccountForSmallKana = lastHighPitch + characters[i].split('').filter(char => SMALL_KANA.includes(char)).length
           for (let j=1; j<=characters[i].length; ++j) {
             if (SMALL_KANA.includes(characters[i][j-1])) {
@@ -209,7 +210,7 @@ const JapaneseExamplesAndContainedSubjects = ({
           description = subject.meaning
         } else if (type === KANJI_TYPE) {
           characters = subject.character
-          description = subject.meanings[0]
+          description = subject.meanings[0] 
         }
 
         return (
@@ -294,7 +295,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
   
           return {
             subjectText: radicalSubject.character,
-            subjectMainDescription: radicalSubject.meaning,
+            subjectMainDescription: radicalSubject.meaning.includes('katakana') ? `${radicalSubject.meaning}, ${radicalSubject.meaning.split('katakana').join('').trim()}` : radicalSubject.meaning,
             subjectType: RADICAL_TYPE,
             subjectInfoToDisplay: [
               {
@@ -304,7 +305,11 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                       <SubjectsSubInfoSection subheader='Mnemonic' key='Mnemonic'>
                         {/* <div className='list-of-other-japanese-subjects'> */}
                         <div>
-                          {parseHtmlString(radicalSubject.mnemonicExplanation)}
+                          {
+                            radicalSubject.mnemonicExplanation.length > 0 ? 
+                            parseHtmlString(radicalSubject.mnemonicExplanation) : 
+                            'No mnemonic exists for this radical yet'
+                          }
                         </div>
                         {/* </div> */}
                       </SubjectsSubInfoSection>
@@ -355,7 +360,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
 
           const kanjiMeaningMnemonicComponent = (isLastSubsection: boolean) => (
             <SubjectsSubInfoSection subheader='Meaning Mnemonic' key='Meaning Mnemonic' isLastSubsection={isLastSubsection}>
-              {kanjiMeaningMnemonic.length > 0 ? parseHtmlString(kanjiMeaningMnemonic) : <>No mnemonic yet</>}
+              {kanjiMeaningMnemonic.length > 0 ? parseHtmlString(kanjiMeaningMnemonic) : <>No mnemonic exists for this kanji yet</>}
             </SubjectsSubInfoSection>
           )
           const kanjiMeaningSubjectContentForQuiz = [
@@ -499,7 +504,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 header: 'Composition',
                 content: [
                   (
-                    <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition'>
+                    <SubjectsSubInfoSection subheader='Contained Kanji' key='Contained Kanji'>
                       <div className='list-of-other-japanese-subjects'>
                         <JapaneseExamplesAndContainedSubjects
                           subjects={dataForKanjiInTheMainKanjiVersionOfTheWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 

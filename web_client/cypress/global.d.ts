@@ -37,6 +37,7 @@ declare namespace Cypress {
      */
     login(): void;
     getByDataId(dataId: string): Chainable<JQuery<HTMLElement>>;
-    clickUntilVisible: (buttonToClick: string, buttonToAppear: string) => void;
+    goThroughLessonsSubjects: (buttonToClick: string, buttonToAppear: string) => void;
+    answerQuestions:(answerData: {answers: string[], question: "string", type: "KanaVocab"}[]) => void;
   }
 }

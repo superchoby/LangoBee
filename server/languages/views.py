@@ -146,8 +146,8 @@ class GetUsersSubjectsForLessons(APIView):
             if not request.user.subjects.filter(pk=subject.id).exists():
                 subjects_to_send_to_user.append(subject)
 
-            reached_num_of_cards_to_teach_in_one_lesson_limit = len(subjects_to_send_to_user) >= request.user.num_of_subjects_to_teach_per_lesson
-            # reached_num_of_cards_to_teach_in_one_lesson_limit = len(subjects_to_send_to_user) >= 
+            # reached_num_of_cards_to_teach_in_one_lesson_limit = len(subjects_to_send_to_user) >= request.user.num_of_subjects_to_teach_per_lesson
+            reached_num_of_cards_to_teach_in_one_lesson_limit = len(subjects_to_send_to_user) >= 50
             reached_srs_limit = len(subjects_to_send_to_user) + request.user.srs_subjects_added_today >= request.user.srs_limit
             if reached_num_of_cards_to_teach_in_one_lesson_limit or reached_srs_limit:
                 break

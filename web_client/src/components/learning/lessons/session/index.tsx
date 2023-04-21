@@ -6,14 +6,12 @@ import {
 import './index.scss'
 import { useState, useEffect, useMemo } from 'react'
 import { LessonLearning } from './LessonLearning'
-import { useAppDispatch } from 'src/app/hooks'
 import axios from 'axios'
-import { QuizGenerator } from '../../../shared/QuizGenerator'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { JapaneseSubjectData } from '../SubjectTypes'
-import { userAddedMoreSubjectsToReview } from '../../../../app/userSlice'
 import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { LearningQuizGenerator } from '../../LearningQuizGenerator'
+import { convertSubjectDataToQuestions } from 'src/components/shared/QuizGenerator/ConvertSubjectDataToQuestions'
 
 export const getSubheader = (conceptBeingLearned: GENERAL_CONCEPT_TYPE, currentPage: typeof LEARNING_TYPE | typeof QUIZ_TYPE): string => {
   if (currentPage === LEARNING_TYPE) {
@@ -61,8 +59,6 @@ export const LessonSession = (): JSX.Element => {
             isFastReviewCard: subject.srsType === 'fast'
         }
       }
-
-
 
       changeSubjectsToLearn(subjectsToLearn)
       changeSubjectsAndTheirInitialReviewInfo(subjectsAndReviewInfo)

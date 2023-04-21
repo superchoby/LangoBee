@@ -1,0 +1,697 @@
+[
+    {
+       "id":300000,
+       "srs_type":"fast",
+       "subject_type":"grammar",
+       "has_unique_subject_model":true,
+       "note":null,
+       "japanese_subject_type":"grammar",
+       "jlpt_level":5,
+       "name":"\u3060",
+       "meaning":"To be, is",
+       "structure":"Noun + \u3060, Na Adjective + \u3060",
+       "formality":"casual",
+       "explanation":"This is a verb that is used for statements. A word plus \u3060 alone is enough to make a legitimate sentence however the meaning of it can vary greatly depending on the context. <newline />For example, just saying \u30a2\u30e1\u30ea\u30ab\u4eba\u3060 alone can mean things such as \"he is an American\", \"she is an American\", \"they are an American\", \"Steve is an American\", and so on. <newline />For the context of the practice questions and reviews, we will consider these kinds of sentences to be ambiguous when it comes to what the topic is.",
+       "questions":[
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ab\u30ca\u30c0\u4eba<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> a Canadian"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30aa\u30fc\u30b9\u30c8\u30e9\u30ea\u30a2\u4eba<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> a Australian"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u65e5\u672c\u4eba<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> a Japanese"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u706b<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a fire"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u4eba<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a person"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ec\u30b9\u30c8\u30e9\u30f3<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a restaurant"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30db\u30c6\u30eb<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a hotel"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30d0\u30bf\u30fc<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a butter"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30b3\u30fc\u30d2\u30fc<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a coffee"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ab\u30ec\u30fc<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a curry"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u5ddd<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a river"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u5c71<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a mountain"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u5927\u4eba<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a adult"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30cf\u30f3\u30ab\u30c1<answer>\u3060</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a handkerchief"
+                }
+             ]
+          }
+       ],
+       "examples":[
+          {
+             "example_text":"\u30a2\u30e1\u30ea\u30ab\u4eba\u3060\u3002",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> American"
+                }
+             ]
+          },
+          {
+             "example_text":"\u5ddd\u3060\u3002",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(it) <bold>is</bold> a river"
+                }
+             ]
+          }
+       ],
+       "formality_matters_for_its_questions":true
+    },
+    {
+       "id":300001,
+       "srs_type":"fast",
+       "subject_type":"grammar",
+       "has_unique_subject_model":true,
+       "note":null,
+       "japanese_subject_type":"grammar",
+       "jlpt_level":5,
+       "name":"\u3067\u3059",
+       "meaning":"To be, is",
+       "structure":"Noun + \u3067\u3059, Na Adjective + \u3067\u3059",
+       "formality":"\u4e01\u5be7\u8a9e",
+       "explanation":"This is similar to \u3060 except this is the polite version. You would use this when talking to an elder or a teacher for example.",
+       "questions":[
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ab\u30ca\u30c0\u4eba<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> a Canadian"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30aa\u30fc\u30b9\u30c8\u30e9\u30ea\u30a2\u4eba<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> a Australian"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u65e5\u672c\u4eba<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(he/she/they) <bold>is</bold> a Japanese"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u706b<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a fire"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u4eba<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a person"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ec\u30b9\u30c8\u30e9\u30f3<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a restaurant"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30db\u30c6\u30eb<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a hotel"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30d0\u30bf\u30fc<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a butter"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30b3\u30fc\u30d2\u30fc<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a coffee"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ab\u30ec\u30fc<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a curry"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u5ddd<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a river"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u5c71<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a mountain"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u5927\u4eba<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a adult"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30cf\u30f3\u30ab\u30c1<answer>\u3067\u3059</answer>\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(It) <bold>is</bold> a handkerchief"
+                }
+             ]
+          }
+       ],
+       "examples":[
+          {
+             "example_text":"\u5c71\u3067\u3059\u3002",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(it) <bold>is</bold> a mountain"
+                }
+             ]
+          },
+          {
+             "example_text":"\u5927\u4eba\u3067\u3059\u3002",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"(it) <bold>is</bold> an adult"
+                }
+             ]
+          }
+       ],
+       "formality_matters_for_its_questions":true
+    },
+    {
+       "id":300002,
+       "srs_type":"default",
+       "subject_type":"grammar",
+       "has_unique_subject_model":true,
+       "note":null,
+       "japanese_subject_type":"grammar",
+       "jlpt_level":5,
+       "name":"\u306f",
+       "meaning":"Topic Particle",
+       "structure":"Topic + \u306f",
+       "formality":"standard",
+       "explanation":"You use this to mark the topic of the sentence by placing it afterward the noun you would like to mark. We learned that a sentence like \u5927\u4eba\u3067\u3059 means \"(somebody) is an adult\" but how do we exactly say who is an adult? If I am referring to my friend \u3051\u3093, I can't just say \u3051\u3093\u5927\u4eba\u3067\u3059, this is grammatically incorrect and makes no sense. I would say \u3051\u3093<bold>\u306f</bold>\u5927\u4eba\u3067\u3059. The \u306f particle allows me to explain who or what is the topic of the sentence.",
+       "questions":[
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u79c1<answer>\u306f</answer>\u30d5\u30e9\u30f3\u30b9\u4eba\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>I am</bold> French"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u65e5\u672c<answer>\u306f</answer>\u53e4\u3044\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>Japan is</bold> old"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30b3\u30fc\u30d2\u30fc<answer>\u306f</answer>\u304a\u3044\u3057\u3044\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>The coffee is</bold> delicious."
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ab\u30ec\u30fc<answer>\u306f</answer>\u307e\u305a\u3044\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>The curry is</bold> bad tasting. (The curry tastes bad)"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30b9\u30ab\u30fc\u30c8<answer>\u306f</answer>\u304b\u308f\u3044\u3044\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>The skirt is</bold> cute."
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u4eba\u53e3<answer>\u306f</answer>\u5c0f\u3055\u3044\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>The population is</bold> small."
+                }
+             ]
+          }
+       ],
+       "examples":[
+          {
+             "example_text":"\u79c1\u306f\u30c9\u30a4\u30c4\u4eba\u3067\u3059\u3002",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>I am</bold> German"
+                }
+             ]
+          }
+       ],
+       "formality_matters_for_its_questions":false
+    },
+    {
+       "id":300003,
+       "srs_type":"default",
+       "subject_type":"grammar",
+       "has_unique_subject_model":true,
+       "note":null,
+       "japanese_subject_type":"grammar",
+       "jlpt_level":5,
+       "name":"\u3082",
+       "meaning":"Also/Too/As Well Particle",
+       "structure":"Noun + \u3082",
+       "formality":"standard",
+       "explanation":"This is used exactly the same as the \u306f particle where you place it in front of the topic except this means more like \"also\" or \"too\"",
+       "questions":[
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30de\u30c3\u30c6\u30aa\u306f\u30a4\u30bf\u30ea\u30a2\u4eba\u3067\u3059\u3002\u30a8\u30df\u30ea\u30a2\u30fc\u30ce<answer>\u3082</answer>\u30a4\u30bf\u30ea\u30a2\u4eba\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"Matteo is Italian. Emiliano <bold>is also</bold> Italian"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u4eca\u65e5<answer>\u3082</answer>\u96e8\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"Today <bold>is also</bold> rainy."
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30b8\u30e7\u30cb\u30fc\u306f\u5927\u4eba\u3067\u3059\u3002\u79c1<answer>\u3082</answer>\u5927\u4eba\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"Johnny is an adult. I <bold>am also</bold> an adult."
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30ba\u30dc\u30f3<answer>\u3082</answer>\u304b\u308f\u3044\u3044\u3067\u3059\u3002",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"The pants <bold>are also</bold> cute."
+                }
+             ]
+          }
+       ],
+       "examples":[
+          {
+             "example_text":"\u30ab\u30ec\u30fc\u3082\u304a\u3044\u3057\u3044\u3067\u3059\u3002",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"Curry is delicious <bold>too</bold>/Curry <bold>is also</bold> delicious"
+                }
+             ]
+          }
+       ],
+       "formality_matters_for_its_questions":false
+    },
+    {
+       "id":300004,
+       "srs_type":"default",
+       "subject_type":"grammar",
+       "has_unique_subject_model":true,
+       "note":null,
+       "japanese_subject_type":"grammar",
+       "jlpt_level":5,
+       "name":"\u304b",
+       "meaning":"Question Marker Particle",
+       "structure":"Sentence + \u304b",
+       "formality":"standard",
+       "explanation":"This turns a statement into a question. Just adding it alone at the end of a sentence can make a sentence go from, \"It is cool.\" to \"Is it cool?\". It is often added after the polite form of words such as \u3067\u3059 but in informal situations can be added right after the word",
+       "questions":[
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u3072\u307f\u3053\u306f\u5927\u4eba\u3067\u3059<answer>\u304b</answer>\uff1f",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>Is</bold> Himiko an adult<bold>?</bold>"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30aa\u30fc\u30b9\u30c8\u30e9\u30ea\u30a2\u306f\u5927\u304d\u3044\u3067\u3059<answer>\u304b</answer>\uff1f",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>Is</bold> Australia big<bold>?</bold>"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u672c\u306f\u3064\u307e\u3089\u306a\u3044\u3067\u3059<answer>\u304b</answer>\uff1f",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>Are</bold> books boring<bold>?</bold>"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u79c1\u306f\u304b\u308f\u3044\u3044\u3067\u3059<answer>\u304b</answer>\uff1f",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>Am</bold> I cute<bold>?</bold>"
+                }
+             ]
+          },
+          {
+             "question_type":"fill in blank",
+             "question_text":"\u30b9\u30ea\u30c3\u30d1\u306f\u53e4\u3044\u3067\u3059<answer>\u304b</answer>\uff1f",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"<bold>Are</bold> the slippers old<bold>?</bold>"
+                }
+             ]
+          }
+       ],
+       "examples":[
+          {
+             "example_text":"\u30b3\u30fc\u30d2\u30fc\u306f\u304a\u3044\u3057\u3044\u3067\u3059\u304b\uff1f",
+             "audio_file":"",
+             "translations":[
+                {
+                   "language":{
+                      "name":"English"
+                   },
+                   "translation":"Is coffee good (tasting)?"
+                }
+             ]
+          }
+       ],
+       "formality_matters_for_its_questions":false
+    }
+ ]
