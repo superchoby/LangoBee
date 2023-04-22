@@ -20,19 +20,20 @@ describe("Learning", () => {
         })
         
 
-        // it('Lessons 1-20 are fine no errors loading', () => {
-        //     Cypress.on('uncaught:exception', (err, runnable) => {
-        //         if (err.message.includes('Failed to load because no supported source was found')) {
-        //           return false
-        //     }})
-        //     cy.fixture('LessonAnswersSet1.json').as('quizAnswers').then((quizAnswers) => {
-        //         cy.visit('/lessons/session')
+        it('Lessons 1-20 are fine no errors loading', () => {
+            Cypress.on('uncaught:exception', (err, runnable) => {
+                if (err.message.includes('Failed to load because no supported source was found')) {
+                  return false
+            }})
+            cy.fixture('AllSubjectsAnswers.json').as('quizAnswers').then((quizAnswers) => {
+                cy.visit('/lessons/session')
                 
-        //         cy.goThroughLessonsSubjects('.learning-forward-button', `[data-testid="lessons-session-start-quiz-button"]`)
-        //         cy.getByDataId("lessons-session-start-quiz-button").click()
-        //         cy.get('.kana-vocab-question-text ').tex
-        //     })
-        // })
+                cy.goThroughLessonsSubjects('.learning-forward-button', `[data-testid="lessons-session-start-quiz-button"]`)
+                cy.getByDataId("lessons-session-start-quiz-button").click()
+                cy.answerQuestions(quizAnswers)
+                cy.get('button').contains('Finish').click()
+            })
+        })
       })
       
 })

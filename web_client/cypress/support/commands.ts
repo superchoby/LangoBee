@@ -24,17 +24,25 @@ Cypress.Commands.add('goThroughLessonsSubjects', (buttonToClick: string, buttonT
   })  
 });
 
-// Cypress.Commands.add('answerQuestions', (answerData) => {
-//   cy.getByDataId('quiz-generator-container')
-//   .then($body => {
-//       if ($body.find(`[data-testid="kana-vocab-question-container"]`).length > 0) {
-//         // $body.find(`[data-testid="kana-vocab-question-container"]`)
-//         cy.get('[data-testid="quiz-generator-container"]')
-//         .find('[data-testid="kana-vocab-question-container"]')
-//         .then($el => { cy.log($el[0].innerText) })
-//       } else {
-//         cy.get(buttonToClick).click()
-//         cy.goThroughLessonsSubjects(buttonToClick, buttonToAppear);
-//       }
-//   })  
-// });
+Cypress.Commands.add('answerQuestions', (answerData) => {
+  cy.getByDataId('quiz-generator-container')
+  .then($body => {
+      if ($body.find(`[data-testid="kana-vocab-question-container"]`).length > 0) {
+        
+          cy.get('[data-testid="quiz-generator-container"]')
+          .find('.kana-vocab-question-text')
+          .then($el => {
+            cy.get('input').type(answerData[$el[0].innerText].answers[0])
+            cy.get('button').contains('Check').click()
+            cy.get('button').contains('Continue').click()
+            if ($body.find('Finish').length === 0) {
+              cy.answerQuestions(answerData)
+            }
+        })
+      } else {
+        // cy.get(buttonToClick).click()
+        // cy.goThroughLessonsSubjects(buttonToClick, buttonToAppear);
+
+      }
+  })  
+});

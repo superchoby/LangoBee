@@ -20,7 +20,7 @@
         "plugin:prettier/recommended"
       ],
       "parserOptions": {
-        "project": "./landing_page/tsconfig.json"
+        "project": "./tsconfig.json"
       },
       "rules": {
         "prettier/prettier": [

@@ -1,7 +1,8 @@
 {
   "company": {
     "name": "LangoBee",
-    "logo": "/assets/images/logo.png"
+    "logo": "/assets/images/logo.png",
+    "logoWithText": "/assets/images/LogoWithText.png"
   },
   "navigation": [
     {
@@ -11,11 +12,6 @@
     {
       "name": "Features",
       "href": "features"
-    },
-
-    {
-      "name": "Pricing",
-      "href": "pricing"
     },
     {
       "name": "About",
@@ -30,7 +26,7 @@
     "title": "Learning Japanese",
     "subtitle": "Redefined",
     "description": "Learn everything you need to know about Japanese in a year. We have the tools to help you gain mastery as fast as possible. Everything we wish we had when we were trying to learn Japanese, we give to you.",
-    "img": "/assets/images/happyTeam.jpeg",
+    "img": "/assets/images/textBubbles.png",
     "primaryAction": {
       "text": "Let's go!",
       "href": "#"
@@ -50,7 +46,7 @@
       },
       {
         "title": "All the tools you need to succeed",
-        "description": "We have developed tools and resources to get you over all the hurdles of Japanese we all had to struggle through at one point",
+        "description": "We have developed tools and resources to get you over all the hurdles of Japanese we all had to struggle through. This is an site for learners, made my learners. Everything we struggled with in Japanese we've came up with a solution for you to be able to get over those hurdles as easy as possible.",
         "img": "/assets/images/product2.jpg"
       }
     ]
@@ -61,24 +57,24 @@
     "description": "With our tool, you can learn 7000 words and all the grammar you need in a year. We'll provide everything you need to get over any hurdles",
     "items": [
       {
-        "name": "Efficient Acquisition",
+        "name": "Efficient Learning",
         "description": "Scientifically proven methods to ensure that concepts you learn stay in your long term memory",
-        "icon": "/assets/images/react.png"
+        "icon": "/assets/images/brain.png"
       },
       {
         "name": "Graded Readers",
         "description": "At anytime have access to multitudes of resources to read suited perfectly for your level with in depth explanations in all of them.",
-        "icon": "/assets/images/tailwindcss.svg"
+        "icon": "/assets/images/book.png"
       },
       {
         "name": "Listening",
         "description": "Be able to work on your listening skills at anytime. Take quizzes to see how well you understood it.",
-        "icon": "/assets/images/nextjs.svg"
+        "icon": "/assets/images/audio-book.png"
       },
       {
         "name": "Speaking",
         "description": "Resources to help you practice your pronunciation with native audio and speaking skills",
-        "icon": "/assets/images/ts.png"
+        "icon": "/assets/images/speaking.png"
       }
     ]
   },
@@ -124,24 +120,9 @@
   "about": {
     "sections": [
       {
-        "name": "Something",
+        "name": "Learn Japanese with us now",
         "href": "#",
-        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-      },
-      {
-        "name": "Something",
-        "href": "#",
-        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-      },
-      {
-        "name": "Something",
-        "href": "#",
-        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-      },
-      {
-        "name": "Something",
-        "href": "#",
-        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+        "content": "Learn Japanese with us Now"
       }
     ],
     "socialMedia": {
