@@ -68,7 +68,13 @@ export const QuizResultsPage = ({
             <Header />
             <div className='quiz-results-page-header-and-home-button'>
                 <h1>Summary</h1>
-                <Link className='quiz-results-page-home-button' to={leaveButtonLink}>{leaveButtonText}</Link>
+                <Link 
+                    className='quiz-results-page-home-button' 
+                    data-testid='quiz-results-page-leave-button' 
+                    to={leaveButtonLink}
+                >
+                    {leaveButtonText}
+                </Link>
             </div>
 
             <p className='quiz-results-page-message-on-top'>{messageOnTop}</p>

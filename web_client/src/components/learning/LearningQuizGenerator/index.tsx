@@ -77,12 +77,15 @@ export const LearningQuizGenerator = ({
             onCompletedAllSubjectsQuestions={(subjectId: number, userGotCorrect: boolean) => {
                 for (let i=0; i<content.length; ++i) {
                     if (content[i].subjectId === subjectId) {
-                        if (content[i].subjectType === KANA_TYPE) {
+                        if (content[i].japaneseSubjectType === KANA_TYPE) {
                             const {
                                 audioFile
                             } = content[i] as KanaSubject
-                            (new Audio(audioFile)).play()
-                        } else if (content[i].subjectType === VOCABULARY_TYPE) {
+                            // This is for kana questions with small kana, like ぢゅ
+                            if (audioFile != null) {
+                                (new Audio(audioFile)).play()
+                            }
+                        } else if (content[i].japaneseSubjectType === VOCABULARY_TYPE) {
                             const {
                                 audioFiles
                             } = content[i] as JapaneseVocabularySubject

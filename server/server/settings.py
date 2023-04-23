@@ -108,8 +108,8 @@ CORS_ALLOWED_ORIGINS = [
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'LangoBeeLocal',
-            # 'USER': 'postgres',
+            'NAME': 'langobeelocal',
+            # 'USER': 'superchoby',
             'PASSWORD': '',
             'HOST': '127.0.0.1',
             'PORT': '5432',
@@ -197,14 +197,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# HOST ON CDN IF BETTER PERFORMANCE BECOMES NECESSARY
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    # '/var/www/static/',
-]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

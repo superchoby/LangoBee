@@ -89,7 +89,8 @@ export const LessonLearning = ({
   }, [currentSubjectIdx, subjectsToTeach])
 
   useEffect(() => {
-    if (audioFiles != null && audioFiles.length > 0) {
+    // Atm small kana chars have null audio files so that is why there is this third conditional
+    if (audioFiles != null && audioFiles.length > 0 && audioFiles[0] != null) {
       (new Audio(audioFiles[0])).play()
       .then(_ => {
         if (audioFiles.length > 1) {

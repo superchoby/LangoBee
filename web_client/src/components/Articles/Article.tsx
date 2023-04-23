@@ -104,7 +104,7 @@ export const Article = (): JSX.Element => {
   }
   
   return (
-      <div className='article-page'>
+      <div className='article-page' data-testid='article-page'>
         <Header />
         <h1>{article.title}</h1>
         {article.sections.map(({ header, content }) => {

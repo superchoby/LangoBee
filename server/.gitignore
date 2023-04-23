@@ -221,4 +221,4 @@ cython_debug/
 !.elasticbeanstalk/*.global.yml
 sendgrid.env
 
-AllOfCoursesSubjectsData.json
+AllOfCoursesSubjectsData
