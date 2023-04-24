@@ -144,9 +144,8 @@ class JapaneseVocabulary(JapaneseSubject):
     kanji_that_this_uses = models.ManyToManyField(Kanji, related_name='vocabulary_that_uses_this')
     meaning_mnemonic = models.TextField(null=True)
     reading_mnemonic = models.TextField(null=True)
-    main_meanings_to_use = ArrayField(models.CharField(max_length=20), default=list)
+    main_meanings_to_use = ArrayField(models.TextField(max_length=80), default=list)
     main_text_representation = models.CharField(null=True, max_length=30)
-    
     jmdict = models.OneToOneField('jmdict.JMDictEntries', on_delete=models.SET_NULL, null=True)
     counter_word_info = models.ForeignKey(JapaneseCounterWord, on_delete=models.CASCADE, related_name='vocabulary', null=True)
 

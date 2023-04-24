@@ -1,0 +1,57 @@
+[
+    {
+        "model": "subjects.Subject",
+        "fields": {
+          "language": [
+            "Japanese"
+          ],
+          "has_unique_subject_model": true,
+          "course": [
+            "Japanese",
+            "main"
+          ],
+          "polymorphic_ctype": [
+            "subjects",
+            "japanesevocabulary"
+          ],
+          "subject_type": "vocabulary",
+          "course_level": [
+            17,
+            "Japanese",
+            "main"
+          ],
+          "position_in_course_level": 12,
+          "srs_type": [
+            "fast"
+          ]
+        },
+        "pk": 218695
+      },
+      {
+        "pk": 218695,
+        "model": "subjects.JapaneseSubject",
+        "fields": {
+          "jlpt_level": 5,
+          "japanese_subject_type": "vocabulary"
+        }
+      },
+      {
+        "pk": 218695,
+        "model": "subjects.JapaneseVocabulary",
+        "fields": {
+          "kanji_that_this_uses": [
+            547
+          ],
+          "main_meanings_to_use": [
+            "Counter for long, cylindrical objects"
+          ],
+          "main_text_representation": "〜本",
+          "meaning_mnemonic": "",
+          "reading_mnemonic": "",
+          "jmdict": null,
+          "counter_word_info": [
+            "本"
+          ]
+        }
+      }
+]

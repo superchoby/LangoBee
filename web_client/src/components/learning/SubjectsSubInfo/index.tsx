@@ -22,6 +22,28 @@ import { toKatakana, isKana } from 'wanakana'
 import { HiSpeakerWave } from 'react-icons/hi2'
 import './index.scss' 
 
+function removeParenthesesContent(input: string): string {
+  let output = '';
+  let openParenthesesCount = 0;
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+
+    if (char === '(') {
+      openParenthesesCount++;
+    } else if (char === ')') {
+      if (openParenthesesCount > 0) {
+        openParenthesesCount--;
+      }
+    } else if (openParenthesesCount === 0) {
+      output += char;
+    }
+  }
+
+  return output.trim();
+}
+
+
 interface SubjectsSubInfoSectionProps {
     subheader: string
     children: JSX.Element
@@ -388,29 +410,30 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             return Array.from(readingSet)
           }
 
-          const kunyomiWithOkuriganaRemoved = kunyomi.map(reading => {
-            
-            return reading
-          })
+          const kanjiReadingsSubjectContent: JSX.Element[] = []
+          if (onyomi.length > 0) {
+            kanjiReadingsSubjectContent.push(
+              <SubjectsSubInfoSection subheader='Onyomi' key='Onyomi'>
+                <div>
+                  {getUniqueAndCleanReadings(onyomi).map(reading => toKatakana(reading)).join(', ')}
+                </div>
+              </SubjectsSubInfoSection>
+            )
+          }
+
+          if (kunyomi.length > 0) {
+            kanjiReadingsSubjectContent.push(
+              <SubjectsSubInfoSection subheader='Kunyomi' key='Kunyomi' isLastSubsection={true}>
+                <div>
+                  {getUniqueAndCleanReadings(kunyomi).join(', ')}
+                </div>
+              </SubjectsSubInfoSection>
+            )
+          }
 
           const kanjiReadingsSubjectContentForLesson = {
             header: 'Readings',
-              content: [
-                (
-                  <SubjectsSubInfoSection subheader='Onyomi' key='Onyomi'>
-                    <div>
-                      {getUniqueAndCleanReadings(onyomi).map(reading => toKatakana(reading)).join(', ')}
-                    </div>
-                  </SubjectsSubInfoSection>
-                ),
-                (
-                  <SubjectsSubInfoSection subheader='Kunyomi' key='Kunyomi' isLastSubsection={true}>
-                    <div>
-                      {getUniqueAndCleanReadings(kunyomiWithOkuriganaRemoved).join(', ')}
-                    </div>
-                  </SubjectsSubInfoSection>
-                )
-              ]
+            content: kanjiReadingsSubjectContent
           }
 
           const kanjiCompositionSubjectInfo = {
@@ -481,18 +504,12 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
 
             // Gonna test out instead of the "uk" check just do this based on if the kanjiVersion is labeled as not common
             // TODO: do check to make sure liek things that shoudln't be labeled as UK really dont have it 
-            const isAKanaWord = sense[0].misc.includes('uk') || kanjiVocabulary.length === 0
+            const isAKanaWord = (sense[0].misc.includes('uk') || kanjiVocabulary.length === 0) && (!mainTextRepresentationExists || !/[\u4e00-\u9faf\u3400-\u4dbf]/.test(mainTextRepresentation))
             // const isAKanaWord = kanjiVocabulary.length === 0 || !kanjiVocabulary[0].common
             const mainVocabularyToUse = mainTextRepresentationExists ? mainTextRepresentation : (isAKanaWord ? kanaVocabulary[0].text : kanjiVocabulary[0].text)
             let usingCustomMainMeaning = mainMeaningsToUseForVocab.length > 0
-            let mainMeaningToUse = (usingCustomMainMeaning ? mainMeaningsToUseForVocab[0] : sense[0].gloss[0].text)! 
-            if (!usingCustomMainMeaning) {
-              const openingParenIdx = mainMeaningToUse.indexOf('(')
-              const closingParenIdx = mainMeaningToUse.indexOf(')')
-              if (openingParenIdx !== -1 && closingParenIdx !== -1) {
-                mainMeaningToUse = (mainMeaningToUse.substring(0, openingParenIdx) + mainMeaningToUse.substring(closingParenIdx + 1)).trim()
-              }          
-            }
+            let mainMeaningToUse = usingCustomMainMeaning ? mainMeaningsToUseForVocab[0] : removeParenthesesContent(sense[0].gloss[0].text!) 
+
             const vocabularySubjectInfoToDisplay: SubjectInfoToDisplay[] = []
             if (!isAKanaWord) {
               const thisWordsKanji = kanjiThatThisUses.map(({character}) => character)
@@ -745,7 +762,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             ) : (
               `The counter uses ${normalReading} as the reading.`
             )
-
+              
             counterWordSubjectInfo.push({
               header: 'Description',
               content: [
