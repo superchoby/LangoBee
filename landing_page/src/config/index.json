@@ -1,0 +1,130 @@
+{
+  "company": {
+    "name": "LangoBee",
+    "logo": "/assets/images/logo.png",
+    "logoWithText": "/assets/images/LogoWithText.png"
+  },
+  "navigation": [
+    {
+      "name": "Product",
+      "href": "product"
+    },
+    {
+      "name": "Features",
+      "href": "features"
+    }
+  ],
+  "callToAction": {
+    "text": "Get started",
+    "href": "/signup"
+  },
+  "mainHero": {
+    "title": "Learning Japanese",
+    "subtitle": "Redefined",
+    "description": "Learn everything you need to know about Japanese in a year. We have the tools to help you gain mastery as fast as possible. Everything we wish we had when we were trying to learn Japanese, we give to you.",
+    "img": "/assets/images/textBubbles.png",
+    "primaryAction": {
+      "text": "Let's go!",
+      "href": "/signup"
+    },
+    "secondaryAction": {
+      "text": "Email us",
+      "href": "mailto:issaafakattan@gmail.com?subject=I like react landing page!"
+    }
+  },
+  "product": {
+    "title": "The Most Complete Japanese Resource",
+    "items": [
+      {
+        "title": "Optimized for efficient language acquisition",
+        "description": "Everything you learn builds upon each other. The courses were designed so that you everything is easily understood because the foundations were already built in the previous levels.",
+        "img": "/assets/images/product1.jpg"
+      },
+      {
+        "title": "All the tools you need to succeed",
+        "description": "We have developed tools and resources to get you over all the hurdles of Japanese we all had to struggle through. This is an site for learners, made my learners. Everything we struggled with in Japanese we've came up with a solution for you to be able to get over those hurdles as easy as possible.",
+        "img": "/assets/images/product2.jpg"
+      }
+    ]
+  },
+  "features": {
+    "title": "Latest & greatest ",
+    "subtitle": "Everything you need to learn Japanese!",
+    "description": "With our tool, you can learn 7000 words and all the grammar you need in a year. We'll provide everything you need to get over any hurdles",
+    "items": [
+      {
+        "name": "Efficient Learning",
+        "description": "Scientifically proven methods to ensure that concepts you learn stay in your long term memory",
+        "icon": "/assets/images/brain.png"
+      },
+      {
+        "name": "Graded Readers",
+        "description": "At anytime have access to multitudes of resources to read suited perfectly for your level with in depth explanations in all of them.",
+        "icon": "/assets/images/book.png"
+      },
+      {
+        "name": "Listening",
+        "description": "Be able to work on your listening skills at anytime. Take quizzes to see how well you understood it.",
+        "icon": "/assets/images/audio-book.png"
+      },
+      {
+        "name": "Speaking",
+        "description": "Resources to help you practice your pronunciation with native audio and speaking skills",
+        "icon": "/assets/images/speaking.png"
+      }
+    ]
+  },
+  "pricing": {
+    "title": "Pricing",
+    "items": [
+      {
+        "name": "Free",
+        "price": "$0",
+        "priceDetails": "for one user",
+        "features": [
+          "1 user",
+          "Basic Support",
+          "1 GB of storage",
+          "Email support"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": "$15",
+        "priceDetails": "per user",
+
+        "features": [
+          "5 users",
+          "Priority Support",
+          "10 GB of storage",
+          "Phone and Email support"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "price": "$29",
+        "priceDetails": "per user",
+        "features": [
+          "50 users",
+          "24/7 Support",
+          "100 GB of storage",
+          "Phone and Email support"
+        ]
+      }
+    ]
+  },
+  "about": {
+    "sections": [
+      {
+        "name": "Learn Japanese with us now",
+        "href": "#",
+        "content": "Learn Japanese with us Now"
+      }
+    ],
+    "socialMedia": {
+      "github": "https://github.com/issaafalkattan",
+      "twitter": "https://twitter.com/issaafkattan",
+      "linkedin": "https://www.linkedin.com/in/issaaf-kattan/"
+    }
+  }
+}

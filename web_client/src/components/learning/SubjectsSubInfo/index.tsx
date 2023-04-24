@@ -1,4 +1,4 @@
-import { useEffect, useState, FC, useMemo } from "react"
+import { useEffect, useState, FC, useMemo, Fragment } from "react"
 import { 
     JapaneseSubjectData,
     KANA_TYPE,
@@ -198,6 +198,57 @@ export const parseHtmlString = (htmlString: string, className?: string) => {
   return <p dangerouslySetInnerHTML={{__html: xmlDoc.documentElement.innerHTML}} className={className} />
 }
 
+const SpecialKanaExplanation = ({explanation}: {explanation: string}) => {
+  const getValues = (valueName: string, stringToExtract: string) => {
+    const startingTag = `<${valueName}>`
+    const endingTag = `</${valueName}>`
+    const values: string[] = [];
+    let startIndex: number = 0;
+    let endIndex: number = 0;
+    while (startIndex !== -1 && endIndex !== -1) {
+      startIndex = stringToExtract.indexOf(startingTag, startIndex);
+  
+      if (startIndex !== -1) {
+        endIndex = stringToExtract.indexOf(endingTag, startIndex + startingTag.length);
+  
+        if (endIndex !== -1) {
+          const substring = stringToExtract.slice(startIndex + startingTag.length, endIndex);
+          values.push(substring);
+          startIndex = endIndex + endingTag.length;
+        }
+      }
+    }
+    return values
+  }
+
+  const kanaExplanation = getValues('explanation', explanation)[0]
+  const examples = getValues('SpecialKanaExplanationExample', explanation)
+
+  return (
+    <div>
+      {kanaExplanation}
+      <br />
+      {examples.map(example => {
+        const audioUrl = getValues('AudioUrl', example)[0]
+        const kanaExample = getValues('KanaExample', example)[0]
+        const romajiExample = getValues('RomajiExample', example)[0]
+        debugger
+        return (
+          <div 
+            className='subject-presenter-section-contents subject-presenter-audio-player-container' 
+            key={kanaExample}
+            onClick={() => (new Audio(audioUrl)).play() }
+          >
+            <HiSpeakerWave className='subject-presenter-section-play-audio' /> 
+            <div>{kanaExample} -&gt; {romajiExample}</div>
+          </div>
+        )
+      })}
+    </div>    
+  )
+}
+
+
 type ContainedRadical = {
   character: string
   meaning: string
@@ -229,7 +280,7 @@ const JapaneseExamplesAndContainedSubjects = ({
           description = subject.meaning
         } else if (type === KANJI_TYPE) {
           characters = subject.character
-          description = subject.meanings[0]
+          description = subject.meanings[0] 
         }
 
         return (
@@ -286,7 +337,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             kanaSubjectInfoToDisplay.push(
               <SubjectsSubInfoSection subheader='Explanation' key='Explanation' isLastSubsection={true}>
                 <>
-                  {kanaSubject.specialKanaExplanation.length > 0 && parseHtmlString(kanaSubject.specialKanaExplanation)}
+                  {kanaSubject.specialKanaExplanation.length > 0 && <SpecialKanaExplanation explanation={kanaSubject.specialKanaExplanation} />}
                 </>
               </SubjectsSubInfoSection>
             )
@@ -314,7 +365,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
   
           return {
             subjectText: radicalSubject.character,
-            subjectMainDescription: radicalSubject.meaning,
+            subjectMainDescription: radicalSubject.meaning.includes('katakana') ? `${radicalSubject.meaning}, ${radicalSubject.meaning.split('katakana').join('').trim()}` : radicalSubject.meaning,
             subjectType: RADICAL_TYPE,
             subjectInfoToDisplay: [
               {
@@ -324,7 +375,11 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                       <SubjectsSubInfoSection subheader='Mnemonic' key='Mnemonic'>
                         {/* <div className='list-of-other-japanese-subjects'> */}
                         <div>
-                          {parseHtmlString(radicalSubject.mnemonicExplanation)}
+                          {
+                            radicalSubject.mnemonicExplanation.length > 0 ? 
+                            parseHtmlString(radicalSubject.mnemonicExplanation) : 
+                            'No mnemonic exists for this radical yet'
+                          }
                         </div>
                         {/* </div> */}
                       </SubjectsSubInfoSection>
@@ -367,7 +422,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
 
           const kanjiMeaningMnemonicComponent = (isLastSubsection: boolean) => (
             <SubjectsSubInfoSection subheader='Meaning Mnemonic' key='Meaning Mnemonic' isLastSubsection={isLastSubsection}>
-              {kanjiMeaningMnemonic.length > 0 ? parseHtmlString(kanjiMeaningMnemonic) : <>No mnemonic yet</>}
+              {kanjiMeaningMnemonic.length > 0 ? parseHtmlString(kanjiMeaningMnemonic) : <>No mnemonic exists for this kanji yet</>}
             </SubjectsSubInfoSection>
           )
           const kanjiMeaningSubjectContentForQuiz = [
@@ -394,7 +449,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                   {/* TODO: if i am using a custom main meaning, remove all those, if just teh first meaning, just remove the first meaning, line 285 */}
                   <div>{mainMeaningsToUseForKanji.length > 0 ? mainMeaningsRemoved.join(', ') : radicalMeaningsRemoved.slice(1).join(', ')}</div>
                 </SubjectsSubInfoSection>
-              ) : <></>
+              ) : <Fragment key='blank'></Fragment>
           ]
 
           const getUniqueAndCleanReadings = (readings: string[]) => {
@@ -502,8 +557,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
               sense
             } = jmdict
 
-            // Gonna test out instead of the "uk" check just do this based on if the kanjiVersion is labeled as not common
-            // TODO: do check to make sure liek things that shoudln't be labeled as UK really dont have it 
             const isAKanaWord = (sense[0].misc.includes('uk') || kanjiVocabulary.length === 0) && (!mainTextRepresentationExists || !/[\u4e00-\u9faf\u3400-\u4dbf]/.test(mainTextRepresentation))
             // const isAKanaWord = kanjiVocabulary.length === 0 || !kanjiVocabulary[0].common
             const mainVocabularyToUse = mainTextRepresentationExists ? mainTextRepresentation : (isAKanaWord ? kanaVocabulary[0].text : kanjiVocabulary[0].text)
@@ -525,7 +578,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 header: 'Composition',
                 content: [
                   (
-                    <SubjectsSubInfoSection subheader='Contained Kanji' key='Composition'>
+                    <SubjectsSubInfoSection subheader='Contained Kanji' key='Contained Kanji'>
                       <div className='list-of-other-japanese-subjects'>
                         <JapaneseExamplesAndContainedSubjects
                           subjects={dataForKanjiInTheMainKanjiVersionOfTheWord.map((data) => ({ ...data, type: KANJI_TYPE }))} 

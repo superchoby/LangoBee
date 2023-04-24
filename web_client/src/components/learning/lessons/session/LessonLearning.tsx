@@ -17,6 +17,17 @@ import ClipLoader from 'react-spinners/ClipLoader'
 import { LESSONS_PATH } from 'src/paths'
 import { BackButton } from 'src/components/shared/BackButton'
 
+function isUserOnPC() {
+  const userAgent = navigator.userAgent;
+
+  // Check if the user is on a Windows, Mac, or Linux-based system
+  if (/Windows|Macintosh|Linux/.test(userAgent)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export interface LearningCardProp extends LearningFlashcard {
   pronunciationFileKey: string
 }
@@ -52,6 +63,7 @@ export const LessonLearning = ({
   const [markingUserAsKnowingSubject, changeMarkingUserAsKnowingSubject] = useState(false)
   const [errorConfirmingUserKnowsSubject, changeErrorConfirmingUserKnowsSubject] = useState(false)
   const [contentToDisplay, setContentToDisplay] = useState('')
+
   const {
     subjectText,
     subjectMainDescription,
@@ -89,9 +101,9 @@ export const LessonLearning = ({
   }, [currentSubjectIdx, subjectsToTeach])
 
   useEffect(() => {
-    if (audioFiles != null && audioFiles.length > 0) {
+     // Atm small kana chars have null audio files so that is why there is this third conditional
+    if (audioFiles != null && audioFiles.length > 0 && audioFiles[0] != null) {
       const firstAudio = (new Audio(audioFiles[0]))
-
       firstAudio.onended = _ => {
         if (audioFiles.length > 1) {
           (new Audio(audioFiles[1])).play()
@@ -126,6 +138,7 @@ export const LessonLearning = ({
       changeMarkingUserAsKnowingSubject(false)
     })
   }
+  console.log(navigator.userAgent)
 
   const handleGoingForwardOrBack = (goingForward: boolean) => {
     if (goingForward) {
@@ -158,8 +171,13 @@ export const LessonLearning = ({
               handleGoingForwardOrBack(false)
             } else if (key === 'ArrowRight') {
               handleGoingForwardOrBack(true)
-            } else if (key === 'Enter' && showStartQuizModal) {
-              startQuiz()
+            } else if (key === 'Enter') {
+              if (showStartQuizModal) {
+                startQuiz()
+              } else if (confirmUserKnowsSubject) {
+                markUserAsKnowingSubject()
+              }
+              
             }
           }}
           tabIndex={0}
@@ -232,7 +250,10 @@ export const LessonLearning = ({
             preventScroll={true}
           > 
             <h3>Confirmation</h3>
-            <p>This subject won't pop up in your reviews to study and you'll move onto the next subject</p>
+            <p>
+              This subject won't pop up in your reviews to study and you'll move onto the next subject. 
+              {isUserOnPC() && <i> Press the "enter" key to confirm</i>}
+            </p>
 
             <div className='lessons-session-ready-to-start-quiz-modal-buttons-container'>
               <button 

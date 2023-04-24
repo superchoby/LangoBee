@@ -4,14 +4,11 @@ import {
   QUIZ_TYPE
 } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 import './index.scss'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { LessonLearning } from './LessonLearning'
-import { useAppDispatch } from 'src/app/hooks'
 import axios from 'axios'
-import { QuizGenerator } from '../../../shared/QuizGenerator'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { JapaneseSubjectData } from '../SubjectTypes'
-import { userAddedMoreSubjectsToReview } from '../../../../app/userSlice'
 import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { LearningQuizGenerator } from '../../LearningQuizGenerator'
 
@@ -35,8 +32,6 @@ export const LessonSession = (): JSX.Element => {
   const [currentPage, changeCurrentPage] = useState<typeof LEARNING_TYPE | typeof QUIZ_TYPE>(LEARNING_TYPE)
   const [subjectsForLessonHasBeenFetched, changeSubjectsForLessonHasBeenFetched] = useState(false)
   const [subjectsToLearn, changeSubjectsToLearn] = useState<JapaneseSubjectData[]>([])
-  const [errorWithUpdatingUsersProgress, changeErrorWithUpdatingUsersProgress] = useState(false)
-  const [userCompletedLevel, changeUserCompletedLevel] = useState(false)
   const [subjectsAndTheirInitialReviewInfo, changeSubjectsAndTheirInitialReviewInfo] = useState<{ [subjectId: number]: { level: number, isFastReviewCard: boolean} }>({})
 
   useEffect(() => {
@@ -70,13 +65,7 @@ export const LessonSession = (): JSX.Element => {
       console.error(err)
     })
   }, [])
-
-  const completionMessage = `You have completed the quiz${userCompletedLevel ? ' and the whole level!' : ''}! That's +${subjectsToLearn.length * 5} points!`
-
-  const quizContents = useMemo(() => (
-    subjectsToLearn.map(subject => ({...subject, currentReviewLevel: 0}))
-  ), [subjectsToLearn])
-
+  
   return (
         <div>
             <div>
