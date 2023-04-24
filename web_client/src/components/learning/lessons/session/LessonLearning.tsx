@@ -101,17 +101,10 @@ export const LessonLearning = ({
   }, [currentSubjectIdx, subjectsToTeach])
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (audioFiles != null && audioFiles.length > 0) {
-      const firstAudio = (new Audio(audioFiles[0]))
-
-      firstAudio.onended = _ => {
-=======
-    // Atm small kana chars have null audio files so that is why there is this third conditional
+     // Atm small kana chars have null audio files so that is why there is this third conditional
     if (audioFiles != null && audioFiles.length > 0 && audioFiles[0] != null) {
-      (new Audio(audioFiles[0])).play()
-      .then(_ => {
->>>>>>> e2e-testing
+      const firstAudio = (new Audio(audioFiles[0]))
+      firstAudio.onended = _ => {
         if (audioFiles.length > 1) {
           (new Audio(audioFiles[1])).play()
         }

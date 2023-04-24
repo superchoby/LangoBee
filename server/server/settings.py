@@ -109,12 +109,7 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'langobeelocal',
-<<<<<<< HEAD
             # 'NAME': 'ProdCopy1',
-            # 'USER': 'postgres',
-=======
-            # 'USER': 'superchoby',
->>>>>>> e2e-testing
             'PASSWORD': '',
             'HOST': '127.0.0.1',
             'PORT': '5432',

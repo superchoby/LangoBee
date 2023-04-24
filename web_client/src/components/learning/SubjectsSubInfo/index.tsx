@@ -113,10 +113,7 @@ const SubjectsSubInfoAudioSection = ({
                 currentPitch = LOW_PITCH
               }
             }
-<<<<<<< HEAD
 
-=======
->>>>>>> e2e-testing
             pitchGraph.push(<span className={className} key={j}>{characters[i][j-1]}</span>)
           }
         }
