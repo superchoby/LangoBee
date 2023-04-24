@@ -30,6 +30,11 @@
     // transition: background-color .2s;
 }
 
+.article-page {
+    font-size: 16px;
+    line-height: 18px;
+}
+
 .article-done-button-check-mark {
     margin-left: 7px;
 }
@@ -43,13 +48,7 @@
 @media only screen and (min-width: 670px) {
     .article-page {
         font-size: 18px;
-        width: 500px;
-    }
-}
-
-@media only screen and (min-width: 670px) {
-    .article-page {
-        font-size: 18px;
+        line-height: 21px;
         width: 500px;
     }
 }
