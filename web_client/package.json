@@ -39,7 +39,7 @@
     "sass": "^1.45.0",
     "shuffle-array": "^1.0.1",
     "snapsvg-cjs-ts": "^0.0.6",
-    "source-map-explorer": "^2.5.2",
+    "source-map-explorer": "^2.5.3",
     "timers": "^0.1.1",
     "use-sound": "^4.0.1",
     "wanakana": "^4.0.2",

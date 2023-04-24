@@ -131,7 +131,7 @@ export const GrammarQuestion = ({
 
   return (
       <div className='grammar-question-container' data-testid='grammar-question-container'>
-          <div>
+          <div data-testid='grammar-question-components'>
               {grammarQuestionComponents}
           </div>
           <div>

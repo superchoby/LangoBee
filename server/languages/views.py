@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Course, UsersProgressOnCourse, Language, Article, UsersArticleProgress
-from subjects.serializers import JapaneseSubjectSerializer, KanaSerializer, SubjectPolymorphicSerializer
+from subjects.serializers import JapaneseSubjectSerializer, KanaSerializer, SubjectPolymorphicSerializer, KanjiSerializer
 from .serializers import CourseLevelSerializer, ArticleSerializer
 from subjects.models import Kanji
 from users.models import User
@@ -147,11 +147,10 @@ class GetUsersSubjectsForLessons(APIView):
                 subjects_to_send_to_user.append(subject)
 
             reached_num_of_cards_to_teach_in_one_lesson_limit = len(subjects_to_send_to_user) >= request.user.num_of_subjects_to_teach_per_lesson
-            # reached_num_of_cards_to_teach_in_one_lesson_limit = len(subjects_to_send_to_user) >= 
             reached_srs_limit = len(subjects_to_send_to_user) + request.user.srs_subjects_added_today >= request.user.srs_limit
             if reached_num_of_cards_to_teach_in_one_lesson_limit or reached_srs_limit:
                 break
-        
+
         subjects_to_teach = SubjectPolymorphicSerializer(subjects_to_send_to_user, many=True).data
         for subject in subjects_to_teach:
             if 'japanese_subject_type' in subject:

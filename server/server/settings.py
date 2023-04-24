@@ -26,7 +26,7 @@ isInProdEnviron = 'SECRET_KEY' in os.environ
 SECRET_KEY = os.environ['SECRET_KEY'] if isInProdEnviron else 'dummy key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = not isInProdEnviron
 
 ALLOWED_HOSTS = [
     'https://japanese-learning-site-server.herokuapp.com',
@@ -109,8 +109,12 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'langobeelocal',
+<<<<<<< HEAD
             # 'NAME': 'ProdCopy1',
             # 'USER': 'postgres',
+=======
+            # 'USER': 'superchoby',
+>>>>>>> e2e-testing
             'PASSWORD': '',
             'HOST': '127.0.0.1',
             'PORT': '5432',
@@ -198,14 +202,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# HOST ON CDN IF BETTER PERFORMANCE BECOMES NECESSARY
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    # '/var/www/static/',
-]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

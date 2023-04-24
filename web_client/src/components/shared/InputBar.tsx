@@ -48,17 +48,19 @@ function usePrevious (value: Function): Function | undefined {
 export default usePrevious
 
 function hasSpecialChars (str: string): boolean {
-  return /[~`@!#$%^&*+=\-[\]\\';,/{}|\\"<>?]/g.test(str)
+  return /[~`@#$%^&*+=\[\]\\;/{}|\\<>]/g.test(str)
 }
 
 export const inputIsInvalid = (value: string, answerIsInJapanese: boolean): boolean => {
   if (value.length === 0) {
     return true
   }
+  const japaneseCharRegex = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/
   let hasHiragana = false
   let hasKatakana = false
   let hasANumber = false
   let hasEnglish = false
+  let hasJapaneseChar = false
 
   for (const char of value) {
     if (isHiragana(char) && char !== 'ー') {
@@ -69,12 +71,14 @@ export const inputIsInvalid = (value: string, answerIsInJapanese: boolean): bool
       hasANumber = true
     } else if (/^[a-zA-Z]+$/.test(char)) {
       hasEnglish = true
+    } else if (japaneseCharRegex.test(char)) {
+      hasJapaneseChar = true
     }
   }
 
   const hasHiraganaAndKatakana = hasHiragana && hasKatakana
-  const answerIsJapaneseAndHasNoKana =
-    answerIsInJapanese && !hasHiragana && !hasKatakana
+  const answerIsJapaneseAndHasNoKanaOrJapaneseChars =
+    answerIsInJapanese && !hasHiragana && !hasKatakana && !hasJapaneseChar
   const answerIsEnglishAndHasKana =
     !answerIsInJapanese && (hasHiragana || hasKatakana)
   const answerIsJapaneseAndHasANum = hasANumber && answerIsInJapanese
@@ -82,7 +86,7 @@ export const inputIsInvalid = (value: string, answerIsInJapanese: boolean): bool
 
   if (
     hasHiraganaAndKatakana ||
-    answerIsJapaneseAndHasNoKana ||
+    answerIsJapaneseAndHasNoKanaOrJapaneseChars ||
     answerIsEnglishAndHasKana ||
     answerIsJapaneseAndHasANum ||
     hasSpecialChars(value) ||
