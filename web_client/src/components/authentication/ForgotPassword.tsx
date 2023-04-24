@@ -76,7 +76,7 @@ export const ForgotPassword = (): JSX.Element => {
         authenticationProcessErrorMessage={errorMsg}
         alternativeLinks={
           <div>
-              Remember your password? <Link to={LOGIN_PATH}>Log In</Link>
+              Remember your password? <Link to={LOGIN_PATH}>Log in</Link>
           </div>
         }
         inputs={[
@@ -92,9 +92,9 @@ export const ForgotPassword = (): JSX.Element => {
         formName='login-form'
         infoHasBeenSubmitted={timesSentEmail > 0}
         contentToShowAfterSubmit={
-          <div>
+          <div className='reset-password-email-sent-msg'>
             If you don't receive it within a few minutes, 
-            <button onClick={SendResetPasswordEmail}>resend</button> 
+            <button onClick={SendResetPasswordEmail} className='resend-forgot-pass-button'>resend</button> 
             the email. Be sure to check your spam as well
           </div>
         }

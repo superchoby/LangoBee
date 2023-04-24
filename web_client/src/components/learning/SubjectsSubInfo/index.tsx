@@ -392,15 +392,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
           } = kanjiSubject
   
           const kanjiConsistsOfOtherComponents = radicalsUsed.length + kanjiContainedWithinThis.length > 0
-          const kunyomiWithOkuriganaRemoved = kunyomi.map(reading => {
-            const dotIdx = reading.indexOf('.')
-            if (dotIdx !== -1) {
-              return reading.slice(0, dotIdx)
-            }
-            return reading
-          })
           // @ts-ignore
-          const onlyUniqueKunyomi = [...(new Set(kunyomiWithOkuriganaRemoved))]
           const radicalMeaningsRemoved = meanings.filter(meaning => {
             return !meaning.includes('Radical')
           })
@@ -437,20 +429,39 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 </SubjectsSubInfoSection>
               ) : <Fragment key='blank'></Fragment>
           ]
+
+          const getUniqueAndCleanReadings = (readings: string[]) => {
+            const readingSet = new Set<string>()
+            for (const reading of readings) {
+              let modifiedReading = reading
+              const dotIdx = modifiedReading.indexOf('.')
+              if (dotIdx !== -1) {
+                modifiedReading = modifiedReading.slice(0, dotIdx)
+              }
+              readingSet.add(modifiedReading.replace('-', ''))
+            }
+            return Array.from(readingSet)
+          }
+
+          const kunyomiWithOkuriganaRemoved = kunyomi.map(reading => {
+            
+            return reading
+          })
+
           const kanjiReadingsSubjectContentForLesson = {
             header: 'Readings',
               content: [
                 (
                   <SubjectsSubInfoSection subheader='Onyomi' key='Onyomi'>
                     <div>
-                      {onyomi.map(reading => toKatakana(reading)).join(', ')}
+                      {getUniqueAndCleanReadings(onyomi).map(reading => toKatakana(reading)).join(', ')}
                     </div>
                   </SubjectsSubInfoSection>
                 ),
                 (
                   <SubjectsSubInfoSection subheader='Kunyomi' key='Kunyomi' isLastSubsection={true}>
                     <div>
-                      {onlyUniqueKunyomi.join(', ')}
+                      {getUniqueAndCleanReadings(kunyomiWithOkuriganaRemoved).join(', ')}
                     </div>
                   </SubjectsSubInfoSection>
                 )
