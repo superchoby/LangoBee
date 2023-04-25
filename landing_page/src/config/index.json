@@ -33,7 +33,7 @@
     "img": "/assets/images/textBubbles.png",
     "primaryAction": {
       "text": "Let's go!",
-      "href": "/signup"
+      "href": "/home"
     },
     "secondaryAction": {
       "text": "Email us",
