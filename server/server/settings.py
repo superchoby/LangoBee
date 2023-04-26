@@ -108,7 +108,7 @@ CORS_ALLOWED_ORIGINS = [
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'langobeelocal',
+            'NAME': 'LangoBeeLocal',
             # 'NAME': 'ProdCopy1',
             'PASSWORD': '',
             'HOST': '127.0.0.1',
