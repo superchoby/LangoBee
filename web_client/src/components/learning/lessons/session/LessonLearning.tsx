@@ -138,7 +138,6 @@ export const LessonLearning = ({
       changeMarkingUserAsKnowingSubject(false)
     })
   }
-  console.log(navigator.userAgent)
 
   const handleGoingForwardOrBack = (goingForward: boolean) => {
     if (goingForward) {

@@ -232,7 +232,6 @@ const SpecialKanaExplanation = ({explanation}: {explanation: string}) => {
         const audioUrl = getValues('AudioUrl', example)[0]
         const kanaExample = getValues('KanaExample', example)[0]
         const romajiExample = getValues('RomajiExample', example)[0]
-        debugger
         return (
           <div 
             className='subject-presenter-section-contents subject-presenter-audio-player-container' 

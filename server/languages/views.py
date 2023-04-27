@@ -140,7 +140,7 @@ class GetUsersSubjectsForLessons(APIView):
             *subjects_divided_by_type['vocabulary'],
             *subjects_divided_by_type['grammar'],
         ]
-   
+
         subjects_to_send_to_user = []
         for subject in subjects_arranged_by_type:
             if not request.user.subjects.filter(pk=subject.id).exists():

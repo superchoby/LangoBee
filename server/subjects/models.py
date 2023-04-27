@@ -191,7 +191,7 @@ class Grammar(JapaneseSubject):
         ('very casual', 'Very casual'),
         ('standard', 'Used in any case')
     ]
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     meaning = models.CharField(max_length=150)
     structure = models.CharField(max_length=150)
     formality = models.CharField(choices=formality_levels, max_length=max(len(level[0]) for level in formality_levels))
@@ -199,6 +199,9 @@ class Grammar(JapaneseSubject):
     formality_matters_for_its_questions = models.BooleanField(default=False)
 
     objects = GrammarManager()
+
+    class Meta:
+        unique_together = ('name', 'meaning')
 
     def __str__(self):
         return f'{self.name} {self.meaning}'

@@ -42,7 +42,8 @@ export const Homepage = (): JSX.Element => {
           profilePicture,
           dates_studied: datesStudied,
           date_joined: dateJoined,
-          srs_limit: srsLimit
+          srs_limit: srsLimit,
+          num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson
         } = res.data
         dispatch(updateUserInfo({
           username,
@@ -52,7 +53,8 @@ export const Homepage = (): JSX.Element => {
           profilePicture,
           datesStudied,
           dateJoined,
-          srsLimit
+          srsLimit,
+          numOfSubjectsToTeachPerLesson
         }))
         const reviewCards = review_cards.map((card: any) => keysToCamel(card))
         dispatch(updateSrsFlashcards({

@@ -36,7 +36,7 @@ export const StoriesHome = () => {
                         slug,
                         title,
                     }) => (
-                        <div className='story-choice'>
+                        <div className='story-choice' key={slug}>
                             <Link to={`${STORIES_HOME_PATH}/Japanese/${slug}`} className='story-choice-link'>
                                 {title}
                             </Link>

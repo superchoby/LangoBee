@@ -13,7 +13,7 @@ class Story(models.Model):
     title=models.CharField(max_length=50)
     slug=models.SlugField()
     recommended_level=models.PositiveIntegerField()
-    audio_link=models.CharField(max_length=100, unique=True)
+    audio_link=models.CharField(max_length=100, null=True)
     language=models.ForeignKey('languages.Language', related_name='stories', on_delete=models.CASCADE)
     likes=models.PositiveIntegerField(default=0)
     image=models.CharField(max_length=100)
