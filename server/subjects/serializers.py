@@ -17,10 +17,14 @@ from .models import (
     JapaneseCounterWordHowToAskForHowMany,
     JapaneseCounterWordObjects,
     JapaneseCounterWordSpecialNumber,
-    AcceptableResponsesButNotWhatLookingFor
+    AcceptableResponsesButNotWhatLookingFor,
+    SubjectsDifferencesExplanation
 )
 from languages.serializers import LanguageSerializer
-from jmdict.serializers import JMDictEntriesSerializer
+from jmdict.serializers import (
+    JMDictEntriesSerializer,
+    JmDictEntriesSerializerForVocabDifferences
+)
 from rest_polymorphic.serializers import PolymorphicSerializer
 
 class SubjectExampleTranslationSerializer(serializers.ModelSerializer):
@@ -44,7 +48,46 @@ class SubjectExampleSerializer(serializers.ModelSerializer):
             'translations'
         ]
 
+class JapaneseVocabularySerializerForDifferences(serializers.ModelSerializer):
+    jmdict = JmDictEntriesSerializerForVocabDifferences()
+    class Meta:
+        model = JapaneseVocabulary
+        editable = False
+        fields = [
+            'id',
+            'main_meanings_to_use',
+            'main_text_representation',
+            'jmdict'
+        ]
+
+class SubjectsDifferencesExplanationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubjectsDifferencesExplanation
+        editable = False
+        fields = [
+            'difference_from_perspective_of_first_subject',
+            'difference_from_perspective_of_second_subject',
+            'general_difference'
+        ]
+
+
+class KanjiSerializerForDifferences(serializers.ModelSerializer):
+    class Meta:
+        model = Kanji
+        editable=False
+        fields = [
+            'character',
+            'meanings',
+        ]
+
+class SubjectPolymorphicDifferencesSerializer(PolymorphicSerializer):
+    model_serializer_mapping = {
+        JapaneseVocabulary: JapaneseVocabularySerializerForDifferences,
+        Kanji: KanjiSerializerForDifferences,
+    }
+
 class SubjectSerializer(serializers.ModelSerializer):
+    differences_explanations = SubjectPolymorphicDifferencesSerializer(many=True)
     class Meta:
         model = Subject
         editable = False
@@ -53,6 +96,7 @@ class SubjectSerializer(serializers.ModelSerializer):
             'subject_type',
             'srs_type',
             'has_unique_subject_model',
+            'differences_explanations'
         ]
 
 class JapaneseSubjectSerializer(serializers.ModelSerializer):
@@ -245,6 +289,7 @@ class JapaneseVocabularySerializer(serializers.ModelSerializer):
     audio_files = JapaneseVocabularyAudioFileSerializer(many=True)
     counter_word_info = JapaneseCounterWordSerializer()
     acceptable_responses_but_not_what_looking_for = AcceptableResponsesButNotWhatLookingForSerializer(many=True)
+    differences_explanations = SubjectPolymorphicDifferencesSerializer(many=True)
 
     class Meta:
         model = JapaneseVocabulary
@@ -260,7 +305,8 @@ class JapaneseVocabularySerializer(serializers.ModelSerializer):
             'custom_questions',
             'audio_files',
             'counter_word_info',
-            'acceptable_responses_but_not_what_looking_for'
+            'acceptable_responses_but_not_what_looking_for',
+            'differences_explanations'
         ]
 
 class GrammarQuestionTranslationSerializer(serializers.ModelSerializer):
