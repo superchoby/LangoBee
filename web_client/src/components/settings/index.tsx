@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { InputHTMLAttributes, useState } from 'react'
 import { SettingsSection } from './SettingsSection'
 import { CloudinaryUploadWidget } from './CloudinaryUploadWidget'
 import { ProfilePic } from '../shared/ProfilePic'
 import { useAppSelector } from '../../app/hooks'
-import { updateSrsLimit } from 'src/app/userSlice'
+import { updateSrsLimit, updateSubjectsPerSessionLimit } from 'src/app/userSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { DeleteAccount } from './DeleteAccount'
 import axios from 'axios'
@@ -33,78 +33,134 @@ const ChangeSettingButton = ({
     )
 } 
 
-export const Settings = (): JSX.Element => {
-    const [editingLessonsLimit, changeEditingLessonsLimit] = useState(false)
-    const { username, email, srsLimit } = useAppSelector(state => state.user)
-    const [currentLessonLimit, changeCurrentLessonLimit] = useState(srsLimit)
-    const [userSettingInvalidLessonLimit, changeUserSettingInvalidLessonLimit] = useState(false)
-    const dispatch = useAppDispatch()
+interface EditableSettingProps {
+    inputProps: InputHTMLAttributes<HTMLInputElement>
+    initialState: number | string
+    handleSave(changeCurrentlyEditing: (editing: false) => void, newValue: number | string): void
+    isInputInvalid(input: number | string): boolean
+    imputRestrictionMsg: string
+}
 
-    const handleLessonsLimitSave = () => {
-        if (currentLessonLimit >= 1 && currentLessonLimit <= 500) {
-            axios.post('users/change-srs-limit/', {newSrsLimit: currentLessonLimit})
-            .then(_ => {
-                changeUserSettingInvalidLessonLimit(false)
-                dispatch(updateSrsLimit({newSrsLimit: currentLessonLimit}))
-                changeEditingLessonsLimit(false)
-            })
-            .catch(_=> {
-                console.log('error saving lessons limit')
-                changeEditingLessonsLimit(false)
-            })
-        } else {
-            changeUserSettingInvalidLessonLimit(true)
+const EditableSetting = ({
+    inputProps,
+    initialState,
+    handleSave,
+    isInputInvalid,
+    imputRestrictionMsg,
+}: EditableSettingProps) => {
+    const [currentlyEditing, changeCurrentlyEditing] = useState(false)
+    const [inputIsInvalid, changeInputIsInvalid] = useState(false)
+    const [currentState, changeCurrentState] = useState(initialState)
+
+    const handleSaveWrapper = () => {
+        if (!inputIsInvalid) {
+            handleSave(changeCurrentlyEditing, currentState)
         }
     }
 
-    
-
-    const handleLessonsLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changeCurrentLessonLimit(parseInt(event.target.value))
+    const handleInputChange = (value: string) => {
+        const correctValueType = typeof initialState === "number" ? parseInt(value) : value
+        changeCurrentState(correctValueType)
+        changeInputIsInvalid(isInputInvalid(correctValueType))
     }
 
-    // TODO: Add delete account for testing purproses
-    // then will have test flow user can sign up, then go in and set review to 500, do the lessons
-    // then get the reviews all ready by creating new endoint to make all reviews avialb,e
-    // speed run that then delete acc after
+    return currentlyEditing ? (
+        <div className='change-lessons-limit-input-container'>
+            <input 
+                className='change-setting-input change-lessons-limit-input' 
+                value={currentState}
+                onChange={({target: {value}}) =>  handleInputChange(value)} 
+                {...inputProps}
+            />
+            <button 
+                className='settings-change-button' 
+                onClick={() => {
+                    changeCurrentlyEditing(false)
+                    changeCurrentState(initialState)
+                    changeInputIsInvalid(false)
+                }} 
+            >
+                cancel
+            </button> 
+            <button className='settings-change-button' onClick={handleSaveWrapper}>save</button>
+            <span className={inputIsInvalid ? 'incorrect-srs-limit-set' : ''}>&nbsp;({imputRestrictionMsg})</span>
+        </div>
+    ) : (
+        <>&nbsp;{currentState} <ChangeSettingButton changeCurrentlyEditing={changeCurrentlyEditing} /></>
+    )
+}
 
-  return (
+export const Settings = (): JSX.Element => {
+    const { 
+        username, 
+        email, 
+        srsLimit, 
+        numOfSubjectsToTeachPerLesson 
+    } = useAppSelector(state => state.user)
+    const dispatch = useAppDispatch()
+
+    const handleLessonsLimitSave = (changeCurrentlyEditing: (editing: false) => void, newLessonLimit: number) => {
+        axios.post('users/change-srs-limit/', {newSrsLimit: newLessonLimit})
+        .then(_ => {
+            dispatch(updateSrsLimit({newSrsLimit: newLessonLimit}))
+            changeCurrentlyEditing(false)
+        })
+        .catch(_=> {
+            console.error('error saving lessons limit')
+            changeCurrentlyEditing(false)
+        })
+    }
+
+    const handleSubjectsPerSessionSave = (changeCurrentlyEditing: (editing: false) => void, newSubjectsLimit: number) => {
+        axios.post('users/change-subjects-per-session-limit/', {newSubjectsLimit: newSubjectsLimit})
+        .then(_ => {
+            dispatch(updateSubjectsPerSessionLimit({updateSubjectsPerSessionLimit: newSubjectsLimit}))
+            changeCurrentlyEditing(false)
+        })
+        .catch(_=> {
+            console.error('error saving subjects limit')
+            changeCurrentlyEditing(false)
+        })
+    }
+
+    return (
         <div className='settings-page-container'>
-            {/* <BackButton /> */}
             <div className='settings-header'>Settings</div>
             <div className='settings-sections'>
-                <SettingsSection title='Lessons' isTheLastSection={false} >
+                <SettingsSection title='Lessons' isTheLastSection={false}>
                     <div>
-                        <span className='bold-span'>Lessons Limit:</span> 
-                        {editingLessonsLimit ? (
-                            <div className='change-lessons-limit-input-container'>
-                                <input 
-                                    className='change-setting-input change-lessons-limit-input' 
-                                    value={currentLessonLimit}
-                                    onChange={handleLessonsLimitChange} 
-                                    type='number' 
-                                    min='1' 
-                                    max='500' 
-                                />
-                                <button 
-                                    className='settings-change-button' 
-                                    onClick={() => {
-                                        changeEditingLessonsLimit(false)
-                                        changeCurrentLessonLimit(srsLimit)
-                                        changeUserSettingInvalidLessonLimit(false)
-                                    }} 
-                                >
-                                    cancel
-                                </button> 
-                                <button className='settings-change-button' onClick={handleLessonsLimitSave}>save</button>
-                                <span className={userSettingInvalidLessonLimit ? 'incorrect-srs-limit-set' : ''}>&nbsp;(max is 500)</span>
-                            </div>
-                            
-                        ) : (
-                            <>&nbsp;{srsLimit} <ChangeSettingButton changeCurrentlyEditing={changeEditingLessonsLimit} /></>
-                        )}
-                        
-                        {/* <button className='settings-change-butotn'>change</button> */}
+                        <div>
+                            <span className='bold-span'>Subjects Limit Per Day:</span> 
+                            <EditableSetting 
+                                inputProps={{
+                                    type: 'number',
+                                    min: '1',
+                                    max: '500'
+                                }}
+                                initialState={srsLimit}
+                                handleSave={handleLessonsLimitSave}
+                                isInputInvalid={(value: number) => {
+                                    return value < 1 || value > 500
+                                }}
+                                imputRestrictionMsg='max is 500'
+                            />                        
+                        </div>
+                        <div>
+                            <span className='bold-span'>Subjects Per Session:</span> 
+                            <EditableSetting 
+                                inputProps={{
+                                    type: 'number',
+                                    min: '1',
+                                    max: '20'
+                                }}
+                                initialState={numOfSubjectsToTeachPerLesson}
+                                handleSave={handleSubjectsPerSessionSave}
+                                isInputInvalid={(value: number) => {
+                                    return value < 1 || value > 20
+                                }}
+                                imputRestrictionMsg='max is 20'
+                            />                        
+                        </div>
                     </div>
                 </SettingsSection>
                 {/* <SettingsSection title='Subscription Plan' isTheLastSection={false} >
@@ -148,5 +204,5 @@ export const Settings = (): JSX.Element => {
                 </SettingsSection>
             </div>
         </div>
-  )
+    )
 }

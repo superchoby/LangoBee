@@ -55,7 +55,8 @@ class UserGeneralInfoSerializer(serializers.ModelSerializer):
             'dates_studied',
             'courses',
             'languages',
-            'srs_limit'
+            'srs_limit',
+            'num_of_subjects_to_teach_per_lesson'
         ]
         read_only_fields = [
             *fields

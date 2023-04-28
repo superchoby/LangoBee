@@ -87,4 +87,33 @@ class JMDictEntriesSerializer(serializers.ModelSerializer):
             'sense'
         ]
 
+
+class JMDictGlossSerializerForVocabDifferences(serializers.ModelSerializer):
+    class Meta:
+        model=JMDictGloss
+        editable=False
+        fields=[
+            'text',
+        ]
+
+class JMDictSenseSerializerForVocabDifferences(serializers.ModelSerializer):
+    gloss = JMDictGlossSerializerForVocabDifferences(many=True)
+
+    class Meta:
+        model=JMDictSense
+        editable=False
+        fields=[
+            'gloss'
+        ]
+
+class JmDictEntriesSerializerForVocabDifferences(serializers.ModelSerializer):
+    sense = JMDictSenseSerializerForVocabDifferences(many=True)
+
+    class Meta:
+        model=JMDictEntries
+        editable=False
+        fields=[
+            'sense'
+        ]
+
         

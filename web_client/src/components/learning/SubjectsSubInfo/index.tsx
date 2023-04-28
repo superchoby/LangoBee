@@ -20,6 +20,7 @@ import {
 } from '../lessons/SubjectTypes'
 import { toKatakana, isKana } from 'wanakana'
 import { HiSpeakerWave } from 'react-icons/hi2'
+import { DifferenceExplanation } from './DifferenceExplanation'
 import './index.scss' 
 
 function removeParenthesesContent(input: string): string {
@@ -232,7 +233,6 @@ const SpecialKanaExplanation = ({explanation}: {explanation: string}) => {
         const audioUrl = getValues('AudioUrl', example)[0]
         const kanaExample = getValues('KanaExample', example)[0]
         const romajiExample = getValues('RomajiExample', example)[0]
-        debugger
         return (
           <div 
             className='subject-presenter-section-contents subject-presenter-audio-player-container' 
@@ -425,6 +425,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
               {kanjiMeaningMnemonic.length > 0 ? parseHtmlString(kanjiMeaningMnemonic) : <>No mnemonic exists for this kanji yet</>}
             </SubjectsSubInfoSection>
           )
+
           const kanjiMeaningSubjectContentForQuiz = [
             (<SubjectsSubInfoSection subheader='Meanings' key='Meanings'>
               <div>
@@ -442,6 +443,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             </SubjectsSubInfoSection>),
             kanjiMeaningMnemonicComponent(true)
           ]
+
           const kanjiMeaningSubjectContentForLesson = [
             kanjiMeaningMnemonicComponent(false),
              radicalMeaningsRemoved.length > 1 ? (
@@ -544,7 +546,8 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             mainTextRepresentation,
             readingMnemonic: vocabReadingMnemonic,
             audioFiles,
-            counterWordInfo
+            counterWordInfo,
+            differencesExplanations
           } = vocabularySubject
           // TODO: do something with this notes
           const { note } = subject
@@ -607,6 +610,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             const vocabularySubjectInfoToDisplayMeaning: JSX.Element[] = []
             const vocabHasOneTypeOfOtherMeanings = otherMeanings.length > 0 && otherMeanings[0].length > 0
             const vocabHasMultipleTypesOfMeanings = otherMeanings.length > 1
+            const vocabHasExplanationsForItsDifferencesWithRelatedWords = differencesExplanations.length > 0
             vocabularySubjectInfoToDisplayMeaning.push((
               <SubjectsSubInfoSection subheader='Meaning Mnemonic' key='Meaning Mnemonic' isLastSubsection={!vocabHasOneTypeOfOtherMeanings && !vocabHasMultipleTypesOfMeanings}>
                 <div>
@@ -617,7 +621,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             
             if (vocabHasOneTypeOfOtherMeanings) {
               vocabularySubjectInfoToDisplayMeaning.push(
-                <SubjectsSubInfoSection subheader='Common Meanings' key='Other Common Meanings' isLastSubsection={!vocabHasMultipleTypesOfMeanings}>
+                <SubjectsSubInfoSection subheader='Common Meanings' key='Other Common Meanings' isLastSubsection={!vocabHasMultipleTypesOfMeanings && !vocabHasExplanationsForItsDifferencesWithRelatedWords}>
                   <div>
                     <span style={{fontWeight: 'bold'}}>{otherMeanings[0][0]}</span> {otherMeanings[0].length > 1 ? (`, ${otherMeanings[0].slice(1).join(', ')}`) : ''}
                   </div>
@@ -626,7 +630,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
     
               if (vocabHasMultipleTypesOfMeanings) {
                 vocabularySubjectInfoToDisplayMeaning.push(
-                  <SubjectsSubInfoSection subheader='Less Common Meanings' key='Less Common Meanings' isLastSubsection={true}>
+                  <SubjectsSubInfoSection subheader='Less Common Meanings' key='Less Common Meanings' isLastSubsection={differencesExplanations.length > 0}>
                     <div>
                       {otherMeanings.slice(1).map((meanings, idx) => (
                         <div>
@@ -637,6 +641,39 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                   </SubjectsSubInfoSection>
                 )
               }
+            }
+
+            if (vocabHasExplanationsForItsDifferencesWithRelatedWords) {
+              vocabularySubjectInfoToDisplayMeaning.push(
+                <SubjectsSubInfoSection subheader='Difference with Related Words' key='Difference with Related Words' isLastSubsection={true}>
+                      <div>
+                        {differencesExplanations.map(({
+                            mainMeaningsToUse,
+                            mainTextRepresentation,
+                            differenceFromPerspectiveOfFirstSubject,
+                            differenceFromPerspectiveOfSecondSubject,
+                            generalDifference
+                          }) => {
+                            let explanation = generalDifference
+                            const differenceFromPerspectiveOfFirstSubjectIfExists = (differenceFromPerspectiveOfFirstSubject != null && differenceFromPerspectiveOfFirstSubject.length > 0) ? differenceFromPerspectiveOfFirstSubject : generalDifference
+                            const differenceFromPerspectiveOfSecondSubjectIfExists = (differenceFromPerspectiveOfSecondSubject != null && differenceFromPerspectiveOfSecondSubject.length > 0) ? differenceFromPerspectiveOfSecondSubject : generalDifference
+                            // TODO: implement logic to get differnece explanation from first or second subject persepctive
+                            // if (subjectUserIsLearningIsTheFirstSubject) {
+                            //   subjectsDifferenceInfo.text = secondSubject.mainTextRepresentation
+                            //   subjectsDifferenceInfo.explanation = differenceFromPerspectiveOfSecondSubjectIfExists!
+                            // } else {
+                            //   subjectsDifferenceInfo.text = firstSubject.mainTextRepresentation
+                            //   subjectsDifferenceInfo.explanation = differenceFromPerspectiveOfFirstSubjectIfExists!
+                            // }
+
+                            return (
+                                <DifferenceExplanation mainTextRepresentation={mainTextRepresentation} explanation={explanation!} />
+                            )
+                          })
+                        }
+                      </div>
+                </SubjectsSubInfoSection>
+              )
             }
     
             vocabularySubjectInfoToDisplay.push({

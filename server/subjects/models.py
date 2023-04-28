@@ -4,6 +4,8 @@ from languages.models import Language, CourseLevels
 from polymorphic.models import PolymorphicModel
 from polymorphic.managers import PolymorphicManager
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Subject(PolymorphicModel):
     subject_types = [
@@ -18,8 +20,20 @@ class Subject(PolymorphicModel):
     subject_type = models.CharField(max_length=max([len(subject_type[0]) for subject_type in subject_types]), choices=subject_types)
     srs_type = models.ForeignKey('reviews.SpacedRepetitionSystem', on_delete=models.SET_NULL, null=True)
     has_unique_subject_model = models.BooleanField(default=False)
+    differences_explanations = models.ManyToManyField("self", through='SubjectsDifferencesExplanation', symmetrical=True)
     users = models.ManyToManyField(get_user_model(), through='reviews.Review', related_name='subjects')
     note = models.TextField(null=True)
+
+class SubjectsDifferencesExplanation(models.Model):
+    first_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='first_subject')
+    second_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='second_subject')
+    difference_from_perspective_of_first_subject = models.TextField(null=True)
+    difference_from_perspective_of_second_subject = models.TextField(null=True)
+    general_difference = models.TextField(null=True)
+
+@receiver(post_save, sender=SubjectsDifferencesExplanation)
+def create_symmetrical_relationship(sender, instance, created, **kwargs):
+    instance.second_subject.differences_explanations.add(instance.first_subject)
 
 class CustomSubjectQuestions(models.Model):
     question = models.CharField(max_length=20)
@@ -191,7 +205,7 @@ class Grammar(JapaneseSubject):
         ('very casual', 'Very casual'),
         ('standard', 'Used in any case')
     ]
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     meaning = models.CharField(max_length=150)
     structure = models.CharField(max_length=150)
     formality = models.CharField(choices=formality_levels, max_length=max(len(level[0]) for level in formality_levels))
@@ -199,6 +213,9 @@ class Grammar(JapaneseSubject):
     formality_matters_for_its_questions = models.BooleanField(default=False)
 
     objects = GrammarManager()
+
+    class Meta:
+        unique_together = ('name', 'meaning')
 
     def __str__(self):
         return f'{self.name} {self.meaning}'

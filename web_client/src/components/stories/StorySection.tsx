@@ -51,34 +51,35 @@ export const StorySection = ({
     return (
         <div className='story-reader-section-container'>
             {/* <div className='story-section-text-and-translation'> */}
-                <div className='stories-contents-and-translation-button-container'>
-                    <p className='story-reader-stories-contents' dangerouslySetInnerHTML={{__html: parseContent(text)}} />
+            <div className='stories-contents-and-translation-button-container'>
+                <p className='story-reader-stories-contents' dangerouslySetInnerHTML={{__html: parseContent(text)}} />
+                {translationText.length > 0 && (
                     <button 
                         className={`story-section-button story-section-translate-button ${showTranslation ? 'story-section-hide-translation-button' : ''}`} 
                         onClick={handleTranslationButtonClick}
                     >
                         {showTranslation ? 'Hide' : 'Translate'}
                     </button>
-                </div>
-                <div className='story-section-translation-container' style={{display: showTranslation ? 'flex' : 'none'}}>
-                    <span className='story-section-translation'>
-                        <span className='story-section-translation-header'>Translation</span>: {translationText}
-                    </span>
-                    {explanations.length > 0 && (
-                        <button 
-                            className={`story-section-button story-section-explanation-button ${showExplanation ? 'story-section-hide-explanation-button' : ''}`} 
-                            onClick={() => {changeShowExplanation(!showExplanation)}}
-                        >
-                            {showExplanation ? 'Hide Explanation' : 'Explain'}
-                        </button>
-                    )}
-                    
-                </div>
-                <ul className='story-section-translation-explanation-container' style={{display: showExplanation ? 'block' : 'none'}}>
-                    {explanations.map(({ wordsBeingExplained, explanation}) => (
-                        <li><span className='story-section-words-being-explained'>{wordsBeingExplained}</span>: {explanation}</li>
-                    ))}
-                </ul>
+                )}
+            </div>
+            <div className='story-section-translation-container' style={{display: showTranslation ? 'flex' : 'none'}}>
+                <span className='story-section-translation'>
+                    <span className='story-section-translation-header'>Translation</span>: {translationText}
+                </span>
+                {explanations.length > 0 && (
+                    <button 
+                        className={`story-section-button story-section-explanation-button ${showExplanation ? 'story-section-hide-explanation-button' : ''}`} 
+                        onClick={() => {changeShowExplanation(!showExplanation)}}
+                    >
+                        {showExplanation ? 'Hide Explanation' : 'Explain'}
+                    </button>
+                )}
+            </div>
+            <ul className='story-section-translation-explanation-container' style={{display: showExplanation ? 'block' : 'none'}}>
+                {explanations.map(({ wordsBeingExplained, explanation}) => (
+                    <li key={wordsBeingExplained}><span className='story-section-words-being-explained'>{wordsBeingExplained}</span>: {explanation}</li>
+                ))}
+            </ul>
         </div>
     )
 }

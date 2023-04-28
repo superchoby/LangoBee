@@ -9,7 +9,8 @@ from .views import (
     GetUsersStats,
     UserSrsView,
     UserSrsLimit,
-    DeleteUser
+    DeleteUser,
+    SubjectsPerSessionLimit
 )
 
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path('srs-info/', UserSrsView.as_view()),
     path('change-srs-limit/', UserSrsLimit.as_view()),
     path('delete/', DeleteUser.as_view()),
+    path('change-subjects-per-session-limit/', SubjectsPerSessionLimit.as_view()),
 ]

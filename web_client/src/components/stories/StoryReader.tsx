@@ -42,6 +42,7 @@ export const StoryReader = () => {
                             return translation
                         }
                     }
+                    return { explanations: [], translationText: '' }
                 })()
             }))
             changeStory(dataKeysConverted as Story)
@@ -57,12 +58,12 @@ export const StoryReader = () => {
         sections,
         title
     } = story
-
+    
     return (
         <div className='read-story-container'>
             <Header />
             <h2 className='story-reader-story-title'>{title}</h2>
-            {sections.map((props) => (<StorySection {...props} />))}
+            {sections.map((props) => (<StorySection key={props.text} {...props} />))}
             <div className='story-quizzes-coming-soon-msg'>
                 <h2>Quizzes coming soon!</h2>
                 <p>Soon enough you'll be able to test yourself after reading the stories.</p>
@@ -82,8 +83,6 @@ export const StoryReader = () => {
                     Stories
                 </Link>
             </div>
-            
-
         </div>
     )
 }

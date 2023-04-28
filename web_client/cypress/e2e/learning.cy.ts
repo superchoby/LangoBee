@@ -44,12 +44,12 @@ describe("Learning", () => {
                             if ($body.find(`[data-testid="read-this-levels-article-button"]`).length > 0) {
                                 cy.get('button').contains('Here').click()
                                 cy.get('button').contains('Start').click()
-                                
+                                cy.get('button').contains('Back to Lesson').click()
                             }
                             cy.get('button').contains('Here').click()
                             cy.get('button').contains('Start').click()
 
-                            // if cy.get('button').contains('Back to Lesson').click()
+                            // if 
                         })   
                     }
                 })

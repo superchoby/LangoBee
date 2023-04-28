@@ -48,18 +48,9 @@ class UserHomepageView(APIView):
         user = request.user
         userSerializer = UserGeneralInfoSerializer(user)
         allUsersSrsCards = ReviewsLevelAndDateSerializer(Review.objects.filter(user=request.user.id), many=True)
-        coursesInfo = {}
-        # for course in userSerializer.data['courses']:
-        #     infoForThisCourse = UsersProgressOnCourse.objects.get(user=request.user, course=course['id'])
-        #     coursesInfo[course['name']] = {
-        #         'currentLesson': infoForThisCourse.currentLesson,
-        #         'currentSplitOnLesson': infoForThisCourse.currentSplitOnLesson,
-        #     }
         return Response(
             {
                 **userSerializer.data, 
-                # 'coursesInfo': coursesInfo,
-                # 'srsCards': list(map(lambda card: card['conceptToReview'], srsFlashcardsSerializer.data)),
                 'review_cards': allUsersSrsCards.data,
             }
         )
@@ -210,3 +201,9 @@ class DeleteUser(APIView):
         user.delete()
         return Response(status=status.HTTP_200_OK)
     
+class SubjectsPerSessionLimit(APIView):
+    def post(self, request):
+        user = request.user
+        user.num_of_subjects_to_teach_per_lesson = request.data['newSubjectsLimit']
+        user.save()
+        return Response(status=status.HTTP_200_OK)

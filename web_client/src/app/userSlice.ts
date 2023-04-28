@@ -29,6 +29,7 @@ export interface UserSliceStateType {
   languages: LanguageChoices[]
   timesReviewCardsWereAdded: Date[]
   srsLimit: number
+  numOfSubjectsToTeachPerLesson: number
 }
 
 export const userSliceInitialState: UserSliceStateType = {
@@ -49,7 +50,8 @@ export const userSliceInitialState: UserSliceStateType = {
   },
   languages: ['Japanese'],
   timesReviewCardsWereAdded: [],
-  srsLimit: 15
+  srsLimit: 15,
+  numOfSubjectsToTeachPerLesson: 5
 }
 
 export const userSlice = createSlice({
@@ -65,7 +67,8 @@ export const userSlice = createSlice({
         profile_picture,
         datesStudied,
         dateJoined,
-        srsLimit
+        srsLimit,
+        numOfSubjectsToTeachPerLesson
       } = action.payload
 
       state.username = (username.charAt(0).toUpperCase() as string) + (username.slice(1).toLowerCase() as string)
@@ -73,6 +76,8 @@ export const userSlice = createSlice({
       state.experiencePoints = experience_points
       state.readMsgForCurrentLevel = readMsgForCurrentLevel
       state.profilePicture = profile_picture
+      state.numOfSubjectsToTeachPerLesson = numOfSubjectsToTeachPerLesson
+      
       interface DatesStudiedElementType {
         expGained: number
         date: string
@@ -115,6 +120,12 @@ export const userSlice = createSlice({
         newSrsLimit
       } = action.payload
       state.srsLimit = newSrsLimit
+    },
+    updateSubjectsPerSessionLimit: (state, action) => {
+      const {
+        newSubjectsPerSessionLimit
+      } = action.payload
+      state.numOfSubjectsToTeachPerLesson = newSubjectsPerSessionLimit
     }
   }
 })
@@ -125,7 +136,8 @@ export const {
   resetUser,
   updateProfilePic,
   userAddedMoreSubjectsToReview,
-  updateSrsLimit
+  updateSrsLimit,
+  updateSubjectsPerSessionLimit
 } = userSlice.actions
 
 const expNeededForThisLevel = (currentLevel: number): number => {

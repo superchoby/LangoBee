@@ -1,12 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Course, UsersProgressOnCourse, Language, Article, UsersArticleProgress
-from subjects.serializers import JapaneseSubjectSerializer, KanaSerializer, SubjectPolymorphicSerializer, KanjiSerializer
+from subjects.serializers import JapaneseSubjectSerializer, KanaSerializer, SubjectPolymorphicSerializer, SubjectsDifferencesExplanationSerializer
 from .serializers import CourseLevelSerializer, ArticleSerializer
-from subjects.models import Kanji
+from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 class GetLevelsForLanguagesCourse(APIView):
     def get(self, request, language, course):
@@ -86,6 +87,7 @@ def get_kanji_data(kanji):
         'meanings': kanji_obj.meanings
     }
 
+# TODO: Check if vocab exmaples are still grabbed
 def sort_vocab_examples_for_kanji(x):
     if x['jlpt_level']:
         return x['jlpt_level']
@@ -104,6 +106,12 @@ def sort_vocab_examples_for_kanji(x):
             return .5
         else:
             return 0
+        
+def get_difference_explanation_for_subjects(first_word, second_word):
+    query = Q(first_subject=first_word) | Q(first_subject=second_word ) & Q(second_subject=first_word) | Q(second_subject=second_word)
+    difference_explanation = SubjectsDifferencesExplanationSerializer(SubjectsDifferencesExplanation.objects.filter(query), many=True).data
+    the_first_instance_is_the_instance_with_written_explanations = difference_explanation[0]['difference_from_perspective_of_first_subject'] is not None or difference_explanation[0]['difference_from_perspective_of_second_subject'] is not None or difference_explanation[0]['general_difference'] is not None
+    return difference_explanation[0] if the_first_instance_is_the_instance_with_written_explanations else difference_explanation[1]
 
 class GetUsersSubjectsForLessons(APIView):
     def get(self, request, course, language):
@@ -140,7 +148,7 @@ class GetUsersSubjectsForLessons(APIView):
             *subjects_divided_by_type['vocabulary'],
             *subjects_divided_by_type['grammar'],
         ]
-   
+
         subjects_to_send_to_user = []
         for subject in subjects_arranged_by_type:
             if not request.user.subjects.filter(pk=subject.id).exists():
@@ -161,6 +169,10 @@ class GetUsersSubjectsForLessons(APIView):
                     kanji_that_uses_this = filter(lambda kanji: kanji['grade'] is not None and kanji['freq'] is not None, subject['kanji_that_uses_this'])
                     kanji_that_uses_this = sorted(kanji_that_uses_this, key=lambda x: [x['grade'], x['stroke_count'], x['freq']])[:4]
                     subject['kanji_that_uses_this'] = kanji_that_uses_this
+                elif subject['japanese_subject_type'] == 'vocabulary':
+                    for i in range(len(subject['differences_explanations'])):
+                        difference_explanation = subject['differences_explanations'][i]
+                        subject['differences_explanations'][i] = {**difference_explanation, **get_difference_explanation_for_subjects(subject['id'], difference_explanation['id'])}
 
         return Response({
             'subjects_to_teach': subjects_to_teach

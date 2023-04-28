@@ -13,6 +13,19 @@
     }
   },
   {
+    "model": "stories.Story",
+    "pk": 2,
+    "fields": {
+      "title": "なるはや and her Mean Friend",
+      "slug": "naruhaya_and_her_mean_friend",
+      "recommended_level": 15,
+      "audio_link": "",
+      "language": [
+        "Japanese"
+      ]
+    }
+  },
+  {
     "model": "stories.StorySection",
     "pk": 1,
     "fields": {
@@ -41,7 +54,7 @@
     "pk": 3,
     "fields": {
       "header": null,
-      "text": "<speaker>ロバート</speaker> ひみこさんは日本じんですか？",
+      "text": "<speaker>ロバート</speaker> ひみこさんは日本人ですか？",
       "story": [
         "Japanese",
         "Two People and Their Countries"
@@ -53,7 +66,7 @@
     "pk": 4,
     "fields": {
       "header": null,
-      "text": "<speaker>ひみこ</speaker> はい、日本じんです。ロバートさんは？",
+      "text": "<speaker>ひみこ</speaker> はい、日本人です。ロバートさんは？",
       "story": [
         "Japanese",
         "Two People and Their Countries"
@@ -65,7 +78,7 @@
     "pk": 5,
     "fields": {
       "header": null,
-      "text": "<speaker>ロバート</speaker> わたしはアメリカじんです。",
+      "text": "<speaker>ロバート</speaker> 私はアメリカ人です。",
       "story": [
         "Japanese",
         "Two People and Their Countries"
@@ -77,7 +90,7 @@
     "pk": 6,
     "fields": {
       "header": null,
-      "text": "<speaker>ひみこ</speaker> アメリカはちいさいですか？",
+      "text": "<speaker>ひみこ</speaker> アメリカは小さいですか？",
       "story": [
         "Japanese",
         "Two People and Their Countries"
@@ -89,7 +102,7 @@
     "pk": 7,
     "fields": {
       "header": null,
-      "text": "<speaker>ロバート</speaker> いいえ、アメリカはとてもおおきいです。日本は？",
+      "text": "<speaker>ロバート</speaker> いいえ、アメリカは大きいです。日本は？",
       "story": [
         "Japanese",
         "Two People and Their Countries"
@@ -105,6 +118,90 @@
       "story": [
         "Japanese",
         "Two People and Their Countries"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 9,
+    "fields": {
+      "header": null,
+      "text": "<speaker>なるはや</speaker> こんにちは、はるこちゃん。",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 10,
+    "fields": {
+      "header": null,
+      "text": "<speaker>はるこ</speaker> こんにちは、なるはやさん。",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 11,
+    "fields": {
+      "header": null,
+      "text": "<speaker>なるはや</speaker> スリッパはかわいいです。白いスカートもかわいいです。今日はるこちゃんはかわいいです。",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 12,
+    "fields": {
+      "header": null,
+      "text": "<speaker>はるこ</speaker> はい。😐",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 13,
+    "fields": {
+      "header": null,
+      "text": "<speaker>なるはや</speaker> 今私はつまらないですか？",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 14,
+    "fields": {
+      "header": null,
+      "text": "<speaker>はるこ</speaker> はい、なるはやさんはつまらないです。",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
+      ]
+    }
+  },
+  {
+    "model": "stories.StorySection",
+    "pk": 15,
+    "fields": {
+      "header": null,
+      "text": "<speaker>なるはや</speaker> 😭",
+      "story": [
+        "Japanese",
+        "なるはや and her Mean Friend"
       ]
     }
   },
@@ -197,6 +294,72 @@
     }
   },
   {
+    "model": "stories.StorySectionTranslation",
+    "pk": 9,
+    "fields": {
+      "translation_text": "Hello, Haruko-chan.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 9
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 10,
+    "fields": {
+      "translation_text": "Hello, Naruhaya-san.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 10
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 11,
+    "fields": {
+      "translation_text": "The slippers are cute? The white skirt is also cute. Haruko-chan is cute today.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 11
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 12,
+    "fields": {
+      "translation_text": "Got it.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 12
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 13,
+    "fields": {
+      "translation_text": "Am I boring right now?",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 13
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslation",
+    "pk": 14,
+    "fields": {
+      "translation_text": "Yes, you is boring.",
+      "language": [
+        "English"
+      ],
+      "story_section_being_translated": 14
+    }
+  },
+  {
     "model": "stories.StorySectionTranslationExplanation",
     "pk": 1,
     "fields": {
@@ -254,18 +417,90 @@
     "model": "stories.StorySectionTranslationExplanation",
     "pk": 7,
     "fields": {
-      "words_being_explained": "とてもおおきい",
-      "explanation": "Like English, Japanese adverbs are placed before the adjective/verb to explain it further.",
-      "translation_being_explained": 7
+      "words_being_explained": "小さいです",
+      "explanation": "This is enough to say the whole \"Japan is small\" part because of the context",
+      "translation_being_explained": 8
     }
   },
   {
     "model": "stories.StorySectionTranslationExplanation",
     "pk": 8,
     "fields": {
-      "words_being_explained": "小さいです",
-      "explanation": "This is enough to say the whole \"Japan is small\" part because of the context",
-      "translation_being_explained": 8
+      "words_being_explained": "こんにちは",
+      "explanation": "It means 'Hello' or 'Good day.'",
+      "translation_being_explained": 9
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 9,
+    "fields": {
+      "words_being_explained": "はるこちゃん",
+      "explanation": "ちゃん is an informal and affectionate honorific, usually used for close friends, children, or pets.",
+      "translation_being_explained": 9
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 10,
+    "fields": {
+      "words_being_explained": "なるはやさん",
+      "explanation": "さん is a more formal and respectful honorific, used when addressing someone you are not close to or someone of higher status.",
+      "translation_being_explained": 10
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 11,
+    "fields": {
+      "words_being_explained": "スリッパはかわいいです",
+      "explanation": "The 'は' particle is being used to mark the object スリッパ as the topic so we know that Naruhaya is referring to the slippers when she says cute.",
+      "translation_being_explained": 11
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 12,
+    "fields": {
+      "words_being_explained": "白いスカートもかわいいです",
+      "explanation": "The particle 'も' indicates 'also' or 'as well'",
+      "translation_being_explained": 11
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 13,
+    "fields": {
+      "words_being_explained": "はい",
+      "explanation": "While this does usually mean \"yes\", it can also mean like \"understood\", \"I see\", \"Got it\" etc.",
+      "translation_being_explained": 12
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 14,
+    "fields": {
+      "words_being_explained": "😐",
+      "explanation": "No explanation, just want to mention how rude of Haruko!",
+      "translation_being_explained": 12
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 15,
+    "fields": {
+      "words_being_explained": "ですか",
+      "explanation": "The particle か at the end of the sentence indicates that it is a question.",
+      "translation_being_explained": 13
+    }
+  },
+  {
+    "model": "stories.StorySectionTranslationExplanation",
+    "pk": 16,
+    "fields": {
+      "words_being_explained": "なるはやさん",
+      "explanation": "This is translated as \"you\" because it is more natural in English but in Japanese, the word \"you\" is not used with friends, saying the name is the standard.",
+      "translation_being_explained": 14
     }
   }
 ]
