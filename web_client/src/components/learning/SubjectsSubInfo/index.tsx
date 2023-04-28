@@ -953,7 +953,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                         <>{grammarSubject.meaning}</>
                       </SubjectsSubInfoSection>
                     ),
-                    (
+                    (grammarSubject.structure.length > 0 ? (
                       <SubjectsSubInfoSection subheader='Structure' key='Structure'>
                         <>{grammarSubject.structure.split(', ').map((structure, idx) => {
                           return (
@@ -963,7 +963,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                           )
                         })}</>
                       </SubjectsSubInfoSection>
-                    ),
+                    ) : <></>),
                     (
                       <SubjectsSubInfoSection subheader='Formality' key='Formality' isLastSubsection={true}>
                         <p>
