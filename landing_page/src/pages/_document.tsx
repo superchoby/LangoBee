@@ -7,7 +7,9 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang={AppConfig.locale}>
-        <Head />
+        <Head>
+          <title>LangoBee the Best Way to Learn Japanese</title>
+        </Head>
         <body>
           <Main />
           <NextScript />

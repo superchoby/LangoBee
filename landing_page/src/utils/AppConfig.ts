@@ -1,6 +1,6 @@
 export const AppConfig = {
-  site_name: 'React landing page',
-  title: 'React landing page template 2021',
-  description: 'Production ready plug n play landing page!',
+  site_name: 'LangoBee',
+  title: 'LangoBee',
+  description: 'Learn Japanese the Best Way!',
   locale: 'en',
 };

@@ -126,3 +126,6 @@ class UsersProgressOnCourse(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_courses')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='users_progress')
     current_level = models.ForeignKey(CourseLevels, on_delete=models.SET_NULL, null=True, related_name='course_level')
+
+    def __str__(self):
+        return self.current_level
