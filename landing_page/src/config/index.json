@@ -15,8 +15,8 @@
     }
   ],
   "callToAction": {
-    "text": "Get started",
-    "href": "/signup"
+    "text": "Login",
+    "href": "/login"
   },
   "mainHero": {
     "title": "Learning Japanese",
