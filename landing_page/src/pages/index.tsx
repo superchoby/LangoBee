@@ -29,7 +29,7 @@ const App = () => {
           access: string;
           refresh: string;
         };
-        if (access != null) {
+        if (access != null && access.length > 0) {
           window.location.href = '/home';
         } else {
           changeCheckedForToken(true);

@@ -7,18 +7,27 @@ import { persistReducer } from 'redux-persist'
 import userReducer from './userSlice'
 import thunk from 'redux-thunk'
 
-const reducers = combineReducers({
+const appReducer = combineReducers({
   token: tokenReducer,
   user: userReducer,
   srsFlashcards: srsFlashcardsReducer
 })
+
+const rootReducer = (state: any, action: any) => {
+  if (action.type === 'USER_LOGOUT') {
+    storage.removeItem('persist:root')
+    return appReducer(undefined, action)
+  }
+  
+  return appReducer(state, action)
+}
 
 const persistConfig = {
   key: 'root',
   storage
 }
 
-export const persistedReducer = persistReducer(persistConfig, reducers)
+export const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,

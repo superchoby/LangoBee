@@ -17,8 +17,8 @@ export const MobileHeaderMenu = ({
   }, [hasActiveClass])
 
   return (
-        <ul className={`mobile-header-menu-container ${hasActiveClass ? 'mobile-header-menu-container-active' : ''}`}>
-            {children}
-        </ul>
+    <ul className={`mobile-header-menu-container ${hasActiveClass ? 'mobile-header-menu-container-active' : ''}`}>
+        {children}
+    </ul>
   )
 }
