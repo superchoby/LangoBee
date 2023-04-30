@@ -60,10 +60,10 @@ const Menu = () => {
                 </Link>
               ))}
               <a
-                href="#"
+                href="/home"
                 className={`font-medium text-primary hover:text-secondary`}
               >
-                Start Learning
+                Login
               </a>
             </div>
           </nav>
