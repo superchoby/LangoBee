@@ -34,8 +34,11 @@ const App = () => {
     changeCheckedForToken(true);
   }
 
-  return checkedForToken ? (
-    <div className={`bg-background grid gap-y-16 overflow-hidden`}>
+  return (
+    <div
+      className={`bg-background grid gap-y-16 overflow-hidden`}
+      style={{ display: checkedForToken ? 'block' : 'none' }}
+    >
       <div className={`relative bg-background`}>
         <div className="max-w-7xl mx-auto">
           <div
@@ -71,8 +74,6 @@ const App = () => {
       </LazyShow>
       <Analytics />
     </div>
-  ) : (
-    <></>
   );
 };
 
