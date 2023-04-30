@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import About from '../components/About';
 import Analytics from '../components/Analytics';
@@ -11,7 +11,9 @@ import MainHeroImage from '../components/MainHeroImage';
 import Product from '../components/Product';
 
 const App = () => {
-  if (typeof window !== 'undefined') {
+  const [checkedForToken, changeCheckForToken] = useState(false);
+
+  if (typeof window !== 'undefined' && !checkedForToken) {
     const reduxPersistLocalStorage = localStorage.getItem('persist:root');
     if (reduxPersistLocalStorage != null) {
       const tokenInfo = JSON.parse(JSON.parse(reduxPersistLocalStorage).token);
@@ -25,9 +27,10 @@ const App = () => {
         localStorage.clear();
       }
     }
+    changeCheckForToken(true);
   }
 
-  return (
+  return checkedForToken ? (
     <div className={`bg-background grid gap-y-16 overflow-hidden`}>
       <div className={`relative bg-background`}>
         <div className="max-w-7xl mx-auto">
@@ -64,6 +67,8 @@ const App = () => {
       </LazyShow>
       <Analytics />
     </div>
+  ) : (
+    <></>
   );
 };
 
