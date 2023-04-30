@@ -12,6 +12,10 @@
     {
       "name": "Features",
       "href": "features"
+    },
+    {
+      "name": "Pricing",
+      "href": "pricing"
     }
   ],
   "callToAction": {
@@ -42,7 +46,7 @@
       },
       {
         "title": "All the tools you need to succeed",
-        "description": "We have developed tools and resources to get you over all the hurdles of Japanese we all had to struggle through. This is an site for learners, made my learners. Everything we struggled with in Japanese we've came up with a solution for you to be able to get over those hurdles as easy as possible.",
+        "description": "We have developed tools and resources to get you over all the hurdles of Japanese we all had to struggle through. This is a site for learners, made by learners. Everything we struggled with in Japanese we've came up with a solution for you to be able to get over those hurdles as easy as possible.",
         "img": "/assets/images/product2.jpg"
       }
     ]

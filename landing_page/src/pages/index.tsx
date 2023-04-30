@@ -9,12 +9,16 @@ import LazyShow from '../components/LazyShow';
 import MainHero from '../components/MainHero';
 import MainHeroImage from '../components/MainHeroImage';
 import Product from '../components/Product';
+// import Pricing from '../components/Pricing'
+
+const inDevMode =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 const App = () => {
   const [checkedForToken, changeCheckedForToken] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && !checkedForToken) {
+    if (typeof window !== 'undefined' && !checkedForToken && !inDevMode) {
       const reduxPersistLocalStorage = localStorage.getItem('persist:root');
       if (reduxPersistLocalStorage != null) {
         const tokenInfo = JSON.parse(

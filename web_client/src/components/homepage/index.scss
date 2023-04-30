@@ -70,58 +70,24 @@ $discord-icon-size: 40px;
     font-weight: 400;
 }
 
-// @media only screen and (min-width: 565px) {
-//     .homepage-contents {
-//         width: 84%;
-//     }
-
-//     .links-to-learning-container {
-//         height: auto;
-
-//         a {
-//             width: 48%;
-//         }
-//     }
-
-//     .discord-or-have-any-questions-container {
-//         font-size: 18px;
-//         width: 565px;
-//     }
-// }
-
-// .links-to-learning-container-first-row {
-//     margin-bottom: 9px;
-// }
-
-// .links-to-learning-container-second-row {
-//     margin-bottom: 23px;
-// }
-
 .feature-coming-soon {
     opacity: .6;
 }
-// @media only screen and (min-width: 780px) {
-//     .level-required-msg {
-//         font-size: 20px;
-//         font-weight: 400;
-//         position: absolute;
-//         top: 15%;
-//     }
 
-//     .do-more-reviews-msg {
-//         font-size:  18px;
-//         font-weight: 400;
-//     }
+.join-discord-msg {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+    justify-content: center;
+    // width: 100vw;
+    // margin: 0 auto;
 
-//     .homepage-contents {
-//         padding-top: 60px;
-//         width: 650px;
-//     }
-    
-//     .levels-blocked-msg {
-//         font-size: 18px;
-//     }
-// }
+    svg {
+        height: 25px;
+        width: 25px;
+    }
+}
 
 @media only screen and (min-width: 992px) {
     // .homepage-container {
