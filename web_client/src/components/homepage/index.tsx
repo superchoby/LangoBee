@@ -68,7 +68,7 @@ export const Homepage = (): JSX.Element => {
   }, [dispatch])
 
   return (
-    <div>
+    <div style={{marginBottom: '30px', position: 'relative'}}>
       <div aria-label='homepage container' className='homepage-container'>
           <div className='homepage-contents'>
               <div className='current-level-info-and-links-container'>
@@ -97,10 +97,9 @@ export const Homepage = (): JSX.Element => {
               <SideInfo allSrsCards={allSrsCards} />
           </div>
       </div>
-      <div className='join-discord-msg'>
-      {/* color='#5865f2' */}
-        <span>Come have fun with us on &nbsp;</span> <Link to='https://discord.gg/5MKkcCHa6f'>Discord <FaDiscord /></Link>
-      </div>
+      {/* <div className='join-discord-msg'>
+        <span>Come have fun with us on &nbsp;</span> <Link to='https://discord.gg/5MKkcCHa6f'>Discord &nbsp;<FaDiscord /></Link>
+      </div> */}
     </div>
   )
 }
