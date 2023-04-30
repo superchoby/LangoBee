@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import About from '../components/About';
 import Analytics from '../components/Analytics';
@@ -13,26 +13,30 @@ import Product from '../components/Product';
 const App = () => {
   const [checkedForToken, changeCheckedForToken] = useState(false);
 
-  if (typeof window !== 'undefined' && !checkedForToken) {
-    const reduxPersistLocalStorage = localStorage.getItem('persist:root');
-    if (reduxPersistLocalStorage != null) {
-      const tokenInfo = JSON.parse(JSON.parse(reduxPersistLocalStorage).token);
-      const { access } = tokenInfo as {
-        access: string;
-        refresh: string;
-      };
-      if (access != null) {
-        window.location.href = '/home';
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !checkedForToken) {
+      const reduxPersistLocalStorage = localStorage.getItem('persist:root');
+      if (reduxPersistLocalStorage != null) {
+        const tokenInfo = JSON.parse(
+          JSON.parse(reduxPersistLocalStorage).token
+        );
+        const { access } = tokenInfo as {
+          access: string;
+          refresh: string;
+        };
+        if (access != null) {
+          window.location.href = '/home';
+        } else {
+          changeCheckedForToken(true);
+          localStorage.clear();
+        }
       } else {
         changeCheckedForToken(true);
-        localStorage.clear();
       }
     } else {
       changeCheckedForToken(true);
     }
-  } else {
-    changeCheckedForToken(true);
-  }
+  }, []);
 
   return (
     <div
