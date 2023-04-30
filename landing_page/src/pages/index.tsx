@@ -11,7 +11,7 @@ import MainHeroImage from '../components/MainHeroImage';
 import Product from '../components/Product';
 
 const App = () => {
-  const [checkedForToken, changeCheckForToken] = useState(false);
+  const [checkedForToken, changeCheckedForToken] = useState(false);
 
   if (typeof window !== 'undefined' && !checkedForToken) {
     const reduxPersistLocalStorage = localStorage.getItem('persist:root');
@@ -24,10 +24,14 @@ const App = () => {
       if (access != null) {
         window.location.href = '/home';
       } else {
+        changeCheckedForToken(true);
         localStorage.clear();
       }
+    } else {
+      changeCheckedForToken(true);
     }
-    changeCheckForToken(true);
+  } else {
+    changeCheckedForToken(true);
   }
 
   return checkedForToken ? (
