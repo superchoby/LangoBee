@@ -16,6 +16,10 @@
     {
       "name": "Pricing",
       "href": "pricing"
+    },
+    {
+      "name": "Contact",
+      "href": "contact"
     }
   ],
   "callToAction": {
@@ -29,7 +33,7 @@
     "img": "/assets/images/textBubbles.png",
     "primaryAction": {
       "text": "Let's go!",
-      "href": "/signup"
+      "href": "/home"
     },
     "secondaryAction": {
       "text": "Email us",
@@ -126,9 +130,7 @@
       }
     ],
     "socialMedia": {
-      "github": "https://github.com/issaafalkattan",
-      "twitter": "https://twitter.com/issaafkattan",
-      "linkedin": "https://www.linkedin.com/in/issaaf-kattan/"
+      "discord": "https://discord.gg/5MKkcCHa6f"
     }
   }
 }

@@ -4,11 +4,9 @@ from .serializers import (
     UserGeneralInfoSerializer,
     UserSrsSerializer
 )
-from rest_framework import mixins, generics
-from rest_framework import permissions
+from rest_framework import mixins, generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from reviews.models import Review
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
@@ -17,8 +15,7 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from reviews.serializers import ReviewsLevelAndDateSerializer
 from django.utils import timezone
 import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+
 
 # Create your views here.
 class CreateUserView(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -93,6 +90,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
             If you did not make this request, you can ignore this email and your password will remain the same.
         """,
     )
+    
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         sg.send(message)
@@ -183,8 +181,6 @@ class UserSrsView(APIView):
         if not (user.dates_studied.filter(date__gte=minDate, date__lte=maxDate).exists()):
             user.srs_subjects_added_today = 0
             user.save()
-
-
 
         return Response(UserSrsSerializer(user).data)
         

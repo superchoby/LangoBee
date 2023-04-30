@@ -20,6 +20,7 @@ import { resetUser, updateUserInfo } from './app/userSlice'
 import { resetToken, updateToken } from './app/tokenSlice'
 import { resetSrsFlashcards, updateSrsFlashcards } from './app/srsFlashcardsSlice'
 import { keysToCamel } from './components/shared/keysToCamel'
+import { ContactUs } from './components/ContactUs'
 import { ArticlesHomepage } from './components/Articles/ArticlesHomepage'
 import { Article } from './components/Articles/Article'
 import { useAppSelector, useAppDispatch } from './app/hooks'
@@ -36,7 +37,8 @@ import {
   ARTICLE_PATH,
   STORIES_HOME_PATH,
   READ_STORY,
-  REVIEWS_INFO_PATH
+  REVIEWS_INFO_PATH,
+  CONTACT_US_PATH
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -185,10 +187,12 @@ function App (): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route element={<ProtectedRoute />}>
+          
             <Route path={HOME_PATH} element={<HeaderAndNavbar PageContents={<Homepage />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={LESSONS_SESSION_PATH} element={<LessonSession />} />
             <Route path={LESSONS_PATH} element={<HeaderAndNavbar PageContents={<Lessons />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={REVIEWS_PATH} element={(<Reviews />)} />
+            <Route path={CONTACT_US_PATH} element={<HeaderAndNavbar PageContents={<ContactUs />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={STORIES_HOME_PATH} element={<HeaderAndNavbar PageContents={<StoriesHome />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={READ_STORY} element={<StoryReader />} />
             <Route path={EXERCISES_PATH} element={<HeaderAndNavbar PageContents={<Exercises />} hasGapBetweenHeaderAndContents={true} />} />

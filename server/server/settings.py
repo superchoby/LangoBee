@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import django_on_heroku
 import os
+import environ
 from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,6 +56,7 @@ INSTALLED_APPS = [
     'subjects',
     'jmdict',
     'stories',
+    'emails',
 
     # Third Party
     'rest_framework',
@@ -98,9 +103,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://localhost:5000",
     'https://www.langobee.com',
-    'https://test.langobee.com',
-    'https://main.d3h37ozabdygf3.amplifyapp.com'
+    'https://www.langobee.com',
+    "http://localhost:8080",
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('CONTACT_LANGOBEE_EMAIL')
+EMAIL_HOST_PASSWORD = env('CONTACT_LANGOBEE_PASSWORD')
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
