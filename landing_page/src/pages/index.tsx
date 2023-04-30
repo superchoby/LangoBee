@@ -11,6 +11,22 @@ import MainHeroImage from '../components/MainHeroImage';
 import Product from '../components/Product';
 
 const App = () => {
+  if (typeof window !== 'undefined') {
+    const reduxPersistLocalStorage = localStorage.getItem('persist:root');
+    if (reduxPersistLocalStorage != null) {
+      const tokenInfo = JSON.parse(JSON.parse(reduxPersistLocalStorage).token);
+      const { access } = tokenInfo as {
+        access: string;
+        refresh: string;
+      };
+      if (access != null) {
+        window.location.href = '/home';
+      } else {
+        localStorage.clear();
+      }
+    }
+  }
+
   return (
     <div className={`bg-background grid gap-y-16 overflow-hidden`}>
       <div className={`relative bg-background`}>
