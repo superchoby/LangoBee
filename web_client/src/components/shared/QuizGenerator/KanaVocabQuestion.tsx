@@ -49,6 +49,7 @@ interface KanaVocabQuestionProps {
   changeHasInvalidInputClass: (newVal: boolean) => void
   changeGuessIsRightButWrongKana: (newVal: boolean) => void
   typingInHiragana: boolean
+  isMultipleChoice: boolean
 }
 
 /**
@@ -65,7 +66,8 @@ export const KanaVocabQuestion = ({
   hasInvalidInputClass,
   changeHasInvalidInputClass,
   changeGuessIsRightButWrongKana,
-  typingInHiragana
+  typingInHiragana,
+  isMultipleChoice
 }: KanaVocabQuestionProps): JSX.Element => {
   const [currentGuess, changeCurrentGuess] = useState('')
   const [acceptableResponseReason, changeAcceptableResponseReason] = useState('')
@@ -110,54 +112,62 @@ export const KanaVocabQuestion = ({
   ])
 
   useEffect(() => {
-    let guessIsCorrect = false
-    let guessIsRightButWrongKana = false
-    const answerInCorrectFormat = currentGuess
-    for (let i = 0; i < answers.length; i++) {
-      const {
-        answer,
-        distanceToAllow
-      } = answers[i]
-      const lev = levenshtein(answerInCorrectFormat.toLowerCase(), answer.toLowerCase())
-      if (lev.steps <= distanceToAllow) {
-        guessIsCorrect = true
-        break
-      }
-      // Check if it's just the kana that is wrong
-      if (answerIsInJapanese && (currentGuess === toHiragana(answer) || currentGuess === toKatakana(answer))) {
-        guessIsRightButWrongKana = true
-      }
-    }
-    let guessIsAcceptable = false
-    if (guessIsCorrect) {
-      changeCurrentAnswerStatus('correct')
-      changeGuessIsRightButWrongKana(false)
-      changeAcceptableResponseReason('')
-    } else if (guessIsRightButWrongKana) {
-      changeGuessIsRightButWrongKana(true)
-      changeAcceptableResponseReason('')
+    if (isMultipleChoice) {
+      // changeCurrentAnswerStatus('correct')
+      //   changeGuessIsRightButWrongKana(false)
+      //   changeAcceptableResponseReason('')
+      //   changeAnswerHasBeenEntered(currentGuess.length !== 0)
     } else {
-      for (const {
-        acceptableResponse,
-        whyNotLookingFor
-      } of acceptableResponsesButNotWhatLookingFor) {
-        if ((currentGuess) === acceptableResponse) {
-          guessIsAcceptable = true
-          changeAcceptableResponseReason(whyNotLookingFor)
+      let guessIsCorrect = false
+      let guessIsRightButWrongKana = false
+      const answerInCorrectFormat = currentGuess
+      for (let i = 0; i < answers.length; i++) {
+        const {
+          answer,
+          distanceToAllow
+        } = answers[i]
+        const lev = levenshtein(answerInCorrectFormat.toLowerCase(), answer.toLowerCase())
+        if (lev.steps <= distanceToAllow) {
+          guessIsCorrect = true
           break
         }
+        // Check if it's just the kana that is wrong
+        if (answerIsInJapanese && (currentGuess === toHiragana(answer) || currentGuess === toKatakana(answer))) {
+          guessIsRightButWrongKana = true
+        }
       }
-      if (guessIsAcceptable) {
-        changeCurrentAnswerStatus('acceptable but not correct')
-      } else {
+      let guessIsAcceptable = false
+      if (guessIsCorrect) {
+        changeCurrentAnswerStatus('correct')
+        changeGuessIsRightButWrongKana(false)
         changeAcceptableResponseReason('')
-        changeCurrentAnswerStatus('incorrect')
+      } else if (guessIsRightButWrongKana) {
+        changeGuessIsRightButWrongKana(true)
+        changeAcceptableResponseReason('')
+      } else {
+        for (const {
+          acceptableResponse,
+          whyNotLookingFor
+        } of acceptableResponsesButNotWhatLookingFor) {
+          if ((currentGuess) === acceptableResponse) {
+            guessIsAcceptable = true
+            changeAcceptableResponseReason(whyNotLookingFor)
+            break
+          }
+        }
+        if (guessIsAcceptable) {
+          changeCurrentAnswerStatus('acceptable but not correct')
+        } else {
+          changeAcceptableResponseReason('')
+          changeCurrentAnswerStatus('incorrect')
+        }
+      }
+  
+      if (!guessIsAcceptable) {
+        changeAnswerHasBeenEntered(currentGuess.length !== 0)
       }
     }
-
-    if (!guessIsAcceptable) {
-      changeAnswerHasBeenEntered(currentGuess.length !== 0)
-    }
+    
   }, [
     currentGuess,
     typingInHiragana,
@@ -166,7 +176,8 @@ export const KanaVocabQuestion = ({
     answers,
     changeAnswerHasBeenEntered,
     changeCurrentAnswerStatus,
-    changeGuessIsRightButWrongKana
+    changeGuessIsRightButWrongKana,
+    isMultipleChoice
   ])
 
   // const lessThanLesson7AndHiraganaQues = currentLesson < 7 && isHiragana(questionText as string)
@@ -187,45 +198,52 @@ export const KanaVocabQuestion = ({
                 ({getPropsForSubjectsInfo(subjectData, true).subjectMainDescription})
               </div>
             )}
-            <div className='kana-vocab-question-subject-type-container'>
-              <div className={`kana-vocab-question-subject-type concept-and-explanation-container-for-${japaneseSubjectType}`}>{japaneseSubjectType}</div>
-              <div>{inputPlaceholder}</div>
-            </div>
             
-            <InputBar
-                // inputRef={inputRef}
-                className='kana-vocab-question-input-bar'
-                choiceSubmitted={choiceSubmitted}
-                currentAnswerStatus={currentAnswerStatus}
-                changeCurrentGuess={changeCurrentGuess}
-                answerIsInJapanese={answerIsInJapanese}
-                currentGuess={currentGuess}
-                changeIsInvalidInput={changeIsInvalidInput}
-                hasInvalidInputClass={hasInvalidInputClass}
-                typingInHiragana={typingInHiragana}
-                hasNewQuestion={hasNewQuestion}
-                changeHasNewQuestion={changeHasNewQuestion}
-                placeholder={inputPlaceholder}
-            />
-            {answerIsInJapanese && (
-                <div className='keyboard-info-container'>
-                    <div className='typing-in-hiragana-or-katakana-container'>
-                        Typing in: <span className='typing-in-hiragana-or-katakana-indicator'>{typingInHiragana ? 'Hiragana' : 'Katakana'}</span>
-                    </div>
-                    {/* <div className='click-for-keyboard-tips' onClick={() => changeShowKeyboardTips(true)}>
-                        Click for keyboard tips
-                    </div> */}
+
+            {isMultipleChoice ? (
+              <>daldf</>
+            ) : (
+              <>
+                <div className='kana-vocab-question-subject-type-container'>
+                  <div className={`kana-vocab-question-subject-type concept-and-explanation-container-for-${japaneseSubjectType}`}>{japaneseSubjectType}</div>
+                  <div>{inputPlaceholder}</div>
                 </div>
+                <InputBar
+                  // inputRef={inputRef}
+                  className='kana-vocab-question-input-bar'
+                  choiceSubmitted={choiceSubmitted}
+                  currentAnswerStatus={currentAnswerStatus}
+                  changeCurrentGuess={changeCurrentGuess}
+                  answerIsInJapanese={answerIsInJapanese}
+                  currentGuess={currentGuess}
+                  changeIsInvalidInput={changeIsInvalidInput}
+                  hasInvalidInputClass={hasInvalidInputClass}
+                  typingInHiragana={typingInHiragana}
+                  hasNewQuestion={hasNewQuestion}
+                  changeHasNewQuestion={changeHasNewQuestion}
+                  placeholder={inputPlaceholder}
+                />
+                {answerIsInJapanese && (
+                  <div className='keyboard-info-container'>
+                      <div className='typing-in-hiragana-or-katakana-container'>
+                          Typing in: <span className='typing-in-hiragana-or-katakana-indicator'>{typingInHiragana ? 'Hiragana' : 'Katakana'}</span>
+                      </div>
+                      {/* <div className='click-for-keyboard-tips' onClick={() => changeShowKeyboardTips(true)}>
+                          Click for keyboard tips
+                      </div> */}
+                  </div>
+                )}
+                
+                {showKeyboardTips && <KeyboardTips changeShowKeyboardTips={changeShowKeyboardTips} />}
+                <div className={`frq-correct-answer ${choiceSubmitted || currentAnswerStatus === 'acceptable but not correct' ? 'frq-correct-answer-reveal' : ''}`}>
+                    {
+                        currentAnswerStatus === 'acceptable but not correct'
+                          ? acceptableResponseReason
+                          : `Correct Answer: ${answers.slice(0, 5).map(({ answer }) => answer).join(', ')}`
+                    }
+                </div>
+              </>
             )}
-            
-            {showKeyboardTips && <KeyboardTips changeShowKeyboardTips={changeShowKeyboardTips} />}
-            <div className={`frq-correct-answer ${choiceSubmitted || currentAnswerStatus === 'acceptable but not correct' ? 'frq-correct-answer-reveal' : ''}`}>
-                {
-                    currentAnswerStatus === 'acceptable but not correct'
-                      ? acceptableResponseReason
-                      : `Correct Answer: ${answers.slice(0, 5).map(({ answer }) => answer).join(', ')}`
-                }
-            </div>
         </div>
   )
 }

@@ -3,6 +3,7 @@ export const RADICAL_TYPE = 'radical'  as const
 export const KANJI_TYPE = 'kanji'  as const
 export const VOCABULARY_TYPE = 'vocabulary'  as const
 export const EXERCISE_TYPE = 'exercise' as const
+export const MULTIPLE_CHOICE_TYPE = 'multiple choice' as const
 export const JAPANESE_VOCABULARY_TYPE = 'japanesevocabulary'
 export const GRAMMAR_TYPE = 'grammar'  as const
 export const ALPHABET_SUBJECT_TYPE = 'alphabet' as const
@@ -23,7 +24,7 @@ export const isAKatakanaChar = (char: string) => {
 }
 
 type LanguageType = typeof JAPANESE_LANGUAGE | typeof ENGLISH_LANGUAGE
-export type JapaneseSubjectType = typeof KANA_TYPE | typeof RADICAL_TYPE | typeof KANJI_TYPE | typeof VOCABULARY_TYPE | typeof GRAMMAR_TYPE | typeof EXERCISE_TYPE
+export type JapaneseSubjectType = typeof KANA_TYPE | typeof RADICAL_TYPE | typeof KANJI_TYPE | typeof VOCABULARY_TYPE | typeof GRAMMAR_TYPE | typeof EXERCISE_TYPE | typeof MULTIPLE_CHOICE_TYPE
 
 export type SubjectInfoToDisplay = {
     header: string
@@ -281,6 +282,13 @@ export interface GrammarSubject {
     structure: string
 }
 
+export interface MultipleChoiceSubject {
+    question: string
+    answer: string
+    wrongChoices: string[]
+    questionPrompt: string
+}
+
 export type JapaneseSubjectData = (
     KanaSubject 
     | RadicalSubject 
@@ -288,6 +296,7 @@ export type JapaneseSubjectData = (
     | JapaneseVocabularySubject 
     | JapaneseExerciseSubject 
     | GrammarSubject
+    | MultipleChoiceSubject
     ) & { 
     japaneseSubjectType: JapaneseSubjectType
     subjectId: number

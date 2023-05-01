@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Course, UsersProgressOnCourse, Language, Article, UsersArticleProgress
+from .models import Course, UsersProgressOnCourse, Language, Article, UsersArticleProgress, TestForSkippingACoursesLevels
 from subjects.serializers import JapaneseSubjectSerializer, KanaSerializer, SubjectPolymorphicSerializer, SubjectsDifferencesExplanationSerializer
-from .serializers import CourseLevelSerializer, ArticleSerializer
+from .serializers import CourseLevelSerializer, ArticleSerializer, TestForSkippingACoursesLevelsSerializer
 from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
 from rest_framework import status
@@ -206,3 +206,9 @@ class MarkArticleAsReadView(APIView):
         users_progress.save()
 
         return Response(status=status.HTTP_200_OK)
+    
+class TestToSkipCoursesLevelsView(APIView):
+    def get(self, request, tests_slug):
+        test_user_is_going_to_take = TestForSkippingACoursesLevels.objects.get(slug=tests_slug)
+        return Response(TestForSkippingACoursesLevelsSerializer(test_user_is_going_to_take).data, status=status.HTTP_200_OK)
+    

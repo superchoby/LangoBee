@@ -20,6 +20,7 @@ import { resetSrsFlashcards, updateSrsFlashcards } from './app/srsFlashcardsSlic
 import { keysToCamel } from './components/shared/keysToCamel'
 import { ContactUs } from './components/ContactUs'
 import { ArticlesHomepage } from './components/Articles/ArticlesHomepage'
+import { TestToSkipLevels } from './components/learning/lessons/TestToSkipLevels'
 import { Article } from './components/Articles/Article'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import { store } from './app/store'
@@ -45,7 +46,8 @@ import {
   SUBSCRIPTION_PATH,
   CHECKOUT_PATH,
   TERMS_OF_SERVICE_PATH,
-  PRIVACY_PATH
+  PRIVACY_PATH,
+  TEST_PATH
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -136,12 +138,12 @@ const ProtectedRoute = (): JSX.Element => {
           axios.get('users/homepage/')
             .then(res => {
               const {
-                review_cards,
+                review_cards: reviewCardsData,
                 username,
                 email,
-                experience_points,
+                experience_points: experiencePoints,
                 readMsgForCurrentLevel,
-                profile_picture,
+                profile_picture: profilePicture,
                 dates_studied: datesStudied,
                 date_joined: dateJoined,
                 srs_limit: srsLimit,
@@ -153,9 +155,9 @@ const ProtectedRoute = (): JSX.Element => {
               dispatch(updateUserInfo({
                 username,
                 email,
-                experience_points,
+                experiencePoints,
                 readMsgForCurrentLevel,
-                profile_picture,
+                profilePicture,
                 datesStudied,
                 dateJoined,
                 srsLimit,
@@ -163,7 +165,7 @@ const ProtectedRoute = (): JSX.Element => {
                 hasAccessToPaidFeatures,
                 isOnFreeTrial
               }))
-              const reviewCards = review_cards.map((card: any) => keysToCamel(card))
+              const reviewCards = reviewCardsData.map((card: any) => keysToCamel(card))
               dispatch(updateSrsFlashcards({
                 srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => (new Date(nextReviewDate)) <= new Date()),
                 allSrsCards: reviewCards
@@ -208,7 +210,7 @@ const PaidUsersOnlyRoute = () => {
 
 const verifyTokenPath = 'api/token/verify/'
 
-function App (): JSX.Element {
+function App () {
   return (
     <div className='App'>
       <BrowserRouter>
@@ -219,6 +221,7 @@ function App (): JSX.Element {
               <Route path={REVIEWS_PATH} element={(<Reviews />)} />
               <Route path={READ_STORY} element={<StoryReader />} />
               <Route path={`${EXERCISES_PATH}/:exerciseName`} element={<ActualExercise />} />
+              <Route path={`${TEST_PATH}/:testSlug`} element={<HeaderAndNavbar PageContents={<TestToSkipLevels />} hasGapBetweenHeaderAndContents={true} />} />
             </Route>
             <Route path={HOME_PATH} element={<HeaderAndNavbar PageContents={<Homepage />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={LESSONS_PATH} element={<HeaderAndNavbar PageContents={<Lessons />} hasGapBetweenHeaderAndContents={true} />} />

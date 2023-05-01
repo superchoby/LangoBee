@@ -104,6 +104,12 @@ export interface GrammarQuestionType extends IQuestion {
   englishTranslation: string
 }
 
+export interface MultipleChoiceQuestionType extends IQuestion {
+  question: string
+  correctAnswer: string
+  wrongAnswers: string[]
+}
+
 interface QuestionSubsection {
   isGrammarQuestion: boolean
   scoreToPass: number
@@ -146,7 +152,7 @@ export interface LessonsContentType {
   }
 }
 
-export function isAGrammarQuestion (toBeDetermined: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType): toBeDetermined is GrammarQuestionType {
+export function isAGrammarQuestion (toBeDetermined: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType | MultipleChoiceQuestionType): toBeDetermined is GrammarQuestionType {
   if ((toBeDetermined as GrammarQuestionType).englishTranslation != null) {
     return true
   }

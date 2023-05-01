@@ -5,6 +5,7 @@ import {
     VOCABULARY_TYPE,
     GRAMMAR_TYPE,
     KanaSubject,
+    MULTIPLE_CHOICE_TYPE,
     RadicalSubject,
     JapaneseVocabularySubject,
     JMDictSense,
@@ -12,7 +13,8 @@ import {
     EXERCISE_TYPE,
     KANJI_TYPE,
     KanjiSubject,
-    GrammarSubject
+    GrammarSubject,
+    MultipleChoiceSubject
 } from '../../learning/lessons/SubjectTypes'
 import shuffle from 'shuffle-array'
 import {
@@ -26,6 +28,7 @@ import {
   KanaVocabQuestionType,
   GrammarQuestionType,
   ConjugationQuestionType,
+  MultipleChoiceQuestionType
 } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { SubjectsAnsweredStatus } from '.'
 
@@ -43,7 +46,7 @@ const KANJI_TO_NUMBER = {
 }
 
 export interface QuizQuestion {
-  questionContents: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType
+  questionContents: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType | MultipleChoiceQuestionType
   subjectData: JapaneseSubjectData
 }
 
@@ -107,8 +110,6 @@ export const convertSubjectDataToQuestions = (subjectData: JapaneseSubjectData[]
             userGotCorrect: true
           }
         }
-        
-        
       } else if (concept.japaneseSubjectType === VOCABULARY_TYPE) {
         const vocabularySubject = concept as JapaneseVocabularySubject
         const getAllVocabsMeanings = (jmdictSense: JMDictSense[]) => {
@@ -480,8 +481,26 @@ export const convertSubjectDataToQuestions = (subjectData: JapaneseSubjectData[]
             timesNeedsToBeAnsweredBeforeCompletion: secondQuestion != null ? 2 : 1,
             userGotCorrect: true
         }
+      } else if (concept.subjectType === MULTIPLE_CHOICE_TYPE) {
+        const multipleChoiceConcept = concept as MultipleChoiceSubject
+        newQuestionsOrder.push({
+          questionContents: {
+            question: multipleChoiceConcept.question,
+            correctAnswer: multipleChoiceConcept.answer,
+            wrongAnswers: multipleChoiceConcept.wrongChoices,
+            questionPrompt: multipleChoiceConcept.questionPrompt,
+          } as MultipleChoiceQuestionType,
+          subjectData: concept
+        })
+      
+        timesSubjectAnsweredAndNeedsToBeAnswered[concept.subjectId] = {
+            timesAnswered: 0,
+            timesNeedsToBeAnsweredBeforeCompletion: 1,
+            userGotCorrect: true
+        }
       } else {
         // eventually do some error thing to handle unknown type
+        throw new Error("Unahndled quiz questions type")
       }
     }
 

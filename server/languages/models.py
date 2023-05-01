@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
 
 languages = [
     ('Japanese', 'Japanese'),
@@ -89,6 +90,38 @@ class LanguageStandardsLevels(models.Model):
 
     def natural_key(self):
         return (self.name, self.language.name)
+    
+class TestForSkippingACoursesLevels(models.Model):
+    text_to_encourage_user_to_take = models.TextField(unique=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='check_points')
+    levels_this_starts_to_cover = models.OneToOneField(CourseLevels, on_delete=models.CASCADE, related_name='test_that_starts_here')
+    levels_this_finishes_covering = models.OneToOneField(CourseLevels, on_delete=models.CASCADE, related_name='test_that_ends_here')
+    users_that_have_taken_this = models.ManyToManyField(get_user_model(), related_name='tests_taken')
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.description
+    
+class UsersProgressOnTest(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_tests')
+    test = models.ForeignKey(TestForSkippingACoursesLevels, on_delete=models.Case, related_name='users_progress_on_this')
+    passed = models.BooleanField()
+
+class CustomQuestionForTestForSkippingACoursesLevels(models.Model):
+    test = models.ForeignKey(TestForSkippingACoursesLevels, on_delete=models.CASCADE, related_name='custom_questions')
+    subjects_covered = models.ManyToManyField('subjects.Subject', related_name='custom_questions_for_test_that_cover_this')
+    question = models.CharField(max_length=30)
+    answer = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.question
+
+class WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels(models.Model):
+    question = models.ForeignKey(CustomQuestionForTestForSkippingACoursesLevels, on_delete=models.CASCADE, related_name='wrong_choices')
+    text = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.text
 
 class Article(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='articles')

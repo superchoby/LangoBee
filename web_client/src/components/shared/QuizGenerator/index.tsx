@@ -3,7 +3,7 @@ import shuffle from 'shuffle-array'
 import { isAGrammarQuestion, type KanaVocabQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { IoMdClose } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
-import { type JapaneseSubjectData, VOCABULARY_TYPE } from '../../learning/lessons/SubjectTypes'
+import { type JapaneseSubjectData, VOCABULARY_TYPE, MULTIPLE_CHOICE_TYPE, GRAMMAR_TYPE } from '../../learning/lessons/SubjectTypes'
 import { convertSubjectDataToQuestions, type QuizQuestion } from './ConvertSubjectDataToQuestions'
 import { KanaVocabQuestion } from './KanaVocabQuestion'
 import { SubjectsSubInfo, getPropsForSubjectsInfo } from '../../learning/SubjectsSubInfo'
@@ -161,6 +161,7 @@ export const QuizGenerator = ({
       timesSubjectAnsweredAndNeedsToBeAnswered,
       newQuestionsOrder
     } = convertSubjectDataToQuestions(content)
+
     const shuffledQuestions = shuffle(newQuestionsOrder, { copy: true })
     changeTimesSubjectAnsweredAndNeedsToBeAnswered(timesSubjectAnsweredAndNeedsToBeAnswered)
     changeQuestionsOrder(putTheVocabQuestionsAskingMeaningsFirst(shuffledQuestions))
@@ -187,7 +188,7 @@ export const QuizGenerator = ({
   const questionComponent = useMemo(() => {
     // hanlde other q types
     if (questionsOrder.length > 0) {
-      if (questionsOrder[0].subjectData.subjectType === 'grammar') {
+      if (questionsOrder[0].subjectData.subjectType === GRAMMAR_TYPE) {
         return (
             <GrammarQuestion
               choiceSubmitted={choiceHasBeenSubmitted}
@@ -212,6 +213,7 @@ export const QuizGenerator = ({
               changeIsInvalidInput={changeIsInvalidInput}
               changeGuessIsRightButWrongKana={changeGuessIsRightButWrongKana}
               typingInHiragana={typingInHiragana}
+              isMultipleChoice={questionsOrder[0].subjectData.subjectType === MULTIPLE_CHOICE_TYPE}
             />
         )
       }
@@ -232,171 +234,171 @@ export const QuizGenerator = ({
   }, [questionsOrder])
 
   return (
-        <div data-testid='quiz-generator-container' className='quiz-generator-container' onKeyDown={handleKeyDown} tabIndex={0}>
-          {quizIsDone ? (
-            (() => {
-              interface CorrectAndIncorrectSubjects { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
-              const {
-                correctSubjects,
-                incorrectSubjects
-              } = (() => {
-                if (separateCorrectAndIncorrectSubjects) {
-                  return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce<CorrectAndIncorrectSubjects>((accumulator,
-                    [
-                      subjectId,
-                      {
-                        timesAnswered,
-                        timesNeedsToBeAnsweredBeforeCompletion,
-                        userGotCorrect
-                      }
-                    ]) => {
-                    if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
-                      const subjectIdInt = parseInt(subjectId)
-                      if (userGotCorrect) {
-                        return {
-                          ...accumulator,
-                          correctSubjects: [
-                            ...accumulator.correctSubjects,
-                            {
-                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
-                            }
-                          ]
+    <div data-testid='quiz-generator-container' className='quiz-generator-container' onKeyDown={handleKeyDown} tabIndex={0}>
+      {quizIsDone ? (
+        (() => {
+          interface CorrectAndIncorrectSubjects { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
+          const {
+            correctSubjects,
+            incorrectSubjects
+          } = (() => {
+            if (separateCorrectAndIncorrectSubjects) {
+              return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce<CorrectAndIncorrectSubjects>((accumulator,
+                [
+                  subjectId,
+                  {
+                    timesAnswered,
+                    timesNeedsToBeAnsweredBeforeCompletion,
+                    userGotCorrect
+                  }
+                ]) => {
+                if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
+                  const subjectIdInt = parseInt(subjectId)
+                  if (userGotCorrect) {
+                    return {
+                      ...accumulator,
+                      correctSubjects: [
+                        ...accumulator.correctSubjects,
+                        {
+                          ...content.find((subject) => subject.subjectId === subjectIdInt)!
                         }
-                      } else {
-                        return {
-                          ...accumulator,
-                          incorrectSubjects: [
-                            ...accumulator.incorrectSubjects,
-                            {
-                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
-                            }
-                          ]
-                        }
-                      }
+                      ]
                     }
-                    return accumulator
-                  }, {
-                    correctSubjects: [],
-                    incorrectSubjects: []
-                  })
-                } else {
-                  return {
-                    correctSubjects: content.filter(subject => {
-                      const {
-                        timesAnswered,
-                        timesNeedsToBeAnsweredBeforeCompletion
-                      } = timesSubjectAnsweredAndNeedsToBeAnswered[subject.subjectId]
-
-                      return timesAnswered === timesNeedsToBeAnsweredBeforeCompletion
-                    }),
-                    incorrectSubjects: []
+                  } else {
+                    return {
+                      ...accumulator,
+                      incorrectSubjects: [
+                        ...accumulator.incorrectSubjects,
+                        {
+                          ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                        }
+                      ]
+                    }
                   }
                 }
-              })()
+                return accumulator
+              }, {
+                correctSubjects: [],
+                incorrectSubjects: []
+              })
+            } else {
+              return {
+                correctSubjects: content.filter(subject => {
+                  const {
+                    timesAnswered,
+                    timesNeedsToBeAnsweredBeforeCompletion
+                  } = timesSubjectAnsweredAndNeedsToBeAnswered[subject.subjectId]
 
-              const {
-                hasIncorrectSection,
-                headerForCorrectSubjects,
-                componentForEachSubject,
-                leaveButtonLink,
-                leaveButtonText,
-                messageOnTop
-              } = resultsPageInfo
-              return (
-                <QuizResultsPage
-                  correctSubjects={correctSubjects}
-                  incorrectSubjects={incorrectSubjects}
-                  hasIncorrectSection={hasIncorrectSection}
-                  correctSectionHeader={headerForCorrectSubjects}
-                  componentForEachSubject={componentForEachSubject}
-                  leaveButtonLink={leaveButtonLink}
-                  leaveButtonText={leaveButtonText}
-                  messageOnTop={messageOnTop}
-                />
-              )
-            })()
-          ) : (
-            <>
-              <Modal
-                ariaHideApp={false}
-                className='quiz-generator-confirm-quit-modal'
-                isOpen={confirmIfUserWantsToStopTheQuiz}
-                onRequestClose={(() => { changeConfirmIfUserWantsToStopTheQuiz(false) })}
-                preventScroll={true}
+                  return timesAnswered === timesNeedsToBeAnsweredBeforeCompletion
+                }),
+                incorrectSubjects: []
+              }
+            }
+          })()
+
+          const {
+            hasIncorrectSection,
+            headerForCorrectSubjects,
+            componentForEachSubject,
+            leaveButtonLink,
+            leaveButtonText,
+            messageOnTop
+          } = resultsPageInfo
+          return (
+            <QuizResultsPage
+              correctSubjects={correctSubjects}
+              incorrectSubjects={incorrectSubjects}
+              hasIncorrectSection={hasIncorrectSection}
+              correctSectionHeader={headerForCorrectSubjects}
+              componentForEachSubject={componentForEachSubject}
+              leaveButtonLink={leaveButtonLink}
+              leaveButtonText={leaveButtonText}
+              messageOnTop={messageOnTop}
+            />
+          )
+        })()
+      ) : (
+        <>
+          <Modal
+            ariaHideApp={false}
+            className='quiz-generator-confirm-quit-modal'
+            isOpen={confirmIfUserWantsToStopTheQuiz}
+            onRequestClose={(() => { changeConfirmIfUserWantsToStopTheQuiz(false) })}
+            preventScroll={true}
+          >
+            <h2 className='lesson-preview-header'>Pause the Quiz?</h2>
+            <p>Your progress has all been saved so no worries about that.</p>
+            <div className='quiz-generator-confirm-quit-modal-buttons-container'>
+              <button
+                className='quiz-generator-cancel-done-button'
+                onClick={() => { changeConfirmIfUserWantsToStopTheQuiz(false) }}
               >
-                <h2 className='lesson-preview-header'>Pause the Quiz?</h2>
-                <p>Your progress has all been saved so no worries about that.</p>
-                <div className='quiz-generator-confirm-quit-modal-buttons-container'>
-                  <button
-                    className='quiz-generator-cancel-done-button'
-                    onClick={() => { changeConfirmIfUserWantsToStopTheQuiz(false) }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className='quiz-generator-confirm-done-button'
-                    onClick={() => { changeQuizIsDone(true) }}
-                  >
-                    Finish
-                  </button>
-                </div>
-              </Modal>
-              <div className='quiz-generator-container-without-button'>
-              <div className='quiz-generator-progress-bar-container'>
-                <IoMdClose
-                  className='quiz-generator-close-icon'
-                  onClick={() => {
-                    if (usersTotalPoints === 0) {
-                      navigate(HOME_PATH)
-                    } else {
-                      changeConfirmIfUserWantsToStopTheQuiz(true)
-                    }
-                  }}
-                />
-                <div className='quiz-generator-total-progress'>
-                  <div className='quiz-generator-current-progress' style={{ width: `${(usersTotalPoints / totalPointsNeeded) * 100}%` }} />
-
-                </div>
-                <div className='quiz-generator-users-progress-fraction'>{usersTotalPoints} / {totalPointsNeeded}</div>
-              </div>
-                {
-                    questionsOrder.length > 0 && (
-                        <div className='question-container'>
-                            <div className='question-prompt'>Please enter {questionsOrder[0].questionContents.questionPrompt}</div>
-                            <div className='questions-component-container'>
-                              <div className='on-finished-subjects-questions-component-container'>
-                                {onFinishedSubjectsQuestionsComponent != null && onFinishedSubjectsQuestionsComponent(
-                                  timesSubjectAnsweredAndNeedsToBeAnswered[questionsOrder[0].subjectData.subjectId].userGotCorrect,
-                                  questionsOrder[0].subjectData.subjectId,
-                                  choiceHasBeenSubmitted
-                                )}
-                              </div>
-                              {questionComponent}
-                            </div>
-                        </div>
-                    )
-                }
-                {choiceHasBeenSubmitted && (
-                  <SubjectsSubInfo
-                    contentToDisplay={contentToDisplay}
-                    setContentToDisplay={setContentToDisplay}
-                    subjectInfo={thisSubjectsInfo}
-                  />
-                )}
+                Cancel
+              </button>
+              <button
+                className='quiz-generator-confirm-done-button'
+                onClick={() => { changeQuizIsDone(true) }}
+              >
+                Finish
+              </button>
             </div>
-                <div className='quiz-generator-button-container'>
-                  {/* <button className='done-for-now-button'>
-                    Done
-                  </button> */}
-                  <button
-                    className='check-button'
-                    onClick={handleAnswerSubmitOrHandleFinishedQuiz}
-                  >
-                      {userHasntYetFinishedAllQuestions ? (choiceHasBeenSubmitted ? 'Continue' : 'Check') : 'Finish'}
-                  </button>
-                </div>
-            </>
-          )}
+          </Modal>
+          <div className='quiz-generator-container-without-button'>
+          <div className='quiz-generator-progress-bar-container'>
+            <IoMdClose
+              className='quiz-generator-close-icon'
+              onClick={() => {
+                if (usersTotalPoints === 0) {
+                  navigate(HOME_PATH)
+                } else {
+                  changeConfirmIfUserWantsToStopTheQuiz(true)
+                }
+              }}
+            />
+            <div className='quiz-generator-total-progress'>
+              <div className='quiz-generator-current-progress' style={{ width: `${(usersTotalPoints / totalPointsNeeded) * 100}%` }} />
+
+            </div>
+            <div className='quiz-generator-users-progress-fraction'>{usersTotalPoints} / {totalPointsNeeded}</div>
+          </div>
+            {
+                questionsOrder.length > 0 && (
+                    <div className='question-container'>
+                        <div className='question-prompt'>Please enter {questionsOrder[0].questionContents.questionPrompt}</div>
+                        <div className='questions-component-container'>
+                          <div className='on-finished-subjects-questions-component-container'>
+                            {onFinishedSubjectsQuestionsComponent != null && onFinishedSubjectsQuestionsComponent(
+                              timesSubjectAnsweredAndNeedsToBeAnswered[questionsOrder[0].subjectData.subjectId].userGotCorrect,
+                              questionsOrder[0].subjectData.subjectId,
+                              choiceHasBeenSubmitted
+                            )}
+                          </div>
+                          {questionComponent}
+                        </div>
+                    </div>
+                )
+            }
+            {choiceHasBeenSubmitted && (
+              <SubjectsSubInfo
+                contentToDisplay={contentToDisplay}
+                setContentToDisplay={setContentToDisplay}
+                subjectInfo={thisSubjectsInfo}
+              />
+            )}
         </div>
+            <div className='quiz-generator-button-container'>
+              {/* <button className='done-for-now-button'>
+                Done
+              </button> */}
+              <button
+                className='check-button'
+                onClick={handleAnswerSubmitOrHandleFinishedQuiz}
+              >
+                  {userHasntYetFinishedAllQuestions ? (choiceHasBeenSubmitted ? 'Continue' : 'Check') : 'Finish'}
+              </button>
+            </div>
+        </>
+      )}
+    </div>
   )
 }

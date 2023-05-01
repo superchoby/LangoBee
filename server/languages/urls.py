@@ -4,7 +4,8 @@ from .views import (
     GetUsersSubjectsForLessons,
     ArticleView,
     MarkArticleAsReadView,
-    GetRemainingSubjectsForLevel
+    GetRemainingSubjectsForLevel,
+    TestToSkipCoursesLevelsView
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('lesson_session/<str:language>/<str:course>/', GetUsersSubjectsForLessons.as_view()),
     path('article/<str:language>/<slug:slug>/', ArticleView.as_view()),
     path('article/mark_as_read/<str:language>/<slug:slug>/', MarkArticleAsReadView.as_view()),
+    path('tests_to_skip_courses_levels/<str:tests_slug>/', TestToSkipCoursesLevelsView.as_view())
 ]

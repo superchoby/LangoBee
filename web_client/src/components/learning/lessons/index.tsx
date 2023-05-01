@@ -13,6 +13,8 @@ import { LESSONS_SESSION_PATH, ARTICLE_PATH } from 'src/paths'
 import { Link } from 'react-router-dom'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { REVIEWS_INFO_PATH } from 'src/paths'
+import { keysToCamel } from 'src/components/shared/keysToCamel'
+import { TestToSkipLevelsButton } from './TestToSkipLevelsButton'
 
 const SubjectsForLevelLi = ({
   subjectType,
@@ -42,6 +44,10 @@ type CourseLevel = {
   standardsLevel: {
     description: string
     name: string
+  } | null
+  testThatEndsHere: {
+    textToEncourageUserToTake: string
+    slug: string
   } | null
 }
 
@@ -102,7 +108,7 @@ export const Lessons = (): JSX.Element => {
 
       changeUserReadCurrentLevelsArticle(user_read_current_levels_article)
       changeCurrentLevelOnCourse(users_current_level)
-      changeLevelsList(all_levels.map((level: any) => ({...level, standardsLevel: level.standards_level})))
+      changeLevelsList(all_levels.map((level: any) => keysToCamel(level)))
       changeCurrentlyFetchingLevels(false)
       changeThisLevelsArticle(this_levels_article)
     })
@@ -156,7 +162,7 @@ export const Lessons = (): JSX.Element => {
       let j = i
 
       while (j < levelsList.length && (levelsList[j].standardsLevel === null || j === i)) {
-        const { number, article } = levelsList[j]
+        const { number, article, testThatEndsHere } = levelsList[j]
         const thisButtonIsForTheCurrentLevel = number === currentLevelOnCourse
         const articleExistsForCurrentLevel = article != null
         if (articleExistsForCurrentLevel) {
@@ -201,6 +207,20 @@ export const Lessons = (): JSX.Element => {
             color={(levels.length % 6) + 1}
           />
         )
+
+        if (testThatEndsHere != null) {
+          const {
+            slug,
+            textToEncourageUserToTake
+          } = testThatEndsHere
+          levelsForCurrentStandard.push(
+            <TestToSkipLevelsButton 
+              message={textToEncourageUserToTake}
+              testLink={slug}
+            />
+          )
+        }
+
         const {
           newPosition,
           newPositionIncreasing
