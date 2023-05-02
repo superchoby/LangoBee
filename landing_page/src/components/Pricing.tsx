@@ -2,6 +2,51 @@ import React from 'react';
 
 import config from '../config/index.json';
 
+interface PricingOptionProps {
+  plan: {
+    name: string;
+    price: string;
+    priceDetails: string;
+    features: string[];
+    priceMessage?: string;
+  };
+}
+
+const PricingOption = ({ plan }: PricingOptionProps) => {
+  let buttonClassName =
+    'text-background text-lg  cursor-pointer hover:bg-blue-700 hover:text-white leading-4 font-bold py-4 px-8 rounded-md h-12';
+  buttonClassName += ` ${
+    plan.name === 'Lifetime'
+      ? 'bg-primary text-white'
+      : 'text-black border-2 border-neutral-500'
+  }`;
+
+  return (
+    <div
+      className={`flex justify-around sm:flex-col sm:w-44 md:w-56 sm:h-64 md:h-80 lg:w-72 lg:h-94 xl:h-110 xl:w-102 bg-background wjustify-around items-center text-gray-600 overflow-hidden shadow-lg py-10 my-4 border-primary rounded-xl relative`}
+    >
+      {plan.priceMessage != null && (
+        <div className="absolute lg:text-xl top-2 bg-primary px-3 py-0.5 text-white rounded-lg">
+          {plan.priceMessage}!
+        </div>
+      )}
+      <div className="flex flex-col">
+        <span className={`text-3xl lg:text-4xl font-bold text-center`}>
+          {plan.name}
+        </span>
+
+        <span
+          className={`text-2xl lg:text-3xl text-gray-600 font-bold text-center`}
+        >
+          {plan.price}
+        </span>
+      </div>
+
+      <button className={buttonClassName}>Continue</button>
+    </div>
+  );
+};
+
 const Pricing = () => {
   const { pricing } = config;
   const { items, title } = pricing;
@@ -21,102 +66,11 @@ const Pricing = () => {
           ></div>
         </div>
         <div
-          className={`flex flex-col sm:flex-row justify-center pt-12 my-12 sm:my-4`}
+          className={`flex w-80 mx-auto flex-col sm:flex-row-reverse sm:justify-around sm:w-full justify-center pt-12 my-12 sm:my-4 xl:w-3/4 2xl:w-5/8`}
         >
-          <div
-            className={`flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-background mt-4`}
-          >
-            <div
-              className={`flex-1 bg-background text-gray-600 rounded-t rounded-b-none overflow-hidden shadow`}
-            >
-              <div className={`p-8 text-3xl font-bold text-center border-b-4`}>
-                {firstPlan?.name}
-              </div>
-              <ul className={`w-full text-center text-sm`}>
-                {firstPlan?.features.map((feature) => (
-                  <li
-                    className={`border-b py-4`}
-                    key={`${firstPlan.name}-${feature}`}
-                  >
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div
-              className={`flex-none mt-auto bg-background rounded-b rounded-t-none overflow-hidden shadow p-6`}
-            >
-              <div
-                className={`w-full pt-6 text-3xl text-gray-600 font-bold text-center`}
-              >
-                {firstPlan?.price}
-                <span className={`text-base`}> {firstPlan?.priceDetails}</span>
-              </div>
-            </div>
-          </div>
-          <div
-            className={`flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-background mt-4 sm:-mt-6 shadow-lg z-10`}
-          >
-            <div
-              className={`flex-1 bg-background rounded-t rounded-b-none overflow-hidden shadow`}
-            >
-              <div className={`w-full p-8 text-3xl font-bold text-center`}>
-                {secondPlan?.name}
-              </div>
-              <div
-                className={`h-1 w-full bg-primary my-0 py-0 rounded-t`}
-              ></div>
-              <ul className={`w-full text-center text-base font-bold`}>
-                {secondPlan?.features.map((feature) => (
-                  <li
-                    className={`border-b py-4`}
-                    key={`${secondPlan?.name}-${feature}`}
-                  >
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div
-              className={`flex-none mt-auto bg-background rounded-b rounded-t-none overflow-hidden shadow p-6`}
-            >
-              <div className={`w-full pt-6 text-4xl font-bold text-center`}>
-                {secondPlan?.price}
-                <span className={`text-base`}> {secondPlan?.priceDetails}</span>
-              </div>
-            </div>
-          </div>
-          <div
-            className={`flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-primary mt-4`}
-          >
-            <div
-              className={`flex-1 bg-background text-gray-600 rounded-t rounded-b-none overflow-hidden shadow`}
-            >
-              <div className={`p-8 text-3xl font-bold text-center border-b-4`}>
-                {thirdPlan?.name}
-              </div>
-              <ul className={`w-full text-center text-sm`}>
-                {thirdPlan?.features.map((feature) => (
-                  <li
-                    className={`border-b py-4`}
-                    key={`${thirdPlan?.name}-${feature}`}
-                  >
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div
-              className={`flex-none mt-auto bg-background rounded-b rounded-t-none overflow-hidden shadow p-6`}
-            >
-              <div
-                className={`w-full pt-6 text-3xl text-gray-600 font-bold text-center`}
-              >
-                {thirdPlan?.price}
-                <span className={`text-base`}> {thirdPlan?.priceDetails}</span>
-              </div>
-            </div>
-          </div>
+          <PricingOption plan={thirdPlan!} />
+          <PricingOption plan={secondPlan!} />
+          <PricingOption plan={firstPlan!} />
         </div>
       </div>
     </section>

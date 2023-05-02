@@ -86,8 +86,8 @@
     "title": "Pricing",
     "items": [
       {
-        "name": "Free",
-        "price": "$0",
+        "name": "1 Month",
+        "price": "$5",
         "priceDetails": "for one user",
         "features": [
           "1 user",
@@ -97,10 +97,10 @@
         ]
       },
       {
-        "name": "Pro",
-        "price": "$15",
+        "name": "1 Year",
+        "price": "$45",
         "priceDetails": "per user",
-
+        "priceMessage": "25% Off",
         "features": [
           "5 users",
           "Priority Support",
@@ -109,9 +109,10 @@
         ]
       },
       {
-        "name": "Enterprise",
-        "price": "$29",
+        "name": "Lifetime",
+        "price": "$110",
         "priceDetails": "per user",
+        "priceMessage": "Best Value",
         "features": [
           "50 users",
           "24/7 Support",
