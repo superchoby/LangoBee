@@ -52,7 +52,6 @@ const ContactForm: React.FC = () => {
       setFormData({ email: '', subject: '', message: '' });
     } catch (error) {
       changeEmailSendState('error');
-      console.error(error);
     }
   };
 
