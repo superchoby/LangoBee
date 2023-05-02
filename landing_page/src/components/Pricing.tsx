@@ -26,18 +26,14 @@ const PricingOption = ({ plan }: PricingOptionProps) => {
       className={`flex justify-around sm:flex-col sm:w-44 md:w-56 sm:h-64 md:h-80 lg:w-72 lg:h-94 xl:h-110 xl:w-102 bg-background wjustify-around items-center text-gray-600 overflow-hidden shadow-lg py-10 my-4 border-primary rounded-xl relative`}
     >
       {plan.priceMessage != null && (
-        <div className="absolute lg:text-xl top-2 bg-primary px-3 py-0.5 text-white rounded-lg">
+        <div className="absolute lg:text-lg top-2 bg-primary px-3 py-0.5 text-white rounded-lg">
           {plan.priceMessage}!
         </div>
       )}
       <div className="flex flex-col">
-        <span className={`text-3xl lg:text-4xl font-bold text-center`}>
-          {plan.name}
-        </span>
+        <span className={`text-3xl font-bold text-center`}>{plan.name}</span>
 
-        <span
-          className={`text-2xl lg:text-3xl text-gray-600 font-bold text-center`}
-        >
+        <span className={`text-2xl text-gray-600 font-bold text-center`}>
           {plan.price}
         </span>
       </div>

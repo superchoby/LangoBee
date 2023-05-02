@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_rest_passwordreset',
     'sendgrid',
+    'djstripe'
 ]
 
 MIDDLEWARE = [
@@ -225,3 +226,9 @@ SIMPLE_JWT = {
 }
 
 django_on_heroku.settings(locals())
+
+STRIPE_TEST_PUBLIC_KEY = env("STRIPE_TEST_PUBLIC_KEY")
+STRIPE_TEST_SECRET_KEY = env("STRIPE_TEST_SECRET_KEY")
+STRIPE_LIVE_MODE = isInProdEnviron
+DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # We don't use this, but it must be set
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
