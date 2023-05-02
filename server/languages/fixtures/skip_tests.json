@@ -736,7 +736,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 1,
-      "text": "akaa"
+      "text": "akao"
     }
   },
   {
@@ -744,7 +744,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 2,
-      "text": "oreshii"
+      "text": "ireshii"
     }
   },
   {
@@ -760,7 +760,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 2,
-      "text": "urenii"
+      "text": "uregii"
     }
   },
   {
@@ -768,7 +768,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 3,
-      "text": "umotenashi"
+      "text": "imotenashi"
     }
   },
   {
@@ -776,7 +776,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 3,
-      "text": "omatenashi"
+      "text": "ometenashi"
     }
   },
   {
@@ -784,7 +784,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 3,
-      "text": "omotonashi"
+      "text": "omotsunashi"
     }
   },
   {
@@ -792,7 +792,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 4,
-      "text": "koeru"
+      "text": "keeru"
     }
   },
   {
@@ -800,7 +800,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 4,
-      "text": "kaoru"
+      "text": "kauru"
     }
   },
   {
@@ -808,7 +808,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 4,
-      "text": "kaero"
+      "text": "kaera"
     }
   },
   {
@@ -816,7 +816,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 5,
-      "text": "byuuryou"
+      "text": "gyuuryou"
     }
   },
   {
@@ -824,7 +824,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 5,
-      "text": "kieuryou"
+      "text": "kyauryou"
     }
   },
   {
@@ -832,7 +832,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 5,
-      "text": "kyuaryou"
+      "text": "kyueryou"
     }
   },
   {
@@ -840,7 +840,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 6,
-      "text": "kojikenai"
+      "text": "kejikenai"
     }
   },
   {
@@ -848,7 +848,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 6,
-      "text": "kugikenai"
+      "text": "kuchikenai"
     }
   },
   {
@@ -856,7 +856,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 6,
-      "text": "kujikonai"
+      "text": "kujikunai"
     }
   },
   {
@@ -872,7 +872,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 7,
-      "text": "keutou"
+      "text": "kestou"
     }
   },
   {
@@ -880,7 +880,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 7,
-      "text": "kentsuu"
+      "text": "kentau"
     }
   },
   {
@@ -904,7 +904,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 8,
-      "text": "komagure"
+      "text": "komagore"
     }
   },
   {
@@ -960,7 +960,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 11,
-      "text": "satsugyou"
+      "text": "setsugyou"
     }
   },
   {
@@ -968,7 +968,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 11,
-      "text": "sotogyou"
+      "text": "sotagyou"
     }
   },
   {
@@ -984,7 +984,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 12,
-      "text": "toiyou"
+      "text": "teiyou"
     }
   },
   {
@@ -1000,7 +1000,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 12,
-      "text": "taiyuu"
+      "text": "taiyau"
     }
   },
   {
@@ -1008,7 +1008,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 13,
-      "text": "jotto"
+      "text": "gyotto"
     }
   },
   {
@@ -1023,8 +1023,8 @@
     "pk": 39,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 14,
-      "text": "tagami"
+      "question": 13,
+      "text": "chotte"
     }
   },
   {
@@ -1032,7 +1032,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 14,
-      "text": "tegumi"
+      "text": "tsugami"
     }
   },
   {
@@ -1040,15 +1040,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 14,
-      "text": "tegaji"
+      "text": "tegemi"
     }
   },
   {
     "pk": 42,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 15,
-      "text": "tsumodachi"
+      "question": 14,
+      "text": "tegabi"
     }
   },
   {
@@ -1056,7 +1056,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 15,
-      "text": "tomedachi"
+      "text": "temodachi"
     }
   },
   {
@@ -1064,15 +1064,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 15,
-      "text": "tomodochi"
+      "text": "tomedachi"
     }
   },
   {
     "pk": 45,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 16,
-      "text": "nuni"
+      "question": 15,
+      "text": "tomodochi"
     }
   },
   {
@@ -1080,7 +1080,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 16,
-      "text": "nahi"
+      "text": "neni"
     }
   },
   {
@@ -1088,15 +1088,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 16,
-      "text": "neni"
+      "text": "nahi"
     }
   },
   {
     "pk": 48,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 17,
-      "text": "pihongo"
+      "question": 16,
+      "text": "noni"
     }
   },
   {
@@ -1104,7 +1104,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 17,
-      "text": "nifungo"
+      "text": "bihongo"
     }
   },
   {
@@ -1112,15 +1112,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 17,
-      "text": "nihougo"
+      "text": "nifungo"
     }
   },
   {
     "pk": 51,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 18,
-      "text": "neno"
+      "question": 17,
+      "text": "nihosgo"
     }
   },
   {
@@ -1128,7 +1128,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 18,
-      "text": "nuna"
+      "text": "nano"
     }
   },
   {
@@ -1136,15 +1136,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 18,
-      "text": "nano"
+      "text": "nune"
     }
   },
   {
     "pk": 54,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 19,
-      "text": "noko"
+      "question": 18,
+      "text": "nunu"
     }
   },
   {
@@ -1152,7 +1152,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 19,
-      "text": "neka"
+      "text": "nuko"
     }
   },
   {
@@ -1160,15 +1160,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 19,
-      "text": "nako"
+      "text": "neka"
     }
   },
   {
     "pk": 57,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 20,
-      "text": "hena"
+      "question": 19,
+      "text": "neku"
     }
   },
   {
@@ -1176,7 +1176,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 20,
-      "text": "hane"
+      "text": "funa"
     }
   },
   {
@@ -1184,15 +1184,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 20,
-      "text": "hona"
+      "text": "hanu"
     }
   },
   {
     "pk": 60,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 21,
-      "text": "jikouki"
+      "question": 20,
+      "text": "hona"
     }
   },
   {
@@ -1200,7 +1200,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 21,
-      "text": "hikauki"
+      "text": "shikouki"
     }
   },
   {
@@ -1208,15 +1208,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 21,
-      "text": "hikoaki"
+      "text": "hikauki"
     }
   },
   {
     "pk": 63,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 22,
-      "text": "hojisan"
+      "question": 21,
+      "text": "hikooki"
     }
   },
   {
@@ -1224,7 +1224,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 22,
-      "text": "furisan"
+      "text": "hejisan"
     }
   },
   {
@@ -1232,15 +1232,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 22,
-      "text": "fujison"
+      "text": "fuchisan"
     }
   },
   {
     "pk": 66,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 23,
-      "text": "hata"
+      "question": 22,
+      "text": "fujisen"
     }
   },
   {
@@ -1248,7 +1248,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 23,
-      "text": "hete"
+      "text": "futa"
     }
   },
   {
@@ -1256,15 +1256,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 23,
-      "text": "hota"
+      "text": "hetsu"
     }
   },
   {
     "pk": 69,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 24,
-      "text": "mezukashii"
+      "question": 23,
+      "text": "hata"
     }
   },
   {
@@ -1272,7 +1272,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 24,
-      "text": "muzekashii"
+      "text": "mazukashii"
     }
   },
   {
@@ -1280,15 +1280,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 24,
-      "text": "muzukoshii"
+      "text": "muzekashii"
     }
   },
   {
     "pk": 72,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 25,
-      "text": "mogane"
+      "question": 24,
+      "text": "muzukushii"
     }
   },
   {
@@ -1296,7 +1296,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 25,
-      "text": "megone"
+      "text": "mugane"
     }
   },
   {
@@ -1304,15 +1304,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 25,
-      "text": "megana"
+      "text": "megune"
     }
   },
   {
     "pk": 75,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 26,
-      "text": "yusai"
+      "question": 25,
+      "text": "megana"
     }
   },
   {
@@ -1320,7 +1320,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 26,
-      "text": "yasoi"
+      "text": "yosai"
     }
   },
   {
@@ -1328,15 +1328,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 26,
-      "text": "yasao"
+      "text": "yasei"
     }
   },
   {
     "pk": 78,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 27,
-      "text": "yame"
+      "question": 26,
+      "text": "yasao"
     }
   },
   {
@@ -1344,7 +1344,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 27,
-      "text": "yumo"
+      "text": "yame"
     }
   },
   {
@@ -1352,15 +1352,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 27,
-      "text": "yome"
+      "text": "yuma"
     }
   },
   {
     "pk": 81,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 28,
-      "text": "roinen"
+      "question": 27,
+      "text": "yome"
     }
   },
   {
@@ -1368,7 +1368,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 28,
-      "text": "raanen"
+      "text": "roinen"
     }
   },
   {
@@ -1376,15 +1376,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 28,
-      "text": "rainon"
+      "text": "raenen"
     }
   },
   {
     "pk": 84,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 29,
-      "text": "ruusoku"
+      "question": 28,
+      "text": "rainan"
     }
   },
   {
@@ -1392,7 +1392,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 29,
-      "text": "roosoku"
+      "text": "rausoku"
     }
   },
   {
@@ -1400,15 +1400,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 29,
-      "text": "rouseku"
+      "text": "roesoku"
     }
   },
   {
     "pk": 87,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 30,
-      "text": "ratashi"
+      "question": 29,
+      "text": "rousuku"
     }
   },
   {
@@ -1416,7 +1416,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 30,
-      "text": "watsushi"
+      "text": "matashi"
     }
   },
   {
@@ -1424,15 +1424,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 30,
-      "text": "watahi"
+      "text": "watoshi"
     }
   },
   {
     "pk": 90,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 31,
-      "text": "so"
+      "question": 30,
+      "text": "watabi"
     }
   },
   {
@@ -1440,7 +1440,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 31,
-      "text": "so"
+      "text": "to"
     }
   },
   {
@@ -1448,15 +1448,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 31,
-      "text": "to"
+      "text": "mo"
     }
   },
   {
     "pk": 93,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 32,
-      "text": "goai"
+      "question": 31,
+      "text": "so"
     }
   },
   {
@@ -1464,7 +1464,7 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 32,
-      "text": "guui"
+      "text": "geai"
     }
   },
   {
@@ -1472,15 +1472,15 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 32,
-      "text": "guaa"
+      "text": "guei"
     }
   },
   {
     "pk": 96,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 33,
-      "text": "zusshi"
+      "question": 32,
+      "text": "guau"
     }
   },
   {
@@ -1488,23 +1488,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 33,
-      "text": "zajji"
+      "text": "zusshi"
     }
   },
   {
     "pk": 98,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 34,
-      "text": "zoibun"
+      "question": 33,
+      "text": "zajji"
     }
   },
   {
     "pk": 99,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 34,
-      "text": "zuubun"
+      "question": 33,
+      "text": "zesshi"
     }
   },
   {
@@ -1512,23 +1512,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 34,
-      "text": "zuibon"
+      "text": "zaibun"
     }
   },
   {
     "pk": 101,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 35,
-      "text": "zanryaku"
+      "question": 34,
+      "text": "zuebun"
     }
   },
   {
     "pk": 102,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 35,
-      "text": "zeuryaku"
+      "question": 34,
+      "text": "zuibon"
     }
   },
   {
@@ -1536,23 +1536,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 35,
-      "text": "zenhyaku"
+      "text": "zunryaku"
     }
   },
   {
     "pk": 104,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 36,
-      "text": "zekuzai"
+      "question": 35,
+      "text": "zemryaku"
     }
   },
   {
     "pk": 105,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 36,
-      "text": "zokozai"
+      "question": 35,
+      "text": "zengyaku"
     }
   },
   {
@@ -1560,23 +1560,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 36,
-      "text": "zokuzui"
+      "text": "zekuzai"
     }
   },
   {
     "pk": 107,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 37,
-      "text": "junbi"
+      "question": 36,
+      "text": "zokazai"
     }
   },
   {
     "pk": 108,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 37,
-      "text": "jienbi"
+      "question": 36,
+      "text": "zokuzei"
     }
   },
   {
@@ -1584,23 +1584,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 37,
-      "text": "juubi"
+      "text": "pyunbi"
     }
   },
   {
     "pk": 110,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 38,
-      "text": "dakeru"
+      "question": 37,
+      "text": "janbi"
     }
   },
   {
     "pk": 111,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 38,
-      "text": "zukoru"
+      "question": 37,
+      "text": "jumbi"
     }
   },
   {
@@ -1608,23 +1608,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 38,
-      "text": "zukero"
+      "text": "dokeru"
     }
   },
   {
     "pk": 113,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 39,
-      "text": "danwa"
+      "question": 38,
+      "text": "zukaru"
     }
   },
   {
     "pk": 114,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 39,
-      "text": "demwa"
+      "question": 38,
+      "text": "zukera"
     }
   },
   {
@@ -1632,23 +1632,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 39,
-      "text": "denra"
+      "text": "zunwa"
     }
   },
   {
     "pk": 116,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 40,
-      "text": "deubutsu"
+      "question": 39,
+      "text": "deuwa"
     }
   },
   {
     "pk": 117,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 40,
-      "text": "doobutsu"
+      "question": 39,
+      "text": "denka"
     }
   },
   {
@@ -1656,23 +1656,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 40,
-      "text": "doubatsu"
+      "text": "daubutsu"
     }
   },
   {
     "pk": 119,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 41,
-      "text": "bongohan"
+      "question": 40,
+      "text": "doibutsu"
     }
   },
   {
     "pk": 120,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 41,
-      "text": "basgohan"
+      "question": 40,
+      "text": "doubatsu"
     }
   },
   {
@@ -1680,23 +1680,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 41,
-      "text": "bangahan"
+      "text": "bungohan"
     }
   },
   {
     "pk": 122,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 42,
-      "text": "banpou"
+      "question": 41,
+      "text": "baugohan"
     }
   },
   {
     "pk": 123,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 42,
-      "text": "buupou"
+      "question": 41,
+      "text": "bangahan"
     }
   },
   {
@@ -1704,23 +1704,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 42,
-      "text": "bunpau"
+      "text": "bonpou"
     }
   },
   {
     "pk": 125,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 43,
-      "text": "buntou"
+      "question": 42,
+      "text": "bumpou"
     }
   },
   {
     "pk": 126,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 43,
-      "text": "beutou"
+      "question": 42,
+      "text": "bunpuu"
     }
   },
   {
@@ -1728,23 +1728,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 43,
-      "text": "bentau"
+      "text": "bontou"
     }
   },
   {
     "pk": 128,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 44,
-      "text": "beushi"
+      "question": 43,
+      "text": "bemtou"
     }
   },
   {
     "pk": 129,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 44,
-      "text": "boashi"
+      "question": 43,
+      "text": "bentau"
     }
   },
   {
@@ -1752,23 +1752,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 44,
-      "text": "bouji"
+      "text": "buushi"
     }
   },
   {
     "pk": 131,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 45,
-      "text": "pen'ya"
+      "question": 44,
+      "text": "boeshi"
     }
   },
   {
     "pk": 132,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 45,
-      "text": "pamya"
+      "question": 44,
+      "text": "boupi"
     }
   },
   {
@@ -1776,23 +1776,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 45,
-      "text": "pan'yu"
+      "text": "pen'ya"
     }
   },
   {
     "pk": 134,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 46,
-      "text": "mikurusu"
+      "question": 45,
+      "text": "pauya"
     }
   },
   {
     "pk": 135,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 46,
-      "text": "pikarusu"
+      "question": 45,
+      "text": "panyi"
     }
   },
   {
@@ -1800,23 +1800,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 46,
-      "text": "pikurasu"
+      "text": "nikurusu"
     }
   },
   {
     "pk": 137,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 47,
-      "text": "perasu"
+      "question": 46,
+      "text": "pikerusu"
     }
   },
   {
     "pk": 138,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 47,
-      "text": "purusu"
+      "question": 46,
+      "text": "pikuresu"
     }
   },
   {
@@ -1824,23 +1824,23 @@
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
       "question": 47,
-      "text": "purase"
+      "text": "perasu"
     }
   },
   {
     "pk": 140,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 48,
-      "text": "pon"
+      "question": 47,
+      "text": "puresu"
     }
   },
   {
     "pk": 141,
     "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
     "fields": {
-      "question": 48,
-      "text": "pem"
+      "question": 47,
+      "text": "puraso"
     }
   },
   {
@@ -1849,6 +1849,22 @@
     "fields": {
       "question": 48,
       "text": "pon"
+    }
+  },
+  {
+    "pk": 143,
+    "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
+    "fields": {
+      "question": 48,
+      "text": "pes"
+    }
+  },
+  {
+    "pk": 144,
+    "model": "languages.WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels",
+    "fields": {
+      "question": 48,
+      "text": "pan"
     }
   }
 ]

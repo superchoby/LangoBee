@@ -41,8 +41,8 @@ describe('Forgot Password Tests', () => {
 
   it('Lets user know when there are currently technical issues going on after sending a valid email', async () => {
     server.use(
-      rest.post('/api/password_reset/', (req, res, ctx) => {
-        return res(ctx.status(400))
+      rest.post('/api/password_reset/', async (req, res, ctx) => {
+        return await res(ctx.status(400))
       })
     )
     render(<MockForgotPassword />)

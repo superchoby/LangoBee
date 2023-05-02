@@ -9,7 +9,7 @@ import { HOME_PATH } from 'src/paths'
 import Logo from '../../../images/Logo.png'
 
 export const Header = () => {
-    return (
+  return (
         <div className='header-container'>
             <div className='header'>
                 <Link to={HOME_PATH}>
@@ -23,5 +23,5 @@ export const Header = () => {
                 </div>
             </div>
         </div>
-    )
+  )
 }

@@ -4,10 +4,8 @@ export const notYetAnsweredType = 'not yet answered'
 
 type answerStatus = typeof correctlyAnsweredType | typeof incorrectlyAnsweredType | typeof notYetAnsweredType
 
-export type SRSFlashcardsDictType = {
-    [card: string]: {
-        cardFrontSideStatus: answerStatus
-        cardBackSideStatus: answerStatus
-        cardIsCorrect: boolean
-    }
-}
+export type SRSFlashcardsDictType = Record<string, {
+  cardFrontSideStatus: answerStatus
+  cardBackSideStatus: answerStatus
+  cardIsCorrect: boolean
+}>

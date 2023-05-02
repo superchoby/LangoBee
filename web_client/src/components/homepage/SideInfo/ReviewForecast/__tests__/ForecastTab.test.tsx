@@ -1,6 +1,6 @@
 import {
   ForecastTab,
-  ForecastTabProps,
+  type ForecastTabProps,
   UPWARDS_CARET_TESTID,
   DOWNWARDS_CARET_TESTID
 } from '../ForecastTab'

@@ -54,31 +54,5 @@ export const Reviews = (): JSX.Element => {
       isCurrentlyDoingLesson={false}
       subjectsAndTheirInitialReviewInfo={subjectsAndTheirInitialReviewInfo}
     />
-    // <QuizGenerator
-    //     content={subjectsToReview}
-    //     errorMessage=''
-    //     isCurrentlyDoingLesson={false}
-    //     onCompletedAllSubjectsQuestions={() => {}}
-    // />
-        // <PageContainer
-        //     hasHomeButtonOnBottom={false}
-        //     header='Review'
-        // >
-        //     <QuizGenerator
-        //        content={srsCardsToReview.map(card => card.conceptToReview)}
-        //        currentLevelForEachConcept={
-        //            srsCardsToReview.reduce((accumulator, { conceptToReview, currentStage }) => {
-        //              return { ...accumulator, [conceptToReview]: currentStage }
-        //            }, {})
-        //        }
-        //        submitQuestionsData={(concept: string, correct: boolean) => updateReviewStatus(concept, correct)}
-        //        showNextButton={false}
-        //        onQuizFinish={() => {}}
-        //        errorOccurredWhileSubmittingQuestionInfo={errorOccurred}
-        //        completionMessage={`You have finished the review! You have gained ${srsCardsToReview.length * 5} experience points!`}
-        //        onHomeOrNextClick={() => {}}
-        //        isLearning={false}
-        //    /> 
-        // </PageContainer>
   )
 }

@@ -4,37 +4,37 @@ import { Link } from 'react-router-dom'
 import { STORIES_HOME_PATH } from 'src/paths'
 import './StoriesHome.scss'
 
-type StoryChoice = {
-    recommendedLevel: number
-    slug: string
-    title: string
+interface StoryChoice {
+  recommendedLevel: number
+  slug: string
+  title: string
 }
 
 export const StoriesHome = () => {
-    const [storyChoices, changeStoryChoices] = useState<StoryChoice[]>([])
+  const [storyChoices, changeStoryChoices] = useState<StoryChoice[]>([])
 
-    useEffect(() => {
-        axios.get('stories/Japanese')
-        .then(res => {
-            changeStoryChoices(res.data.map((story: any) => ({
-                recommendedLevel: story.recommended_level,
-                ...story
-            })))
-        })
-        .catch(err => {
-            console.error(err)
-        })
-    }, [])
+  useEffect(() => {
+    axios.get('stories/Japanese')
+      .then(res => {
+        changeStoryChoices(res.data.map((story: any) => ({
+          recommendedLevel: story.recommended_level,
+          ...story
+        })))
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }, [])
 
-    return (
+  return (
         <div>
             <div className='set-of-story-choices-with-header'>
                 <h2>Set 1</h2>
                 <div className='story-choices'>
                     {storyChoices.map(({
-                        recommendedLevel,
-                        slug,
-                        title,
+                      recommendedLevel,
+                      slug,
+                      title
                     }) => (
                         <div className='story-choice' key={slug}>
                             <Link to={`${STORIES_HOME_PATH}/Japanese/${slug}`} className='story-choice-link'>
@@ -46,5 +46,5 @@ export const StoriesHome = () => {
                 </div>
             </div>
         </div>
-    )
+  )
 }

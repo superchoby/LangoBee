@@ -61,7 +61,7 @@ describe('ConjugationQuestion', () => {
   it('Answer choice is recognized as submitted when there is input', async () => {
     const mockChangeAnswerBeenEntered = jest.fn()
     render(<MockConjugationQuestion changeAnswerHasBeenEntered={mockChangeAnswerBeenEntered} />)
-    await act(async () => await user.keyboard('random input'))
+    await act(async () => { await user.keyboard('random input') })
     expect(mockChangeAnswerBeenEntered).toHaveBeenCalledWith(true)
   })
 
@@ -74,14 +74,14 @@ describe('ConjugationQuestion', () => {
 
     it('for the kana version', async () => {
       const { rerender } = render(<MockConjugationQuestion />)
-      await act(async () => await user.keyboard(testKanaVersion))
+      await act(async () => { await user.keyboard(testKanaVersion) })
       rerender(<MockConjugationQuestion choiceSubmitted={true} />)
       verifyProperTextShowsInCaseOfCorrectAnswer()
     })
 
     it('for the kanji version', async () => {
       const { rerender } = render(<MockConjugationQuestion />)
-      await act(async () => await user.keyboard(testKanjiVersion))
+      await act(async () => { await user.keyboard(testKanjiVersion) })
       rerender(<MockConjugationQuestion choiceSubmitted={true} />)
       verifyProperTextShowsInCaseOfCorrectAnswer()
     })
@@ -89,7 +89,7 @@ describe('ConjugationQuestion', () => {
 
   it('Properly handles when a user submits an incorrect answer', async () => {
     const { rerender } = render(<MockConjugationQuestion />)
-    await act(async () => await user.keyboard('wrong guess'))
+    await act(async () => { await user.keyboard('wrong guess') })
     rerender(<MockConjugationQuestion choiceSubmitted={true} />)
     expect(screen.queryByText(`Correct Answer: ${testKanjiVersion}, ${testKanaVersion}`)).toBeInTheDocument()
     expect(screen.queryByText(testExplanationIfUserGetsIncorrect)).toBeVisible()
@@ -98,7 +98,7 @@ describe('ConjugationQuestion', () => {
 
   it('View More button shows the correct info', async () => {
     const { rerender } = render(<MockConjugationQuestion />)
-    await act(async () => await user.keyboard(testKanaVersion))
+    await act(async () => { await user.keyboard(testKanaVersion) })
     rerender(<MockConjugationQuestion choiceSubmitted={true} />)
     fireEvent.click(screen.getByText('View More'))
     expect(screen.queryByText(extraInfoTestHeader + ':')).toBeInTheDocument()

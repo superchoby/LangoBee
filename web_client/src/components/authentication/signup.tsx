@@ -106,7 +106,7 @@ export const Signup = (): JSX.Element => {
   }
 
   return (
-      <AuthenticationPageWrapper 
+      <AuthenticationPageWrapper
           title='SIGN UP'
           message='Looking forward to you joining us!'
           buttonText='SIGN UP'
@@ -116,8 +116,8 @@ export const Signup = (): JSX.Element => {
             <>
               <span>Already have an account? <Link to='/login'>Log In</Link></span>
               <Link to='' onClick={() => {
-                  window.location.href = isInDevelopmentEnv ? 'http://localhost:3001' : 'https://LangoBee.com'
-                }} />
+                window.location.href = isInDevelopmentEnv ? 'http://localhost:3001' : 'https://LangoBee.com'
+              }} />
             </>
           }
           inputs={[

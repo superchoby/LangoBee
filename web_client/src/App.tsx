@@ -232,7 +232,6 @@ function App () {
             <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
             {/* <Route path={`${CHECKOUT_PATH}/success`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} /> */}
             <Route path={`${CHECKOUT_PATH}`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
-            
             <Route path={REVIEWS_INFO_PATH} element={<InformationOnReviews />} />
             <Route path="/ImmersionLevelInfo" element={<ImmersionLevelInfo />} />
             <Route path="/Settings" element={<HeaderAndNavbar PageContents={<Settings />} hasGapBetweenHeaderAndContents={true} />} />

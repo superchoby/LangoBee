@@ -19,14 +19,12 @@ import './index.scss'
 
 type ArticleCategory = 'Verbs' | 'Japanese'
 
-interface ArticlesDictType {
-  [id: number]: {
-    url: string
-    title: string
-    component: JSX.Element
-    category: ArticleCategory
-  }
-}
+type ArticlesDictType = Record<number, {
+  url: string
+  title: string
+  component: JSX.Element
+  category: ArticleCategory
+}>
 
 export const ArticlesDict: ArticlesDictType = {
   7771798: {

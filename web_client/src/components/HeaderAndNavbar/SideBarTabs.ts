@@ -1,6 +1,6 @@
 export const SidebarTabs = [
-    {
-      title: 'Account',
-      path: '/',
-    },
-  ];
+  {
+    title: 'Account',
+    path: '/'
+  }
+]

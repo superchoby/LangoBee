@@ -6,7 +6,7 @@ interface QuizStatusMessageProps {
   showMsg: boolean
   completionMessage: string
   finishedButtonText: string
-  onDoneClick(): void
+  onDoneClick: () => void
 }
 
 export const QuizStatusMessage = ({

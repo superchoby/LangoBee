@@ -1,9 +1,9 @@
 declare namespace Cypress {
-  import { authService } from "../src/machines/authMachine";
-  import { createTransactionService } from "../src/machines/createTransactionMachine";
-  import { publicTransactionService } from "../src/machines/publicTransactionsMachine";
-  import { contactsTransactionService } from "../src/machines/contactsTransactionsMachine";
-  import { personalTransactionService } from "../src/machines/personalTransactionsMachine";
+  import { type authService } from '../src/machines/authMachine'
+  import { type createTransactionService } from '../src/machines/createTransactionMachine'
+  import { type publicTransactionService } from '../src/machines/publicTransactionsMachine'
+  import { type contactsTransactionService } from '../src/machines/contactsTransactionsMachine'
+  import { type personalTransactionService } from '../src/machines/personalTransactionsMachine'
   import {
     User,
     BankAccount,
@@ -11,52 +11,42 @@ declare namespace Cypress {
     Comment,
     Transaction,
     BankTransfer,
-    Contact,
-  } from "../src/models";
+    Contact
+  } from '../src/models'
 
   interface CustomWindow extends Window {
-    authService: typeof authService;
-    createTransactionService: typeof createTransactionService;
-    publicTransactionService: typeof publicTransactionService;
-    contactTransactionService: typeof contactsTransactionService;
-    personalTransactionService: typeof personalTransactionService;
+    authService: typeof authService
+    createTransactionService: typeof createTransactionService
+    publicTransactionService: typeof publicTransactionService
+    contactTransactionService: typeof contactsTransactionService
+    personalTransactionService: typeof personalTransactionService
   }
 
-  type dbQueryArg = {
-    entity: string;
-    query: object | [object];
-  };
+  interface dbQueryArg {
+    entity: string
+    query: object | [object]
+  }
 
-  type LoginOptions = {
-    rememberUser: boolean;
-  };
+  interface LoginOptions {
+    rememberUser: boolean
+  }
 
   interface Chainable {
     /**
      * Logs-in user by using UI
      */
-    login(): void;
-    getByDataId(dataId: string): Chainable<JQuery<HTMLElement>>;
-    goThroughLessonsSubjects: (buttonToClick: string, buttonToAppear: string) => void;
-    answerQuestions:(answerData: {
-      radical: {
-        [question: string]: string[]
-      },
-      kana: {
-        [question: string]: string[]
-      },
-      vocabulary: {
-        [question: string]: {
-          meaning: string[]
-          reading: string[]
-        }
-      },
-      kanji: {
-        [question: string]: string[]
-      },
-      grammar: {
-        [question: string]: string[][]
-      }
-    }) => void;
+    login(): void
+    getByDataId(dataId: string): Chainable<JQuery<HTMLElement>>
+    goThroughLessonsSubjects: (buttonToClick: string, buttonToAppear: string) => void
+    answerQuestions: (answerData: {
+      radical: Record<string, string[]>
+      kana: Record<string, string[]>
+      vocabulary: Record<string, {
+        meaning: string[]
+        reading: string[]
+      }>
+      kanji: Record<string, string[]>
+      grammar: Record<string, string[][]>
+    }) => void
   }
 }

@@ -1,165 +1,166 @@
-import { InputHTMLAttributes, useState } from 'react'
+import { type InputHTMLAttributes, useState } from 'react'
 import { SettingsSection } from './SettingsSection'
 import { CloudinaryUploadWidget } from './CloudinaryUploadWidget'
 import { ProfilePic } from '../shared/ProfilePic'
-import { useAppSelector } from '../../app/hooks'
+import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import { updateSrsLimit, updateSubjectsPerSessionLimit } from 'src/app/userSlice'
-import { useAppDispatch } from '../../app/hooks'
 import { DeleteAccount } from './DeleteAccount'
 import axios from 'axios'
 import './index.scss'
 
 interface UserProfileInfoProps {
-    header: string
-    value: string
+  header: string
+  value: string
 }
 
 const UserProfileInfo = ({
-    header,
-    value
+  header,
+  value
 }: UserProfileInfoProps) => {
-    return (
+  return (
         <div className='user-profile-info-container'>
             <span className='settings-username-header'>{header}:</span> <br/> {value}
         </div>
-    )
+  )
 }
 
 const ChangeSettingButton = ({
-    changeCurrentlyEditing
-}: {changeCurrentlyEditing(editing: boolean): void}) => {
-    return (
-        <button className='settings-change-button' onClick={() => changeCurrentlyEditing(true)}>change</button>
-    )
-} 
+  changeCurrentlyEditing
+}: { changeCurrentlyEditing: (editing: boolean) => void }) => {
+  return (
+        <button className='settings-change-button' onClick={() => { changeCurrentlyEditing(true) }}>change</button>
+  )
+}
 
 interface EditableSettingProps {
-    inputProps: InputHTMLAttributes<HTMLInputElement>
-    initialState: number | string
-    handleSave(changeCurrentlyEditing: (editing: false) => void, newValue: number | string): void
-    isInputInvalid(input: number | string): boolean
-    imputRestrictionMsg: string
+  inputProps: InputHTMLAttributes<HTMLInputElement>
+  initialState: number | string
+  handleSave: (changeCurrentlyEditing: (editing: false) => void, newValue: number | string) => void
+  isInputInvalid: (input: number | string) => boolean
+  imputRestrictionMsg: string
 }
 
 const EditableSetting = ({
-    inputProps,
-    initialState,
-    handleSave,
-    isInputInvalid,
-    imputRestrictionMsg,
+  inputProps,
+  initialState,
+  handleSave,
+  isInputInvalid,
+  imputRestrictionMsg
 }: EditableSettingProps) => {
-    const [currentlyEditing, changeCurrentlyEditing] = useState(false)
-    const [inputIsInvalid, changeInputIsInvalid] = useState(false)
-    const [currentState, changeCurrentState] = useState(initialState)
+  const [currentlyEditing, changeCurrentlyEditing] = useState(false)
+  const [inputIsInvalid, changeInputIsInvalid] = useState(false)
+  const [currentState, changeCurrentState] = useState(initialState)
 
-    const handleSaveWrapper = () => {
-        if (!inputIsInvalid) {
-            handleSave(changeCurrentlyEditing, currentState)
-        }
+  const handleSaveWrapper = () => {
+    if (!inputIsInvalid) {
+      handleSave(changeCurrentlyEditing, currentState)
     }
+  }
 
-    const handleInputChange = (value: string) => {
-        const correctValueType = typeof initialState === "number" ? parseInt(value) : value
-        changeCurrentState(correctValueType)
-        changeInputIsInvalid(isInputInvalid(correctValueType))
-    }
+  const handleInputChange = (value: string) => {
+    const correctValueType = typeof initialState === 'number' ? parseInt(value) : value
+    changeCurrentState(correctValueType)
+    changeInputIsInvalid(isInputInvalid(correctValueType))
+  }
 
-    return currentlyEditing ? (
+  return currentlyEditing
+    ? (
         <div className='change-lessons-limit-input-container'>
-            <input 
-                className='change-setting-input change-lessons-limit-input' 
+            <input
+                className='change-setting-input change-lessons-limit-input'
                 value={currentState}
-                onChange={({target: {value}}) =>  handleInputChange(value)} 
+                onChange={({ target: { value } }) => { handleInputChange(value) }}
                 {...inputProps}
             />
-            <button 
-                className='settings-change-button' 
+            <button
+                className='settings-change-button'
                 onClick={() => {
-                    changeCurrentlyEditing(false)
-                    changeCurrentState(initialState)
-                    changeInputIsInvalid(false)
-                }} 
+                  changeCurrentlyEditing(false)
+                  changeCurrentState(initialState)
+                  changeInputIsInvalid(false)
+                }}
             >
                 cancel
-            </button> 
+            </button>
             <button className='settings-change-button' onClick={handleSaveWrapper}>save</button>
             <span className={inputIsInvalid ? 'incorrect-srs-limit-set' : ''}>&nbsp;({imputRestrictionMsg})</span>
         </div>
-    ) : (
+      )
+    : (
         <>&nbsp;{currentState} <ChangeSettingButton changeCurrentlyEditing={changeCurrentlyEditing} /></>
-    )
+      )
 }
 
 export const Settings = (): JSX.Element => {
-    const { 
-        username, 
-        email, 
-        srsLimit, 
-        numOfSubjectsToTeachPerLesson 
-    } = useAppSelector(state => state.user)
-    const dispatch = useAppDispatch()
+  const {
+    username,
+    email,
+    srsLimit,
+    numOfSubjectsToTeachPerLesson
+  } = useAppSelector(state => state.user)
+  const dispatch = useAppDispatch()
 
-    const handleLessonsLimitSave = (changeCurrentlyEditing: (editing: false) => void, newLessonLimit: number) => {
-        axios.post('users/change-srs-limit/', {newSrsLimit: newLessonLimit})
-        .then(_ => {
-            dispatch(updateSrsLimit({newSrsLimit: newLessonLimit}))
-            changeCurrentlyEditing(false)
-        })
-        .catch(_=> {
-            console.error('error saving lessons limit')
-            changeCurrentlyEditing(false)
-        })
-    }
+  const handleLessonsLimitSave = (changeCurrentlyEditing: (editing: false) => void, newLessonLimit: number) => {
+    axios.post('users/change-srs-limit/', { newSrsLimit: newLessonLimit })
+      .then(_ => {
+        dispatch(updateSrsLimit({ newSrsLimit: newLessonLimit }))
+        changeCurrentlyEditing(false)
+      })
+      .catch(_ => {
+        console.error('error saving lessons limit')
+        changeCurrentlyEditing(false)
+      })
+  }
 
-    const handleSubjectsPerSessionSave = (changeCurrentlyEditing: (editing: false) => void, newSubjectsLimit: number) => {
-        axios.post('users/change-subjects-per-session-limit/', {newSubjectsLimit: newSubjectsLimit})
-        .then(_ => {
-            dispatch(updateSubjectsPerSessionLimit({updateSubjectsPerSessionLimit: newSubjectsLimit}))
-            changeCurrentlyEditing(false)
-        })
-        .catch(_=> {
-            console.error('error saving subjects limit')
-            changeCurrentlyEditing(false)
-        })
-    }
+  const handleSubjectsPerSessionSave = (changeCurrentlyEditing: (editing: false) => void, newSubjectsLimit: number) => {
+    axios.post('users/change-subjects-per-session-limit/', { newSubjectsLimit })
+      .then(_ => {
+        dispatch(updateSubjectsPerSessionLimit({ updateSubjectsPerSessionLimit: newSubjectsLimit }))
+        changeCurrentlyEditing(false)
+      })
+      .catch(_ => {
+        console.error('error saving subjects limit')
+        changeCurrentlyEditing(false)
+      })
+  }
 
-    return (
+  return (
         <div className='settings-page-container'>
             <div className='settings-header'>Settings</div>
             <div className='settings-sections'>
                 <SettingsSection title='Lessons' isTheLastSection={false}>
                     <div>
                         <div>
-                            <span className='bold-span'>Subjects Limit Per Day:</span> 
-                            <EditableSetting 
+                            <span className='bold-span'>Subjects Limit Per Day:</span>
+                            <EditableSetting
                                 inputProps={{
-                                    type: 'number',
-                                    min: '1',
-                                    max: '500'
+                                  type: 'number',
+                                  min: '1',
+                                  max: '500'
                                 }}
                                 initialState={srsLimit}
                                 handleSave={handleLessonsLimitSave}
                                 isInputInvalid={(value: number) => {
-                                    return value < 1 || value > 500
+                                  return value < 1 || value > 500
                                 }}
                                 imputRestrictionMsg='max is 500'
-                            />                        
+                            />
                         </div>
                         <div>
-                            <span className='bold-span'>Subjects Per Session:</span> 
-                            <EditableSetting 
+                            <span className='bold-span'>Subjects Per Session:</span>
+                            <EditableSetting
                                 inputProps={{
-                                    type: 'number',
-                                    min: '1',
-                                    max: '20'
+                                  type: 'number',
+                                  min: '1',
+                                  max: '20'
                                 }}
                                 initialState={numOfSubjectsToTeachPerLesson}
                                 handleSave={handleSubjectsPerSessionSave}
                                 isInputInvalid={(value: number) => {
-                                    return value < 1 || value > 20
+                                  return value < 1 || value > 20
                                 }}
                                 imputRestrictionMsg='max is 20'
-                            />                        
+                            />
                         </div>
                     </div>
                 </SettingsSection>
@@ -175,7 +176,7 @@ export const Settings = (): JSX.Element => {
                             <ProfilePic containerClassName='settings-pfp-container' />
                             <CloudinaryUploadWidget className='change-pfp-button' />
                         </div>
-                        
+
                         <div>
                             <UserProfileInfo header='Username' value={username} />
                             <UserProfileInfo header='Email' value={email} />
@@ -183,9 +184,9 @@ export const Settings = (): JSX.Element => {
                                 Will use this to eventually add a change username fetaure
                                 editingUsername ? (
                                     <div>
-                                        <input className='change-username-input' defaultValue={username} /> 
+                                        <input className='change-username-input' defaultValue={username} />
                                         <div className='editing-username-buttons'>
-                                            <button onClick={() => changeEditingUsername(false)} >cancel</button> 
+                                            <button onClick={() => changeEditingUsername(false)} >cancel</button>
                                             <button onClick={handleUsernameSave}>save</button>
                                         </div>
                                     </div>
@@ -204,5 +205,5 @@ export const Settings = (): JSX.Element => {
                 </SettingsSection>
             </div>
         </div>
-    )
+  )
 }

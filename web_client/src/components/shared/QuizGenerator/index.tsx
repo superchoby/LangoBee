@@ -25,7 +25,7 @@ const putTheVocabQuestionsAskingMeaningsFirst = (questions: QuizQuestion[]) => {
     const { subjectData: { japaneseSubjectType, subjectId }, questionContents } = rearrangedQuestions[i]
     if (japaneseSubjectType === VOCABULARY_TYPE) {
       const { question, inputPlaceholder } = questionContents as KanaVocabQuestionType
-      if (!shuffledQuestions.hasOwnProperty(subjectId) && typeof (question) === 'string' && !isKana(question) && inputPlaceholder === 'Reading') {
+      if (!Object.prototype.hasOwnProperty.call(shuffledQuestions, subjectId) && typeof (question) === 'string' && !isKana(question) && inputPlaceholder === 'Reading') {
         for (let j = i + 1; j < rearrangedQuestions.length; ++j) {
           if (rearrangedQuestions[j].subjectData.subjectId === subjectId && (rearrangedQuestions[j].questionContents as KanaVocabQuestionType).inputPlaceholder === 'Meaning') {
             const temp = rearrangedQuestions[i]
@@ -235,76 +235,77 @@ export const QuizGenerator = ({
 
   return (
     <div data-testid='quiz-generator-container' className='quiz-generator-container' onKeyDown={handleKeyDown} tabIndex={0}>
-      {quizIsDone ? (
-        (() => {
-          interface CorrectAndIncorrectSubjects { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
-          const {
-            correctSubjects,
-            incorrectSubjects
-          } = (() => {
-            if (separateCorrectAndIncorrectSubjects) {
-              return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce<CorrectAndIncorrectSubjects>((accumulator,
-                [
-                  subjectId,
-                  {
-                    timesAnswered,
-                    timesNeedsToBeAnsweredBeforeCompletion,
-                    userGotCorrect
-                  }
-                ]) => {
-                if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
-                  const subjectIdInt = parseInt(subjectId)
-                  if (userGotCorrect) {
-                    return {
-                      ...accumulator,
-                      correctSubjects: [
-                        ...accumulator.correctSubjects,
-                        {
-                          ...content.find((subject) => subject.subjectId === subjectIdInt)!
+      {quizIsDone
+        ? (
+            (() => {
+              interface CorrectAndIncorrectSubjects { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
+              const {
+                correctSubjects,
+                incorrectSubjects
+              } = (() => {
+                if (separateCorrectAndIncorrectSubjects) {
+                  return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce<CorrectAndIncorrectSubjects>((accumulator,
+                    [
+                      subjectId,
+                      {
+                        timesAnswered,
+                        timesNeedsToBeAnsweredBeforeCompletion,
+                        userGotCorrect
+                      }
+                    ]) => {
+                    if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
+                      const subjectIdInt = parseInt(subjectId)
+                      if (userGotCorrect) {
+                        return {
+                          ...accumulator,
+                          correctSubjects: [
+                            ...accumulator.correctSubjects,
+                            {
+                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                            }
+                          ]
                         }
-                      ]
-                    }
-                  } else {
-                    return {
-                      ...accumulator,
-                      incorrectSubjects: [
-                        ...accumulator.incorrectSubjects,
-                        {
-                          ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                      } else {
+                        return {
+                          ...accumulator,
+                          incorrectSubjects: [
+                            ...accumulator.incorrectSubjects,
+                            {
+                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                            }
+                          ]
                         }
-                      ]
+                      }
                     }
+                    return accumulator
+                  }, {
+                    correctSubjects: [],
+                    incorrectSubjects: []
+                  })
+                } else {
+                  return {
+                    correctSubjects: content.filter(subject => {
+                      const {
+                        timesAnswered,
+                        timesNeedsToBeAnsweredBeforeCompletion
+                      } = timesSubjectAnsweredAndNeedsToBeAnswered[subject.subjectId]
+
+                      return timesAnswered === timesNeedsToBeAnsweredBeforeCompletion
+                    }),
+                    incorrectSubjects: []
                   }
                 }
-                return accumulator
-              }, {
-                correctSubjects: [],
-                incorrectSubjects: []
-              })
-            } else {
-              return {
-                correctSubjects: content.filter(subject => {
-                  const {
-                    timesAnswered,
-                    timesNeedsToBeAnsweredBeforeCompletion
-                  } = timesSubjectAnsweredAndNeedsToBeAnswered[subject.subjectId]
+              })()
 
-                  return timesAnswered === timesNeedsToBeAnsweredBeforeCompletion
-                }),
-                incorrectSubjects: []
-              }
-            }
-          })()
-
-          const {
-            hasIncorrectSection,
-            headerForCorrectSubjects,
-            componentForEachSubject,
-            leaveButtonLink,
-            leaveButtonText,
-            messageOnTop
-          } = resultsPageInfo
-          return (
+              const {
+                hasIncorrectSection,
+                headerForCorrectSubjects,
+                componentForEachSubject,
+                leaveButtonLink,
+                leaveButtonText,
+                messageOnTop
+              } = resultsPageInfo
+              return (
             <QuizResultsPage
               correctSubjects={correctSubjects}
               incorrectSubjects={incorrectSubjects}
@@ -315,9 +316,10 @@ export const QuizGenerator = ({
               leaveButtonText={leaveButtonText}
               messageOnTop={messageOnTop}
             />
+              )
+            })()
           )
-        })()
-      ) : (
+        : (
         <>
           <Modal
             ariaHideApp={false}
@@ -367,7 +369,7 @@ export const QuizGenerator = ({
                         <div className='question-prompt'>Please enter {questionsOrder[0].questionContents.questionPrompt}</div>
                         <div className='questions-component-container'>
                           <div className='on-finished-subjects-questions-component-container'>
-                            {onFinishedSubjectsQuestionsComponent != null && onFinishedSubjectsQuestionsComponent(
+                            {onFinishedSubjectsQuestionsComponent?.(
                               timesSubjectAnsweredAndNeedsToBeAnswered[questionsOrder[0].subjectData.subjectId].userGotCorrect,
                               questionsOrder[0].subjectData.subjectId,
                               choiceHasBeenSubmitted
@@ -378,7 +380,7 @@ export const QuizGenerator = ({
                     </div>
                 )
             }
-            {choiceHasBeenSubmitted && (
+            {choiceHasBeenSubmitted && thisSubjectsInfo.length > 0 && (
               <SubjectsSubInfo
                 contentToDisplay={contentToDisplay}
                 setContentToDisplay={setContentToDisplay}
@@ -387,9 +389,6 @@ export const QuizGenerator = ({
             )}
         </div>
             <div className='quiz-generator-button-container'>
-              {/* <button className='done-for-now-button'>
-                Done
-              </button> */}
               <button
                 className='check-button'
                 onClick={handleAnswerSubmitOrHandleFinishedQuiz}
@@ -398,7 +397,7 @@ export const QuizGenerator = ({
               </button>
             </div>
         </>
-      )}
+          )}
     </div>
   )
 }

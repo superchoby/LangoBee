@@ -30,7 +30,7 @@ export const TestToSkipLevels = (): JSX.Element => {
               hasUniqueSubjectModel: true,
               subjectType: MULTIPLE_CHOICE_TYPE,
               infoToDisplay: [],
-              wrongChoices,
+              wrongChoices: wrongChoices.map(({ text }: any) => text),
               japaneseSubjectType: MULTIPLE_CHOICE_TYPE
             })
           }

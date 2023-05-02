@@ -16,7 +16,7 @@ const MockLessons = (): JSX.Element => {
 }
 
 describe('Lessons Tests', () => {
-  beforeAll(() => server.close())
+  beforeAll(() => { server.close() })
 
   it('Renders lesson introduction on first load', () => {
     renderWithProviders(<MockLessons />)

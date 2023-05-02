@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import './KanaVocabQuestion.scss'
 import {
-  ConjugationQuestionType,
-  ExtraInfo,
-  ConjugationType
+  type ConjugationQuestionType,
+  type ExtraInfo,
+  type ConjugationType
 } from '../../../context/JapaneseDatabaseContext/SharedVariables'
 import { InputBar } from 'src/components/shared/InputBar'
 import 'react-dropdown/style.css'
@@ -146,7 +146,7 @@ export const ConjugationQuestion = ({
                       <div
                           className='view-more-info-button'
                           style={{ visibility: choiceSubmitted ? 'visible' : 'hidden', display: extraInfo.length > 0 ? 'block' : 'none' }}
-                          onClick={() => changeShowExtraInfo(true)}
+                          onClick={() => { changeShowExtraInfo(true) }}
                       >
                           View More
                       </div>

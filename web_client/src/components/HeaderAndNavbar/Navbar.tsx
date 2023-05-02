@@ -1,45 +1,43 @@
-import { IoMdBook } from 'react-icons/io'
+import { IoMdBook, IoIosStats } from 'react-icons/io'
 import { BiDumbbell } from 'react-icons/bi'
 import { AiOutlineHome } from 'react-icons/ai'
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from 'react-router-dom'
 import {
-    HOME_PATH,
-    STORIES_HOME_PATH,
-    EXERCISES_PATH,
-    STATISTICS_PATH
+  HOME_PATH,
+  STORIES_HOME_PATH,
+  EXERCISES_PATH,
+  STATISTICS_PATH
 } from '../../paths'
-import { IconBaseProps } from 'react-icons/lib'
-import { Link } from 'react-router-dom'
-import { IoIosStats } from 'react-icons/io'
+import { type IconBaseProps } from 'react-icons/lib'
 import {
-    BooksImage,
-    DumbbellImage,
-    HomeImage,
-    StatsImage
+  BooksImage,
+  DumbbellImage,
+  HomeImage,
+  StatsImage
 } from './images'
-import { FC } from 'react'
+import { type FC } from 'react'
 
 import './Navbar.scss'
 
 interface NavbarLinkProps {
-    Icon: FC<IconBaseProps>
-    image: string
-    name: string
-    path: string
-    className?: string
+  Icon: FC<IconBaseProps>
+  image: string
+  name: string
+  path: string
+  className?: string
 }
 
 const NavbarLink = ({
-    Icon,
-    image,
-    name,
-    path,
-    className
+  Icon,
+  image,
+  name,
+  path,
+  className
 }: NavbarLinkProps) => {
-    const { pathname } = useLocation()
-    const navbarClassName = `navbar-li ${path === pathname ? 'selected-navbar-icon' : 'not-selected-navbar-icon'} ${className != null ? className : ''}`
+  const { pathname } = useLocation()
+  const navbarClassName = `navbar-li ${path === pathname ? 'selected-navbar-icon' : 'not-selected-navbar-icon'} ${className != null ? className : ''}`
 
-    return (
+  return (
         <li className={`${navbarClassName}`}>
             <Link to={path}>
                 <img src={image} className='navbar-image' alt={name} />
@@ -47,38 +45,37 @@ const NavbarLink = ({
                 <span className='navbar-link-text'>{name}</span>
             </Link>
         </li>
-    )
+  )
 }
-  
-export const Navbar = () => {
 
-    return (
+export const Navbar = () => {
+  return (
         <ul className='navbar-container'>
-            <NavbarLink 
-                Icon={AiOutlineHome} 
+            <NavbarLink
+                Icon={AiOutlineHome}
                 image={HomeImage}
-                name='Home' 
-                path={HOME_PATH} 
+                name='Home'
+                path={HOME_PATH}
             />
-            <NavbarLink 
-                Icon={IoMdBook} 
+            <NavbarLink
+                Icon={IoMdBook}
                 image={BooksImage}
-                name='Stories' 
-                path={STORIES_HOME_PATH} 
+                name='Stories'
+                path={STORIES_HOME_PATH}
             />
-            <NavbarLink 
-                Icon={BiDumbbell} 
+            <NavbarLink
+                Icon={BiDumbbell}
                 image={DumbbellImage}
-                name='Exercises' 
-                path={EXERCISES_PATH} 
+                name='Exercises'
+                path={EXERCISES_PATH}
             />
-            <NavbarLink 
-                Icon={IoIosStats} 
+            <NavbarLink
+                Icon={IoIosStats}
                 image={StatsImage}
-                name='Statistics' 
-                path={STATISTICS_PATH} 
+                name='Statistics'
+                path={STATISTICS_PATH}
                 className='navbar-statistics-option'
             />
         </ul>
-    )
+  )
 }

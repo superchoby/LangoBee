@@ -21,7 +21,7 @@ const MockLesson = (): JSX.Element => {
 }
 
 describe('Lesson', () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }))
+  beforeAll(() => { server.listen({ onUnhandledRequest: 'bypass' }) })
 
   it('Renders Properly with Header', () => {
     renderWithProviders(<MockLesson />)
