@@ -7,6 +7,8 @@ import dataclasses, json
 from rest_framework import permissions, status
 from users.models import User
 from .models import Subscription
+import datetime
+from django.utils import timezone
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -44,6 +46,18 @@ class StripeCheckout(APIView):
         isInProdEnviron = 'SECRET_KEY' in os.environ
         domain = 'https://www.langobee.com' if isInProdEnviron else 'http://localhost:3000'
         subscription_type = request.data['subscription_type']
+
+        # subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
+        #             if len(subscriptions) > 1:
+        #                 ("User has multiple subscriptions which shouldn't be the case")
+        customer_arguments = {}
+        if request.user.subscription is None:
+            customer_arguments = {'customer_email': request.user.email}
+            if subscription_type == 'Lifetime':
+                customer_arguments['customer_creation'] = 'always' # can't automatically just set this to always in any case, doesn't work in case of monthly/annual subscriptions
+        else :
+            customer_arguments = {'customer': request.user.subscription.stripe_customer_id}
+
         custom_text = f'This is for the {subscription_type} subscription' if f'This is for the {subscription_type} subscription' != 'Lifetime' else 'This is for the one time payment only Lifetime subscription'
         try:
             checkout_session = stripe.checkout.Session.create(
@@ -54,13 +68,13 @@ class StripeCheckout(APIView):
                     },
                 ],
                 mode='subscription' if subscription_type != 'Lifetime' else 'payment',
-                customer_email=request.user.email,
                 success_url= domain + '/checkout?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url= domain + '/subscription',
                 custom_text={'submit': {'message': custom_text}},
                 consent_collection={
                     'terms_of_service': 'required',
                 },
+                **customer_arguments,
             )
             return Response({'redirect_path': checkout_session.url})
         except Exception as e:
@@ -69,19 +83,21 @@ class StripeCheckout(APIView):
 
 class SuccessfulCheckoutView(APIView):
     def post(self, request):
-        session = stripe.checkout.Session.retrieve(request.data['session_id'])   
-        if request.user.stripe_customer_id is None:
-            request.user.stripe_customer_id = session['customer']
-            request.user.save()
-        
+        try:
+            session = stripe.checkout.Session.retrieve(request.data['session_id'], expand = ['line_items'])
+            purchased_plan_info = session['line_items']['data'][0]
+            price_info = purchased_plan_info['price']
+            response = { 'subscription_type': price_info['nickname'] }
+
+            if (price_info['type'] == 'recurring'):
+                subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
+                response['end_date'] = timezone.make_aware(datetime.fromtimestamp(subscriptions[0]['current_period_end']))
+
+            return Response(response, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_OK)
 
 
-        # print(request.user.stripe_customer_id)
-        # customer = stripe.Customer.retrieve(request.user.stripe_customer_id)
-        # print(customer, ' customer')
-        # print(stripe.PaymentIntent.list(limit=3, customer=customer), ' payment intent info')
-
-    
 class StripeWebhook(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -115,37 +131,43 @@ class StripeWebhook(APIView):
             if event_type == 'checkout.session.completed':
                 session = stripe.checkout.Session.retrieve(data_object['id'], expand = ['line_items'])
                 purchased_plan_info = session['line_items']['data'][0]
-                price_id = purchased_plan_info['price']['id']
-                subscriptions = stripe.Subscription.list(price=price_id, customer=session['customer'])['data']
-                if len(subscriptions) > 1:
-                    raise Exception("User has multiple subscriptions which shouldn't be the case")
+                price_info = purchased_plan_info['price']
+                stripe_subscription_id = None
+                end_date = None
+                start_date = None
+                if price_info['type'] == 'one_time':
+                    start_date = datetime.date.today()
+                    end_date = timezone.make_aware(timezone.datetime.max, timezone.get_default_timezone())
+                else: # Is recurring
+                    subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
+                    start_date = timezone.make_aware(datetime.fromtimestamp(subscriptions[0]['current_period_start']))
+                    end_date = timezone.make_aware(datetime.fromtimestamp(subscriptions[0]['current_period_end']))
+                    stripe_subscription_id = subscriptions[0]['id']
+
                 user = User.objects.get(email=data_object['customer_details']['email'])
-                # Todo: CONFIRM THIS SUBSCRIPTION SETTINGS WORKS
+
                 if user.subscription is None:
                     user.subscription = Subscription.objects.create(
-                        subscription_plan = purchased_plan_info['nickname'],
-                        stripe_price_id = purchased_plan_info['id'],
-                        stripe_subscription_id = subscriptions[0]['id'],
-                        start_date = subscriptions[0]['current_period_start'],
-                        end_date = subscriptions[0]['current_period_end'],
+                        subscription_plan = price_info['nickname'],
+                        stripe_price_id = price_info['id'],
+                        stripe_subscription_id = stripe_subscription_id,
+                        start_date = start_date,
+                        end_date = end_date,
                         status = 'active',
                         stripe_customer_id = session['customer'],
                     )
                     user.save()
                 print('🔔 Payment succeeded!')
-            elif event_type == 'customer.subscription.trial_will_end':
-                print('Subscription trial will end')
-            elif event_type == 'customer.updated':
-                print('customer updated')
-            elif event_type == 'customer.subscription.created':
-                print('Subscription created %s', event.id)
+            elif event_type == 'invoice.paid':
+                pass
             elif event_type == 'customer.subscription.updated':
                 print('Subscription created %s', event.id)
             elif event_type == 'customer.subscription.deleted':
-                # handle subscription canceled automatically based
-                # upon your subscription settings. Or if the user cancels it.
-                print('Subscription canceled: %s', event.id)
+                subscription_data = data_object
+                Subscription.objects.get(stripe_subscription_id=subscription_data['id']).delete()
 
+                print('Subscription canceled: %s', event.id)
+            
             return Response({'status': 'success'})
         
         except Exception as e:

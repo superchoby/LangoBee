@@ -127,7 +127,7 @@ const ProtectedRoute = (): JSX.Element => {
 
                 return await axios(config)
               } catch (error) {
-                window.location.href = isInDevelopmentEnv ? `http://localhost:3000/${LOGIN_PATH}` : `https://www.langobee.com/${LOGIN_PATH}`
+                window.location.href = isInDevelopmentEnv ? `http://localhost:3000${LOGIN_PATH}` : `https://www.langobee.com${LOGIN_PATH}`
               }
             }
           }

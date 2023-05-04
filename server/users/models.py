@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from subscriptions.models import Subscription
 
 class User(AbstractUser):
     PLAN_TYPES = (
@@ -13,6 +14,7 @@ class User(AbstractUser):
     srs_limit = models.PositiveBigIntegerField(default=20)
     srs_subjects_added_today = models.PositiveBigIntegerField(default=0)
     num_of_subjects_to_teach_per_lesson = models.PositiveBigIntegerField(default=5)
+    subscription = models.OneToOneField(Subscription, on_delete=models.SET_NULL, related_name='user', null=True)
 
     def change_level(self, language, course_name, level):
         course = self.courses.get(language_this_course_teaches=self.languages.get(name=language), name=course_name)
