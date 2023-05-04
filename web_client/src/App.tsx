@@ -4,7 +4,6 @@ import './App.scss'
 import { BrowserRouter, Routes, Route, useNavigate, Outlet } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
 import { Login } from './components/authentication/login'
-import { LOGIN_PATH } from './paths'
 import { Signup } from './components/authentication/signup'
 import { Reviews } from './components/learning/reviews'
 import axios from 'axios'
@@ -27,7 +26,12 @@ import { useAppSelector, useAppDispatch } from './app/hooks'
 import { store } from './app/store'
 import { HeaderAndNavbar } from './components/HeaderAndNavbar'
 import { StatisticsSection } from './components/Statistics'
+import { SubscriptionsPage } from './components/Subscription'
+import { Privacy } from './components/Legal/Privacy'
+import { TermsOfService } from './components/Legal/TermsOfService'
+import { Checkout } from './components/Subscription/Checkout'
 import {
+  LOGIN_PATH,
   HOME_PATH,
   EXERCISES_PATH,
   STATISTICS_PATH,
@@ -38,7 +42,11 @@ import {
   STORIES_HOME_PATH,
   READ_STORY,
   REVIEWS_INFO_PATH,
-  CONTACT_US_PATH
+  CONTACT_US_PATH,
+  SUBSCRIPTION_PATH,
+  CHECKOUT_PATH,
+  TERMS_OF_SERVICE_PATH,
+  PRIVACY_PATH
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -48,7 +56,7 @@ import { StoriesHome } from './components/stories/StoriesHome'
 import { StoryReader } from './components/stories/StoryReader'
 
 const tokenInvalidMsg = 'Given token not valid for any token type'
-const userNotFoundMessage = "User not found"
+const userNotFoundMessage = 'User not found'
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
 
 axios.defaults.baseURL = isInDevelopmentEnv ? 'http://127.0.0.1:8000' : 'https://langobee-server.herokuapp.com/'
@@ -140,7 +148,7 @@ const ProtectedRoute = (): JSX.Element => {
                 srs_limit: srsLimit,
                 num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson
               } = res.data
-              
+
               dispatch(updateUserInfo({
                 username,
                 email,
@@ -187,7 +195,6 @@ function App (): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route element={<ProtectedRoute />}>
-          
             <Route path={HOME_PATH} element={<HeaderAndNavbar PageContents={<Homepage />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={LESSONS_SESSION_PATH} element={<LessonSession />} />
             <Route path={LESSONS_PATH} element={<HeaderAndNavbar PageContents={<Lessons />} hasGapBetweenHeaderAndContents={true} />} />
@@ -196,7 +203,11 @@ function App (): JSX.Element {
             <Route path={STORIES_HOME_PATH} element={<HeaderAndNavbar PageContents={<StoriesHome />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={READ_STORY} element={<StoryReader />} />
             <Route path={EXERCISES_PATH} element={<HeaderAndNavbar PageContents={<Exercises />} hasGapBetweenHeaderAndContents={true} />} />
+            <Route path={EXERCISES_PATH} element={<HeaderAndNavbar PageContents={<Exercises />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={STATISTICS_PATH} element={<HeaderAndNavbar PageContents={<StatisticsSection />} hasGapBetweenHeaderAndContents={true} />} />
+            <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
+            {/* <Route path={`${CHECKOUT_PATH}/success`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} /> */}
+            <Route path={`${CHECKOUT_PATH}`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={`${EXERCISES_PATH}/:exerciseName`} element={<ActualExercise />} />
             <Route path={REVIEWS_INFO_PATH} element={<InformationOnReviews />} />
             <Route path="/ImmersionLevelInfo" element={<ImmersionLevelInfo />} />
@@ -209,6 +220,8 @@ function App (): JSX.Element {
             </Route>
             <Route path="/Games" element={<GamesHomepage />} />
           </Route>
+          <Route path={PRIVACY_PATH} element={<Privacy />} />
+          <Route path={TERMS_OF_SERVICE_PATH} element={<TermsOfService />} />
 
           <Route path={LOGIN_PATH} element={(
             <ResetUserInfoWrapper>

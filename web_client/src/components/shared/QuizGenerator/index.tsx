@@ -1,12 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import shuffle from 'shuffle-array'
-import { isAGrammarQuestion } from 'src/context/JapaneseDatabaseContext/SharedVariables'
+import { isAGrammarQuestion, type KanaVocabQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { IoMdClose } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
-import { JapaneseSubjectData, VOCABULARY_TYPE } from '../../learning/lessons/SubjectTypes'
-import { convertSubjectDataToQuestions, QuizQuestion } from './ConvertSubjectDataToQuestions'
+import { type JapaneseSubjectData, VOCABULARY_TYPE } from '../../learning/lessons/SubjectTypes'
+import { convertSubjectDataToQuestions, type QuizQuestion } from './ConvertSubjectDataToQuestions'
 import { KanaVocabQuestion } from './KanaVocabQuestion'
-import { KanaVocabQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { SubjectsSubInfo, getPropsForSubjectsInfo } from '../../learning/SubjectsSubInfo'
 import { QuizResultsPage } from './QuizResultsPage'
 import { isKana } from 'wanakana'
@@ -21,13 +20,13 @@ export const notYetAnsweredType = 'not yet answered'
 
 const putTheVocabQuestionsAskingMeaningsFirst = (questions: QuizQuestion[]) => {
   const rearrangedQuestions = [...questions]
-  const shuffledQuestions: { [subjectId: string]: true } = {}
-  for (let i=0; i<rearrangedQuestions.length; ++i) {
+  const shuffledQuestions: Record<string, true> = {}
+  for (let i = 0; i < rearrangedQuestions.length; ++i) {
     const { subjectData: { japaneseSubjectType, subjectId }, questionContents } = rearrangedQuestions[i]
     if (japaneseSubjectType === VOCABULARY_TYPE) {
       const { question, inputPlaceholder } = questionContents as KanaVocabQuestionType
-      if (!shuffledQuestions.hasOwnProperty(subjectId) && typeof(question) === 'string' && !isKana(question) && inputPlaceholder === 'Reading') {
-        for (let j=i+1; j<rearrangedQuestions.length; ++j) {
+      if (!shuffledQuestions.hasOwnProperty(subjectId) && typeof (question) === 'string' && !isKana(question) && inputPlaceholder === 'Reading') {
+        for (let j = i + 1; j < rearrangedQuestions.length; ++j) {
           if (rearrangedQuestions[j].subjectData.subjectId === subjectId && (rearrangedQuestions[j].questionContents as KanaVocabQuestionType).inputPlaceholder === 'Meaning') {
             const temp = rearrangedQuestions[i]
             rearrangedQuestions[i] = rearrangedQuestions[j]
@@ -39,23 +38,21 @@ const putTheVocabQuestionsAskingMeaningsFirst = (questions: QuizQuestion[]) => {
       }
     }
   }
-  
+
   return rearrangedQuestions
 }
 
-export interface SubjectsAnsweredStatus {
-  [subjectId: number]: {
-    timesAnswered: number
-    timesNeedsToBeAnsweredBeforeCompletion: number
-    userGotCorrect: boolean
-  }
-}
+export type SubjectsAnsweredStatus = Record<number, {
+  timesAnswered: number
+  timesNeedsToBeAnsweredBeforeCompletion: number
+  userGotCorrect: boolean
+}>
 
 export interface QuizGeneratorProps {
   content: JapaneseSubjectData[]
   errorMessage: string
-  onCompletedAllSubjectsQuestions(subjectId: number, userGotCorrect: boolean): void
-  onFinishedSubjectsQuestionsComponent?(userGotQuestionCorrect: boolean, subjectId: number, choiceSubmitted: boolean): JSX.Element
+  onCompletedAllSubjectsQuestions: (subjectId: number, userGotCorrect: boolean) => void
+  onFinishedSubjectsQuestionsComponent?: (userGotQuestionCorrect: boolean, subjectId: number, choiceSubmitted: boolean) => JSX.Element
   separateCorrectAndIncorrectSubjects: boolean
   resultsPageInfo: {
     hasIncorrectSection: boolean
@@ -76,7 +73,7 @@ export const QuizGenerator = ({
   onCompletedAllSubjectsQuestions,
   onFinishedSubjectsQuestionsComponent,
   resultsPageInfo,
-  separateCorrectAndIncorrectSubjects,
+  separateCorrectAndIncorrectSubjects
   // changeQuizIsDone
 }: QuizGeneratorProps): JSX.Element => {
   const [timesSubjectAnsweredAndNeedsToBeAnswered, changeTimesSubjectAnsweredAndNeedsToBeAnswered] = useState<SubjectsAnsweredStatus>({})
@@ -99,7 +96,7 @@ export const QuizGenerator = ({
   const [contentToDisplay, setContentToDisplay] = useState('')
 
   const navigate = useNavigate()
-  
+
   const totalPointsNeeded = content.length
   const userHasntYetFinishedAllQuestions = usersTotalPoints < content.length
 
@@ -198,9 +195,9 @@ export const QuizGenerator = ({
   const questionComponent = useMemo(() => {
     // hanlde other q types
     if (questionsOrder.length > 0) {
-        if (questionsOrder[0].subjectData.subjectType === 'grammar') {
-          return (
-            <GrammarQuestion 
+      if (questionsOrder[0].subjectData.subjectType === 'grammar') {
+        return (
+            <GrammarQuestion
               choiceSubmitted={choiceHasBeenSubmitted}
               question={questionsOrder[0]}
               currentAnswerStatus={currentAnswerStatus}
@@ -208,9 +205,9 @@ export const QuizGenerator = ({
               changeIsInvalidInput={changeIsInvalidInput}
               hasInvalidInputClass={hasInvalidInputClass}
             />
-          )
-        } else {
-          return (
+        )
+      } else {
+        return (
             <KanaVocabQuestion
               question={questionsOrder[0]}
               changeCurrentAnswerStatus={changeCurrentAnswerStatus}
@@ -224,8 +221,8 @@ export const QuizGenerator = ({
               changeGuessIsRightButWrongKana={changeGuessIsRightButWrongKana}
               typingInHiragana={typingInHiragana}
             />
-          )
-        }
+        )
+      }
     } else {
       return <></>
     }
@@ -246,56 +243,56 @@ export const QuizGenerator = ({
         <div data-testid='quiz-generator-container' className='quiz-generator-container' onKeyDown={handleKeyDown} tabIndex={0}>
           {quizIsDone ? (
             (() => {
-              type CorrectAndIncorrectSubjects = { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
+              interface CorrectAndIncorrectSubjects { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
               const {
                 correctSubjects,
                 incorrectSubjects
               } = (() => {
                 if (separateCorrectAndIncorrectSubjects) {
-                  return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce((accumulator, 
+                  return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce<CorrectAndIncorrectSubjects>((accumulator,
                     [
                       subjectId,
                       {
                         timesAnswered,
                         timesNeedsToBeAnsweredBeforeCompletion,
-                        userGotCorrect,
+                        userGotCorrect
                       }
                     ]) => {
-                      if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
-                        const subjectIdInt = parseInt(subjectId)
-                        if (userGotCorrect) {
-                          return {
-                            ...accumulator,
-                            correctSubjects: [
-                              ...accumulator.correctSubjects,
-                              {
-                                ...content.find((subject) => subject.subjectId === subjectIdInt)!,
-                              }
-                            ]
-                          }
-                        } else {
-                          return {
-                            ...accumulator,
-                            incorrectSubjects: [
-                              ...accumulator.incorrectSubjects,
-                              {
-                                ...content.find((subject) => subject.subjectId === subjectIdInt)!,
-                              }
-                            ]
-                          }
+                    if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
+                      const subjectIdInt = parseInt(subjectId)
+                      if (userGotCorrect) {
+                        return {
+                          ...accumulator,
+                          correctSubjects: [
+                            ...accumulator.correctSubjects,
+                            {
+                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                            }
+                          ]
+                        }
+                      } else {
+                        return {
+                          ...accumulator,
+                          incorrectSubjects: [
+                            ...accumulator.incorrectSubjects,
+                            {
+                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                            }
+                          ]
                         }
                       }
-                      return accumulator
+                    }
+                    return accumulator
                   }, {
                     correctSubjects: [],
                     incorrectSubjects: []
-                  } as CorrectAndIncorrectSubjects)
+                  })
                 } else {
                   return {
                     correctSubjects: content.filter(subject => {
                       const {
                         timesAnswered,
-                        timesNeedsToBeAnsweredBeforeCompletion,
+                        timesNeedsToBeAnsweredBeforeCompletion
                       } = timesSubjectAnsweredAndNeedsToBeAnswered[subject.subjectId]
 
                       return timesAnswered === timesNeedsToBeAnsweredBeforeCompletion
@@ -303,19 +300,18 @@ export const QuizGenerator = ({
                     incorrectSubjects: []
                   }
                 }
-                
-            })()
+              })()
 
-            const {
-              hasIncorrectSection,
-              headerForCorrectSubjects,
-              componentForEachSubject,
-              leaveButtonLink,
-              leaveButtonText,
-              messageOnTop,
-            } = resultsPageInfo
+              const {
+                hasIncorrectSection,
+                headerForCorrectSubjects,
+                componentForEachSubject,
+                leaveButtonLink,
+                leaveButtonText,
+                messageOnTop
+              } = resultsPageInfo
               return (
-                <QuizResultsPage 
+                <QuizResultsPage
                   correctSubjects={correctSubjects}
                   incorrectSubjects={incorrectSubjects}
                   hasIncorrectSection={hasIncorrectSection}
@@ -333,21 +329,21 @@ export const QuizGenerator = ({
                 ariaHideApp={false}
                 className='quiz-generator-confirm-quit-modal'
                 isOpen={confirmIfUserWantsToStopTheQuiz}
-                onRequestClose={(() => changeConfirmIfUserWantsToStopTheQuiz(false))}
+                onRequestClose={(() => { changeConfirmIfUserWantsToStopTheQuiz(false) })}
                 preventScroll={true}
-              > 
+              >
                 <h2 className='lesson-preview-header'>Pause the Quiz?</h2>
                 <p>Your progress has all been saved so no worries about that.</p>
                 <div className='quiz-generator-confirm-quit-modal-buttons-container'>
-                  <button 
+                  <button
                     className='quiz-generator-cancel-done-button'
-                    onClick={() => changeConfirmIfUserWantsToStopTheQuiz(false)}
+                    onClick={() => { changeConfirmIfUserWantsToStopTheQuiz(false) }}
                   >
                     Cancel
                   </button>
-                  <button 
+                  <button
                     className='quiz-generator-confirm-done-button'
-                    onClick={() => changeQuizIsDone(true)}
+                    onClick={() => { changeQuizIsDone(true) }}
                   >
                     Finish
                   </button>
@@ -355,19 +351,19 @@ export const QuizGenerator = ({
               </Modal>
               <div className='quiz-generator-container-without-button'>
               <div className='quiz-generator-progress-bar-container'>
-                <IoMdClose 
-                  className='quiz-generator-close-icon' 
-                  onClick={() => { 
+                <IoMdClose
+                  className='quiz-generator-close-icon'
+                  onClick={() => {
                     if (usersTotalPoints === 0) {
                       navigate(HOME_PATH)
                     } else {
-                      changeConfirmIfUserWantsToStopTheQuiz(true) 
+                      changeConfirmIfUserWantsToStopTheQuiz(true)
                     }
-                  }} 
+                  }}
                 />
                 <div className='quiz-generator-total-progress'>
-                  <div className='quiz-generator-current-progress' style={{width: `${(usersTotalPoints / totalPointsNeeded) * 100}%`}} />
-                  
+                  <div className='quiz-generator-current-progress' style={{ width: `${(usersTotalPoints / totalPointsNeeded) * 100}%` }} />
+
                 </div>
                 <div className='quiz-generator-users-progress-fraction'>{usersTotalPoints} / {totalPointsNeeded}</div>
               </div>
@@ -389,7 +385,7 @@ export const QuizGenerator = ({
                     )
                 }
                 {choiceHasBeenSubmitted && (
-                  <SubjectsSubInfo 
+                  <SubjectsSubInfo
                     contentToDisplay={contentToDisplay}
                     setContentToDisplay={setContentToDisplay}
                     subjectInfo={thisSubjectsInfo}

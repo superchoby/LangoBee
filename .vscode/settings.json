@@ -1,0 +1,15 @@
+{
+    "eslint.validate": [
+        "html",
+        "javascript",
+        "typescript",
+        "javascriptreact",
+        "typescriptreact",
+    ],
+    "eslint.workingDirectories": [
+        "web_client/"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+}

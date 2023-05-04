@@ -13,6 +13,7 @@ import django_on_heroku
 import os
 import environ
 from pathlib import Path
+import stripe
 
 env = environ.Env()
 environ.Env.read_env()
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'jmdict',
     'stories',
     'emails',
+    'subscriptions',
 
     # Third Party
     'rest_framework',
@@ -64,7 +66,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_rest_passwordreset',
     'sendgrid',
-    'djstripe'
 ]
 
 MIDDLEWARE = [
@@ -230,5 +231,4 @@ django_on_heroku.settings(locals())
 STRIPE_TEST_PUBLIC_KEY = env("STRIPE_TEST_PUBLIC_KEY")
 STRIPE_TEST_SECRET_KEY = env("STRIPE_TEST_SECRET_KEY")
 STRIPE_LIVE_MODE = isInProdEnviron
-DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # We don't use this, but it must be set
-DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
+stripe.api_key = env("STRIPE_TEST_SECRET_KEY")

@@ -8,7 +8,7 @@
     .profile-menu-li-container {
         align-items: center;
         display: flex;
-        width: 80%;
+        width: 90%;
 
         > span {
             margin-left: 10px;
@@ -24,10 +24,5 @@
         // height: 30px;
         justify-content: center;
         padding: 11px 0;
-    }
-
-    svg {
-        height: 20px;
-        width: 20px;
     }
 }

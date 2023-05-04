@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { FiLogOut } from 'react-icons/fi'
-import { IoMail } from 'react-icons/io5'
-import { IoSettingsOutline } from 'react-icons/io5'
-import { LOGIN_PATH, CONTACT_US_PATH } from 'src/paths'
+import { IoMail, IoSettingsOutline } from 'react-icons/io5'
+import { LOGIN_PATH, CONTACT_US_PATH, SUBSCRIPTION_PATH } from 'src/paths'
 import { BsCreditCardFill } from 'react-icons/bs'
-import { BiCreditCard } from 'react-icons/bi'
 import './ProfileMenu.scss'
 
 interface ProfileMenuLiProps {
@@ -39,6 +37,10 @@ export const ProfileMenu = (): JSX.Element => {
     navigate(LOGIN_PATH)
   }
 
+  const goToSubscription = () => {
+    navigate(SUBSCRIPTION_PATH)
+  }
+
   return (
         <ul className='profile-menu-list'>
             <li onClick={goToSettings}>
@@ -47,8 +49,8 @@ export const ProfileMenu = (): JSX.Element => {
             <li onClick={goToContactUs}>
                 <ProfileMenuLi icon={<IoMail/>} name='Contact' />
             </li>
-            <li onClick={logoutUser}>
-                <ProfileMenuLi icon={<BiCreditCard/>} name='Subscription' />
+            <li onClick={goToSubscription}>
+                <ProfileMenuLi icon={<BsCreditCardFill/>} name='Subscription' />
             </li>
             <li onClick={logoutUser}>
                 <ProfileMenuLi icon={<FiLogOut/>} name='Logout' />
