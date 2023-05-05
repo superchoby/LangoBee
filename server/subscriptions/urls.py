@@ -6,7 +6,8 @@ from .views import (
     StripeWebhook,
     SuccessfulCheckoutView,
     UsersSubscriptionInfo,
-    UpgradeSubscriptionView
+    UpgradeSubscriptionView,
+    CustomerPortalView
 )
 
 urlpatterns = [
@@ -16,6 +17,7 @@ urlpatterns = [
     path('stripe_webhook/', StripeWebhook.as_view()),
     path('successful_checkout/', SuccessfulCheckoutView.as_view()),
     path('users_info/', UsersSubscriptionInfo.as_view()),
-    path('upgrade/', UpgradeSubscriptionView.as_view())
+    path('upgrade/', UpgradeSubscriptionView.as_view()),
+    path('customer_portal/', CustomerPortalView.as_view())
 ]
 

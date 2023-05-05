@@ -289,3 +289,13 @@ class StripeWebhook(APIView):
         except Exception as e:
             print(e)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class CustomerPortalView(APIView):
+    def get(self, request):
+        # Authenticate your user.
+        session = stripe.billing_portal.Session.create(
+            customer=request.user.stripe_customer_id,
+            return_url=CHECKOUT_CANCEL_URL,
+        )
+        return Response({'redirect_path': session.url})
+    

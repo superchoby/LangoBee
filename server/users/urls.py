@@ -10,7 +10,7 @@ from .views import (
     UserSrsView,
     UserSrsLimit,
     DeleteUser,
-    SubjectsPerSessionLimit
+    SubjectsPerSessionLimit,
 )
 
 urlpatterns = [

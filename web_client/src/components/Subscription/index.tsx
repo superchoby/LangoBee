@@ -208,6 +208,16 @@ export const SubscriptionsPage = () => {
     }
   }
 
+  const takeUserToUpdatePaymentInfoPage = () => {
+    axios.get('subscriptions/customer_portal/')
+    .then(res => {
+      window.location.href = res.data.redirect_path
+    })
+    .catch(err => {
+
+    })
+  }
+
   return (
         <div className='subscription-page'>
             <h1>Subscription</h1>
@@ -222,6 +232,12 @@ export const SubscriptionsPage = () => {
                     <h3>Your Subscription Plan</h3>
                     <h4>{subscriptionType}</h4>
                     <p>{SUBSCRIPTION_MESSAGES[subscriptionType]}</p>
+                  </div>
+
+                  <div className='subscription-section payment-details-section'>
+                    <h3>Manage your Payment Details</h3>
+                    <p>Update your credit card and address information.</p>
+                    <button onClick={takeUserToUpdatePaymentInfoPage}>Update Details</button>
                   </div>
 
                   {subscriptionType !== LIFETIME_SUBSCRIPTION && (
