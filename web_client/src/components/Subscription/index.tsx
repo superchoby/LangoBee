@@ -14,6 +14,7 @@ import {
   FREE_TRIAL,
 } from '../shared/values'
 import { HOME_PATH } from 'src/paths'
+import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
 import { ClipLoader } from 'react-spinners'
 import Modal from 'react-modal'
 import './index.scss'
@@ -59,6 +60,7 @@ interface SubscriptionOptionProps {
   upgradingSubscription: boolean
   proratedPrice?: string
   changeSubscriptionUserWantsToUpgradeTo(subscriptionToUpgradeTo: SUBSCRIPTION_TYPE | 'none'): void
+  changeLoadingCheckoutSession(status: FETCH_TYPE): void
 }
 
 export const SubscriptionOption = ({
@@ -69,6 +71,7 @@ export const SubscriptionOption = ({
   priceId,
   upgradingSubscription,
   changeSubscriptionUserWantsToUpgradeTo,
+  changeLoadingCheckoutSession,
   proratedPrice
 }: SubscriptionOptionProps) => {
   let buttonClassName = 'subscription-option-button';
@@ -76,18 +79,31 @@ export const SubscriptionOption = ({
   
   const onContinueClick = () => {
     if (upgradingSubscription) {
-      changeSubscriptionUserWantsToUpgradeTo(name)
+      if (name === ANNUAL_SUBSCRIPTION) {
+        changeSubscriptionUserWantsToUpgradeTo(name)
+      } else { // Is annual
+        changeLoadingCheckoutSession(FETHCED_DATA_PROCESSING)
+        axios.post('subscriptions/upgrade/', { price_id: priceId, new_subscription_plan: name, prorated_lifetime_cost: proratedPrice })
+        .then(res => {
+          changeLoadingCheckoutSession(FETCHED_DATA_SUCCESS)
+          window.location.href = res.data.redirect_path
+        })
+        .catch(err => {
+          changeLoadingCheckoutSession(FETCHED_DATA_ERROR)
+        })
+      }
     } else {
+      changeLoadingCheckoutSession(FETHCED_DATA_PROCESSING)
       axios.post('subscriptions/create_checkout_session/', {price_id: priceId, subscription_type: name})
       .then(res => {
+        changeLoadingCheckoutSession(FETCHED_DATA_SUCCESS)
         window.location.href = res.data.redirect_path
       })
       .catch(err => {
-        
+        changeLoadingCheckoutSession(FETCHED_DATA_ERROR)
       })
     }
   }
-
 
   return (
     <div className="subscription-option-container">
@@ -124,6 +140,7 @@ export const SubscriptionsPage = () => {
   const [subscriptionUserWantsToUpgradeTo, changeSubscriptionUserWantsToUpgradeTo] = useState<SUBSCRIPTION_TYPE | 'none'>('none')
   const [prorationInfo, changeProrationInfo] = useState<{[subscriptionType: string]: string}>({})
   const [processingUpgrade, changeProcessingUpgrade] = useState<FETCH_TYPE>()
+  const [loadingCheckoutSession, changeLoadingCheckoutSession] = useState<FETCH_TYPE>()
 
   const navigate = useNavigate()
 
@@ -172,9 +189,16 @@ export const SubscriptionsPage = () => {
           break
         }
       }
-      axios.post('subscriptions/upgrade/', { price_id: priceIdOfSubscription })
+
+      if (!prorationInfo.hasOwnProperty('Lifetime')) {
+        throw new Error('Lifetime price not found')
+      }
+      axios.post('subscriptions/upgrade/', { price_id: priceIdOfSubscription, new_subscription_plan: subscriptionUserWantsToUpgradeTo, prorated_lifetime_cost: prorationInfo['Lifetime'] })
       .then(res => {
         changeProcessingUpgrade(FETCHED_DATA_SUCCESS)
+        if (subscriptionUserWantsToUpgradeTo === LIFETIME_SUBSCRIPTION) {
+          window.location.href = res.data.redirect_path
+        }
       })
       .catch(err => {
         changeProcessingUpgrade(FETCHED_DATA_ERROR)
@@ -187,44 +211,104 @@ export const SubscriptionsPage = () => {
   return (
         <div className='subscription-page'>
             <h1>Subscription</h1>
-            {subscriptionType == null ? (
+            {fetchingUserSubscriptionInfo === FETHCED_DATA_PROCESSING ? (
               <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <ClipLoader />
-                Fetching Data
+                <WaitingForDataToProcess />
               </div>
             ) : (
-              <>
-                <div className='subscription-section'>
-                  <h3>Your Subscription Plan</h3>
-                  <h4>{subscriptionType}</h4>
-                  <p>{SUBSCRIPTION_MESSAGES[subscriptionType]}</p>
-                </div>
-
-                {subscriptionType !== LIFETIME_SUBSCRIPTION && (
+              subscriptionType != null ? (
+                <>
                   <div className='subscription-section'>
-                    <h3>Upgrade Your Plan</h3>
-                    {subscriptionType !== FREE_TRIAL &&  (
-                      <p>
-                        Important! Since you still have time remaining in your subscription, the credits will carry
-                        over into your upgrade so you don't have to pay full price!
-                      </p>
-                    )}
-                    <div className={`subscription-options-container ${subscriptionPricesToShow.length < 3 ? 'subscription-options-subset' : ''}`}>
-                      {subscriptionPricesToShow.map(option => (
-                        <SubscriptionOption 
-                          key={option.name} 
-                          upgradingSubscription={[MONTHLY_SUBSCRIPTION, ANNUAL_SUBSCRIPTION].includes(subscriptionType)} 
-                          changeSubscriptionUserWantsToUpgradeTo={changeSubscriptionUserWantsToUpgradeTo}
-                          proratedPrice={prorationInfo.hasOwnProperty(option.name) ? prorationInfo[option.name] : undefined}
-                          {...option} 
-                        />
-                      ))}
-                    </div>   
+                    <h3>Your Subscription Plan</h3>
+                    <h4>{subscriptionType}</h4>
+                    <p>{SUBSCRIPTION_MESSAGES[subscriptionType]}</p>
                   </div>
-                )}
-              </>
+
+                  {subscriptionType !== LIFETIME_SUBSCRIPTION && (
+                    <div className='subscription-section'>
+                      <h3>Upgrade Your Plan</h3>
+                      {subscriptionType !== FREE_TRIAL &&  (
+                        <p>
+                          Important! Since you still have time remaining in your subscription, the credits will carry
+                          over into your upgrade so you don't have to pay full price!
+                        </p>
+                      )}
+                      <div className={`subscription-options-container ${subscriptionPricesToShow.length < 3 ? 'subscription-options-subset' : ''}`}>
+                        {subscriptionPricesToShow.map(option => (
+                          <SubscriptionOption 
+                            key={option.name} 
+                            upgradingSubscription={[MONTHLY_SUBSCRIPTION, ANNUAL_SUBSCRIPTION].includes(subscriptionType)} 
+                            changeSubscriptionUserWantsToUpgradeTo={changeSubscriptionUserWantsToUpgradeTo}
+                            proratedPrice={prorationInfo.hasOwnProperty(option.name) ? prorationInfo[option.name] : undefined}
+                            changeLoadingCheckoutSession={changeLoadingCheckoutSession}
+                            {...option} 
+                          />
+                        ))}
+                      </div>   
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p>Sorry, there was an error collecting the subscription information at this time. Please try again later.</p>
+                </>
+              )
+              
             )}
-        
+
+        <Modal
+          ariaHideApp={false}
+          className='user-upgrading-subscription-modal'
+          isOpen={subscriptionUserWantsToUpgradeTo !== 'none' && prorationInfo.hasOwnProperty(subscriptionUserWantsToUpgradeTo)}
+          onRequestClose={(() => changeSubscriptionUserWantsToUpgradeTo('none'))}
+          preventScroll={true}
+        > 
+          <div>
+            <h2>Subscription Upgrade Confirmation</h2>
+            <p>
+              {(() => {
+                if (processingUpgrade == null || processingUpgrade === FETHCED_DATA_PROCESSING) {
+                  return `Would you like to upgrade to the ${subscriptionUserWantsToUpgradeTo} subscription for ${prorationInfo[subscriptionUserWantsToUpgradeTo]}?`
+                } else if (processingUpgrade === FETCHED_DATA_SUCCESS) {
+                  return `Thank you for upgrading to the ${subscriptionUserWantsToUpgradeTo} subscription! You have taken another huge step towards mastering Japanese and your support means a lot to us. So now that we got that out of the way, let's go and learn some more Japanese!`
+                } else {
+                  return `Sorry, there was an error with the upgrade process, please try again later`
+                }
+              })()}                         
+            </p>
+            <button onClick={upgradeSubscriptionButtonClick}>
+              {(() => {
+                if (processingUpgrade === FETHCED_DATA_PROCESSING) {
+                  return <ClipLoader size={18} />
+                } else if (processingUpgrade == null) {
+                  return 'Confirm and Pay'
+                } else {
+                  return 'Home'
+                }
+              })()}
+            </button>
+          </div>
+        </Modal>
+
+        <Modal
+          ariaHideApp={false}
+          className={`user-upgrading-subscription-modal ${processingUpgrade === FETCHED_DATA_SUCCESS ? 'user-upgrading-subscription-modal-increased-height' : ''}`}
+          isOpen={loadingCheckoutSession != null}
+          onRequestClose={(() => {
+            if (loadingCheckoutSession === FETCHED_DATA_ERROR) {
+              changeLoadingCheckoutSession(undefined)
+            }
+          })}
+          preventScroll={true}
+        > 
+          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', width: '100%'}}>
+            {loadingCheckoutSession === FETHCED_DATA_PROCESSING ? (
+              <WaitingForDataToProcess />
+            ) : (
+              loadingCheckoutSession === FETCHED_DATA_ERROR && <p>Sorry, there was an error processing your checkout at this moment, please try again later.</p>
+            )}
+          </div>
+        </Modal>
 
         <Modal
           ariaHideApp={false}

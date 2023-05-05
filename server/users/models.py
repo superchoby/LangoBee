@@ -15,6 +15,7 @@ class User(AbstractUser):
     srs_subjects_added_today = models.PositiveBigIntegerField(default=0)
     num_of_subjects_to_teach_per_lesson = models.PositiveBigIntegerField(default=5)
     subscription = models.OneToOneField(Subscription, on_delete=models.SET_NULL, related_name='user', null=True)
+    stripe_customer_id = models.CharField(max_length=40, null=True)
 
     def change_level(self, language, course_name, level):
         course = self.courses.get(language_this_course_teaches=self.languages.get(name=language), name=course_name)
