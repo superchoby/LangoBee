@@ -69,8 +69,8 @@ class UserLessonInfoView(APIView):
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    isInProdEnviron = 'SECRET_KEY' in os.environ
-    fullUrl = ('https://www.langobee.com' if isInProdEnviron else 'http://localhost:3000') + f'/reset_password/{reset_password_token.key}'
+    IS_IN_PROD_ENVIRON = 'SECRET_KEY' in os.environ
+    fullUrl = ('https://www.langobee.com' if IS_IN_PROD_ENVIRON else 'http://localhost:3000') + f'/reset_password/{reset_password_token.key}'
 
     message = Mail(
         from_email='thomasqtrnh@gmail.com',

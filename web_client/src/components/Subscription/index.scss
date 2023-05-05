@@ -57,6 +57,12 @@
     font-weight: 700;
     text-align: center;
 }
+
+.subscription-pre-prorate-cost {
+    font-size: 18px;
+    font-weight: 300;
+    text-decoration: line-through;
+}
     
 .subscription-option-button {
     border-radius: 0.375rem;
@@ -88,11 +94,67 @@
     border: 2px solid #CBD5E0;
 }    
 
+.subscription-section {
+    text-align: left;
+}
+
+.subscription-page {
+    font-size: 18px;
+    
+    h3 {
+        text-decoration: underline;
+    }
+}
+
+.user-upgrading-subscription-modal {
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: var(--default-border-radius);
+    height: 240px;
+    margin: 0 auto;
+    outline: none;
+    overflow: auto;
+    position: absolute;    
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    z-index: 1000;
+
+    p {
+        font-size: 20px;
+    }
+
+    button {
+        background-color: var(--strong-yellow);
+        border-radius: 14px;
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 auto;
+        height: 3rem;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        width: 160px;
+    }
+}
+
+.user-upgrading-subscription-modal-increased-height {
+    height: 340px;
+}
+
 @media only screen and (min-width: 992px) {
     .subscription-options-container {
         flex-direction: row;
         justify-content: space-between;
         width: auto;
+    }
+
+    .subscription-options-subset {
+        justify-content: flex-start;
+        
+        .subscription-option-container {
+            margin-right: 20px;
+        }
     }
 
     // .subscription-options-container {

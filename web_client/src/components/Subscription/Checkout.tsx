@@ -55,7 +55,7 @@ export const Checkout = () => {
               </div>
             ) : (
               <p className='invalid-checkout-session'>
-                This is not a valid checkout session. If this isn't the case, go to our 
+                This is not a valid checkout session. If this isn't the case, go to our &nbsp;
                 <Link to={CONTACT_US_PATH}>contact page</Link> &nbsp;
                 or send us an email at contact@langobee.com and
                 we will get to you as soon as possible.

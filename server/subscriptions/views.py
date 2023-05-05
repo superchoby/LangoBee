@@ -8,20 +8,55 @@ from rest_framework import permissions, status
 from users.models import User
 from .models import Subscription
 import datetime
+from datetime import timedelta
 from django.utils import timezone
+import time
+from django.conf import settings
 
+domain = 'https://www.langobee.com' if settings.IS_IN_PROD_ENVIRON else 'http://localhost:3000'
+CHECKOUT_SUCCESS_URL = domain + '/checkout?session_id={CHECKOUT_SESSION_ID}'
+CHECKOUT_CANCEL_URL = domain + '/subscription'
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if dataclasses.is_dataclass(o):
             return dataclasses.asdict(o)
         return super().default(o)
 
+def insert_decimal(number):
+    if number < 100:
+        raise ValueError("Number must have at least 3 digits")
+
+    str_number = str(number)
+    last_three_digits = str_number[-2:]
+    rest_of_number = str_number[:-2]
+
+    return f"{rest_of_number}.{last_three_digits}"
+
 class PricesView(APIView):
     def get(self, request):
+        proration_info = {}
+        if request.user.subscription is not None and request.user.subscription.subscription_plan != 'Lifetime':
+            proration_date = int(time.time())
+            subscription = stripe.Subscription.retrieve(request.user.subscription.stripe_subscription_id)
+            items=[{
+                'id': subscription['items']['data'][0].id,
+                'price': ANNUAL.price_id, # Switch to new price
+            }]
+            invoice = stripe.Invoice.upcoming(
+                customer=request.user.subscription.stripe_customer_id,
+                subscription=request.user.subscription.stripe_subscription_id,
+                subscription_items=items,
+                subscription_proration_date=proration_date,
+            )
+            proration_info['Annual'] = insert_decimal(invoice['total'])
+            period_left_for_subscription = (request.user.subscription.end_date - timezone.now()).days / (request.user.subscription.end_date - request.user.subscription.start_date).days
+            proration_info['Lifetime'] = str(round(period_left_for_subscription * LIFETIME.cost, 2))
+
         return Response(json.dumps({
             'monthly': MONTHLY,
             'annual': ANNUAL,
-            'lifetime': LIFETIME
+            'lifetime': LIFETIME,
+            'proration_info': proration_info
         }, cls=EnhancedJSONEncoder))
 
 class UserStripeInfo(APIView):
@@ -43,8 +78,7 @@ class UserStripeInfo(APIView):
 
 class StripeCheckout(APIView):
     def post(self, request):
-        isInProdEnviron = 'SECRET_KEY' in os.environ
-        domain = 'https://www.langobee.com' if isInProdEnviron else 'http://localhost:3000'
+        
         subscription_type = request.data['subscription_type']
 
         # subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
@@ -68,8 +102,8 @@ class StripeCheckout(APIView):
                     },
                 ],
                 mode='subscription' if subscription_type != 'Lifetime' else 'payment',
-                success_url= domain + '/checkout?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url= domain + '/subscription',
+                success_url=CHECKOUT_SUCCESS_URL,
+                cancel_url=CHECKOUT_CANCEL_URL,
                 custom_text={'submit': {'message': custom_text}},
                 consent_collection={
                     'terms_of_service': 'required',
@@ -83,20 +117,52 @@ class StripeCheckout(APIView):
 
 class SuccessfulCheckoutView(APIView):
     def post(self, request):
+        session = None
         try:
             session = stripe.checkout.Session.retrieve(request.data['session_id'], expand = ['line_items'])
-            purchased_plan_info = session['line_items']['data'][0]
-            price_info = purchased_plan_info['price']
-            response = { 'subscription_type': price_info['nickname'] }
-
-            if (price_info['type'] == 'recurring'):
-                subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
-                response['end_date'] = timezone.make_aware(datetime.fromtimestamp(subscriptions[0]['current_period_end']))
-
-            return Response(response, status=status.HTTP_200_OK)
         except:
-            return Response(status=status.HTTP_400_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        purchased_plan_info = session['line_items']['data'][0]
+        price_info = purchased_plan_info['price']
+        response = { 'subscription_type': price_info['nickname'] }
 
+        if (price_info['type'] == 'recurring'):
+            subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
+            response['end_date'] = timezone.make_aware(datetime.datetime.fromtimestamp(subscriptions[0]['current_period_end']))
+
+        return Response(response, status=status.HTTP_200_OK)
+        
+class UsersSubscriptionInfo(APIView):
+    def get(self, request):
+        subscription_type = None
+        if request.user.subscription is not None:
+            subscription_type = request.user.subscription.subscription_plan
+        else:
+            now = timezone.now()
+            seven_days_ago = now - timedelta(days=7)
+            if request.user.date_joined >= seven_days_ago:
+                subscription_type = 'Free Trial'
+
+        return Response({
+            'subscription_type': subscription_type
+        }, status=status.HTTP_200_OK)
+
+class UpgradeSubscriptionView(APIView):
+    def post(self, request):
+        subscription = stripe.Subscription.retrieve(request.user.subscription.stripe_subscription_id)
+        stripe.Subscription.modify(
+            subscription.id,
+            cancel_at_period_end=False,
+            proration_behavior='create_prorations',
+            items=[{
+                'id': subscription['items']['data'][0].id,
+                'price': request.data['price_id'],
+            }]
+        )
+
+        # return Response({'redirect_path': checkout_session.url})
+        return Response(status=status.HTTP_200_OK)
 
 class StripeWebhook(APIView):
     permission_classes = [permissions.AllowAny]
@@ -140,33 +206,41 @@ class StripeWebhook(APIView):
                     end_date = timezone.make_aware(timezone.datetime.max, timezone.get_default_timezone())
                 else: # Is recurring
                     subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
-                    start_date = timezone.make_aware(datetime.fromtimestamp(subscriptions[0]['current_period_start']))
-                    end_date = timezone.make_aware(datetime.fromtimestamp(subscriptions[0]['current_period_end']))
+                    start_date = timezone.make_aware(datetime.datetime.fromtimestamp(subscriptions[0]['current_period_start']))
+                    end_date = timezone.make_aware(datetime.datetime.fromtimestamp(subscriptions[0]['current_period_end']))
                     stripe_subscription_id = subscriptions[0]['id']
+                
+                subscription, _ = Subscription.objects.update_or_create(
+                    subscription_plan = price_info['nickname'],
+                    stripe_price_id = price_info['id'],
+                    stripe_subscription_id = stripe_subscription_id,
+                    start_date = start_date,
+                    end_date = end_date,
+                    status = 'active',
+                    stripe_customer_id = session['customer'],
+                )
 
                 user = User.objects.get(email=data_object['customer_details']['email'])
+                user.subscription = subscription
+                user.save()
 
-                if user.subscription is None:
-                    user.subscription = Subscription.objects.create(
-                        subscription_plan = price_info['nickname'],
-                        stripe_price_id = price_info['id'],
-                        stripe_subscription_id = stripe_subscription_id,
-                        start_date = start_date,
-                        end_date = end_date,
-                        status = 'active',
-                        stripe_customer_id = session['customer'],
-                    )
-                    user.save()
                 print('🔔 Payment succeeded!')
             elif event_type == 'invoice.paid':
                 pass
             elif event_type == 'customer.subscription.updated':
-                print('Subscription created %s', event.id)
+                subscription = Subscription.objects.get(stripe_customer_id=data_object['customer'])
+                purchased_plan_info = data_object['items']['data'][0]
+                subscription.subscription_plan = purchased_plan_info['plan']['nickname']
+                subscription.stripe_price_id = purchased_plan_info['plan']['id']
+                subscription.end_date = timezone.make_aware(datetime.datetime.fromtimestamp(data_object['current_period_end']))
+                subscription.status = 'active'
+                subscription.save()
+
             elif event_type == 'customer.subscription.deleted':
                 subscription_data = data_object
                 Subscription.objects.get(stripe_subscription_id=subscription_data['id']).delete()
 
-                print('Subscription canceled: %s', event.id)
+                # print('Subscription canceled: %s', event.id)
             
             return Response({'status': 'success'})
         
