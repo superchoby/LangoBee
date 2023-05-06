@@ -1,7 +1,7 @@
 import { Homepage } from './components/homepage'
 import { useEffect, useState } from 'react'
 import './App.scss'
-import { BrowserRouter, Routes, Route, useNavigate, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate, Outlet, createSearchParams } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
 import { Login } from './components/authentication/login'
 import { Signup } from './components/authentication/signup'
@@ -14,7 +14,6 @@ import { Settings } from '../src/components/settings'
 import { ForgotPassword } from './components/authentication/ForgotPassword'
 import { ResetPassword } from './components/authentication/ResetPassword'
 import { ImmersionLevelInfo } from './components/InformationAboutSitePages/ImmersionLevelInfo'
-import { GamesHomepage } from './components/Games/homepage'
 import { resetUser, updateUserInfo } from './app/userSlice'
 import { resetToken, updateToken } from './app/tokenSlice'
 import { resetSrsFlashcards, updateSrsFlashcards } from './app/srsFlashcardsSlice'
@@ -146,7 +145,9 @@ const ProtectedRoute = (): JSX.Element => {
                 dates_studied: datesStudied,
                 date_joined: dateJoined,
                 srs_limit: srsLimit,
-                num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson
+                num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
+                has_access_to_paid_features: hasAccessToPaidFeatures,
+                is_on_free_trial: isOnFreeTrial,
               } = res.data
 
               dispatch(updateUserInfo({
@@ -158,7 +159,9 @@ const ProtectedRoute = (): JSX.Element => {
                 datesStudied,
                 dateJoined,
                 srsLimit,
-                numOfSubjectsToTeachPerLesson
+                numOfSubjectsToTeachPerLesson,
+                hasAccessToPaidFeatures,
+                isOnFreeTrial
               }))
               const reviewCards = review_cards.map((card: any) => keysToCamel(card))
               dispatch(updateSrsFlashcards({
@@ -187,6 +190,22 @@ const ProtectedRoute = (): JSX.Element => {
   return finishedVerifyingToken ? <Outlet /> : <></>
 }
 
+const PaidUsersOnlyRoute = () => {
+  const { hasAccessToPaidFeatures } = useAppSelector(state => state.user)
+  const navigate = useNavigate()
+
+  if (!hasAccessToPaidFeatures) {
+    navigate({
+      pathname: SUBSCRIPTION_PATH,
+      search: createSearchParams({
+          tried_to_access_paid_feature: "true"
+      }).toString()
+    });
+  }
+
+  return <Outlet />
+}
+
 const verifyTokenPath = 'api/token/verify/'
 
 function App (): JSX.Element {
@@ -195,20 +214,25 @@ function App (): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route element={<ProtectedRoute />}>
+            <Route element={<PaidUsersOnlyRoute />}>
+              <Route path={LESSONS_SESSION_PATH} element={<LessonSession />} />
+              <Route path={REVIEWS_PATH} element={(<Reviews />)} />
+              <Route path={READ_STORY} element={<StoryReader />} />
+              <Route path={`${EXERCISES_PATH}/:exerciseName`} element={<ActualExercise />} />
+            </Route>
             <Route path={HOME_PATH} element={<HeaderAndNavbar PageContents={<Homepage />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={LESSONS_SESSION_PATH} element={<LessonSession />} />
+            
             <Route path={LESSONS_PATH} element={<HeaderAndNavbar PageContents={<Lessons />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={REVIEWS_PATH} element={(<Reviews />)} />
+            
             <Route path={CONTACT_US_PATH} element={<HeaderAndNavbar PageContents={<ContactUs />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={STORIES_HOME_PATH} element={<HeaderAndNavbar PageContents={<StoriesHome />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={READ_STORY} element={<StoryReader />} />
-            <Route path={EXERCISES_PATH} element={<HeaderAndNavbar PageContents={<Exercises />} hasGapBetweenHeaderAndContents={true} />} />
+            
             <Route path={EXERCISES_PATH} element={<HeaderAndNavbar PageContents={<Exercises />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={STATISTICS_PATH} element={<HeaderAndNavbar PageContents={<StatisticsSection />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
             {/* <Route path={`${CHECKOUT_PATH}/success`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} /> */}
             <Route path={`${CHECKOUT_PATH}`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={`${EXERCISES_PATH}/:exerciseName`} element={<ActualExercise />} />
+            
             <Route path={REVIEWS_INFO_PATH} element={<InformationOnReviews />} />
             <Route path="/ImmersionLevelInfo" element={<ImmersionLevelInfo />} />
             <Route path="/Settings" element={<HeaderAndNavbar PageContents={<Settings />} hasGapBetweenHeaderAndContents={true} />} />
@@ -218,7 +242,6 @@ function App (): JSX.Element {
               <Route index element={<ArticlesHomepage />} />
               <Route path=":articleCategory/:articleName" element={<Article />} />
             </Route>
-            <Route path="/Games" element={<GamesHomepage />} />
           </Route>
           <Route path={PRIVACY_PATH} element={<Privacy />} />
           <Route path={TERMS_OF_SERVICE_PATH} element={<TermsOfService />} />

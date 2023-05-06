@@ -1,8 +1,5 @@
 import './DifferenceExplanation.scss'
 
-const vocabImageRegex = /<VocabImage>(.*?)<\/VocabImage>/g;
-const baseUrl = 'https://d1ymdibvv3e2ww.cloudfront.net/vocabulary_images/';
-
 interface DifferenceExplanationProps {
     mainTextRepresentation: string
     explanation: string

@@ -1,8 +1,5 @@
-import { useAppSelector } from '../../../app/hooks'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { QuizGenerator } from '../../shared/QuizGenerator'
-import { PageContainer } from '../../shared/PageContainer'
 import { JapaneseSubjectData } from '../lessons/SubjectTypes'
 import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { LearningQuizGenerator } from '../LearningQuizGenerator'
@@ -13,17 +10,12 @@ import { LearningQuizGenerator } from '../LearningQuizGenerator'
  * into QuizSubsection component
  */
 export const Reviews = (): JSX.Element => {
-  const [errorGettingReviews, changeErrorGettingReviews] = useState(false)
-  const [currentlyFetchingReviews, changeCurrentlyFetchingReviews] = useState(false)
   const [subjectsToReview, changeSubjectsToReview] = useState<(JapaneseSubjectData)[]>([])
   const [subjectsAndTheirInitialReviewInfo, changeSubjectsAndTheirInitialReviewInfo] = useState<{ [subjectId: number]: { level: number, isFastReviewCard: boolean} }>({})
 
   useEffect(() => {
-    changeCurrentlyFetchingReviews(true)
     axios.get('reviews/')
     .then(res => {
-      changeCurrentlyFetchingReviews(false)
-      changeErrorGettingReviews(false)
       const reviewsWithCurrentLevel = res.data.reviews.map(({current_level: currentReviewLevel, subject}: any) => (
         keysToCamel(
           {
@@ -51,8 +43,7 @@ export const Reviews = (): JSX.Element => {
       changeSubjectsAndTheirInitialReviewInfo(subjectsAndReviewInfo)
     })
     .catch(err => {
-      changeCurrentlyFetchingReviews(false)
-      changeErrorGettingReviews(true)
+
     })
   }, [])
 

@@ -30,6 +30,8 @@ export interface UserSliceStateType {
   timesReviewCardsWereAdded: Date[]
   srsLimit: number
   numOfSubjectsToTeachPerLesson: number
+  hasAccessToPaidFeatures: boolean
+  isOnFreeTrial: boolean
 }
 
 export const userSliceInitialState: UserSliceStateType = {
@@ -51,7 +53,9 @@ export const userSliceInitialState: UserSliceStateType = {
   languages: ['Japanese'],
   timesReviewCardsWereAdded: [],
   srsLimit: 15,
-  numOfSubjectsToTeachPerLesson: 5
+  numOfSubjectsToTeachPerLesson: 5,
+  hasAccessToPaidFeatures: false,
+  isOnFreeTrial: true
 }
 
 export const userSlice = createSlice({
@@ -68,7 +72,9 @@ export const userSlice = createSlice({
         datesStudied,
         dateJoined,
         srsLimit,
-        numOfSubjectsToTeachPerLesson
+        numOfSubjectsToTeachPerLesson,
+        hasAccessToPaidFeatures,
+        isOnFreeTrial
       } = action.payload
 
       state.username = (username.charAt(0).toUpperCase() as string) + (username.slice(1).toLowerCase() as string)
@@ -77,6 +83,8 @@ export const userSlice = createSlice({
       state.readMsgForCurrentLevel = readMsgForCurrentLevel
       state.profilePicture = profile_picture
       state.numOfSubjectsToTeachPerLesson = numOfSubjectsToTeachPerLesson
+      state.hasAccessToPaidFeatures = hasAccessToPaidFeatures
+      state.isOnFreeTrial = isOnFreeTrial
       
       interface DatesStudiedElementType {
         expGained: number

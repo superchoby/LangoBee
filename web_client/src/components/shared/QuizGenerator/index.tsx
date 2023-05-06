@@ -82,16 +82,11 @@ export const QuizGenerator = ({
   const [choiceHasBeenSubmitted, changeChoiceHasBeenSubmitted] = useState(false)
   const [answerHasBeenEntered, changeAnswerHasBeenEntered] = useState(false)
   const [currentAnswerStatus, changeCurrentAnswerStatus] = useState<'correct' | 'incorrect' | 'acceptable but not correct'>('incorrect')
-  const [hideFinishButton, changeHideFinishButton] = useState(false)
-  const [showFinishedMsg, changeShowFinishedMsg] = useState(false)
   const [isInvalidInput, changeIsInvalidInput] = useState(false)
   const [hasInvalidInputClass, changeHasInvalidInputClass] = useState(false)
   const [guessIsRightButWrongKana, changeGuessIsRightButWrongKana] = useState(false)
   const [typingInHiragana, changeTypingInHiragana] = useState(true)
-  const [errorUpdatingStatusOfSubject, changeErrorUpdatingStatusOfSubject] = useState(false)
-  const [currentlyProcessingOnQuizFinishRequest, changeCurrentlyProcessingOnQuizFinishRequest] = useState(false)
   const [confirmIfUserWantsToStopTheQuiz, changeConfirmIfUserWantsToStopTheQuiz] = useState(false)
-  const [showSubjectsNewReviewLevel, changeShowSubjectsNewReviewLevel] = useState(false)
   const [quizIsDone, changeQuizIsDone] = useState(false)
   const [contentToDisplay, setContentToDisplay] = useState('')
 
@@ -113,7 +108,6 @@ export const QuizGenerator = ({
         }
         changeChoiceHasBeenSubmitted(false)
         changeCurrentAnswerStatus('incorrect')
-        changeShowSubjectsNewReviewLevel(false)
       } else {
         changeChoiceHasBeenSubmitted(true)
         const currentQuestion = questionsOrder[0]
@@ -172,8 +166,6 @@ export const QuizGenerator = ({
     changeQuestionsOrder(putTheVocabQuestionsAskingMeaningsFirst(shuffledQuestions))
     changeUsersTotalPoints(0)
     changeChoiceHasBeenSubmitted(false)
-    changeHideFinishButton(false)
-    changeShowFinishedMsg(false)
   }, [content])
 
   const handleAnswerSubmitOrHandleFinishedQuiz = (): void => {

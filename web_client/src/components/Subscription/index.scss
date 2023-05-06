@@ -160,6 +160,13 @@
     height: 340px;
 }
 
+.tried-to-access-paid-feature-msg {
+    background-color: var(--strong-yellow);
+    border-radius: 14px;
+    font-weight: bold;
+    padding: 20px 8px;
+}
+
 @media only screen and (min-width: 992px) {
     .subscription-options-container {
         flex-direction: row;
@@ -175,16 +182,17 @@
         }
     }
 
-    // .subscription-options-container {
-    //     width: 825px;
-    // }
-
     .subscription-option-container {
         flex: .32;
         height: 390px;
         padding-left: 12px;
         padding-right: 12px;
     }
+
+    .tried-to-access-paid-feature-msg {
+        padding: 14px 6px;
+    }
+    
 }
 
 @media only screen and (min-width: 1080px) {

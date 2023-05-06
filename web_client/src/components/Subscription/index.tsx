@@ -15,6 +15,7 @@ import {
 } from '../shared/values'
 import { HOME_PATH } from 'src/paths'
 import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
+import { useSearchParams } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import Modal from 'react-modal'
 import './index.scss'
@@ -120,7 +121,9 @@ export const SubscriptionOption = ({
         </span>
         <p className='subscription-option-description'>{description}</p>
       </div>
-      <button className={buttonClassName} onClick={onContinueClick}>{upgradingSubscription ? 'Upgrade' : 'Continue'}</button>
+      <button className={buttonClassName} onClick={onContinueClick} data-testid={`subscription-option-button-for-${name}`}>
+        {upgradingSubscription ? 'Upgrade' : 'Continue'}
+      </button>
     </div>
   )
 }
@@ -141,6 +144,11 @@ export const SubscriptionsPage = () => {
   const [prorationInfo, changeProrationInfo] = useState<{[subscriptionType: string]: string}>({})
   const [processingUpgrade, changeProcessingUpgrade] = useState<FETCH_TYPE>()
   const [loadingCheckoutSession, changeLoadingCheckoutSession] = useState<FETCH_TYPE>()
+  const [takingUserToPaymentInfoPage, changeTakingUserToPaymentInfoPage] = useState<FETCH_TYPE>()
+  const [searchParams] = useSearchParams()
+  const hasAccessToPaidFeatures = searchParams.get('tried_to_access_paid_feature')
+
+  const notAPaidUser = subscriptionType === 'none' || subscriptionType === FREE_TRIAL
 
   const navigate = useNavigate()
 
@@ -209,17 +217,24 @@ export const SubscriptionsPage = () => {
   }
 
   const takeUserToUpdatePaymentInfoPage = () => {
+    changeTakingUserToPaymentInfoPage(FETHCED_DATA_PROCESSING)
     axios.get('subscriptions/customer_portal/')
     .then(res => {
+      changeTakingUserToPaymentInfoPage(FETCHED_DATA_SUCCESS)
       window.location.href = res.data.redirect_path
     })
     .catch(err => {
-
+      changeTakingUserToPaymentInfoPage(FETCHED_DATA_ERROR)
     })
   }
 
   return (
         <div className='subscription-page'>
+            {hasAccessToPaidFeatures && (
+              <div className='tried-to-access-paid-feature-msg'>
+                Subscribe to get access to this great feature and many others on the full site!
+              </div>
+            )}
             <h1>Subscription</h1>
             {fetchingUserSubscriptionInfo === FETHCED_DATA_PROCESSING ? (
               <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -234,15 +249,20 @@ export const SubscriptionsPage = () => {
                     <p>{SUBSCRIPTION_MESSAGES[subscriptionType]}</p>
                   </div>
 
-                  <div className='subscription-section payment-details-section'>
-                    <h3>Manage your Payment Details</h3>
-                    <p>Update your credit card and address information.</p>
-                    <button onClick={takeUserToUpdatePaymentInfoPage}>Update Details</button>
-                  </div>
+                  {!notAPaidUser && (
+                    <div className='subscription-section payment-details-section'>
+                      <h3>Manage your Payment Details</h3>
+                      <p>Update your credit card and address information.</p>
+                      <button onClick={takeUserToUpdatePaymentInfoPage}>
+                        { takingUserToPaymentInfoPage === FETHCED_DATA_PROCESSING ? <ClipLoader size={16} /> : 'Update Details'}
+                      </button>
+                    </div>
+                  )}
+                  
 
                   {subscriptionType !== LIFETIME_SUBSCRIPTION && (
                     <div className='subscription-section'>
-                      <h3>Upgrade Your Plan</h3>
+                      <h3>{notAPaidUser ? 'Choose a Plan' : 'Upgrade Your Plan'}</h3>
                       {subscriptionType !== FREE_TRIAL &&  (
                         <p>
                           Important! Since you still have time remaining in your subscription, the credits will carry

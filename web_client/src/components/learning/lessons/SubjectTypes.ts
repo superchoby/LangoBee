@@ -1,5 +1,3 @@
-import { string } from "prop-types"
-
 export const KANA_TYPE = 'kana'  as const
 export const RADICAL_TYPE = 'radical'  as const
 export const KANJI_TYPE = 'kanji'  as const
@@ -39,14 +37,6 @@ type SubjectExample = {
         language: { name: LanguageType }
         translation: string
     }[]
-}
-
-type SubjectInSubjectDifferencesInfo = {
-    mainMeaningsToUse: string
-    mainTextRepresentation: string
-    jmdict: {
-        sense: {gloss: {text: string}[]}[]
-    }
 }
 
 type SubjectDifferences = {

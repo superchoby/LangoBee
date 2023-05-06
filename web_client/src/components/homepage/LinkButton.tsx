@@ -1,7 +1,5 @@
 import './LinkButton.scss'
 import { Link } from "react-router-dom";
-import ReviewImage from './ReviewImg.png'
-import LessonImage from './LessonImg.png'
 
 interface LinkButtonProps {
     name: string

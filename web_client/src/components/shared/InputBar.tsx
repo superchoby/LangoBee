@@ -48,7 +48,7 @@ function usePrevious (value: Function): Function | undefined {
 export default usePrevious
 
 function hasSpecialChars (str: string): boolean {
-  return /[~`@#$%^&*+=\[\]\\;/{}|\\<>]/g.test(str)
+  return /[~`@#$%^&*+=[\]\\;/{}|\\<>]/g.test(str)
 }
 
 export const inputIsInvalid = (value: string, answerIsInJapanese: boolean): boolean => {

@@ -48,6 +48,8 @@ class UserHomepageView(APIView):
         return Response(
             {
                 **userSerializer.data, 
+                'user_is_on_free_trial': user.user_is_on_free_trial(),
+                'has_access_to_paid_features': user.has_access_to_paid_features(),
                 'review_cards': allUsersSrsCards.data,
             }
         )

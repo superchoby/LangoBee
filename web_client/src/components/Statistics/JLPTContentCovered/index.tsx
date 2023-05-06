@@ -149,7 +149,6 @@ export const JLPTContentCovered = ({
     completedVocabLevels,
     completedGrammarLevels
 }: JLPTContentCoveredProps) => {
-    const [explainJLPT, changeExplainJLPT] = useState(false)
     const { pathname } = useLocation()
     const isCurrentlyOnPreJLPT = (() => {
         for (let i = 1; i < 6; ++i) {

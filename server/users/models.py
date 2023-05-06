@@ -35,13 +35,13 @@ class User(AbstractUser):
         self.reviews.bulk_create([Review(user=self, subject=subject, user_already_knows_this=True) for subject in subjects_to_mark_as_known])
         users_progress_on_course.save()
 
-    def has_access_to_features(self):
-        def user_is_on_seven_day_free_trial(user):
+    def user_is_on_free_trial(self):
             now = timezone.now()
             seven_days_ago = now - timedelta(days=7)
-            return user.date_joined >= seven_days_ago
-        
-        return user_is_on_seven_day_free_trial(self) or (self.subscription is not None and self.subscription.end_date >= timezone.now())
+            return self.date_joined >= seven_days_ago
+    
+    def has_access_to_paid_features(self):
+        return self.user_is_on_free_trial() or (self.subscription is not None and self.subscription.end_date >= timezone.now())
 
     def __str__(self):
         return self.username

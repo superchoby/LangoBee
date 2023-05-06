@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { toHiragana, toRomaji, isHiragana } from 'wanakana'
 import './GrammarFillInInput.scss'
-import {
-  GrammarQuestionType
-} from '../../../context/JapaneseDatabaseContext/SharedVariables'
-import { input } from '@testing-library/user-event/dist/types/utils'
 
 interface GrammarFillInInputProps {
   /**

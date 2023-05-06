@@ -22,4 +22,3 @@ urlpatterns = [
     path('upgrade/', UpgradeSubscriptionView.as_view()),
     path('customer_portal/', CustomerPortalView.as_view()),
 ]
-

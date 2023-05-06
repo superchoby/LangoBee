@@ -253,10 +253,14 @@ class StripeWebhook(APIView):
                 end_date = None
                 start_date = None
                 subscription_plan = None
+                user = User.objects.get(email=data_object['customer_details']['email'])
                 if price_info['type'] == 'one_time':
                     start_date = timezone.now()
                     end_date = timezone.make_aware(timezone.datetime.max, timezone.get_default_timezone())
                     subscription_plan = 'Lifetime'
+                    if user.subscription is not None:
+                        stripe.Subscription.delete(user.subscription.stripe_subscription_id)
+                        
                 else: # Is recurring
                     subscriptions = stripe.Subscription.list(price=price_info['id'], customer=session['customer'])['data']
                     start_date = timezone.make_aware(datetime.datetime.fromtimestamp(subscriptions[0]['current_period_start']))
@@ -272,7 +276,7 @@ class StripeWebhook(APIView):
                     end_date = end_date,
                 )
 
-                user = User.objects.get(email=data_object['customer_details']['email'])
+                
                 user.subscription = subscription
                 user.stripe_customer_id = session['customer']
                 user.save()
@@ -292,7 +296,10 @@ class StripeWebhook(APIView):
 
             elif event_type == 'customer.subscription.deleted':
                 subscription_data = data_object
-                Subscription.objects.get(stripe_subscription_id=subscription_data['id']).delete()
+                subscription = Subscription.objects.get(stripe_subscription_id=subscription_data['id'])
+                if subscription.subscription_plan != 'Lifetime':
+                    subscription.delete()
+    
             elif event_type == 'invoice.payment_failed':
                 if data_object['billing_reason'] == 'subscription_cycle':
                     user = User.objects.get(stripe_customer_id=data_object['customer'])
