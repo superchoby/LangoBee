@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import config from '../config/index.json';
 
+const isInDevMode =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
 interface PricingOptionProps {
   name: 'Monthly' | 'Annual' | 'Lifetime';
   cost: string;
@@ -17,8 +20,7 @@ const PricingOption = ({
   cost,
   description,
   price_message,
-}: // price_id,
-PricingOptionProps) => {
+}: PricingOptionProps) => {
   let buttonClassName =
     'text-background text-lg  cursor-pointer hover:bg-blue-700 hover:text-white leading-4 font-bold py-4 px-8 rounded-md h-12';
   buttonClassName += ` ${
@@ -26,6 +28,13 @@ PricingOptionProps) => {
       ? 'bg-primary text-white'
       : 'text-black border-2 border-neutral-500'
   }`;
+
+  const domain = isInDevMode
+    ? 'http://localhost:3000/'
+    : 'https://www.langobee.com/';
+
+  const urlWithSearchRef = new URL(`${domain}signup/`);
+  urlWithSearchRef.searchParams.append('take_to_subscription_page', 'true');
 
   return (
     <div
@@ -45,7 +54,14 @@ PricingOptionProps) => {
         </span>
       </div>
       <p className="text-center">{description}</p>
-      <button className={buttonClassName}>Continue</button>
+      <button
+        className={buttonClassName}
+        onClick={() => {
+          window.location.href = urlWithSearchRef.toString();
+        }}
+      >
+        Continue
+      </button>
     </div>
   );
 };
@@ -65,10 +81,9 @@ const Pricing = () => {
   >([]);
 
   useEffect(() => {
-    const domain =
-      !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
-        ? 'http://127.0.0.1:8000/'
-        : 'https://langobee-server.herokuapp.com/';
+    const domain = isInDevMode
+      ? 'http://127.0.0.1:8000/'
+      : 'https://langobee-server.herokuapp.com/';
     axios
       .get(`${domain}subscriptions/view_prices_nonauthenticated/`)
       .then((res) => {
