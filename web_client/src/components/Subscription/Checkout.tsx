@@ -40,7 +40,10 @@ export const Checkout = () => {
                 <p>
                   Woohoo 🎉! Thanks for the {subscriptionType} subscription! We are glad to have you have your Japanese journey here with us. 
                   You should receive an email for your receipt soon. If you haven't then feel free to ask for it in our&nbsp; 
-                  <Link to={CONTACT_US_PATH}>Contact Page</Link>.
+                  <Link to={CONTACT_US_PATH}>Contact Page</Link>. Also, if you have a one but haven't joined yet, feel free to join our fun&nbsp;
+                  <a href='https://discord.gg/5MKkcCHa6f' target="_blank" rel="noopener noreferrer">
+                    Discord
+                  </a> community!
                 </p>
                 
                 <p>

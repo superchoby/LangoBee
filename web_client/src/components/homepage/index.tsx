@@ -102,7 +102,7 @@ export const Homepage = (): JSX.Element => {
           </div>
       </div>
       {/* <div className='join-discord-msg'>
-        <span>Come have fun with us on &nbsp;</span> <Link to='https://discord.gg/5MKkcCHa6f'>Discord &nbsp;<FaDiscord /></Link>
+        <span>Come have fun with us on &nbsp;</span> <Link to='https://discord.gg/5MKkcCHa6f' target="_blank">Discord &nbsp;<FaDiscord /></Link>
       </div> */}
     </div>
   )
