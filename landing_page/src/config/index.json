@@ -27,8 +27,8 @@
     "href": "/login"
   },
   "mainHero": {
-    "title": "Learning Japanese",
-    "subtitle": "Redefined",
+    "title": "Learn Japanese",
+    "subtitle": "and Never Forget it",
     "description": "Learn everything you need to know about Japanese as efficiently as possible. We have the tools to help you gain mastery as fast as possible. Everything we wish we had when we were trying to learn Japanese, we give to you.",
     "img": "/assets/images/textBubbles.png",
     "primaryAction": {
@@ -86,8 +86,8 @@
     "title": "Pricing",
     "items": [
       {
-        "name": "Free",
-        "price": "$0",
+        "name": "1 Month",
+        "price": "$5",
         "priceDetails": "for one user",
         "features": [
           "1 user",
@@ -97,10 +97,10 @@
         ]
       },
       {
-        "name": "Pro",
-        "price": "$15",
+        "name": "1 Year",
+        "price": "$45",
         "priceDetails": "per user",
-
+        "priceMessage": "25% Off",
         "features": [
           "5 users",
           "Priority Support",
@@ -109,9 +109,10 @@
         ]
       },
       {
-        "name": "Enterprise",
-        "price": "$29",
+        "name": "Lifetime",
+        "price": "$110",
         "priceDetails": "per user",
+        "priceMessage": "Best Value",
         "features": [
           "50 users",
           "24/7 Support",

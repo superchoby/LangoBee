@@ -13,6 +13,7 @@ import django_on_heroku
 import os
 import environ
 from pathlib import Path
+import stripe
 
 env = environ.Env()
 environ.Env.read_env()
@@ -24,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-isInProdEnviron = 'SECRET_KEY' in os.environ
+IS_IN_PROD_ENVIRON = 'SECRET_KEY' in os.environ
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY'] if isInProdEnviron else 'dummy key'
+SECRET_KEY = os.environ['SECRET_KEY'] if IS_IN_PROD_ENVIRON else 'dummy key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not isInProdEnviron
+DEBUG = not IS_IN_PROD_ENVIRON
 
 ALLOWED_HOSTS = [
     'https://japanese-learning-site-server.herokuapp.com',
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'jmdict',
     'stories',
     'emails',
+    'subscriptions',
 
     # Third Party
     'rest_framework',
@@ -128,7 +130,7 @@ DATABASES = {
         }
     }
 
-if isInProdEnviron:
+if IS_IN_PROD_ENVIRON:
     # DATABASES = {
 
     #     'default': {
@@ -225,3 +227,9 @@ SIMPLE_JWT = {
 }
 
 django_on_heroku.settings(locals())
+
+STRIPE_TEST_PUBLIC_KEY = env("STRIPE_TEST_PUBLIC_KEY")
+STRIPE_TEST_SECRET_KEY = env("STRIPE_TEST_SECRET_KEY")
+STRIPE_LIVE_MODE = IS_IN_PROD_ENVIRON
+stripe.api_key = env("STRIPE_TEST_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET_KEY")

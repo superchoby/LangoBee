@@ -31,3 +31,32 @@ a:hover {
 .content ul {
   @apply my-6;
 }
+
+
+/* Add this to your CSS file */
+.discount-banner {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff5722;
+  color: white;
+  padding: 4px 8px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+.best-value-banner {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 4px 8px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+

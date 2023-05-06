@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from subscriptions.models import Subscription
+from datetime import timedelta
+from django.utils import timezone
 
 class User(AbstractUser):
     PLAN_TYPES = (
@@ -13,6 +16,9 @@ class User(AbstractUser):
     srs_limit = models.PositiveBigIntegerField(default=20)
     srs_subjects_added_today = models.PositiveBigIntegerField(default=0)
     num_of_subjects_to_teach_per_lesson = models.PositiveBigIntegerField(default=5)
+    subscription = models.OneToOneField(Subscription, on_delete=models.SET_NULL, related_name='user', null=True)
+    stripe_customer_id = models.CharField(max_length=40, null=True)
+    needs_to_update_payment_information = models.BooleanField(default=False)
 
     def change_level(self, language, course_name, level):
         course = self.courses.get(language_this_course_teaches=self.languages.get(name=language), name=course_name)
@@ -28,6 +34,14 @@ class User(AbstractUser):
         from reviews.models import Review
         self.reviews.bulk_create([Review(user=self, subject=subject, user_already_knows_this=True) for subject in subjects_to_mark_as_known])
         users_progress_on_course.save()
+
+    def user_is_on_free_trial(self):
+            now = timezone.now()
+            seven_days_ago = now - timedelta(days=7)
+            return self.date_joined >= seven_days_ago
+    
+    def has_access_to_paid_features(self):
+        return self.user_is_on_free_trial() or (self.subscription is not None and self.subscription.end_date >= timezone.now())
 
     def __str__(self):
         return self.username

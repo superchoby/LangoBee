@@ -43,7 +43,6 @@ export const NumberDrills = ({
 }: ExerciseBaseProps) => {
     const [numbersToGuess, changeNumbersToGuess] = useState<JapaneseSubjectData[]>([])
     const [highestNumberToShow, changeHighestNumberToShow] = useState(100)
-    const [hasNewQuestion, changeHasNewQuestion] = useState(false)
 
     useEffect(() => {
         if (exerciseHasStarted) {
@@ -125,8 +124,7 @@ export const NumberDrills = ({
                         }
                     ]
                 }
-        }))
-            changeHasNewQuestion(true)
+            }))
         }
     }, [highestNumberToShow, exerciseHasStarted])
 

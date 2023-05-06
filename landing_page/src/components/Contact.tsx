@@ -52,16 +52,15 @@ const ContactForm: React.FC = () => {
       setFormData({ email: '', subject: '', message: '' });
     } catch (error) {
       changeEmailSendState('error');
-      console.error(error);
     }
   };
 
   return (
-    <div className="py-12 w-11/12 md:w-full max-w-md mx-auto">
-      <h2 className="text-3xl text-gray-800 font-bold leading-none mb-3`">
+    <div className="py-12 w-11/12 md:w-full max-w-md mx-auto" id="contact">
+      <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primary`">
         Contact Us
-      </h2>
-      <p className="mb-4 mt-2 text-gray-600">
+      </h1>
+      <p className="mt-4 mb-8 max-w-2xl text-xl text-gray-500 lg:mx-auto">
         Have any questions? Feel free to ask us anything and we will get back to
         you soon.
       </p>
@@ -74,7 +73,10 @@ const ContactForm: React.FC = () => {
       )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block mb-1">
+          <label
+            htmlFor="email"
+            className="text-lg leading-6 font-medium text-gray-900"
+          >
             Email
           </label>
           <input
@@ -88,7 +90,10 @@ const ContactForm: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="subject" className="block mb-1">
+          <label
+            htmlFor="subject"
+            className="text-lg leading-6 font-medium text-gray-900"
+          >
             Subject
           </label>
           <input
@@ -102,7 +107,10 @@ const ContactForm: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="message" className="block mb-1">
+          <label
+            htmlFor="message"
+            className="text-lg leading-6 font-medium text-gray-900"
+          >
             Message
           </label>
           <textarea

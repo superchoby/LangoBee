@@ -1,11 +1,10 @@
 import { QuizGenerator } from "../../shared/QuizGenerator"
-import { JapaneseSubjectData, JapaneseVocabularySubject, KANA_TYPE, KANJI_TYPE, KanaSubject, KanjiSubject, VOCABULARY_TYPE } from "../lessons/SubjectTypes"
+import { JapaneseSubjectData, JapaneseVocabularySubject, KANA_TYPE, KanaSubject, VOCABULARY_TYPE } from "../lessons/SubjectTypes"
 import { useAppDispatch } from 'src/app/hooks'
 import { userAddedMoreSubjectsToReview } from '../../../app/userSlice'
 import { useState, useEffect } from "react"
 import { NewSRSCardLevelMsg } from '../../shared/QuizGenerator/NewSRSCardLevelMsg'
 import { HOME_PATH, LESSONS_PATH } from "src/paths"
-import { QuizResultsPage } from '../../shared/QuizGenerator/QuizResultsPage'
 import axios from 'axios'
 
 

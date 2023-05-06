@@ -97,6 +97,28 @@
   margin-top: 30px;
 }
 
+.encourage-user-to-sub-while-on-trial {
+  background-color: var(--strong-yellow);
+  border-radius: 14px;
+  font-weight: bold;
+  padding: 16px 15px;
+  position: relative;
+  text-align: left;
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    color: var(--dark-gray);
+    font-size: 16px;
+    font-weight: bold;
+    // margin: 0 0 0 %;
+    padding: 0;
+    text-decoration: underline;
+  }
+}
+
 @media only screen and (min-width: 440px) {
   .header-username {
     font-size: 18px;
@@ -138,6 +160,13 @@
 
   .header-and-navbar-page-contents-container {
     width: 65%;
+  }
+
+  .encourage-user-to-sub-while-on-trial {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 550px;
   }
 }
 

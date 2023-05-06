@@ -53,8 +53,6 @@ export const StoryReader = () => {
     }, [language, slug])
 
     const {
-        audioLink,
-        recommendedLevel,
         sections,
         title
     } = story

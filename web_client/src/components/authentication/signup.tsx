@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { AuthenticationInput } from './AuthenticationInput'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import { updateToken } from '../../app/tokenSlice'
 import { useAppDispatch } from '../../app/hooks'
-import { HOME_PATH } from 'src/paths'
+import { HOME_PATH, SUBSCRIPTION_PATH } from 'src/paths'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
 
 function ValidateEmail (email: string): boolean {
@@ -31,6 +31,7 @@ export const Signup = (): JSX.Element => {
   // const [generalErrorOccurred, changeGeneralErrorOccurred] = useState(false)
   const [signUpError, changeSignUpError] = useState('')
   const [signUpLoading, changeSignUpLoading] = useState(false)
+  const [searchParams] = useSearchParams()
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -84,7 +85,10 @@ export const Signup = (): JSX.Element => {
             access,
             refresh
           }))
-          navigate(HOME_PATH)
+          navigate(searchParams.get('take_to_subscription_page') === 'true' ? 
+            SUBSCRIPTION_PATH :
+            HOME_PATH
+          )
         })
         .catch(err => {
           changeSignUpLoading(false)

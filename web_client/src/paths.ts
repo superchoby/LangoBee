@@ -10,12 +10,16 @@ export const REVIEWS_INFO_PATH = '/reviews_info'
 export const LESSONS_SESSION_PATH = `${LESSONS_PATH}/session`
 export const LOGIN_PATH = '/login'
 export const CONTACT_US_PATH = '/contact_us'
+export const SUBSCRIPTION_PATH = '/subscription'
+export const CHECKOUT_PATH = '/checkout'
+export const PRIVACY_PATH = '/privacy'
+export const TERMS_OF_SERVICE_PATH = '/terms_of_service'
 export const ARTICLE_PATH = (forLesson: boolean, language?: string, slug?: string) => {
-    const base = forLesson ? '/lesson_article' : '/articles'
-    return `${base}/${language != null ? language : ':language'}/${slug != null ? slug : ':slug'}`
+  const base = forLesson ? '/lesson_article' : '/articles'
+  return `${base}/${language != null ? language : ':language'}/${slug != null ? slug : ':slug'}`
 }
 export const LIST_OF_EXERCISES_PATHS = {
-    WRITING_SHEETS: '/writing_sheets',
-    NUMBER_DRILLS: '/number_drills',
-    WRITING_CANVAS: '/writing_canvas'
+  WRITING_SHEETS: '/writing_sheets',
+  NUMBER_DRILLS: '/number_drills',
+  WRITING_CANVAS: '/writing_canvas'
 }

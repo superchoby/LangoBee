@@ -43,7 +43,9 @@ export const Homepage = (): JSX.Element => {
           dates_studied: datesStudied,
           date_joined: dateJoined,
           srs_limit: srsLimit,
-          num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson
+          num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
+          has_access_to_paid_features: hasAccessToPaidFeatures,
+          is_on_free_trial: isOnFreeTrial,
         } = res.data
         dispatch(updateUserInfo({
           username,
@@ -54,7 +56,9 @@ export const Homepage = (): JSX.Element => {
           datesStudied,
           dateJoined,
           srsLimit,
-          numOfSubjectsToTeachPerLesson
+          numOfSubjectsToTeachPerLesson,
+          hasAccessToPaidFeatures,
+          isOnFreeTrial
         }))
         const reviewCards = review_cards.map((card: any) => keysToCamel(card))
         dispatch(updateSrsFlashcards({
@@ -98,7 +102,10 @@ export const Homepage = (): JSX.Element => {
           </div>
       </div>
       {/* <div className='join-discord-msg'>
-        <span>Come have fun with us on &nbsp;</span> <Link to='https://discord.gg/5MKkcCHa6f'>Discord &nbsp;<FaDiscord /></Link>
+        <span>Come have fun with us on &nbsp;</span> 
+        <a href='https://discord.gg/5MKkcCHa6f' target="_blank" rel="noopener noreferrer">
+          Discord &nbsp;<FaDiscord />
+        </a>
       </div> */}
     </div>
   )

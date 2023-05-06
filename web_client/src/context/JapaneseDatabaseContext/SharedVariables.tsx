@@ -98,11 +98,6 @@ export interface ConjugationQuestionType extends IQuestion {
   explanationIfUserGetsIncorrect: string | JSX.Element
 }
 
-interface EnglishTranslationSection {
-  partToTranslate: boolean
-  text: string
-}
-
 export interface GrammarQuestionType extends IQuestion {
   question: string
   explanationIfUserGetsIncorrect: string

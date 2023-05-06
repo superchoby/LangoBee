@@ -114,13 +114,9 @@ const SubjectsSubInfoAudioSection = ({
         let pitchGraph: JSX.Element[] = []
         let currentPitch: typeof HIGH_PITCH | typeof LOW_PITCH = lastHighPitch === 1 ? HIGH_PITCH : LOW_PITCH
         let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
-        let smallCharsSeen = 0
         if (lastHighPitch != null) {
           const lastHighPitchAccountForSmallKana = lastHighPitch + characters[i].split('').filter(char => SMALL_KANA.includes(char)).length
           for (let j=1; j<=characters[i].length; ++j) {
-            if (SMALL_KANA.includes(characters[i][j-1])) {
-              smallCharsSeen += 1
-            }
             let className = ''
             if (currentPitch === LOW_PITCH) {
               className = 'pitch-breakdown-low'
@@ -549,8 +545,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
             counterWordInfo,
             differencesExplanations
           } = vocabularySubject
-          // TODO: do something with this notes
-          const { note } = subject
           const mainTextRepresentationExists = mainTextRepresentation != null && mainTextRepresentation.length > 0
 
           if (jmdict != null) {

@@ -3,7 +3,7 @@ import { IoNotifications } from 'react-icons/io5'
 import './index.scss'
 
 export const NotificationsIcon = (): JSX.Element => {
-  const hasNewNotifications = true
+
   return (
     <HeaderIconWrapper
         Icon={

@@ -9,8 +9,8 @@ import Header from '../components/Header';
 import LazyShow from '../components/LazyShow';
 import MainHero from '../components/MainHero';
 import MainHeroImage from '../components/MainHeroImage';
+import Pricing from '../components/Pricing';
 import Product from '../components/Product';
-// import Pricing from '../components/Pricing'
 
 const inDevMode =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
@@ -72,9 +72,12 @@ const App = () => {
           <Canvas />
         </>
       </LazyShow>
-      {/* <LazyShow>
-        <Pricing />
-      </LazyShow> */}
+      <LazyShow>
+        <>
+          <Pricing />
+          <Canvas />
+        </>
+      </LazyShow>
       <LazyShow>
         <>
           <Contact />

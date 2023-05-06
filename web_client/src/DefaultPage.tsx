@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
 import { useAppSelector } from './app/hooks'
 import { useNavigate } from 'react-router-dom'
-import { LOGIN_PATH } from './paths'
+import { LOGIN_PATH, HOME_PATH } from './paths'
 import ClipLoader from 'react-spinners/ClipLoader'
 import axios from 'axios'
-import { HOME_PATH } from './paths'
 
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
 const verifyTokenPath = 'api/token/verify/'
