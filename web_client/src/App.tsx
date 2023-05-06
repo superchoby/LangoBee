@@ -221,12 +221,9 @@ function App (): JSX.Element {
               <Route path={`${EXERCISES_PATH}/:exerciseName`} element={<ActualExercise />} />
             </Route>
             <Route path={HOME_PATH} element={<HeaderAndNavbar PageContents={<Homepage />} hasGapBetweenHeaderAndContents={true} />} />
-            
             <Route path={LESSONS_PATH} element={<HeaderAndNavbar PageContents={<Lessons />} hasGapBetweenHeaderAndContents={true} />} />
-            
             <Route path={CONTACT_US_PATH} element={<HeaderAndNavbar PageContents={<ContactUs />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={STORIES_HOME_PATH} element={<HeaderAndNavbar PageContents={<StoriesHome />} hasGapBetweenHeaderAndContents={true} />} />
-            
             <Route path={EXERCISES_PATH} element={<HeaderAndNavbar PageContents={<Exercises />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={STATISTICS_PATH} element={<HeaderAndNavbar PageContents={<StatisticsSection />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
