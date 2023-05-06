@@ -12,7 +12,6 @@ class User(AbstractUser):
     experience_points = models.PositiveIntegerField(default=0)
     email = models.EmailField(unique=True)
     profile_picture = models.CharField(max_length=100, default='')
-    planType = models.CharField(max_length=20, choices=PLAN_TYPES, default='BETA_USER')
     srs_limit = models.PositiveBigIntegerField(default=20)
     srs_subjects_added_today = models.PositiveBigIntegerField(default=0)
     num_of_subjects_to_teach_per_lesson = models.PositiveBigIntegerField(default=5)
