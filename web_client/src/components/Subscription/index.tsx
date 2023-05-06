@@ -258,7 +258,6 @@ export const SubscriptionsPage = () => {
                       </button>
                     </div>
                   )}
-                  
 
                   {subscriptionType !== LIFETIME_SUBSCRIPTION && (
                     <div className='subscription-section'>

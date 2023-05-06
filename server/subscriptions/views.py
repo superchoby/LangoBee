@@ -156,6 +156,8 @@ class UsersSubscriptionInfo(APIView):
             seven_days_ago = now - timedelta(days=7)
             if request.user.date_joined >= seven_days_ago:
                 subscription_type = 'Free Trial'
+            else: 
+                subscription_type = 'none'
 
         return Response({
             'subscription_type': subscription_type
