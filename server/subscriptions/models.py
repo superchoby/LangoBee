@@ -13,5 +13,4 @@ class Subscription(models.Model):
     stripe_subscription_id = models.CharField(max_length=100, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=[("active", "Active"), ("canceled", "Canceled")])
     

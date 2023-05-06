@@ -33,7 +33,20 @@ def insert_decimal(number):
 
     return f"{rest_of_number}.{last_three_digits}"
 
-class PricesView(APIView):
+PRICES_INFO = {
+    'monthly': MONTHLY,
+    'annual': ANNUAL,
+    'lifetime': LIFETIME,
+}
+
+class PricesViewNonAuthenticated(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        return Response(json.dumps(PRICES_INFO, cls=EnhancedJSONEncoder))
+
+
+class PricesViewAuthenticated(APIView):
     def get(self, request):
         proration_info = {}
         if request.user.subscription is not None and request.user.subscription.subscription_plan != 'Lifetime':
@@ -55,10 +68,8 @@ class PricesView(APIView):
             proration_info['Lifetime'] = str(round(LIFETIME.cost - (period_left_for_subscription * (subscription['plan']['amount'] / 100)), 2))
 
         return Response(json.dumps({
-            'monthly': MONTHLY,
-            'annual': ANNUAL,
-            'lifetime': LIFETIME,
-            'proration_info': proration_info
+            'proration_info': proration_info,
+            **PRICES_INFO
         }, cls=EnhancedJSONEncoder))
 
 class UserStripeInfo(APIView):
@@ -213,9 +224,9 @@ class StripeWebhook(APIView):
         # If you are using an endpoint defined with the API or dashboard, look in your webhook settings
         # at https://dashboard.stripe.com/webhooks
         try:
-            webhook_secret = None
+            webhook_secret = settings.STRIPE_WEBHOOK_SECRET
             request_data = request.data
-
+            
             if webhook_secret:
                 # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
                 signature = request.headers.get('stripe-signature')
@@ -259,7 +270,6 @@ class StripeWebhook(APIView):
                     stripe_subscription_id = stripe_subscription_id,
                     start_date = start_date,
                     end_date = end_date,
-                    status = 'active',
                 )
 
                 user = User.objects.get(email=data_object['customer_details']['email'])
@@ -268,21 +278,42 @@ class StripeWebhook(APIView):
                 user.save()
 
                 print('🔔 Payment succeeded!')
-            elif event_type == 'invoice.paid':
-                pass
+            
             elif event_type == 'customer.subscription.updated':
-                subscription = User.objects.get(stripe_customer_id=data_object['customer']).subscription
-                purchased_plan_info = data_object['items']['data'][0]
-                subscription.subscription_plan = purchased_plan_info['plan']['nickname']
-                subscription.stripe_price_id = purchased_plan_info['plan']['id']
-                subscription.end_date = timezone.make_aware(datetime.datetime.fromtimestamp(data_object['current_period_end']))
-                subscription.status = 'active'
-                subscription.save()
+                user = User.objects.get(stripe_customer_id=data_object['customer'])
+                if user is not None:
+                    subscription = user.subscription
+                    purchased_plan_info = data_object['items']['data'][0]
+                    subscription.subscription_plan = purchased_plan_info['plan']['nickname']
+                    subscription.stripe_price_id = purchased_plan_info['plan']['id']
+                    subscription.end_date = timezone.make_aware(datetime.datetime.fromtimestamp(data_object['current_period_end']))
+                    subscription.status = 'active'
+                    subscription.save()
 
             elif event_type == 'customer.subscription.deleted':
                 subscription_data = data_object
                 Subscription.objects.get(stripe_subscription_id=subscription_data['id']).delete()
-                # print('Subscription canceled: %s', event.id)
+            elif event_type == 'invoice.payment_failed':
+                if data_object['billing_reason'] == 'subscription_cycle':
+                    user = User.objects.get(stripe_customer_id=data_object['customer'])
+                    user.needs_to_update_payment_information = True
+                    user.save()
+                else:
+                    print('unhandled failed invoice payment not related to subscription_cycle')
+            elif event_type == 'invoice.payment_succeeded':
+                if data_object['billing_reason'] == 'subscription_cycle':
+                    user = User.objects.get(stripe_customer_id=data_object['customer'])
+                    if user.needs_to_update_payment_information:
+                        user.needs_to_update_payment_information = False
+                        user.save()
+                    subscription = user.subscription
+                    subscription.end_date = timezone.make_aware(datetime.datetime.fromtimestamp(stripe.Subscription.retrieve(data_object['subscription'])['current_period_end']))
+                    subscription.save()
+                else:
+                    print('unhandled failed invoice payment not related to subscription_cycle')
+            else:
+                print('Unhandled event type {}'.format(event_type))
+
             
             return Response({'status': 'success'})
         

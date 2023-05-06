@@ -147,7 +147,7 @@ export const SubscriptionsPage = () => {
   useEffect(() => {
     const requests = [
       axios.get('subscriptions/users_info'),
-      axios.get('subscriptions/view_prices/')
+      axios.get('subscriptions/view_prices_authenticated/')
     ]
     axios.all(requests)
     .then(res => {
