@@ -109,8 +109,14 @@ const Pricing = () => {
             className={`h-1 mx-auto bg-primary w-64 opacity-25 my-0 py-0 rounded-t`}
           ></div>
         </div>
+        <p className="text-center text-lg text-gray-500">
+          Before committing to any of our plans, we encourage you to take
+          a&nbsp;
+          <span className="font-bold text-gray-700">7 day free trial!</span>
+          &nbsp; Press continue on any of them to start!
+        </p>
         <div
-          className={`flex w-80 mx-auto flex-col sm:justify-around lg:flex-row-reverse lg:w-11/12 justify-center pt-12 my-12 sm:my-4 xl:w-3/4 2xl:w-5/8`}
+          className={`flex w-80 mx-auto flex-col sm:justify-around lg:flex-row-reverse lg:w-11/12 justify-center pt-8 sm:my-4 xl:w-3/4 2xl:w-5/8`}
         >
           {subscriptionPrices.map((props) => (
             <PricingOption key={props.name} {...props} />
