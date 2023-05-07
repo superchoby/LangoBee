@@ -99,7 +99,7 @@ export const NumberDrills = ({
           answers: [convert(`${number}`, 'hiragana'), convert(`${number}`, 'kanji')],
           questionPrompt: 'the Japanese translation',
           japaneseSubjectType: EXERCISE_TYPE,
-          subjectId: number,
+          subjectId: number.toString(),
           hasUniqueSubjectModel: true,
           subjectType: '',
           infoToDisplay: [
@@ -157,6 +157,7 @@ export const NumberDrills = ({
                         errorMessage=''
                         onCompletedAllSubjectsQuestions={() => {}}
                         separateCorrectAndIncorrectSubjects={true}
+                        testMode={false}
                         resultsPageInfo={{
                           hasIncorrectSection: true,
                           leaveButtonLink: HOME_PATH,

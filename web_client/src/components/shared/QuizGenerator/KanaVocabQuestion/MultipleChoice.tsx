@@ -11,6 +11,7 @@ interface KanaVocabQuestionMultipleChoiceProps {
   changeAnswerHasBeenEntered: (entered: boolean) => void
   choiceSubmitted: boolean
   hasNewQuestion: boolean
+  handleAnswerSubmitOrHandleFinishedQuiz(): void 
 }
 
 export const KanaVocabQuestionMultipleChoice = ({
@@ -20,7 +21,8 @@ export const KanaVocabQuestionMultipleChoice = ({
   changeCurrentAnswerStatus,
   changeAnswerHasBeenEntered,
   choiceSubmitted,
-  hasNewQuestion
+  hasNewQuestion,
+  handleAnswerSubmitOrHandleFinishedQuiz
 }: KanaVocabQuestionMultipleChoiceProps) => {
   const [correctAnswer, changeCorrectAnswer] = useState('')
   const [wrongAnswers, changeWrongAnswers] = useState<string[]>([])
@@ -54,6 +56,7 @@ export const KanaVocabQuestionMultipleChoice = ({
                 valueSelected={currentGuess}
                 changeValueSelected={changeCurrentGuess}
                 choiceSubmitted={choiceSubmitted}
+                handleAnswerSubmitOrHandleFinishedQuiz={handleAnswerSubmitOrHandleFinishedQuiz}
             />
         </div>
   )

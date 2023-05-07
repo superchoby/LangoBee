@@ -22,7 +22,7 @@ interface LearningQuizGeneratorProps {
   subjectsAndTheirInitialReviewInfo: SubjectsAndReviewInfo
 }
 
-const calculateNewSRSLevel = (subjectId: number, userGotSubjectCorrect: boolean, subjectsAndTheirReviewLevel: Record<number, { level: number, isFastReviewCard: boolean }>) => {
+const calculateNewSRSLevel = (subjectId: string, userGotSubjectCorrect: boolean, subjectsAndTheirReviewLevel: Record<string, { level: number, isFastReviewCard: boolean }>) => {
   const subjectsCurrentLevel = subjectsAndTheirReviewLevel[subjectId].level
   if (userGotSubjectCorrect && subjectsCurrentLevel < 9) {
     return subjectsCurrentLevel + 1
@@ -41,7 +41,7 @@ export const LearningQuizGenerator = ({
   isCurrentlyDoingLesson,
   subjectsAndTheirInitialReviewInfo
 }: LearningQuizGeneratorProps) => {
-  const [subjectsAndTheirReviewLevel, changeSubjectsAndTheirReviewLevel] = useState<Record<number, { level: number, isFastReviewCard: boolean }>>(subjectsAndTheirInitialReviewInfo)
+  const [subjectsAndTheirReviewLevel, changeSubjectsAndTheirReviewLevel] = useState<Record<string, { level: number, isFastReviewCard: boolean }>>(subjectsAndTheirInitialReviewInfo)
   const [errorUpdatingStatusOfSubject, changeErrorUpdatingStatusOfSubject] = useState(false)
   const [showNewReviewLevel, changeShowNewReviewLevel] = useState(false)
 
@@ -70,7 +70,8 @@ export const LearningQuizGenerator = ({
               leaveButtonText: isCurrentlyDoingLesson ? 'Lessons' : 'HOME',
               messageOnTop: isCurrentlyDoingLesson ? LEARNED_ITEMS_WILL_GO_IN_REVIEW_MSG : GOOD_JOB_REVIEWING_MSG
             }}
-            onCompletedAllSubjectsQuestions={(subjectId: number, userGotCorrect: boolean) => {
+            testMode={false}
+            onCompletedAllSubjectsQuestions={(subjectId: string, userGotCorrect: boolean) => {
               for (let i = 0; i < content.length; ++i) {
                 if (content[i].subjectId === subjectId) {
                   if (content[i].japaneseSubjectType === KANA_TYPE) {
@@ -105,7 +106,7 @@ export const LearningQuizGenerator = ({
               }
 
               const newSRSLevel = calculateNewSRSLevel(subjectId, userGotCorrect, subjectsAndTheirReviewLevel)
-              axios.post('reviews/', { subjectId, newSRSLevel, isFastReviewCard: subjectsAndTheirReviewLevel[subjectId].isFastReviewCard })
+              axios.post('reviews/', { subjects: [{subjectId, newSRSLevel, isFastReviewCard: subjectsAndTheirReviewLevel[subjectId].isFastReviewCard}] })
                 .then(() => {
                   changeSubjectsAndTheirReviewLevel({
                     ...subjectsAndTheirReviewLevel,
@@ -121,7 +122,7 @@ export const LearningQuizGenerator = ({
                   changeErrorUpdatingStatusOfSubject(true)
                 })
             }}
-            onFinishedSubjectsQuestionsComponent={(_: boolean, subjectId: number, choiceSubmitted: boolean) => {
+            onFinishedSubjectsQuestionsComponent={(_: boolean, subjectId: string, choiceSubmitted: boolean) => {
               if (choiceSubmitted) {
                 if (showNewReviewLevel) {
                   return (

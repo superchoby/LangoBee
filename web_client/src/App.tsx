@@ -221,7 +221,7 @@ function App () {
               <Route path={REVIEWS_PATH} element={(<Reviews />)} />
               <Route path={READ_STORY} element={<StoryReader />} />
               <Route path={`${EXERCISES_PATH}/:exerciseName`} element={<ActualExercise />} />
-              <Route path={`${TEST_PATH}/:testSlug`} element={<HeaderAndNavbar PageContents={<TestToSkipLevels />} hasGapBetweenHeaderAndContents={true} />} />
+              <Route path={`${TEST_PATH}/:testSlug`} element={<TestToSkipLevels />} />
             </Route>
             <Route path={HOME_PATH} element={<HeaderAndNavbar PageContents={<Homepage />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={LESSONS_PATH} element={<HeaderAndNavbar PageContents={<Lessons />} hasGapBetweenHeaderAndContents={true} />} />

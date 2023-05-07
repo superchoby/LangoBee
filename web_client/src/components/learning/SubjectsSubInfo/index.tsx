@@ -408,7 +408,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
         } = kanjiSubject
 
         const kanjiConsistsOfOtherComponents = radicalsUsed.length + kanjiContainedWithinThis.length > 0
-        // @ts-expect-error
         const radicalMeaningsRemoved = meanings.filter(meaning => {
           return !meaning.includes('Radical')
         })

@@ -8,6 +8,7 @@ interface MultipleChoiceOptionProps {
   isTheAnswer: boolean
   valueSelected: string
   choiceSubmitted: boolean
+  handleAnswerSubmitOrHandleFinishedQuiz(): void 
 }
 
 const MultipleChoiceOption = ({
@@ -15,13 +16,21 @@ const MultipleChoiceOption = ({
   changeValueSelected,
   isTheAnswer,
   valueSelected,
-  choiceSubmitted
+  choiceSubmitted,
+  handleAnswerSubmitOrHandleFinishedQuiz
 }: MultipleChoiceOptionProps) => {
   const thisChoiceIsSelected = valueSelected === text
   const selectedClassName = thisChoiceIsSelected ? 'selected-choice' : 'non-selected-choice'
   const rightOrWrongClassname = (choiceSubmitted && thisChoiceIsSelected) ? (isTheAnswer ? 'multiple-choice-correct-answer' : 'multiple-choice-wrong-answer') : ''
   return (
-    <button className={`${selectedClassName} multiple-choice-option ${rightOrWrongClassname}`} onClick={changeValueSelected}>
+    <button 
+      className={`${selectedClassName} multiple-choice-option ${rightOrWrongClassname}`} 
+      onClick={() => {
+        changeValueSelected()
+        handleAnswerSubmitOrHandleFinishedQuiz()
+        // changeChoiceHasBeenSubmitted(true)
+      }}
+    >
         {text}
     </button>
   )
@@ -33,6 +42,7 @@ interface MultipleChoiceProps {
   valueSelected: string
   changeValueSelected: (value: string) => void
   choiceSubmitted: boolean
+  handleAnswerSubmitOrHandleFinishedQuiz(): void 
 }
 
 export const MultipleChoice = ({
@@ -40,7 +50,8 @@ export const MultipleChoice = ({
   wrongChoices,
   valueSelected,
   changeValueSelected,
-  choiceSubmitted
+  choiceSubmitted,
+  handleAnswerSubmitOrHandleFinishedQuiz
 }: MultipleChoiceProps) => {
   const [choicesOrder, changeChoicesOrder] = useState<Array<{ text: string, isTheAnswer: boolean }>>([])
 
@@ -49,7 +60,7 @@ export const MultipleChoice = ({
       changeChoicesOrder(shuffle([{ text: answer, isTheAnswer: true }, ...wrongChoices.slice(0, 3).map(choice => ({ text: choice, isTheAnswer: false }))]))
     }
   }, [wrongChoices.length, answer, wrongChoices])
-  console.log(choicesOrder)
+
   return (
     <div className='multiple-choice-grid'>
       {choicesOrder.map(({ text, isTheAnswer }) => (
@@ -60,6 +71,7 @@ export const MultipleChoice = ({
           changeValueSelected={() => { changeValueSelected(text) }}
           valueSelected={valueSelected}
           choiceSubmitted={choiceSubmitted}
+          handleAnswerSubmitOrHandleFinishedQuiz={handleAnswerSubmitOrHandleFinishedQuiz}
         />
       ))}
     </div>

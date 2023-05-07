@@ -4,13 +4,7 @@ import { useParams } from 'react-router-dom'
 import { LESSONS_PATH } from 'src/paths'
 import { type JapaneseSubjectData, MULTIPLE_CHOICE_TYPE } from 'src/components/learning/lessons/SubjectTypes'
 import axios from 'axios'
-
-// type CourseLevel = {
-//     testThatEndsHere: {
-//       textToEncourageUserToTake: string
-//       slug: string
-//     } | null
-// }
+import shuffle from 'shuffle-array'
 
 export const TestToSkipLevels = (): JSX.Element => {
   const { testSlug } = useParams()
@@ -21,7 +15,8 @@ export const TestToSkipLevels = (): JSX.Element => {
       axios.get(`languages/tests_to_skip_courses_levels/${testSlug}/`)
         .then(res => {
           const questionDataForQuizGenerator: JapaneseSubjectData[] = []
-          for (const { question, answer, wrong_choices: wrongChoices } of res.data.custom_questions) {
+          for (const { question, answer, wrong_choices: wrongChoices } of shuffle(res.data.custom_questions).slice(0, 2) as any) {
+            debugger
             questionDataForQuizGenerator.push({
               question,
               answer,
@@ -42,14 +37,14 @@ export const TestToSkipLevels = (): JSX.Element => {
     }
   }, [testSlug])
 
+  debugger
+
   return (
         <QuizGenerator
             content={testQuestions}
             errorMessage=''
-            onCompletedAllSubjectsQuestions={() => {
-              throw new Error('go and add a onCompletedAllSubjectsQuestions function')
-            }}
             separateCorrectAndIncorrectSubjects={true}
+            testMode={true}
             resultsPageInfo={{
               hasIncorrectSection: true,
               leaveButtonLink: LESSONS_PATH,

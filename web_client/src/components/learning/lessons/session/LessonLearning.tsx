@@ -121,7 +121,7 @@ export const LessonLearning = ({
 
   const markUserAsKnowingSubject = () => {
     changeMarkingUserAsKnowingSubject(true)
-    axios.post('reviews/', { subjectId: subjectsToTeach[currentSubjectIdx].subjectId, userKnows: true })
+    axios.post('reviews/', { subjects: [{subjectId: subjectsToTeach[currentSubjectIdx].subjectId, userKnows: true}] })
       .then(() => {
         if (subjectsToTeach.length === 1) {
           navigate(LESSONS_PATH)

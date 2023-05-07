@@ -34,9 +34,9 @@ const ChangeSettingButton = ({
 
 interface EditableSettingProps {
   inputProps: InputHTMLAttributes<HTMLInputElement>
-  initialState: number | string
-  handleSave: (changeCurrentlyEditing: (editing: false) => void, newValue: number | string) => void
-  isInputInvalid: (input: number | string) => boolean
+  initialState: number
+  handleSave: (changeCurrentlyEditing: (editing: false) => void, newValue: number) => void
+  isInputInvalid: (input: number) => boolean
   imputRestrictionMsg: string
 }
 
@@ -58,7 +58,7 @@ const EditableSetting = ({
   }
 
   const handleInputChange = (value: string) => {
-    const correctValueType = typeof initialState === 'number' ? parseInt(value) : value
+    const correctValueType = parseInt(value)
     changeCurrentState(correctValueType)
     changeInputIsInvalid(isInputInvalid(correctValueType))
   }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import shuffle from 'shuffle-array'
 import { isAGrammarQuestion, type KanaVocabQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { IoMdClose } from 'react-icons/io'
@@ -42,7 +42,7 @@ const putTheVocabQuestionsAskingMeaningsFirst = (questions: QuizQuestion[]) => {
   return rearrangedQuestions
 }
 
-export type SubjectsAnsweredStatus = Record<number, {
+export type SubjectsAnsweredStatus = Record<string, {
   timesAnswered: number
   timesNeedsToBeAnsweredBeforeCompletion: number
   userGotCorrect: boolean
@@ -51,13 +51,16 @@ export type SubjectsAnsweredStatus = Record<number, {
 export interface QuizGeneratorProps {
   content: JapaneseSubjectData[]
   errorMessage: string
-  onCompletedAllSubjectsQuestions: (subjectId: number, userGotCorrect: boolean) => void
-  onFinishedSubjectsQuestionsComponent?: (userGotQuestionCorrect: boolean, subjectId: number, choiceSubmitted: boolean) => JSX.Element
+  onCompletedAllSubjectsQuestions?: (subjectId: string, userGotCorrect: boolean) => void
+  onFinishedSubjectsQuestionsComponent?: (userGotQuestionCorrect: boolean, subjectId: string, choiceSubmitted: boolean) => JSX.Element
   separateCorrectAndIncorrectSubjects: boolean
+  onDoneWithQuiz?(correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[]): void
+  // Typical Quiz, no retaking questions and score is tracked
+  testMode: boolean
   resultsPageInfo: {
     hasIncorrectSection: boolean
     headerForCorrectSubjects?: string
-    componentForEachSubject?: (subjectText: string, subjectId: number) => JSX.Element
+    componentForEachSubject?: (subjectText: string, subjectId: string) => JSX.Element
     leaveButtonLink: string
     leaveButtonText: string
     messageOnTop: string
@@ -73,7 +76,9 @@ export const QuizGenerator = ({
   onCompletedAllSubjectsQuestions,
   onFinishedSubjectsQuestionsComponent,
   resultsPageInfo,
-  separateCorrectAndIncorrectSubjects
+  separateCorrectAndIncorrectSubjects,
+  testMode,
+  onDoneWithQuiz
   // changeQuizIsDone
 }: QuizGeneratorProps): JSX.Element => {
   const [timesSubjectAnsweredAndNeedsToBeAnswered, changeTimesSubjectAnsweredAndNeedsToBeAnswered] = useState<SubjectsAnsweredStatus>({})
@@ -89,18 +94,22 @@ export const QuizGenerator = ({
   const [confirmIfUserWantsToStopTheQuiz, changeConfirmIfUserWantsToStopTheQuiz] = useState(false)
   const [quizIsDone, changeQuizIsDone] = useState(false)
   const [contentToDisplay, setContentToDisplay] = useState('')
+  const [userHasPressedEnter, changeUserHasPressedEnter] = useState(false)
+  const [correctQuestions, changeCorrectQuestions] = useState<JapaneseSubjectData[]>([])
+  const [incorrectQuestions, changeIncorrectQuestions] = useState<JapaneseSubjectData[]>([])
 
   const navigate = useNavigate()
 
   const totalPointsNeeded = content.length
   const userHasntYetFinishedAllQuestions = usersTotalPoints < content.length
 
-  const handleAnswerSubmit = (): void => {
+  const handleAnswerSubmit = useCallback((): void => {
     if (answerHasBeenEntered && !isInvalidInput && !guessIsRightButWrongKana && currentAnswerStatus !== 'acceptable but not correct') {
       if (choiceHasBeenSubmitted) {
         const questionsOrderCopy: QuizQuestion[] = [...questionsOrder]
         const currentQuestion = questionsOrderCopy.shift() as QuizQuestion
-        if (currentAnswerStatus === 'correct') {
+        // If on test mode, don't put wrong questions back
+        if (currentAnswerStatus === 'correct' || testMode) {
           changeQuestionsOrder(questionsOrderCopy)
         } else {
           questionsOrderCopy.push(currentQuestion)
@@ -111,8 +120,8 @@ export const QuizGenerator = ({
       } else {
         changeChoiceHasBeenSubmitted(true)
         const currentQuestion = questionsOrder[0]
+        const { subjectId } = currentQuestion.subjectData 
         if (currentAnswerStatus === 'correct') {
-          const { subjectId } = currentQuestion.subjectData
           const {
             timesAnswered,
             timesNeedsToBeAnsweredBeforeCompletion,
@@ -128,13 +137,21 @@ export const QuizGenerator = ({
           })
           if (totalTimesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
             changeUsersTotalPoints(usersTotalPoints + 1)
-            onCompletedAllSubjectsQuestions(subjectId, userGotCorrect)
+            if (onCompletedAllSubjectsQuestions != null) {
+              onCompletedAllSubjectsQuestions(subjectId, userGotCorrect)
+            }
+            if (!correctQuestions.some(data => data.subjectId === subjectId)) {
+              changeCorrectQuestions([...correctQuestions, currentQuestion.subjectData ])
+            }
           }
         } else {
+          if (!incorrectQuestions.some(data => data.subjectId === subjectId)) {
+            changeIncorrectQuestions([...incorrectQuestions, currentQuestion.subjectData ])
+          }
           changeTimesSubjectAnsweredAndNeedsToBeAnswered({
             ...timesSubjectAnsweredAndNeedsToBeAnswered,
-            [currentQuestion.subjectData.subjectId]: {
-              ...timesSubjectAnsweredAndNeedsToBeAnswered[currentQuestion.subjectData.subjectId],
+            [subjectId]: {
+              ...timesSubjectAnsweredAndNeedsToBeAnswered[subjectId],
               userGotCorrect: false
             }
           })
@@ -146,7 +163,20 @@ export const QuizGenerator = ({
         changeHasInvalidInputClass(false)
       }, 700)
     }
-  }
+  }, [
+    answerHasBeenEntered,
+    choiceHasBeenSubmitted,
+    currentAnswerStatus,
+    guessIsRightButWrongKana,
+    isInvalidInput,
+    onCompletedAllSubjectsQuestions,
+    questionsOrder,
+    timesSubjectAnsweredAndNeedsToBeAnswered,
+    usersTotalPoints,
+    testMode,
+    correctQuestions,
+    incorrectQuestions
+  ])
 
   useEffect(() => {
     changeAnswerHasBeenEntered(questionsOrder.length > 0 ? (!!isAGrammarQuestion(questionsOrder[0].questionContents)) : false)
@@ -169,16 +199,26 @@ export const QuizGenerator = ({
     changeChoiceHasBeenSubmitted(false)
   }, [content])
 
-  const handleAnswerSubmitOrHandleFinishedQuiz = (): void => {
+  const handleAnswerSubmitOrHandleFinishedQuiz = useCallback((): void => {
     if (userHasntYetFinishedAllQuestions) {
       handleAnswerSubmit()
     } else {
       changeQuizIsDone(true)
+      if (onDoneWithQuiz != null) {
+        onDoneWithQuiz(correctQuestions, incorrectQuestions)
+      }
     }
-  }
+  }, [
+    handleAnswerSubmit, 
+    userHasntYetFinishedAllQuestions, 
+    onDoneWithQuiz,
+    correctQuestions,
+    incorrectQuestions
+  ])
 
   const handleKeyDown = ({ key }: { key: string }): void => {
     if (key === 'Enter') {
+      changeUserHasPressedEnter(true)
       handleAnswerSubmitOrHandleFinishedQuiz()
     } else if (key === 'Shift') {
       changeTypingInHiragana(!typingInHiragana)
@@ -205,6 +245,7 @@ export const QuizGenerator = ({
               question={questionsOrder[0]}
               changeCurrentAnswerStatus={changeCurrentAnswerStatus}
               choiceSubmitted={choiceHasBeenSubmitted}
+              handleAnswerSubmitOrHandleFinishedQuiz={handleAnswerSubmitOrHandleFinishedQuiz}
               currentAnswerStatus={currentAnswerStatus}
               changeAnswerHasBeenEntered={changeAnswerHasBeenEntered}
               hasInvalidInputClass={hasInvalidInputClass}
@@ -226,7 +267,8 @@ export const QuizGenerator = ({
     hasInvalidInputClass,
     isInvalidInput,
     questionsOrder,
-    typingInHiragana
+    typingInHiragana,
+    handleAnswerSubmitOrHandleFinishedQuiz
   ])
 
   const thisSubjectsInfo = useMemo(() => {
@@ -254,14 +296,13 @@ export const QuizGenerator = ({
                       }
                     ]) => {
                     if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
-                      const subjectIdInt = parseInt(subjectId)
                       if (userGotCorrect) {
                         return {
                           ...accumulator,
                           correctSubjects: [
                             ...accumulator.correctSubjects,
                             {
-                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                              ...content.find((subject) => subject.subjectId === subjectId)!
                             }
                           ]
                         }
@@ -271,7 +312,7 @@ export const QuizGenerator = ({
                           incorrectSubjects: [
                             ...accumulator.incorrectSubjects,
                             {
-                              ...content.find((subject) => subject.subjectId === subjectIdInt)!
+                              ...content.find((subject) => subject.subjectId === subjectId)!
                             }
                           ]
                         }
@@ -358,8 +399,7 @@ export const QuizGenerator = ({
               }}
             />
             <div className='quiz-generator-total-progress'>
-              <div className='quiz-generator-current-progress' style={{ width: `${(usersTotalPoints / totalPointsNeeded) * 100}%` }} />
-
+              <div className='quiz-generator-current-progress' style={{ width: `${((content.length - questionsOrder.length) / totalPointsNeeded) * 100}%` }} />
             </div>
             <div className='quiz-generator-users-progress-fraction'>{usersTotalPoints} / {totalPointsNeeded}</div>
           </div>
@@ -388,7 +428,8 @@ export const QuizGenerator = ({
               />
             )}
         </div>
-            <div className='quiz-generator-button-container'>
+          <div className='quiz-generator-button-container'>
+            {!userHasPressedEnter && <p className='enter-tip'>Tip: You can press "enter" to check your answer and continue</p>}
               <button
                 className='check-button'
                 onClick={handleAnswerSubmitOrHandleFinishedQuiz}

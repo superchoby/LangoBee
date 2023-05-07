@@ -299,7 +299,7 @@ export type JapaneseSubjectData = (
   | MultipleChoiceSubject
 ) & {
   japaneseSubjectType: JapaneseSubjectType
-  subjectId: number
+  subjectId: string
   hasUniqueSubjectModel: boolean
   subjectType: string
   note?: string

@@ -42,6 +42,7 @@ interface KanaVocabQuestionProps {
   changeGuessIsRightButWrongKana: (newVal: boolean) => void
   typingInHiragana: boolean
   isMultipleChoice: boolean
+  handleAnswerSubmitOrHandleFinishedQuiz(): void 
 }
 
 /**
@@ -59,6 +60,7 @@ export const KanaVocabQuestion = ({
   // changeHasInvalidInputClass,
   // changeGuessIsRightButWrongKana,
   // typingInHiragana,
+  handleAnswerSubmitOrHandleFinishedQuiz,
   isMultipleChoice,
   ...props
 }: KanaVocabQuestionProps): JSX.Element => {
@@ -108,6 +110,7 @@ export const KanaVocabQuestion = ({
                     question={question}
                     choiceSubmitted={choiceSubmitted}
                     hasNewQuestion={hasNewQuestion}
+                    handleAnswerSubmitOrHandleFinishedQuiz={handleAnswerSubmitOrHandleFinishedQuiz}
                     {...props}
                   />
                 )

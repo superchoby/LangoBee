@@ -113,6 +113,9 @@ class CustomQuestionForTestForSkippingACoursesLevels(models.Model):
     question = models.CharField(max_length=30)
     answer = models.CharField(max_length=20)
 
+    class Meta:
+        unique_together = ('question', 'answer')
+
     def __str__(self):
         return self.question
 

@@ -8,7 +8,7 @@ import './index.scss'
 interface QuizResultsSubjectsResultsProps {
   header: string
   subjects: JapaneseSubjectData[]
-  componentForEachSubject?: (subjectText: string, subjectId: number) => JSX.Element
+  componentForEachSubject?: (subjectText: string, subjectId: string) => JSX.Element
 }
 
 const QuizResultsSubjectsResults = ({
@@ -45,7 +45,7 @@ interface QuizResultsPageProps {
   incorrectSubjects: JapaneseSubjectData[]
   hasIncorrectSection: boolean
   correctSectionHeader?: string
-  componentForEachSubject?: (subjectText: string, subjectId: number) => JSX.Element
+  componentForEachSubject?: (subjectText: string, subjectId: string) => JSX.Element
   leaveButtonLink: string
   leaveButtonText: string
   messageOnTop: string
