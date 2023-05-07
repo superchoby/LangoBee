@@ -1,4 +1,4 @@
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
+export const GA_TRACKING_ID = 'G-RBFW56GGW2';
 
 declare global {
   interface Window {
