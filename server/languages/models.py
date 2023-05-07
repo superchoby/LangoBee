@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.contrib.postgres.fields import ArrayField
+from .test_statuses import (
+    PASSED_TEST,
+    FAILED_TEST,
+    NEVER_TAKEN_TEST,
+    IN_PROGRESS_TEST,
+)
 
 languages = [
     ('Japanese', 'Japanese'),
@@ -96,16 +101,23 @@ class TestForSkippingACoursesLevels(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='check_points')
     levels_this_starts_to_cover = models.OneToOneField(CourseLevels, on_delete=models.CASCADE, related_name='test_that_starts_here')
     levels_this_finishes_covering = models.OneToOneField(CourseLevels, on_delete=models.CASCADE, related_name='test_that_ends_here')
-    users_that_have_taken_this = models.ManyToManyField(get_user_model(), related_name='tests_taken')
+    users_that_have_taken_this = models.ManyToManyField(get_user_model(), related_name='tests_taken', through='UsersProgressOnTest')
     slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.description
     
 class UsersProgressOnTest(models.Model):
+    statuses = [
+        (PASSED_TEST, 'passed'),
+        (FAILED_TEST, 'failed'),
+        (NEVER_TAKEN_TEST, 'has never taken this test'),
+        (IN_PROGRESS_TEST, 'stopped taking the test partway through')
+    ]
+
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_tests')
     test = models.ForeignKey(TestForSkippingACoursesLevels, on_delete=models.Case, related_name='users_progress_on_this')
-    passed = models.BooleanField()
+    status = models.CharField(choices=languages, max_length=max(len(status_choice[0]) for status_choice in statuses), default=NEVER_TAKEN_TEST)
 
 class CustomQuestionForTestForSkippingACoursesLevels(models.Model):
     test = models.ForeignKey(TestForSkippingACoursesLevels, on_delete=models.CASCADE, related_name='custom_questions')

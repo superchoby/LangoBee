@@ -5,10 +5,14 @@ import { LESSONS_PATH } from 'src/paths'
 import { type JapaneseSubjectData, MULTIPLE_CHOICE_TYPE } from 'src/components/learning/lessons/SubjectTypes'
 import axios from 'axios'
 import shuffle from 'shuffle-array'
+import { MultipleChoiceSubject } from 'src/components/learning/lessons/SubjectTypes'
 
 export const TestToSkipLevels = (): JSX.Element => {
   const { testSlug } = useParams()
   const [testQuestions, changeTestQuestions] = useState<JapaneseSubjectData[]>([])
+  const [passedTest, changePassedTest] = useState(false)
+  const [subjectsMarkedAsKnown, changeSubjectsMarkedAsKnown] = useState(0)
+  const [errorLoadingTestRules, changeErrorLoadingTestResults] = useState(false)
 
   useEffect(() => {
     if (testSlug != null) {
@@ -16,7 +20,6 @@ export const TestToSkipLevels = (): JSX.Element => {
         .then(res => {
           const questionDataForQuizGenerator: JapaneseSubjectData[] = []
           for (const { question, answer, wrong_choices: wrongChoices } of shuffle(res.data.custom_questions).slice(0, 2) as any) {
-            debugger
             questionDataForQuizGenerator.push({
               question,
               answer,
@@ -37,20 +40,32 @@ export const TestToSkipLevels = (): JSX.Element => {
     }
   }, [testSlug])
 
-  debugger
-
   return (
-        <QuizGenerator
-            content={testQuestions}
-            errorMessage=''
-            separateCorrectAndIncorrectSubjects={true}
-            testMode={true}
-            resultsPageInfo={{
-              hasIncorrectSection: true,
-              leaveButtonLink: LESSONS_PATH,
-              leaveButtonText: 'Lessons',
-              messageOnTop: 'Results of your test'
-            }}
-        />
+      <QuizGenerator
+          content={testQuestions}
+          errorMessage=''
+          separateCorrectAndIncorrectSubjects={true}
+          testMode={true}
+          onDoneWithQuiz={(correctSubjects, incorrectSubjects) => {
+            axios.post(`languages/tests_to_skip_courses_levels/${testSlug}/`, { 
+              subjects: (correctSubjects as MultipleChoiceSubject[]).map(( {question, answer} ) => ({ question, answer, userKnows: true })),
+              score: correctSubjects.length / (correctSubjects.length + incorrectSubjects.length)
+            } )
+            .then((res) => {
+              changePassedTest(res.data['passed'])
+              changeSubjectsMarkedAsKnown(res.data['subjects_marked_as_known'])
+              changeErrorLoadingTestResults(false)
+            })
+            .catch(() => {
+              changeErrorLoadingTestResults(true)
+            })
+          }}
+          resultsPageInfo={{
+            hasIncorrectSection: true,
+            leaveButtonLink: LESSONS_PATH,
+            leaveButtonText: 'Lessons',
+            messageOnTop: 'Results of your test'
+          }}
+      />
   )
 }

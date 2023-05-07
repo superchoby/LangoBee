@@ -50,7 +50,7 @@ export const LearningQuizGenerator = ({
   useEffect(() => {
     changeSubjectsAndTheirReviewLevel(subjectsAndTheirInitialReviewInfo)
   }, [subjectsAndTheirInitialReviewInfo])
-
+  
   return (
         <QuizGenerator
             content={content}
@@ -106,7 +106,7 @@ export const LearningQuizGenerator = ({
               }
 
               const newSRSLevel = calculateNewSRSLevel(subjectId, userGotCorrect, subjectsAndTheirReviewLevel)
-              axios.post('reviews/', { subjects: [{subjectId, newSRSLevel, isFastReviewCard: subjectsAndTheirReviewLevel[subjectId].isFastReviewCard}] })
+              axios.post('reviews/', { subjectId, newSRSLevel, isFastReviewCard: subjectsAndTheirReviewLevel[subjectId].isFastReviewCard })
                 .then(() => {
                   changeSubjectsAndTheirReviewLevel({
                     ...subjectsAndTheirReviewLevel,
@@ -126,11 +126,11 @@ export const LearningQuizGenerator = ({
               if (choiceSubmitted) {
                 if (showNewReviewLevel) {
                   return (
-                            <NewSRSCardLevelMsg
-                                // userGotSubjectCorrect={isCurrentlyDoingLesson || timesSubjectAnsweredAndNeedsToBeAnswered[questionsOrder[0].subjectData.subjectId].userGotCorrect}
-                                userGotSubjectCorrect={true}
-                                subjectsCurrentLevel={subjectsAndTheirReviewLevel[subjectId].level as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}
-                            />
+                    <NewSRSCardLevelMsg
+                        // userGotSubjectCorrect={isCurrentlyDoingLesson || timesSubjectAnsweredAndNeedsToBeAnswered[questionsOrder[0].subjectData.subjectId].userGotCorrect}
+                        userGotSubjectCorrect={true}
+                        subjectsCurrentLevel={subjectsAndTheirReviewLevel[subjectId].level as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}
+                    />
                   )
                 }
               } else {

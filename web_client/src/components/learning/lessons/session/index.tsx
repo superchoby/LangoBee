@@ -74,18 +74,18 @@ export const LessonSession = (): JSX.Element => {
                     ? (
                         currentPage === LEARNING_TYPE
                           ? (Object.keys(subjectsToLearn).length > 0 &&
-                          <LessonLearning
-                            subjectsToTeach={subjectsToLearn}
-                            startQuiz={() => { changeCurrentPage(QUIZ_TYPE) }}
-                          />
+                              <LessonLearning
+                                subjectsToTeach={subjectsToLearn}
+                                startQuiz={() => { changeCurrentPage(QUIZ_TYPE) }}
+                              />
                             )
                           : (
-                          <LearningQuizGenerator
-                            content={subjectsToLearn}
-                            errorMessage=''
-                            isCurrentlyDoingLesson={true}
-                            subjectsAndTheirInitialReviewInfo={subjectsAndTheirInitialReviewInfo}
-                          />
+                              <LearningQuizGenerator
+                                content={subjectsToLearn}
+                                errorMessage=''
+                                isCurrentlyDoingLesson={true}
+                                subjectsAndTheirInitialReviewInfo={subjectsAndTheirInitialReviewInfo}
+                              />
                             )
                       )
                     : <div className='lessons-session-loading-msg'>

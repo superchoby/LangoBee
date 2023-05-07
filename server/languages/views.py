@@ -1,13 +1,31 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Course, UsersProgressOnCourse, Language, Article, UsersArticleProgress, TestForSkippingACoursesLevels
-from subjects.serializers import JapaneseSubjectSerializer, KanaSerializer, SubjectPolymorphicSerializer, SubjectsDifferencesExplanationSerializer
+from .models import (Course, 
+    UsersProgressOnCourse, 
+    Language, 
+    Article, 
+    UsersArticleProgress, 
+    TestForSkippingACoursesLevels,
+    CustomQuestionForTestForSkippingACoursesLevels,
+    UsersProgressOnTest
+)
+from subjects.serializers import (
+    JapaneseSubjectSerializer, 
+    KanaSerializer, 
+    SubjectPolymorphicSerializer, 
+    SubjectsDifferencesExplanationSerializer
+)
 from .serializers import CourseLevelSerializer, ArticleSerializer, TestForSkippingACoursesLevelsSerializer
 from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from reviews.models import Review
+from .test_statuses import (
+    PASSED_TEST,
+    FAILED_TEST
+)
 
 class GetLevelsForLanguagesCourse(APIView):
     def get(self, request, language, course):
@@ -212,3 +230,30 @@ class TestToSkipCoursesLevelsView(APIView):
         test_user_is_going_to_take = TestForSkippingACoursesLevels.objects.get(slug=tests_slug)
         return Response(TestForSkippingACoursesLevelsSerializer(test_user_is_going_to_take).data, status=status.HTTP_200_OK)
     
+    def post(self, request, tests_slug):
+        subjects_marked_as_known = 0
+        for subject in request.data['subjects']:
+            subjects_covered = CustomQuestionForTestForSkippingACoursesLevels.objects.get(
+                answer=subject['answer'],
+                question=subject['question']
+            ).subjects_covered.all()
+
+            subjects_marked_as_known = len(subjects_covered)
+            for covered_subject in subjects_covered:
+                Review.objects.update_or_create(
+                    user=request.user, 
+                    subject=covered_subject,
+                    user_already_knows_this=True
+                )
+        
+        user_passed_the_test = request.data['score'] < 80
+        UsersProgressOnTest.objects.update_or_create(
+            user = request.user,
+            test = TestForSkippingACoursesLevels.objects.get(slug=tests_slug),
+            status = PASSED_TEST if user_passed_the_test else FAILED_TEST
+        )
+
+        return Response({
+            'passed': user_passed_the_test,
+            'subjects_marked_as_known': subjects_marked_as_known
+        }, status=status.HTTP_200_OK)

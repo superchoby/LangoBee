@@ -14,9 +14,11 @@ import {
   type JapaneseSubjectType,
   type JapaneseExerciseSubject,
   EXERCISE_TYPE,
+  MULTIPLE_CHOICE_TYPE,
   type SubjectInfoToDisplay,
   GrammarFormalityAndDescriptions,
-  type JapaneseVocabularySubjectAudioFiles
+  type JapaneseVocabularySubjectAudioFiles,
+  MultipleChoiceSubject
 } from '../lessons/SubjectTypes'
 import { toKatakana, isKana } from 'wanakana'
 import { HiSpeakerWave } from 'react-icons/hi2'
@@ -924,6 +926,15 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
           subjectType: VOCABULARY_TYPE,
           subjectInfoToDisplay: exerciseSubject.infoToDisplay
         }
+
+      case MULTIPLE_CHOICE_TYPE:
+          const multipleChoiceSubject = subject as MultipleChoiceSubject
+          return {
+            subjectText: multipleChoiceSubject.question,
+            subjectMainDescription: multipleChoiceSubject.answer,
+            subjectType: KANA_TYPE,
+            subjectInfoToDisplay: []
+          }
 
       case GRAMMAR_TYPE:
         const grammarSubject = subject as GrammarSubject

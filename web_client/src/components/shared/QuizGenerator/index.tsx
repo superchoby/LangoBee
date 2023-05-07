@@ -95,8 +95,8 @@ export const QuizGenerator = ({
   const [quizIsDone, changeQuizIsDone] = useState(false)
   const [contentToDisplay, setContentToDisplay] = useState('')
   const [userHasPressedEnter, changeUserHasPressedEnter] = useState(false)
-  const [correctQuestions, changeCorrectQuestions] = useState<JapaneseSubjectData[]>([])
-  const [incorrectQuestions, changeIncorrectQuestions] = useState<JapaneseSubjectData[]>([])
+  const [correctSubjects, changeCorrectSubjects] = useState<JapaneseSubjectData[]>([])
+  const [incorrectSubjects, changeIncorrectSubjects] = useState<JapaneseSubjectData[]>([])
 
   const navigate = useNavigate()
 
@@ -140,13 +140,13 @@ export const QuizGenerator = ({
             if (onCompletedAllSubjectsQuestions != null) {
               onCompletedAllSubjectsQuestions(subjectId, userGotCorrect)
             }
-            if (!correctQuestions.some(data => data.subjectId === subjectId)) {
-              changeCorrectQuestions([...correctQuestions, currentQuestion.subjectData ])
+            if (!correctSubjects.some(data => data.subjectId === subjectId)) {
+              changeCorrectSubjects([...correctSubjects, currentQuestion.subjectData ])
             }
           }
         } else {
-          if (!incorrectQuestions.some(data => data.subjectId === subjectId)) {
-            changeIncorrectQuestions([...incorrectQuestions, currentQuestion.subjectData ])
+          if (!incorrectSubjects.some(data => data.subjectId === subjectId)) {
+            changeIncorrectSubjects([...incorrectSubjects, currentQuestion.subjectData ])
           }
           changeTimesSubjectAnsweredAndNeedsToBeAnswered({
             ...timesSubjectAnsweredAndNeedsToBeAnswered,
@@ -174,8 +174,8 @@ export const QuizGenerator = ({
     timesSubjectAnsweredAndNeedsToBeAnswered,
     usersTotalPoints,
     testMode,
-    correctQuestions,
-    incorrectQuestions
+    correctSubjects,
+    incorrectSubjects
   ])
 
   useEffect(() => {
@@ -205,15 +205,15 @@ export const QuizGenerator = ({
     } else {
       changeQuizIsDone(true)
       if (onDoneWithQuiz != null) {
-        onDoneWithQuiz(correctQuestions, incorrectQuestions)
+        onDoneWithQuiz(correctSubjects, incorrectSubjects)
       }
     }
   }, [
     handleAnswerSubmit, 
     userHasntYetFinishedAllQuestions, 
     onDoneWithQuiz,
-    correctQuestions,
-    incorrectQuestions
+    correctSubjects,
+    incorrectSubjects
   ])
 
   const handleKeyDown = ({ key }: { key: string }): void => {
@@ -280,64 +280,6 @@ export const QuizGenerator = ({
       {quizIsDone
         ? (
             (() => {
-              interface CorrectAndIncorrectSubjects { correctSubjects: JapaneseSubjectData[], incorrectSubjects: JapaneseSubjectData[] }
-              const {
-                correctSubjects,
-                incorrectSubjects
-              } = (() => {
-                if (separateCorrectAndIncorrectSubjects) {
-                  return Object.entries(timesSubjectAnsweredAndNeedsToBeAnswered).reduce<CorrectAndIncorrectSubjects>((accumulator,
-                    [
-                      subjectId,
-                      {
-                        timesAnswered,
-                        timesNeedsToBeAnsweredBeforeCompletion,
-                        userGotCorrect
-                      }
-                    ]) => {
-                    if (timesAnswered === timesNeedsToBeAnsweredBeforeCompletion) {
-                      if (userGotCorrect) {
-                        return {
-                          ...accumulator,
-                          correctSubjects: [
-                            ...accumulator.correctSubjects,
-                            {
-                              ...content.find((subject) => subject.subjectId === subjectId)!
-                            }
-                          ]
-                        }
-                      } else {
-                        return {
-                          ...accumulator,
-                          incorrectSubjects: [
-                            ...accumulator.incorrectSubjects,
-                            {
-                              ...content.find((subject) => subject.subjectId === subjectId)!
-                            }
-                          ]
-                        }
-                      }
-                    }
-                    return accumulator
-                  }, {
-                    correctSubjects: [],
-                    incorrectSubjects: []
-                  })
-                } else {
-                  return {
-                    correctSubjects: content.filter(subject => {
-                      const {
-                        timesAnswered,
-                        timesNeedsToBeAnsweredBeforeCompletion
-                      } = timesSubjectAnsweredAndNeedsToBeAnswered[subject.subjectId]
-
-                      return timesAnswered === timesNeedsToBeAnsweredBeforeCompletion
-                    }),
-                    incorrectSubjects: []
-                  }
-                }
-              })()
-
               const {
                 hasIncorrectSection,
                 headerForCorrectSubjects,
@@ -347,16 +289,16 @@ export const QuizGenerator = ({
                 messageOnTop
               } = resultsPageInfo
               return (
-            <QuizResultsPage
-              correctSubjects={correctSubjects}
-              incorrectSubjects={incorrectSubjects}
-              hasIncorrectSection={hasIncorrectSection}
-              correctSectionHeader={headerForCorrectSubjects}
-              componentForEachSubject={componentForEachSubject}
-              leaveButtonLink={leaveButtonLink}
-              leaveButtonText={leaveButtonText}
-              messageOnTop={messageOnTop}
-            />
+                <QuizResultsPage
+                  correctSubjects={correctSubjects}
+                  incorrectSubjects={incorrectSubjects}
+                  hasIncorrectSection={hasIncorrectSection}
+                  correctSectionHeader={headerForCorrectSubjects}
+                  componentForEachSubject={componentForEachSubject}
+                  leaveButtonLink={leaveButtonLink}
+                  leaveButtonText={leaveButtonText}
+                  messageOnTop={messageOnTop}
+                />
               )
             })()
           )

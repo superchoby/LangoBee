@@ -208,7 +208,7 @@ export const Lessons = (): JSX.Element => {
           />
         )
 
-        if (testThatEndsHere != null) {
+        if (testThatEndsHere != null && currentLevelOnCourse < number) {
           const {
             slug,
             textToEncourageUserToTake

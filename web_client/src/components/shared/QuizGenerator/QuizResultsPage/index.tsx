@@ -61,24 +61,25 @@ export const QuizResultsPage = ({
   leaveButtonText,
   messageOnTop
 }: QuizResultsPageProps) => {
+
   return (
-        <div className='quiz-results-page'>
-            <Header />
-            <div className='quiz-results-page-header-and-home-button'>
-                <h1>Summary</h1>
-                <Link
-                    className='quiz-results-page-home-button'
-                    data-testid='quiz-results-page-leave-button'
-                    to={leaveButtonLink}
-                >
-                    {leaveButtonText}
-                </Link>
-            </div>
+      <div className='quiz-results-page'>
+          <Header />
+          <div className='quiz-results-page-header-and-home-button'>
+              <h1>Summary</h1>
+              <Link
+                  className='quiz-results-page-home-button'
+                  data-testid='quiz-results-page-leave-button'
+                  to={leaveButtonLink}
+              >
+                  {leaveButtonText}
+              </Link>
+          </div>
 
-            <p className='quiz-results-page-message-on-top'>{messageOnTop}</p>
+          <p className='quiz-results-page-message-on-top'>{messageOnTop}</p>
 
-            <QuizResultsSubjectsResults header={correctSectionHeader} subjects={correctSubjects} componentForEachSubject={componentForEachSubject} />
-            {hasIncorrectSection && <QuizResultsSubjectsResults header='Incorrect' subjects={incorrectSubjects} componentForEachSubject={componentForEachSubject} />}
-        </div>
+          <QuizResultsSubjectsResults header={correctSectionHeader} subjects={correctSubjects} componentForEachSubject={componentForEachSubject} />
+          {hasIncorrectSection && <QuizResultsSubjectsResults header='Incorrect' subjects={incorrectSubjects} componentForEachSubject={componentForEachSubject} />}
+      </div>
   )
 }
