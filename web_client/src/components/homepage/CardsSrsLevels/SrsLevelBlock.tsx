@@ -25,7 +25,7 @@ export const SrsLevelBlock = ({
   const [mouseIsOver, changeMouseIsOver] = useState(false)
 
   return (
-        <div className='srs-level-block-container' onMouseOver={() => changeMouseIsOver(true)} onMouseLeave={() => { changeMouseIsOver(false) }}>
+        <div className='srs-level-block-container' onMouseOver={() => { changeMouseIsOver(true) }} onMouseLeave={() => { changeMouseIsOver(false) }}>
             <div>{numberOfCardsAtThisLevel}</div>
             <SrsLevelCircle
                 color={color}

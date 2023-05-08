@@ -9,9 +9,7 @@ interface ArticlesWithinThisCategoryType {
   url: string
 }
 
-interface ArticlesByCategoryDict {
-  [category: string]: ArticlesWithinThisCategoryType[]
-}
+type ArticlesByCategoryDict = Record<string, ArticlesWithinThisCategoryType[]>
 
 export const ArticlesHomepage = (): JSX.Element => {
   const articlesByCategory: ArticlesByCategoryDict = useMemo(() => (

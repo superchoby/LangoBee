@@ -4,13 +4,13 @@ import { GrammarFillInInput } from './GrammarFillInInput'
 // import {
 //   GrammarQuestionType
 // } from '../../../context/JapaneseDatabaseContext/SharedVariables'
-import { QuizQuestion } from './ConvertSubjectDataToQuestions'
-import { GrammarQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
-import { GrammarSubject, GrammarFormalityAndDescriptions } from 'src/components/learning/lessons/SubjectTypes'
+import { type QuizQuestion } from './ConvertSubjectDataToQuestions'
+import { type GrammarQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
+import { type GrammarSubject, GrammarFormalityAndDescriptions } from 'src/components/learning/lessons/SubjectTypes'
 
 const parseHtmlString = (htmlString: string, className?: string) => {
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(`<p>${htmlString}</p>`,"text/xml");
+  const parser = new DOMParser()
+  const xmlDoc = parser.parseFromString(`<p>${htmlString}</p>`, 'text/xml')
   const bolds = xmlDoc.getElementsByTagName('bold')
   while (bolds.length > 0) {
     const span = document.createElement('span')
@@ -19,7 +19,7 @@ const parseHtmlString = (htmlString: string, className?: string) => {
     bolds[0].replaceWith(span)
   }
 
-  return <div dangerouslySetInnerHTML={{__html: xmlDoc.documentElement.innerHTML}} className={className} />
+  return <div dangerouslySetInnerHTML={{ __html: xmlDoc.documentElement.innerHTML }} className={className} />
 }
 
 const ANSWER_OPENING_BRACKET = '<answer>'
@@ -57,7 +57,7 @@ export const GrammarQuestion = ({
     formalityMattersForItsQuestions,
     formality
   } = question.subjectData as GrammarSubject
-  
+
   const [grammarFillInputTextIsCorrect, changeGrammarFillInputTextIsCorrect] = useState<GrammarFillInputInfo>([])
   const [grammarFillInputTextIsInvalid, changeGrammarFillInputTextIsInvalid] = useState<GrammarFillInputInfo>([])
 
@@ -136,9 +136,9 @@ export const GrammarQuestion = ({
           </div>
           <div>
               {parseHtmlString(englishTranslation)} {formalityMattersForItsQuestions && `(${GrammarFormalityAndDescriptions[formality].nameForPresentation})`}
-              
+
                 {/* {formalityMattersForItsQuestions && (
-                  
+
                     <p className='grammar-formality-container'>
                       formality: <span className='grammar-formality'>{GrammarFormalityAndDescriptions[formality].nameForPresentation}</span>
                     </p>

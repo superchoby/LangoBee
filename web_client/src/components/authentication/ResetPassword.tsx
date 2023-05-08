@@ -55,8 +55,9 @@ export const ResetPassword = (): JSX.Element => {
     }
   }
 
-  return resetTokenIsValid ? (
-    <AuthenticationPageWrapper 
+  return resetTokenIsValid
+    ? (
+    <AuthenticationPageWrapper
         title='CHANGE PASSWORD'
         message={passwordHasBeenChanged ? 'Successfully changed password!' : 'Enter your new password'}
         buttonText='CHANGE PASSWORD'
@@ -93,7 +94,8 @@ export const ResetPassword = (): JSX.Element => {
         ]}
         formName='login-form'
         authenticationInfoIsBeingSent={emailIsBeingSent}
-      /> ) : (
+      />)
+    : (
         <div className='default-reset-password-container'>
             <span>
                 Your token is no longer valid, please go back and

@@ -56,13 +56,12 @@ export const ProfilePic = ({
                   barContainerClassName="level-exp-bar-container"
                   completedClassName="exp-gained-portion-of-bar"
                   completed={`40%`}
-                
+
                   isLabelVisible={false}
                   className='level-exp-bar'
               /> */}
             {/* </div> */}
-            
-            
+
         </div>
   )
 }

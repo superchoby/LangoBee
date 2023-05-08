@@ -11,7 +11,7 @@ interface CardsSrsLevelsProps {
       systemThisBelongsTo: {
         name: 'fast' | 'default'
       }
-    },
+    }
     userAlreadyKnowsThis: boolean
   }>
 }
@@ -52,9 +52,9 @@ export const CardsSrsLevels = ({
     let newExpertCardsCount = 0
     let newMasterCardsCount = 0
 
-    for (let i=0; i<allSrsCards.length; ++i) {
+    for (let i = 0; i < allSrsCards.length; ++i) {
       if (!allSrsCards[i].userAlreadyKnowsThis) {
-        const { currentLevel: {stage: currentStage, systemThisBelongsTo: { name: systemType } } } = allSrsCards[i]
+        const { currentLevel: { stage: currentStage, systemThisBelongsTo: { name: systemType } } } = allSrsCards[i]
         const isFastReviewCard = systemType === 'fast'
         if (isFastReviewCard) {
           switch (currentStage) {
@@ -107,7 +107,7 @@ export const CardsSrsLevels = ({
         }
       }
     }
-  
+
     changeBeginnerCardsOneCount(newBeginnersOneCardsCount)
     changeBeginnerCardsTwoCount(newBeginnersTwoCardsCount)
     changeBeginnerCardsThreeCount(newBeginnersThreeCardsCount)

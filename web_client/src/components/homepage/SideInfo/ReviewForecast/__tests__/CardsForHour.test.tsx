@@ -1,4 +1,4 @@
-import { CardsForHour, CardsForHourProps } from '../CardsForHour'
+import { CardsForHour, type CardsForHourProps } from '../CardsForHour'
 import { render, screen } from '@testing-library/react'
 
 const MockCardsForHour = (propsToOverride: Partial<CardsForHourProps>): JSX.Element => {

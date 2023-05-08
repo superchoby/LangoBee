@@ -5,9 +5,9 @@ import HomeImage from './home.png'
 import StatsImage from './stats.png'
 
 export {
-    BooksImage,
-    DefaultUserIcon,
-    DumbbellImage,
-    HomeImage,
-    StatsImage
+  BooksImage,
+  DefaultUserIcon,
+  DumbbellImage,
+  HomeImage,
+  StatsImage
 }

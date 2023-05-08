@@ -26,7 +26,6 @@ export const NewSRSCardLevelMsg = ({
   userGotSubjectCorrect,
   subjectsCurrentLevel
 }: NewSRSCardLevelMsgProps): JSX.Element => {
-
   return (
         <div
             className={`completed-both-sides-of-question-indicator ${userGotSubjectCorrect ? 'srs-card-lvl-up-msg' : 'srs-card-lvl-down-msg'}`}

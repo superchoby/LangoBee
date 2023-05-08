@@ -104,8 +104,8 @@ export const ReviewForecast = ({
                 <div
                     className='side-bar-link what-does-this-chart-mean how-to-read-chart-note'
                     style={{ display: amtOfSrsCardsToReviewNow === 0 ? 'none' : 'block' }}
-                    onMouseOver={() => changeExplainChartMeaning(true)}
-                    onMouseLeave={() => changeExplainChartMeaning(false)}
+                    onMouseOver={() => { changeExplainChartMeaning(true) }}
+                    onMouseLeave={() => { changeExplainChartMeaning(false) }}
                 >
                     {
                         explainChartMeaning
@@ -122,8 +122,7 @@ export const ReviewForecast = ({
 
             {
                 reviewsExist
-                  ? 
-                  <>
+                  ? <>
                     <div className='each-days-forecast-container'>
                       {reviewForecastObjects.map((props: ReviewForecastObjectType) =>
                           <ForecastTab

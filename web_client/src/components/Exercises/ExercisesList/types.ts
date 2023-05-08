@@ -1,4 +1,4 @@
 export interface ExerciseBaseProps {
-    changeExerciseHasStarted(hasStarted: boolean): void
-    exerciseHasStarted: boolean
+  changeExerciseHasStarted: (hasStarted: boolean) => void
+  exerciseHasStarted: boolean
 }

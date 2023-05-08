@@ -26,15 +26,15 @@ export const InformationOnReviews = (): JSX.Element => {
                         ask you the question until you do it a certain amount and then you
                         will no longer review it. If you get it wrong, you will still review
                         the concept at a later time but not as late as the scenario in which
-                        you got it right. For example, if I am quizzed on the Hiragana あ and I 
+                        you got it right. For example, if I am quizzed on the Hiragana あ and I
                         get it right, then I will be asked it again in lets say 8 hours vs 4 hours
-                        if I were to get it wrong. 
+                        if I were to get it wrong.
                     </p>
                     <p id='reason-limit-is-set'>
-                        Given the nature of this system of reviewing a 
+                        Given the nature of this system of reviewing a
                         concept until you master it, we have set a default
                         cap of the amount of lessons you should take in a day
-                        as reviews can tend to pile up very easily as we want to 
+                        as reviews can tend to pile up very easily as we want to
                         have you practice concepts many times over so that you
                         store the concepts into your long term memory. This can be
                         changed anytime though in the settings.

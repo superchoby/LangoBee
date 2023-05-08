@@ -7,8 +7,8 @@ interface GrammarFillInInputProps {
      * Object containing all the input components and their
      * associated index in the question string
      */
-  grammarFillInputTextIsCorrect: { [idx: number]: boolean }
-  grammarFillInputTextIsInvalid: { [idx: number]: boolean }
+  grammarFillInputTextIsCorrect: Record<number, boolean>
+  grammarFillInputTextIsInvalid: Record<number, boolean>
   /**
      * Current idx that the user is on
      */
@@ -37,7 +37,7 @@ interface GrammarFillInInputProps {
      * if this isn't the first element, then it will be null
      */
   isFirstInput: boolean
-  // changeOnANewQuestion(onANewQuestion: boolean): void 
+  // changeOnANewQuestion(onANewQuestion: boolean): void
   // onANewQuestion: boolean
   questionText: string
 }

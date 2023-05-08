@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 // import { Tooltip } from '../Tooltip'
-import { useLocation } from "react-router-dom"
+import { useLocation } from 'react-router-dom'
 import './HeaderIcon.scss'
 
 interface HeaderIconWrapperProps {
@@ -26,8 +26,8 @@ export const HeaderIconWrapper = ({
         <div
             className='header-element-container'
             data-testid='header-icon-wrapper'
-            onMouseEnter={() => changeShowTooltip(true)}
-            onMouseLeave={() => changeShowTooltip(false)}
+            onMouseEnter={() => { changeShowTooltip(true) }}
+            onMouseLeave={() => { changeShowTooltip(false) }}
         >
             <div className='header-element-icon-container'>
               {Icon}

@@ -1,18 +1,18 @@
 import './StartExerciseButton.scss'
 
 interface StartExerciseButtonProps {
-    startFunction(): void
+  startFunction: () => void
 }
 
 export const StartExerciseButton = ({
-    startFunction
+  startFunction
 }: StartExerciseButtonProps) => {
-    return (
+  return (
         <button
             className='start-exercise-button'
             onClick={startFunction}
         >
             START
         </button>
-    )
+  )
 }

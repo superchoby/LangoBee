@@ -6,7 +6,10 @@ from .models import (
     CourseLevels,
     Article,
     ArticleSection,
-    LanguageStandardsLevels
+    LanguageStandardsLevels,
+    TestForSkippingACoursesLevels,
+    CustomQuestionForTestForSkippingACoursesLevels,
+    WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels
 )
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -49,19 +52,54 @@ class LanguageStandardsLevelsSerializer(serializers.ModelSerializer):
             'description',
         ]
 
+class UsersProgressOnCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsersProgressOnCourse
+        fields = ['current_level']
+
+class WrongChoicesForCustomQuestionForTestForSkippingACoursesLevelsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels
+        editable = False
+        fields = [
+            'text',
+        ]
+
+class CustomQuestionForTestForSkippingACoursesLevelsSerializer(serializers.ModelSerializer):
+    wrong_choices = WrongChoicesForCustomQuestionForTestForSkippingACoursesLevelsSerializer(many=True)
+
+    class Meta:
+        model = CustomQuestionForTestForSkippingACoursesLevels
+        editable = False
+        fields = [
+            'question',
+            'answer',
+            'wrong_choices'
+        ]
+
+class TestForSkippingACoursesLevelsSerializer(serializers.ModelSerializer):
+    custom_questions = CustomQuestionForTestForSkippingACoursesLevelsSerializer(many=True)
+
+    class Meta:
+        model = TestForSkippingACoursesLevels
+        editable = False
+        fields = [
+            'text_to_encourage_user_to_take',
+            'custom_questions',
+            'slug'
+        ]
+
 class CourseLevelSerializer(serializers.ModelSerializer):
     article = ArticleSlugSerializer()
     standards_level = LanguageStandardsLevelsSerializer()
+    test_that_ends_here = TestForSkippingACoursesLevelsSerializer()
+
     class Meta:
         model = CourseLevels
         editable = False
         fields = [
             'number',
             'article',
-            'standards_level'
+            'standards_level',
+            'test_that_ends_here'
         ]
-
-class UsersProgressOnCourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UsersProgressOnCourse
-        fields = ['current_level']

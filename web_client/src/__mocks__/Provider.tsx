@@ -1,31 +1,31 @@
-import { PropsWithChildren } from 'react'
+import { type PropsWithChildren } from 'react'
 import { render } from '@testing-library/react'
 import type { RenderOptions } from '@testing-library/react'
 import { configureStore } from '@reduxjs/toolkit'
 import type { PreloadedState } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import {
-  UserSliceStateType,
+  type UserSliceStateType,
   userSliceInitialState
 } from '../app/userSlice'
 import {
-  SRSFlashcardsState,
-  srsFlashcardsInitialState,
+  type SRSFlashcardsState,
+  srsFlashcardsInitialState
 } from '../app/srsFlashcardsSlice'
 
 import type { store, RootState } from '../app/store'
 import { persistedReducer } from '../app/store'
 
 type MockStateType = Partial<{
-  user: Partial<UserSliceStateType>,
-  srsFlashcards: Partial<SRSFlashcardsState>,
+  user: Partial<UserSliceStateType>
+  srsFlashcards: Partial<SRSFlashcardsState>
 }>
 
 export const mockReduxState = (propsToOverride: MockStateType) => {
   return {
     user: {
       ...userSliceInitialState,
-      ...propsToOverride.user,
+      ...propsToOverride.user
     },
     srsFlashcards: {
       ...srsFlashcardsInitialState,

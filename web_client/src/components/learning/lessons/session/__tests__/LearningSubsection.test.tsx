@@ -1,4 +1,4 @@
-import { LearningSubsection, LearningCardProp } from '../LessonLearning'
+import { LearningSubsection, type LearningCardProp } from '../LessonLearning'
 import { screen, fireEvent } from '@testing-library/react'
 import { CORRESPONDING_HIRAGANA_HEADER } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 import { renderWithProviders } from '../../../../__mocks__/Provider'

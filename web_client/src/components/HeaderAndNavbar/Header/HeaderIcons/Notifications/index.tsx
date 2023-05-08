@@ -10,7 +10,7 @@ export const NotificationsIcon = (): JSX.Element => {
           <div className='notifications-icon-container'>
             <IoNotifications className='notifications-icon' />
             <div className='new-notifications-dot' />
-          </div>        }
+          </div> }
         TooltipContents={
             <div className='notifications-container'>
               <h2>No updates for now</h2>

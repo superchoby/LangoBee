@@ -53,7 +53,7 @@ export const Login = (): JSX.Element => {
   }
 
   return (
-      <AuthenticationPageWrapper 
+      <AuthenticationPageWrapper
         title='LOGIN'
         message='Glad to see you again!'
         buttonText='LOGIN'
@@ -70,8 +70,8 @@ export const Login = (): JSX.Element => {
             <div>
               <span>Forgot your password? <Link to='/forgot_password'>Click here</Link></span>
               <Link to='' onClick={() => {
-                  window.location.href = isInDevelopmentEnv ? 'http://localhost:3001' : 'https://LangoBee.com'
-                }} />
+                window.location.href = isInDevelopmentEnv ? 'http://localhost:3001' : 'https://LangoBee.com'
+              }} />
             </div>
           </>
         }

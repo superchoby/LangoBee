@@ -1,77 +1,48 @@
-import { useState, useEffect } from 'react'
-import './KanaVocabQuestion.scss'
+import { useEffect, useState } from 'react'
+import { KeyboardTips } from '../KeyboardTips'
+import { VOCABULARY_TYPE } from 'src/components/learning/lessons/SubjectTypes'
+import { getPropsForSubjectsInfo } from '../../../learning/SubjectsSubInfo'
+import { InputBar } from 'src/components/shared/InputBar'
 import { toHiragana, toKatakana } from 'wanakana'
 import levenshtein from 'damerau-levenshtein'
+import { type QuizQuestion } from '../ConvertSubjectDataToQuestions'
 import {
-  KanaVocabQuestionType,
-} from '../../../context/JapaneseDatabaseContext/SharedVariables'
-// import useSound from 'use-sound'
-import { InputBar } from 'src/components/shared/InputBar'
-import 'react-dropdown/style.css'
-import { KeyboardTips } from './KeyboardTips'
-import { QuizQuestion } from './ConvertSubjectDataToQuestions'
-import { VOCABULARY_TYPE } from 'src/components/learning/lessons/SubjectTypes'
-import { getPropsForSubjectsInfo } from '../../learning/SubjectsSubInfo'
+  type KanaVocabQuestionType
+} from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 
-interface KanaVocabQuestionProps {
+interface KanaVocabInputQuestionProps {
   question: QuizQuestion
-  /**
-     * Whether or not the user has submitted an answer
-     */
+  changeCurrentAnswerStatus: (status: 'correct' | 'incorrect' | 'acceptable but not correct') => void
+  changeGuessIsRightButWrongKana: (newVal: boolean) => void
+  changeAnswerHasBeenEntered: (entered: boolean) => void
+  currentGuess: string
+  changeCurrentGuess: (guess: string) => void
+  typingInHiragana: boolean
   choiceSubmitted: boolean
   currentAnswerStatus: 'correct' | 'incorrect' | 'acceptable but not correct'
-  /**
-     * Updates whether or not the current guess from the
-     * user is correct, wrong, or acceptable but not correct
-     */
-  changeCurrentAnswerStatus: (status: 'correct' | 'incorrect' | 'acceptable but not correct') => void
-  /**
-     * Updates if the blank for their guess is filled or not
-     */
-  changeAnswerHasBeenEntered: (entered: boolean) => void
-  /**
-     * Is the current input invalid
-     */
-  isInvalidInput: boolean
-  /**
-     * Changes the isInvalidInput state
-     * @param isInvalidInput Is the current input invalid
-     */
   changeIsInvalidInput: (isInvalidInput: boolean) => void
-  /**
-     * Does the input element have the invalid input class
-     */
   hasInvalidInputClass: boolean
-  /**
-     * Changes the hasInvalidInputClass state
-     * @param newVal - The new val that hasInvalidInputClass will take
-     */
-  changeHasInvalidInputClass: (newVal: boolean) => void
-  changeGuessIsRightButWrongKana: (newVal: boolean) => void
-  typingInHiragana: boolean
+  hasNewQuestion: boolean
+  changeHasNewQuestion: (hasNewQuestion: boolean) => void
 }
 
-/**
- * Handles Kana and Vocab questions
- */
-export const KanaVocabQuestion = ({
+export const KanaVocabInputQuestion = ({
   question,
+  changeCurrentAnswerStatus,
+  changeGuessIsRightButWrongKana,
+  changeAnswerHasBeenEntered,
+  currentGuess,
+  changeCurrentGuess,
+  typingInHiragana,
   choiceSubmitted,
   currentAnswerStatus,
-  changeCurrentAnswerStatus,
-  changeAnswerHasBeenEntered,
-  isInvalidInput,
   changeIsInvalidInput,
   hasInvalidInputClass,
-  changeHasInvalidInputClass,
-  changeGuessIsRightButWrongKana,
-  typingInHiragana
-}: KanaVocabQuestionProps): JSX.Element => {
-  const [currentGuess, changeCurrentGuess] = useState('')
+  hasNewQuestion,
+  changeHasNewQuestion
+}: KanaVocabInputQuestionProps) => {
   const [acceptableResponseReason, changeAcceptableResponseReason] = useState('')
   const [showKeyboardTips, changeShowKeyboardTips] = useState(false)
-  const [showExtraInfo, changeShowExtraInfo] = useState(false)
-  const [hasNewQuestion, changeHasNewQuestion] = useState(false)
 
   const {
     questionContents,
@@ -82,32 +53,15 @@ export const KanaVocabQuestion = ({
   const {
     japaneseSubjectType
   } = subjectData
-  
+
   const {
     answers,
-    question: questionText,
     answerIsInJapanese,
     acceptableResponsesButNotWhatLookingFor,
-    inputPlaceholder,
-    pronunciationFile,
+    inputPlaceholder
   } = questionContents as (KanaVocabQuestionType & {
     inputPlaceholder: string
   })
-
-  // const [play] = useSound(pronunciationFile.length > 0 ? `${AUDIO_FILE_BASE_URL}${pronunciationFile}` : '.mp4')
-
-  useEffect(() => {
-    changeShowExtraInfo(false)
-    changeShowKeyboardTips(false)
-    changeHasNewQuestion(true)
-  }, [question])
-
-  useEffect(() => {
-    if (!choiceSubmitted) { // reset user input if going to new Q
-      changeCurrentGuess('')
-    } 
-  }, [choiceSubmitted, 
-  ])
 
   useEffect(() => {
     let guessIsCorrect = false
@@ -169,29 +123,21 @@ export const KanaVocabQuestion = ({
     changeGuessIsRightButWrongKana
   ])
 
-  // const lessThanLesson7AndHiraganaQues = currentLesson < 7 && isHiragana(questionText as string)
-  // const lessThanLesson16AndKatakanaQues = currentLesson < 16 && isKatakana(questionText as string)
+  useEffect(() => {
+    changeShowKeyboardTips(false)
+  }, [question])
+
   return (
-        <div data-testid='kana-vocab-question-container'>
-            <h2 
-              className={`
-              kana-vocab-question-text 
-              ${`concept-and-explanation-container-for-${japaneseSubjectType}`}
-              ${questionText.length < 3 ? 'kana-vocab-question-text-few-chars' : 'kana-vocab-question-text-many-chars'}
-              `}
-            >
-                {questionText}
-            </h2>
+        <>
             {japaneseSubjectType === VOCABULARY_TYPE && inputPlaceholder === 'Reading' && (
-              <div className='vocab-question-meaning-hint-for-kanji-words-with-multiple-readings'>
+                <div className='vocab-question-meaning-hint-for-kanji-words-with-multiple-readings'>
                 ({getPropsForSubjectsInfo(subjectData, true).subjectMainDescription})
-              </div>
+                </div>
             )}
             <div className='kana-vocab-question-subject-type-container'>
-              <div className={`kana-vocab-question-subject-type concept-and-explanation-container-for-${japaneseSubjectType}`}>{japaneseSubjectType}</div>
-              <div>{inputPlaceholder}</div>
+                <div className={`kana-vocab-question-subject-type concept-and-explanation-container-for-${japaneseSubjectType}`}>{japaneseSubjectType}</div>
+                <div>{inputPlaceholder}</div>
             </div>
-            
             <InputBar
                 // inputRef={inputRef}
                 className='kana-vocab-question-input-bar'
@@ -208,16 +154,16 @@ export const KanaVocabQuestion = ({
                 placeholder={inputPlaceholder}
             />
             {answerIsInJapanese && (
-                <div className='keyboard-info-container'>
-                    <div className='typing-in-hiragana-or-katakana-container'>
-                        Typing in: <span className='typing-in-hiragana-or-katakana-indicator'>{typingInHiragana ? 'Hiragana' : 'Katakana'}</span>
-                    </div>
-                    {/* <div className='click-for-keyboard-tips' onClick={() => changeShowKeyboardTips(true)}>
-                        Click for keyboard tips
-                    </div> */}
+            <div className='keyboard-info-container'>
+                <div className='typing-in-hiragana-or-katakana-container'>
+                    Typing in: <span className='typing-in-hiragana-or-katakana-indicator'>{typingInHiragana ? 'Hiragana' : 'Katakana'}</span>
                 </div>
+                {/* <div className='click-for-keyboard-tips' onClick={() => changeShowKeyboardTips(true)}>
+                    Click for keyboard tips
+                </div> */}
+            </div>
             )}
-            
+
             {showKeyboardTips && <KeyboardTips changeShowKeyboardTips={changeShowKeyboardTips} />}
             <div className={`frq-correct-answer ${choiceSubmitted || currentAnswerStatus === 'acceptable but not correct' ? 'frq-correct-answer-reveal' : ''}`}>
                 {
@@ -226,6 +172,6 @@ export const KanaVocabQuestion = ({
                       : `Correct Answer: ${answers.slice(0, 5).map(({ answer }) => answer).join(', ')}`
                 }
             </div>
-        </div>
+        </>
   )
 }
