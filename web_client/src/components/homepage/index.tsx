@@ -1,21 +1,13 @@
-import { useEffect } from 'react'
 import './index.scss'
-import {
-  useAppSelector,
-  useAppDispatch
-} from '../../app/hooks'
+import { useAppSelector } from '../../app/hooks'
 import { SideInfo } from './SideInfo'
 import { CardsSrsLevels } from './CardsSrsLevels'
 import './LinkButton.scss'
-import { updateSrsFlashcards } from 'src/app/srsFlashcardsSlice'
-import axios from 'axios'
-import { updateUserInfo } from 'src/app/userSlice'
 import { HOME_PATH, REVIEWS_PATH, LESSONS_PATH } from 'src/paths'
 import LessonImage from './LessonImage.png'
 import ReviewImage from './ReviewImage.png'
 import { LinkButton } from './LinkButton'
 import { StatisticsSection } from '../Statistics'
-import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { FaDiscord } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
@@ -28,49 +20,6 @@ export const completedAllLessonsMsg = 'Thank you for going so far into the lesso
  */
 export const Homepage = (): JSX.Element => {
   const { srsCardsToReview, allSrsCards } = useAppSelector(state => state.srsFlashcards)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    axios.get('users/homepage/')
-      .then(res => {
-        const {
-          review_cards,
-          username,
-          email,
-          experiencePoints,
-          readMsgForCurrentLevel,
-          profilePicture,
-          dates_studied: datesStudied,
-          date_joined: dateJoined,
-          srs_limit: srsLimit,
-          num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
-          has_access_to_paid_features: hasAccessToPaidFeatures,
-          user_is_on_free_trial: isOnFreeTrial,
-        } = res.data
-
-        dispatch(updateUserInfo({
-          username,
-          email,
-          experiencePoints,
-          readMsgForCurrentLevel,
-          profilePicture,
-          datesStudied,
-          dateJoined,
-          srsLimit,
-          numOfSubjectsToTeachPerLesson,
-          hasAccessToPaidFeatures,
-          isOnFreeTrial
-        }))
-        const reviewCards = review_cards.map((card: any) => keysToCamel(card))
-        dispatch(updateSrsFlashcards({
-          srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => nextReviewDate != null && ((new Date(nextReviewDate)) <= new Date())),
-          allSrsCards: reviewCards
-        }))
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [dispatch])
 
   return (
     <div style={{marginBottom: '30px', position: 'relative'}}>

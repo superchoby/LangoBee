@@ -167,7 +167,7 @@ const ProtectedRoute = (): JSX.Element => {
               }))
               const reviewCards = reviewCardsData.map((card: any) => keysToCamel(card))
               dispatch(updateSrsFlashcards({
-                srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => (new Date(nextReviewDate)) <= new Date()),
+                srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => nextReviewDate != null && ((new Date(nextReviewDate)) <= new Date())),
                 allSrsCards: reviewCards
               }))
             })

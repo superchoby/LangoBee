@@ -208,7 +208,7 @@ export const Settings = (): JSX.Element => {
                               <ProfilePic 
                                 customImage={newPfp != null ? URL.createObjectURL(newPfp) : null} 
                                 imageClassName='settings-pfp-container' 
-                            />
+                              />
                             )}
                             
                             <input 
