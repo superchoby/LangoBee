@@ -107,7 +107,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         
 class UserUploadPfp(APIView):
     def post(self, request, format=None):
-        # s3 = boto3.resource('s3')
         image_file = request.FILES.get('new_pfp', None)
         filename = f"{uuid.uuid4()}.{image_file.name.split('.')[-1]}"
         aws_pfp_image_directory = 'prod' if settings.IS_IN_PROD_ENVIRON else 'dev'
@@ -116,7 +115,11 @@ class UserUploadPfp(APIView):
         content_type = guess_type(image_file.name)[0]
 
         # Upload the file
-        s3_client = boto3.client('s3')
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        )
         try:
             # s3_client.upload_file(file_name, bucket, object_name)
             s3_client.upload_fileobj(
