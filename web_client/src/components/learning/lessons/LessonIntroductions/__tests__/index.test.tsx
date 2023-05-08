@@ -16,6 +16,6 @@ describe('LessonIntroductions', () => {
     expect(store.getState().user.readMsgForCurrentLevel).not.toBeTruthy()
     const letsGoButton = screen.getByText("Let's Go!")
     fireEvent.click(letsGoButton)
-    await wait(() => expect(store.getState().user.readMsgForCurrentLevel).toBeTruthy())
+    await wait(() => { expect(store.getState().user.readMsgForCurrentLevel).toBeTruthy() })
   })
 })

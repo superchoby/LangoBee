@@ -51,7 +51,7 @@ export function register (config?: Config): void {
               'worker. To learn more, visit https://bit.ly/CRA-PWA'
           )
         })
-          .catch(err => console.log(err))
+          .catch(err => { console.log(err) })
       } else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config)
@@ -121,9 +121,9 @@ function checkValidServiceWorker (swUrl: string, config?: Config): void {
           registration.unregister().then(() => {
             window.location.reload()
           })
-            .catch(err => console.log(err))
+            .catch(err => { console.log(err) })
         })
-          .catch(err => console.log(err))
+          .catch(err => { console.log(err) })
       } else {
         // Service worker found. Proceed as normal.
         registerValidSW(swUrl, config)

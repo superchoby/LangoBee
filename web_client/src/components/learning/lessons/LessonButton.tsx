@@ -4,66 +4,66 @@ import { MdOutlineArticle } from 'react-icons/md'
 import './LessonButton.scss'
 
 const CurrentLessonButtonIndicator = () => {
-    return (
+  return (
         <div className='current-level-button-indicator-container'>
             <div className='current-level-button-indicator'>Here</div>
             <div className='current-level-button-indicator-tooltip-container'>
                 <div className='current-level-button-indicator-tooltip' />
             </div>
         </div>
-    )
+  )
 }
 
 export const LEVEL_BUTTON_TYPE = 'level'
 export const ARTICLE_BUTTON_TYPE = 'article'
 
 interface LessonButtonProps {
-    currentButton: boolean
-    isPastThisButtonsContents: boolean
-    hasCompletedThisButton: boolean
-    level?: number
-    position: 1 | 2 | 3 | 4 | 5
-    onClick(): void
-    percentOfContentsComplete: number
-    hideHereIndicator: boolean
-    buttonType: typeof LEVEL_BUTTON_TYPE | typeof ARTICLE_BUTTON_TYPE
-    color: number
+  currentButton: boolean
+  isPastThisButtonsContents: boolean
+  hasCompletedThisButton: boolean
+  level?: number
+  position: 1 | 2 | 3 | 4 | 5
+  onClick: () => void
+  percentOfContentsComplete: number
+  hideHereIndicator: boolean
+  buttonType: typeof LEVEL_BUTTON_TYPE | typeof ARTICLE_BUTTON_TYPE
+  color: number
 }
 
 const colors = {
-    1: 'light-blue',
-    2: 'light-pink',
-    3: 'strong-yellow',
-    4: 'red',
-    5: 'light-green',
-    6: 'light-purple'
+  1: 'light-blue',
+  2: 'light-pink',
+  3: 'strong-yellow',
+  4: 'red',
+  5: 'light-green',
+  6: 'light-purple'
 }
 
 export const LessonButton = ({
-    currentButton,
-    isPastThisButtonsContents,
-    hasCompletedThisButton,
-    level,
-    position,
-    onClick,
-    percentOfContentsComplete,
-    hideHereIndicator,
-    buttonType,
-    color
+  currentButton,
+  isPastThisButtonsContents,
+  hasCompletedThisButton,
+  level,
+  position,
+  onClick,
+  percentOfContentsComplete,
+  hideHereIndicator,
+  buttonType,
+  color
 }: LessonButtonProps) => {
-    let levelsButtonClassname = `level-button-with-position-${position} levels-button `
-    // levelsButtonClassname += (isPastThisLevel || currentLevel ? 'colored-level-button levels-button-progress' : 'unavailable-levels-button') + ' '
-    levelsButtonClassname += (isPastThisButtonsContents || currentButton ? `colored-level-button-${color}` : 'unavailable-levels-button') + ' '
-    const levelsProgressHighlightPercentage = isPastThisButtonsContents ? 100 : (currentButton ? percentOfContentsComplete : 0)
-    const buttonRef = useRef<HTMLButtonElement>(null)
+  let levelsButtonClassname = `level-button-with-position-${position} levels-button `
+  // levelsButtonClassname += (isPastThisLevel || currentLevel ? 'colored-level-button levels-button-progress' : 'unavailable-levels-button') + ' '
+  levelsButtonClassname += (isPastThisButtonsContents || currentButton ? `colored-level-button-${color}` : 'unavailable-levels-button') + ' '
+  const levelsProgressHighlightPercentage = isPastThisButtonsContents ? 100 : (currentButton ? percentOfContentsComplete : 0)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
-    useEffect(() => {
-        if (currentButton && buttonRef.current) {
-            buttonRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }
-    }, [currentButton])
+  useEffect(() => {
+    if (currentButton && (buttonRef.current != null)) {
+      buttonRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [currentButton])
 
-    return (
+  return (
         <button
             className={levelsButtonClassname}
             onClick={onClick}
@@ -71,13 +71,15 @@ export const LessonButton = ({
             ref={buttonRef}
         >
             {currentButton && !hideHereIndicator && <CurrentLessonButtonIndicator />}
-            {buttonType === LEVEL_BUTTON_TYPE ? (
+            {buttonType === LEVEL_BUTTON_TYPE
+              ? (
                 <span className="level-buttons-level">{level}</span>
-            ) : (
+                )
+              : (
                 <MdOutlineArticle className="level-buttons-level" data-testid={currentButton && 'read-this-levels-article-button'} />
-            )}
-            
+                )}
+
             {hasCompletedThisButton && <img src={crown} alt="completed" className='level-completed-crown' />}
         </button>
-    )
+  )
 }

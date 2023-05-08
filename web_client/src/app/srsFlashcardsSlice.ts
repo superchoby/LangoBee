@@ -15,7 +15,6 @@ interface SrsCards {
 // currentStage: number
 //     isFastReviewCard: boolean
 
-
 export interface SRSFlashcardsState {
   srsCardsToReview: SrsCards[]
   allSrsCards: SrsCards[]

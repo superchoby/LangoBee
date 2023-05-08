@@ -1,6 +1,6 @@
 import {
   QuizGenerator,
-  QuizGeneratorProps
+  type QuizGeneratorProps
 } from '..'
 import { JapaneseDatabaseProvider } from 'src/context/JapaneseDatabaseContext/JapaneseDatabaseContext'
 import { screen, fireEvent } from '@testing-library/react'
@@ -10,8 +10,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { server } from 'src/__mocks__/server'
 import { Content as LessonOneContent } from 'src/context/JapaneseDatabaseContext/EachLessonsContent/1'
 import {
-  KanaVocabQuestionType,
-  GrammarQuestionType
+  type KanaVocabQuestionType,
+  type GrammarQuestionType
 } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import LessonTenContent from 'src/context/JapaneseDatabaseContext/EachLessonsContent/10'
 import { srsCardLevelNames } from '../NewSRSCardLevelMsg'
@@ -56,7 +56,7 @@ const testNames = {
 
 describe('MockQuizGenerator', () => {
   const user = userEvent.setup()
-  beforeAll(() => server.close())
+  beforeAll(() => { server.close() })
 
   it('Default elements render that render for any type of question', async () => {
     renderWithProviders(<MockQuizGenerator content={[TEST_CONCEPT_TO_USE_FOR_KANA_VOCAB]} />)

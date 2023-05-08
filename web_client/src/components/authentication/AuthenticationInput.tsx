@@ -26,7 +26,7 @@ export const AuthenticationInput = ({
   type,
   value,
   changeValue,
-  errorMessage,
+  errorMessage
 }: AuthenticationInputProps): JSX.Element => {
   return (
         <>
@@ -38,7 +38,7 @@ export const AuthenticationInput = ({
                 placeholder={placeholder}
                 type={type}
                 value={value}
-                onChange={({ target: { value } }) => changeValue(value)}
+                onChange={({ target: { value } }) => { changeValue(value) }}
             />
         </>
   )

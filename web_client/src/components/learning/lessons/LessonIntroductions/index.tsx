@@ -31,9 +31,7 @@ import {
 import axios from 'axios'
 import './index.scss'
 
-interface LessonIntroductionsType {
-  [lesson: string]: JSX.Element
-}
+type LessonIntroductionsType = Record<string, JSX.Element>
 
 export const LessonIntroductionsObj: LessonIntroductionsType = {
   1: <FirstIntroduction />,
@@ -73,7 +71,7 @@ export const LessonIntroduction = ({
 
   const readyToStartLesson = (): void => {
     axios.get('users/viewed-lesson-intro/')
-      .then(_res => dispatch(setIntroMsgAsRead()))
+      .then(_res => { dispatch(setIntroMsgAsRead()) })
       .catch(_err => {})
   }
 

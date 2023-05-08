@@ -2,8 +2,8 @@ import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 
 export const server = setupServer(
-  rest.post('api/password_reset/', (req, res, ctx) => {
-    return res(ctx.status(200))
+  rest.post('api/password_reset/', async (req, res, ctx) => {
+    return await res(ctx.status(200))
   }),
   rest.post('api/token/', async (req, res, ctx) => {
     const {

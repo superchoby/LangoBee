@@ -14,15 +14,6 @@ def get_next_review_date(hours):
     timeToReturn = now + timedelta(hours=hours)
     return timeToReturn
 
-# def calculate_new_srs_level(current_srs_level, user_got_subject_correct): 
-#     if user_got_subject_correct and current_srs_level < 9: 
-#       return current_srs_level + 1
-#     else:
-#       if current_srs_level == 0 or current_srs_level == 1:
-#         return 1
-#       else:
-#         return current_srs_level - 1
-
 class ReviewView(APIView):
     def post(self, request, format=None):
         user = User.objects.get(pk=request.user.id)
@@ -98,90 +89,10 @@ class ReviewView(APIView):
         return Response(status=status.HTTP_200_OK)
 
     def get(self, request, format=None):
-        # allUsersSrsCards = ReviewsSerializer(Review.objects.filter(user=request.user.id), many=True)
         user = User.objects.get(pk=request.user.id)
         reviews = ReviewsSerializer(user.reviews.filter(next_review_date__lte=timezone.now()), many=True)
-        # for course in userSerializer.data['courses']:
-        #     infoForThisCourse = UsersProgressOnCourse.objects.get(user=request.user, course=course['id'])
-        #     coursesInfo[course['name']] = {
-        #         'currentLesson': infoForThisCourse.currentLesson,
-        #         'currentSplitOnLesson': infoForThisCourse.currentSplitOnLesson,
-        #     }
         return Response(
             {
                 'reviews': reviews.data,
             }
         )
-
-stageToNextReviewTimeHoursNormalCards = [
-    -1, # filler
-    4, 
-    8, 
-    24, # 1 day
-    48, # 2 days
-    168, # 1 week
-    336, # 2 weeks
-    720, # 1 month
-    2880, # 4 months
-]
-
-stageToNextReviewTimeHoursFastCards = [
-    -1,
-    2,
-    4,
-    8,
-    24,
-]
-
-class UpdateReviewStatus(APIView):
-    def post(self, request, format=None):    
-        pass
-        # try:
-        #     conceptToReview = request.data['concept']
-        #     gotCorrect = request.data['gotCorrect']
-        #     srsFlashcard = SRSFlashcard.objects.get(user=request.user.id, conceptToReview=conceptToReview)
-        #     user = User.objects.get(id=request.user.id)
-        #     user.experiencePoints = user.experiencePoints + 5
-        #     minDate = timezone.now().replace(hour=0, minute=0, second=0)
-        #     maxDate = timezone.now().replace(hour=23, minute=59, second=59)
-        #     studyDate = None
-        #     if (user.dates_studied.filter(date__gte=minDate, date__lte=maxDate).exists()):
-        #         user.dates_studied.get(date__gte=minDate, date__lte=maxDate).update(expGained=studyDate.expGained + 5)
-        #     else:
-        #         user.dates_studied.create(expGained=5)
-        #     if srsFlashcard.isFastReviewCard:
-        #         if gotCorrect:
-        #             if srsFlashcard.currentStage < 4:
-        #                 srsFlashcard.nextReviewDate = timezone.now() + timedelta(hours=stageToNextReviewTimeHoursFastCards[srsFlashcard.currentStage + 1])
-        #             else:
-        #                 srsFlashcard.nextReviewDate = datetime.max
-        #             srsFlashcard.currentStage += 1
-        #             srsFlashcard.save()
-        #         else:
-        #             if srsFlashcard.currentStage > 1:
-        #                 srsFlashcard.nextReviewDate = timezone.now() + timedelta(hours=stageToNextReviewTimeHoursFastCards[srsFlashcard.currentStage - 1])
-        #                 srsFlashcard.currentStage -= 1
-        #                 srsFlashcard.save()
-        #             else:
-        #                 srsFlashcard.nextReviewDate = timezone.now() + timedelta(hours=2)
-        #                 srsFlashcard.save()
-        #     else:
-        #         if gotCorrect:
-        #             if srsFlashcard.currentStage < 8:
-        #                 srsFlashcard.nextReviewDate = timezone.now() + timedelta(hours=stageToNextReviewTimeHoursNormalCards[srsFlashcard.currentStage + 1])
-        #             else:
-        #                 srsFlashcard.nextReviewDate = datetime.max
-        #             srsFlashcard.currentStage += 1
-        #             srsFlashcard.save()
-        #         else:
-        #             if srsFlashcard.currentStage > 1:
-        #                 srsFlashcard.nextReviewDate = timezone.now() + timedelta(hours=stageToNextReviewTimeHoursNormalCards[srsFlashcard.currentStage - 1])
-        #                 srsFlashcard.currentStage -= 1
-        #                 srsFlashcard.save()
-        #             else:
-        #                 srsFlashcard.nextReviewDate = timezone.now() + timedelta(hours=4)
-        #                 srsFlashcard.save()
-            
-        #     return Response(status=status.HTTP_200_OK)
-        # except:
-        #     return Response(status=status.HTTP_400_BAD_REQUEST)

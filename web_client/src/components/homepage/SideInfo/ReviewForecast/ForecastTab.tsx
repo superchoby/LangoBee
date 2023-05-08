@@ -4,7 +4,7 @@ import {
   RxCaretUp
 } from 'react-icons/rx'
 import './ForecastTab.scss'
-import { CardsForHour, CardsForHourProps } from './CardsForHour'
+import { CardsForHour, type CardsForHourProps } from './CardsForHour'
 
 export interface ForecastTabProps {
   day: number
@@ -90,7 +90,7 @@ export const ForecastTab = ({
                           ? <RxCaretUp data-testid='upwards-caret' className='forecast-tab-view-caret day-without-reviews' />
                           : <RxCaretDown data-testid='downwards-caret' className='forecast-tab-view-caret' />
                       }
-                      
+
                     </div>
                 </div>
                 {/* <div

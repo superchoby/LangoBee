@@ -14,7 +14,7 @@ function ValidateEmail (email: string): boolean {
 }
 
 const ENTER_EMAIL_FOR_LINK_MSG = 'Enter in your email to get a link to reset your password'
-const EMAIL_HAS_BEEN_SENT_MSG = "An email with the link has been sent!"
+const EMAIL_HAS_BEEN_SENT_MSG = 'An email with the link has been sent!'
 const emailHasBeenSendAgainMessage = (count: number) => (
   `An email has been sent again (${count})`
 )
@@ -68,7 +68,7 @@ export const ForgotPassword = (): JSX.Element => {
   }
 
   return (
-    <AuthenticationPageWrapper 
+    <AuthenticationPageWrapper
         title='FORGOT PASSWORD'
         message={pageMessage}
         buttonText={timesSentEmail > 0 ? 'RESEND' : 'SEND EMAIL'}
@@ -93,8 +93,8 @@ export const ForgotPassword = (): JSX.Element => {
         infoHasBeenSubmitted={timesSentEmail > 0}
         contentToShowAfterSubmit={
           <div className='reset-password-email-sent-msg'>
-            If you don't receive it within a few minutes, 
-            <button onClick={SendResetPasswordEmail} className='resend-forgot-pass-button'>resend</button> 
+            If you don't receive it within a few minutes,
+            <button onClick={SendResetPasswordEmail} className='resend-forgot-pass-button'>resend</button>
             the email. Be sure to check your spam as well
           </div>
         }

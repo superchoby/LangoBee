@@ -78,14 +78,14 @@ export const Homepage = (): JSX.Element => {
               <div className='current-level-info-and-links-container'>
                   <div className='links-to-learning-container'>
                       <div className='links-to-learning-container-first-row'>
-                          <LinkButton 
+                          <LinkButton
                               name='Reviews'
                               link={srsCardsToReview.length > 0 ? REVIEWS_PATH : HOME_PATH}
                               image={ReviewImage}
                               className='review-button'
                               numberToDisplay={srsCardsToReview.length}
                           />
-                          <LinkButton 
+                          <LinkButton
                               name='Lessons'
                               link={LESSONS_PATH}
                               image={LessonImage}

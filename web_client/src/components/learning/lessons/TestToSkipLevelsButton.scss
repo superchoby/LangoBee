@@ -1,0 +1,22 @@
+.test-to-skip-levels-button {
+    align-items: center;
+    background-color: var(--light-blue);
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: space-around;
+    height: 80px;
+    margin-bottom: 20px;
+    width: 190px;
+
+    svg {
+        height: 40px;
+        width: 40px;
+    }
+}
+
+.test-to-skip-levels-button-message {
+    width: 60%;
+}

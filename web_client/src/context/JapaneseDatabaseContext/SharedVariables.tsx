@@ -104,6 +104,12 @@ export interface GrammarQuestionType extends IQuestion {
   englishTranslation: string
 }
 
+export interface MultipleChoiceQuestionType extends IQuestion {
+  question: string
+  correctAnswer: string
+  wrongAnswers: string[]
+}
+
 interface QuestionSubsection {
   isGrammarQuestion: boolean
   scoreToPass: number
@@ -135,18 +141,14 @@ interface ConjugationContent {
   Questions: ConjugationQuestionType[]
 }
 
-export interface LessonsContentDictType {
-  [concept: string]: VocabularyOrKanaContent | GrammarContent | ConjugationContent
-}
+export type LessonsContentDictType = Record<string, VocabularyOrKanaContent | GrammarContent | ConjugationContent>
 
-export interface LessonsContentType {
-  [lesson: string]: {
-    articles: number[]
-    content: string[][]
-  }
-}
+export type LessonsContentType = Record<string, {
+  articles: number[]
+  content: string[][]
+}>
 
-export function isAGrammarQuestion (toBeDetermined: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType): toBeDetermined is GrammarQuestionType {
+export function isAGrammarQuestion (toBeDetermined: KanaVocabQuestionType | GrammarQuestionType | ConjugationQuestionType | MultipleChoiceQuestionType): toBeDetermined is GrammarQuestionType {
   if ((toBeDetermined as GrammarQuestionType).englishTranslation != null) {
     return true
   }
@@ -179,8 +181,6 @@ interface JapaneseVerb extends JapaneseWord {
   verbGroup: verbGroups
 }
 
-export interface JapaneseDatabaseType {
-  [word: string]: JapaneseVerb
-}
+export type JapaneseDatabaseType = Record<string, JapaneseVerb>
 
 export type IGetLessonsNumberXsContent = (japaneseDatabase: JapaneseDatabaseType) => LessonsContentDictType

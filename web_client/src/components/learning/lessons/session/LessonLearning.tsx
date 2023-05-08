@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
-import { LearningFlashcard } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
+import { type LearningFlashcard } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 import './LessonLearning.scss'
 import { ForwardBackButton } from './ForwardBackButton'
-import { JapaneseSubjectData } from '../SubjectTypes'
+import { type JapaneseSubjectData } from '../SubjectTypes'
 import Modal from 'react-modal'
 import { MdOutlineArrowForward } from 'react-icons/md'
 import axios from 'axios'
-import { 
+import {
   SubjectsSubInfo,
   getPropsForSubjectsInfo,
-  SubjectsInfoForComponents,
+  type SubjectsInfoForComponents,
   defaultSubjectPresenterProps
 } from '../../SubjectsSubInfo'
 import { useNavigate } from 'react-router-dom'
@@ -17,14 +17,14 @@ import ClipLoader from 'react-spinners/ClipLoader'
 import { LESSONS_PATH } from 'src/paths'
 import { BackButton } from 'src/components/shared/BackButton'
 
-function isUserOnPC() {
-  const userAgent = navigator.userAgent;
+function isUserOnPC () {
+  const userAgent = navigator.userAgent
 
   // Check if the user is on a Windows, Mac, or Linux-based system
   if (/Windows|Macintosh|Linux/.test(userAgent)) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
 }
 
@@ -51,7 +51,7 @@ interface LessonLearningProps {
 export const LessonLearning = ({
   subjectsToTeach: initialSubjectsToTeach,
   // cards,
-  startQuiz,
+  startQuiz
   // conceptType
 }: LessonLearningProps): JSX.Element => {
   const [currentSubjectIdx, changeCurrentSubjectIdx] = useState(0)
@@ -76,21 +76,21 @@ export const LessonLearning = ({
 
   const navigate = useNavigate()
 
-  const indexOfCurrentContentBeingViewed = subjectInfoToDisplay.findIndex(({header}) => header === contentToDisplay)
+  const indexOfCurrentContentBeingViewed = subjectInfoToDisplay.findIndex(({ header }) => header === contentToDisplay)
 
   useEffect(() => {
     const currentViewingLastSubject = currentSubjectIdx === subjectsToTeach.length - 1
     const currentlyViewingLastSection = indexOfCurrentContentBeingViewed === subjectInfoToDisplay.length - 1
-    
+
     if (currentViewingLastSubject && currentlyViewingLastSection) {
       changeReadyToStartQuiz(true)
     }
   }, [
-      currentSubjectIdx, 
-      indexOfCurrentContentBeingViewed, 
-      subjectInfoToDisplay.length, 
-      subjectsToTeach.length
-    ])
+    currentSubjectIdx,
+    indexOfCurrentContentBeingViewed,
+    subjectInfoToDisplay.length,
+    subjectsToTeach.length
+  ])
 
   useEffect(() => {
     if (currentSubjectIdx > subjectsToTeach.length - 1) {
@@ -101,15 +101,15 @@ export const LessonLearning = ({
   }, [currentSubjectIdx, subjectsToTeach])
 
   useEffect(() => {
-     // Atm small kana chars have null audio files so that is why there is this third conditional
+    // Atm small kana chars have null audio files so that is why there is this third conditional
     if (audioFiles != null && audioFiles.length > 0 && audioFiles[0] != null) {
       const firstAudio = (new Audio(audioFiles[0]))
       firstAudio.onended = _ => {
         if (audioFiles.length > 1) {
-          (new Audio(audioFiles[1])).play()
+          void (new Audio(audioFiles[1])).play()
         }
       }
-      firstAudio.play()
+      void firstAudio.play()
     }
   }, [audioFiles])
 
@@ -122,21 +122,21 @@ export const LessonLearning = ({
   const markUserAsKnowingSubject = () => {
     changeMarkingUserAsKnowingSubject(true)
     axios.post('reviews/', { subjectId: subjectsToTeach[currentSubjectIdx].subjectId, userKnows: true })
-    .then(() => {
-      if (subjectsToTeach.length === 1) {
-        navigate(LESSONS_PATH)
-      }
-      changeSubjectsToTeach(subjectsToTeach.filter(({subjectId}) => (
-        subjectId !== subjectsToTeach[currentSubjectIdx].subjectId
-      )))
-      changeErrorConfirmingUserKnowsSubject(false)
-      changeConfirmUserKnowsSubject(false)
-      changeMarkingUserAsKnowingSubject(false)
-    })
-    .catch(() => {
-      changeErrorConfirmingUserKnowsSubject(true)
-      changeMarkingUserAsKnowingSubject(false)
-    })
+      .then(() => {
+        if (subjectsToTeach.length === 1) {
+          navigate(LESSONS_PATH)
+        }
+        changeSubjectsToTeach(subjectsToTeach.filter(({ subjectId }) => (
+          subjectId !== subjectsToTeach[currentSubjectIdx].subjectId
+        )))
+        changeErrorConfirmingUserKnowsSubject(false)
+        changeConfirmUserKnowsSubject(false)
+        changeMarkingUserAsKnowingSubject(false)
+      })
+      .catch(() => {
+        changeErrorConfirmingUserKnowsSubject(true)
+        changeMarkingUserAsKnowingSubject(false)
+      })
   }
 
   const handleGoingForwardOrBack = (goingForward: boolean) => {
@@ -162,9 +162,9 @@ export const LessonLearning = ({
   const descriptionLargeOrSmallFont = subjectMainDescription.length > 12 ? 'subject-main-description-smaller-font' : 'subject-main-description-larger-font'
 
   return (
-        <div 
-          className='learning-section-container' 
-          data-testid='learning-section' 
+        <div
+          className='learning-section-container'
+          data-testid='learning-section'
           onKeyDown={({ key }) => {
             if (key === 'ArrowLeft') {
               handleGoingForwardOrBack(false)
@@ -176,20 +176,19 @@ export const LessonLearning = ({
               } else if (confirmUserKnowsSubject) {
                 markUserAsKnowingSubject()
               }
-              
             }
           }}
           tabIndex={0}
-        >    
+        >
           <div className='lessons-learning-back-button-container'>
             <BackButton />
           </div>
-          
+
           {subjectPresenterPropValues.subjectText.length > 0 && (
             <div className='subject-presenter-wrapper'>
               <div aria-label='Concept Presenter' className='concept-presenter-container'>
                   <ForwardBackButton
-                    onClick={() => handleGoingForwardOrBack(false)}
+                    onClick={() => { handleGoingForwardOrBack(false) }}
                     isForwardButton={false}
                     display={currentSubjectIdx > 0 || indexOfCurrentContentBeingViewed > 0}
                   />
@@ -204,18 +203,18 @@ export const LessonLearning = ({
                   />
               </div>
               <div className='lesson-learning-subject-type-indicator'>{subjectType}</div>
-              <SubjectsSubInfo 
+              <SubjectsSubInfo
                 contentToDisplay={contentToDisplay}
                 setContentToDisplay={setContentToDisplay}
-                subjectInfo={subjectInfoToDisplay} 
+                subjectInfo={subjectInfoToDisplay}
               />
-            </div>            
+            </div>
           )}
 
         <div className='lesson-learning-button-options-container'>
-            <button 
+            <button
               className='already-know-subject-button'
-              onClick={() => {changeConfirmUserKnowsSubject(true)}}
+              onClick={() => { changeConfirmUserKnowsSubject(true) }}
             >
               Already Know
             </button>
@@ -231,9 +230,9 @@ export const LessonLearning = ({
                   return <div key={i} className={`lesson-learning-progress-tracker-dot ${classNameForDot}-lesson-learning-progress-tracker-dot`} />
                 })}
               </div>
-              <button 
+              <button
                 className={`start-quiz-button ${readyToStartQuiz ? 'start-quiz-button-active' : ''}`}
-                onClick={() => { if(readyToStartQuiz) startQuiz() }}
+                onClick={() => { if (readyToStartQuiz) startQuiz() }}
               >
                 Quiz <MdOutlineArrowForward />
               </button>
@@ -245,23 +244,23 @@ export const LessonLearning = ({
             overlayClassName='lessons-session-ready-to-start-quiz-modal-overlay'
             className='lessons-session-ready-to-start-quiz-modal'
             isOpen={confirmUserKnowsSubject}
-            onRequestClose={(() => changeConfirmUserKnowsSubject(false))}
+            onRequestClose={(() => { changeConfirmUserKnowsSubject(false) })}
             preventScroll={true}
-          > 
+          >
             <h3>Confirmation</h3>
             <p>
-              This subject won't pop up in your reviews to study and you'll move onto the next subject. 
-              {isUserOnPC() && <i> Press the "enter" key to confirm</i>}
+              This subject won&apos;`t pop up in your reviews to study and you&apos;`ll move onto the next subject.
+              {isUserOnPC() && <i> Press the &quot;enter&quot; key to confirm</i>}
             </p>
 
             <div className='lessons-session-ready-to-start-quiz-modal-buttons-container'>
-              <button 
+              <button
                 className='lessons-session-dont-start-quiz-button'
-                onClick={() => changeConfirmUserKnowsSubject(false)}
+                onClick={() => { changeConfirmUserKnowsSubject(false) }}
               >
                 Cancel
               </button>
-              <button 
+              <button
                 className='lessons-session-start-quiz-button'
                 onClick={markUserAsKnowingSubject}
               >
@@ -269,26 +268,25 @@ export const LessonLearning = ({
               </button>
             </div>
           </Modal>
-        
 
           <Modal
             ariaHideApp={false}
             overlayClassName='lessons-session-ready-to-start-quiz-modal-overlay'
             className='lessons-session-ready-to-start-quiz-modal'
             isOpen={showStartQuizModal}
-            onRequestClose={(() => changeShowStartQuizModal(false))}
+            onRequestClose={(() => { changeShowStartQuizModal(false) })}
             preventScroll={true}
-          > 
+          >
             <h3>Ready to test your knowledge?</h3>
             <p>Take the quiz if you feel ready!</p>
             <div className='lessons-session-ready-to-start-quiz-modal-buttons-container'>
-              <button 
+              <button
                 className='lessons-session-dont-start-quiz-button'
-                onClick={() => changeShowStartQuizModal(false)}
+                onClick={() => { changeShowStartQuizModal(false) }}
               >
                 Not yet
               </button>
-              <button 
+              <button
                 className='lessons-session-start-quiz-button'
                 data-testid='lessons-session-start-quiz-button'
                 onClick={startQuiz}
