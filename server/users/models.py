@@ -11,7 +11,7 @@ class User(AbstractUser):
 
     experience_points = models.PositiveIntegerField(default=0)
     email = models.EmailField(unique=True)
-    profile_picture = models.CharField(max_length=100, default='')
+    profile_picture = models.CharField(max_length=100, null=True)
     srs_limit = models.PositiveBigIntegerField(default=20)
     srs_subjects_added_today = models.PositiveBigIntegerField(default=0)
     num_of_subjects_to_teach_per_lesson = models.PositiveBigIntegerField(default=5)
@@ -37,7 +37,7 @@ class User(AbstractUser):
     def user_is_on_free_trial(self):
             now = timezone.now()
             seven_days_ago = now - timedelta(days=7)
-            return self.date_joined >= seven_days_ago
+            return self.date_joined >= seven_days_ago and self.subscription.subscription_plan is None
     
     def has_access_to_paid_features(self):
         return self.user_is_on_free_trial() or (self.subscription is not None and self.subscription.end_date >= timezone.now())

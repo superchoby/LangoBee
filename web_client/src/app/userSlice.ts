@@ -55,7 +55,7 @@ export const userSliceInitialState: UserSliceStateType = {
   srsLimit: 15,
   numOfSubjectsToTeachPerLesson: 5,
   hasAccessToPaidFeatures: false,
-  isOnFreeTrial: true
+  isOnFreeTrial: false
 }
 
 export const userSlice = createSlice({
@@ -68,7 +68,7 @@ export const userSlice = createSlice({
         email,
         experience_points,
         readMsgForCurrentLevel,
-        profile_picture,
+        profilePicture,
         datesStudied,
         dateJoined,
         srsLimit,
@@ -81,7 +81,7 @@ export const userSlice = createSlice({
       state.email = email
       state.experiencePoints = experience_points
       state.readMsgForCurrentLevel = readMsgForCurrentLevel
-      state.profilePicture = profile_picture
+      state.profilePicture = profilePicture
       state.numOfSubjectsToTeachPerLesson = numOfSubjectsToTeachPerLesson
       state.hasAccessToPaidFeatures = hasAccessToPaidFeatures
       state.isOnFreeTrial = isOnFreeTrial

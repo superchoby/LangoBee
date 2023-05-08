@@ -15,7 +15,12 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from reviews.serializers import ReviewsLevelAndDateSerializer
 from django.utils import timezone
 import os
-
+import boto3
+import uuid
+from django.conf import settings
+import logging
+from botocore.exceptions import ClientError
+from mimetypes import guess_type
 
 # Create your views here.
 class CreateUserView(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -102,11 +107,40 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         
 class UserUploadPfp(APIView):
     def post(self, request, format=None):
+        # s3 = boto3.resource('s3')
+        image_file = request.FILES.get('new_pfp', None)
+        filename = f"{uuid.uuid4()}.{image_file.name.split('.')[-1]}"
+        aws_pfp_image_directory = 'prod' if settings.IS_IN_PROD_ENVIRON else 'dev'
+        pfp_directory = f'profile_pics/{aws_pfp_image_directory}/'
+        key = f'{pfp_directory}{filename}'
+        content_type = guess_type(image_file.name)[0]
+
+        # Upload the file
+        s3_client = boto3.client('s3')
         try:
-            User.objects.get(id=request.user.id).update(profile_picture=request.data['pfpId'])
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            # s3_client.upload_file(file_name, bucket, object_name)
+            s3_client.upload_fileobj(
+                image_file,
+                'langobee',
+                key,
+                ExtraArgs={'ContentType': content_type}
+            )
+
+            if request.user.profile_picture is not None:
+                s3_client.delete_object(
+                    Bucket='langobee',
+                    Key=f'{pfp_directory}{request.user.profile_picture}',
+                )
+            request.user.profile_picture = filename
+            request.user.save()
+            return Response({
+                'new_pfp_url': filename,
+            }, status=status.HTTP_200_OK)
+        
+        except ClientError as e:
+            print(e)
+            logging.error(e)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ViewedLessonIntro(APIView):
     def get(self, request, format=None):      

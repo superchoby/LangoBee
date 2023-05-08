@@ -11,12 +11,17 @@
     align-items: center;
     display: inline-flex;
     flex-direction: column;
+
+    label {
+        color: var(--link-blue);
+        cursor: pointer;
+    }
 }
 
-$settings-pfp-container-size: 50px;
+$settings-pfp-container-size: 60px;
 .settings-pfp-container {
-    border-radius: calc($settings-pfp-container-size / 2);
     // font-size: `${fontSize}px`;
+    margin-right: auto;
     height: $settings-pfp-container-size;
     width: $settings-pfp-container-size;
 }

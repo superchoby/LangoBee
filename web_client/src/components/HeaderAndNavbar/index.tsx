@@ -1,5 +1,5 @@
 import { useAppSelector } from 'src/app/hooks'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './index.scss'
 import { Navbar } from './Navbar'
 import { Header } from './Header'
@@ -15,6 +15,10 @@ export const HeaderAndNavbar = ({
 }: HeaderAndNavbarProps): JSX.Element => {
   const { isOnFreeTrial } = useAppSelector(state => state.user)
   const [encourageUserToJoin, changeEncourageUserToJoin] = useState(isOnFreeTrial)
+
+  useEffect(() => {
+    changeEncourageUserToJoin(isOnFreeTrial)
+  }, [isOnFreeTrial])
 
   return (
         <div className='header-and-navbar-container'>
