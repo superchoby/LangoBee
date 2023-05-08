@@ -13,10 +13,11 @@
     flex-direction: column;
 }
 
-$settings-pfp-container-size: 50px;
+$settings-pfp-container-size: 80px;
 .settings-pfp-container {
     border-radius: calc($settings-pfp-container-size / 2);
     // font-size: `${fontSize}px`;
+    margin-right: auto;
     height: $settings-pfp-container-size;
     width: $settings-pfp-container-size;
 }

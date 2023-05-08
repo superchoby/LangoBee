@@ -55,7 +55,7 @@ export const userSliceInitialState: UserSliceStateType = {
   srsLimit: 15,
   numOfSubjectsToTeachPerLesson: 5,
   hasAccessToPaidFeatures: false,
-  isOnFreeTrial: true
+  isOnFreeTrial: false
 }
 
 export const userSlice = createSlice({

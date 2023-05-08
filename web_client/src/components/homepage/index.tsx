@@ -45,8 +45,9 @@ export const Homepage = (): JSX.Element => {
           srs_limit: srsLimit,
           num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
           has_access_to_paid_features: hasAccessToPaidFeatures,
-          is_on_free_trial: isOnFreeTrial,
+          user_is_on_free_trial: isOnFreeTrial,
         } = res.data
+
         dispatch(updateUserInfo({
           username,
           email,
