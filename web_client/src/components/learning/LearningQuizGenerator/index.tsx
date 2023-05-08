@@ -71,6 +71,7 @@ export const LearningQuizGenerator = ({
               messageOnTop: isCurrentlyDoingLesson ? LEARNED_ITEMS_WILL_GO_IN_REVIEW_MSG : GOOD_JOB_REVIEWING_MSG
             }}
             testMode={false}
+            showLoadingResultsMessage={false}
             onCompletedAllSubjectsQuestions={(subjectId: string, userGotCorrect: boolean) => {
               for (let i = 0; i < content.length; ++i) {
                 if (content[i].subjectId === subjectId) {

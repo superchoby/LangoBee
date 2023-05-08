@@ -65,6 +65,7 @@ export interface QuizGeneratorProps {
     leaveButtonText: string
     messageOnTop: string
   }
+  showLoadingResultsMessage: boolean
 }
 
 /**
@@ -78,7 +79,8 @@ export const QuizGenerator = ({
   resultsPageInfo,
   separateCorrectAndIncorrectSubjects,
   testMode,
-  onDoneWithQuiz
+  onDoneWithQuiz,
+  showLoadingResultsMessage
   // changeQuizIsDone
 }: QuizGeneratorProps): JSX.Element => {
   const [timesSubjectAnsweredAndNeedsToBeAnswered, changeTimesSubjectAnsweredAndNeedsToBeAnswered] = useState<SubjectsAnsweredStatus>({})
@@ -298,6 +300,7 @@ export const QuizGenerator = ({
                   leaveButtonLink={leaveButtonLink}
                   leaveButtonText={leaveButtonText}
                   messageOnTop={messageOnTop}
+                  showLoadingResultsMessage={showLoadingResultsMessage}
                 />
               )
             })()

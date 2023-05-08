@@ -3,6 +3,7 @@ import { getPropsForSubjectsInfo } from '../../../learning/SubjectsSubInfo'
 import { Link } from 'react-router-dom'
 import { Header } from 'src/components/HeaderAndNavbar/Header'
 import { Fragment } from 'react'
+import { WaitingForDataToProcess } from '../../WaitingForDataToProcess'
 import './index.scss'
 
 interface QuizResultsSubjectsResultsProps {
@@ -49,6 +50,7 @@ interface QuizResultsPageProps {
   leaveButtonLink: string
   leaveButtonText: string
   messageOnTop: string
+  showLoadingResultsMessage: boolean
 }
 
 export const QuizResultsPage = ({
@@ -59,7 +61,8 @@ export const QuizResultsPage = ({
   componentForEachSubject,
   leaveButtonLink,
   leaveButtonText,
-  messageOnTop
+  messageOnTop,
+  showLoadingResultsMessage
 }: QuizResultsPageProps) => {
 
   return (
@@ -76,10 +79,16 @@ export const QuizResultsPage = ({
               </Link>
           </div>
 
-          <p className='quiz-results-page-message-on-top'>{messageOnTop}</p>
+          {showLoadingResultsMessage ? (
+            <WaitingForDataToProcess />
+          ) : (
+            <>
+              <p className='quiz-results-page-message-on-top'>{messageOnTop}</p>
+              <QuizResultsSubjectsResults header={correctSectionHeader} subjects={correctSubjects} componentForEachSubject={componentForEachSubject} />
+              {hasIncorrectSection && <QuizResultsSubjectsResults header='Incorrect' subjects={incorrectSubjects} componentForEachSubject={componentForEachSubject} />}
+            </>
+          )}
 
-          <QuizResultsSubjectsResults header={correctSectionHeader} subjects={correctSubjects} componentForEachSubject={componentForEachSubject} />
-          {hasIncorrectSection && <QuizResultsSubjectsResults header='Incorrect' subjects={incorrectSubjects} componentForEachSubject={componentForEachSubject} />}
       </div>
   )
 }

@@ -158,6 +158,7 @@ export const NumberDrills = ({
                         onCompletedAllSubjectsQuestions={() => {}}
                         separateCorrectAndIncorrectSubjects={true}
                         testMode={false}
+                        showLoadingResultsMessage={false}
                         resultsPageInfo={{
                           hasIncorrectSection: true,
                           leaveButtonLink: HOME_PATH,
