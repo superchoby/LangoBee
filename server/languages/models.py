@@ -105,7 +105,7 @@ class TestForSkippingACoursesLevels(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.description
+        return self.text_to_encourage_user_to_take
     
 class UsersProgressOnTest(models.Model):
     statuses = [
