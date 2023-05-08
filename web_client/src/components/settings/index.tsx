@@ -8,6 +8,13 @@ import {
   updateProfilePic,
 } from 'src/app/userSlice'
 import { DeleteAccount } from './DeleteAccount'
+import { 
+  FETCHED_DATA_SUCCESS,
+  FETCHED_DATA_ERROR,
+  FETHCED_DATA_PROCESSING,
+  FETCH_TYPE,
+} from '../shared/values'
+import { MoonLoader } from 'react-spinners'
 import axios from 'axios'
 import './index.scss'
 
@@ -105,6 +112,8 @@ export const Settings = (): JSX.Element => {
     numOfSubjectsToTeachPerLesson
   } = useAppSelector(state => state.user)
   const dispatch = useAppDispatch()
+  const [newPfp, changeNewPfp] = useState<File | null>(null)
+  const [uploadingPfp, changeUploadingPfp] = useState<FETCH_TYPE | null>(null)
 
   const handleLessonsLimitSave = (changeCurrentlyEditing: (editing: false) => void, newLessonLimit: string) => {
     axios.post('users/change-srs-limit/', { newSrsLimit: parseInt(newLessonLimit) })
@@ -130,15 +139,22 @@ export const Settings = (): JSX.Element => {
       })
   }
 
-  const uploadNewPfp = (changeCurrentlyEditing: (editing: false) => void, newPfp: string) => {
-    axios.post('users/upload-pfp/', { new_pfp: newPfp })
-      .then(_ => {
-        dispatch(updateProfilePic({ profilePicture: newPfp }))
-        changeCurrentlyEditing(false)
+  const uploadNewPfp = () => {
+    if (newPfp != null) {
+      changeUploadingPfp(FETHCED_DATA_PROCESSING)
+      const formData = new FormData();
+      formData.append('new_pfp', newPfp);
+      axios.post('users/upload-pfp/', formData, {headers: {
+        'Content-Type': 'multipart/form-data',
+      }})
+      .then(res => {
+        changeUploadingPfp(FETCHED_DATA_SUCCESS)
+        dispatch(updateProfilePic({ profilePicture: res.data.new_pfp_url }))
       })
-      .catch(_ => {
-        changeCurrentlyEditing(false)
+      .catch(err => {
+        changeUploadingPfp(FETCHED_DATA_ERROR)
       })
+    }
   }
 
   return (
@@ -186,36 +202,49 @@ export const Settings = (): JSX.Element => {
                 <SettingsSection title='Profile Info' isTheLastSection={false} >
                     <div className='profile-info-settings-container'>
                         <div className='settings-change-pfp-container'>
-                            <ProfilePic containerClassName='settings-pfp-container' />
-                            <EditableSetting
-                              inputProps={{
-                                type: 'file',
-                                accept: 'image/jpeg, image/png, image/jpg'
-                              }}
-                              initialState=''
-                              handleSave={uploadNewPfp}
+                            {uploadingPfp === FETHCED_DATA_PROCESSING ? (
+                              <MoonLoader size={20} />
+                            ) : (
+                              <ProfilePic 
+                                customImage={newPfp != null ? URL.createObjectURL(newPfp) : null} 
+                                imageClassName='settings-pfp-container' 
                             />
+                            )}
+                            
+                            <input 
+                              id='pfp-upload-input' 
+                              type='file' 
+                              accept='image/jpeg, image/png, image/jpg' 
+                              hidden={true} 
+                              onChange={( { target: { files } } ) => { if (files != null) changeNewPfp(files[0])}}
+                              onClick={(event)=> { (event.target as HTMLInputElement).value = '' }}
+                            />
+                            {newPfp != null ? (
+                              <div>
+                                <button
+                                    className='settings-change-button'
+                                    onClick={() => {
+                                      changeNewPfp(null)
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                  className='settings-change-button' 
+                                  onClick={() => {
+                                    uploadNewPfp()
+                                    changeNewPfp(null)
+                                  }}
+                                >
+                                    Save
+                                </button>
+                              </div>
+                            ) : <label htmlFor='pfp-upload-input'>Upload</label>}
                         </div>
 
                         <div>
                             <UserProfileInfo header='Username' value={username} />
                             <UserProfileInfo header='Email' value={email} />
-                            {/* {
-                                Will use this to eventually add a change username fetaure
-                                editingUsername ? (
-                                    <div>
-                                        <input className='change-username-input' defaultValue={username} />
-                                        <div className='editing-username-buttons'>
-                                            <button onClick={() => changeEditingUsername(false)} >cancel</button>
-                                            <button onClick={handleUsernameSave}>save</button>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        {username} <BiPencil onClick={() => changeEditingUsername(true)} />
-                                    </div>
-                                )
-                            } */}
                         </div>
                     </div>
                 </SettingsSection>

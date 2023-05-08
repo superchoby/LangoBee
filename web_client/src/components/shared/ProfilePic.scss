@@ -18,36 +18,12 @@
     flex-direction: column;
 }
 
-.level-exp-bar {
-    width: 100%;
+.profile-pic {
+    border-radius: 50%;
+    height: 40px;
+    object-fit: cover;
+    width: 40px;
 }
-
-.level-exp-bar-container {
-    background-color: rgb(224, 224, 222); 
-    box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
-    border-radius: 50px; 
-    height: 20px; 
-    width: 100%;
-}
-
-.barCompleted {
-    background-color: yellow;
-    width: 80%;
-}
-
-.exp-gained-portion-of-bar {
-    align-items: center;
-    background-color: #0090ff; 
-    border-radius: inherit; 
-    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
-    display: flex;
-    height: 20px; 
-    justify-content: flex-end;
-    transition: width 1s ease-in-out 0s;   
-}
-
-
-
 
 // .level-exp-bar-container {
 //     // background-color: gray;

@@ -1,47 +1,38 @@
 import { useAppSelector } from '../../app/hooks'
-import { IoPersonOutline } from 'react-icons/io5'
-import ProgressBar from '@ramonak/react-progress-bar'
+import { IS_IN_DEV_MODE } from './values'
+import { CLOUDFRONT_BASE_URL } from './values'
+import DefaultUserIcon from '../../images/DefaultUserIcon.png'
 import './ProfilePic.scss'
 
 interface ProfilePicProps {
   // imageDimensions: number
   // fontSize: number
-  containerClassName: string
+  customImage?: string | null,
+  imageClassName?: string
 }
 
 export const ProfilePic = ({
   // imageDimensions,
   // fontSize,
-  containerClassName
+  customImage,
+  imageClassName
 }: ProfilePicProps): JSX.Element => {
   const {
     profilePicture,
-    username
   } = useAppSelector(state => state.user)
-
-
-
+  const imgSrc = customImage != null ? (
+    customImage
+  ) : (
+    profilePicture != null ? (
+      `${CLOUDFRONT_BASE_URL}profile_pics/${IS_IN_DEV_MODE ? 'dev' : 'prod'}/${profilePicture}`
+    ) : (
+      DefaultUserIcon
+    )  
+  )
 
   return (
         <div className='profile-pic-container'>
-            <div className={`pfp-container ${containerClassName}`} >
-              work 0no pfp
-            </div>
-
-            {/* <div className='profile-pic-username-and-level-container'>
-              <span>{username}</span>
-              <span>Level 3</span> */}
-              {/* <ProgressBar
-                  bgColor="#64B5F6"
-                  barContainerClassName="level-exp-bar-container"
-                  completedClassName="exp-gained-portion-of-bar"
-                  completed={`40%`}
-
-                  isLabelVisible={false}
-                  className='level-exp-bar'
-              /> */}
-            {/* </div> */}
-
+          <img src={imgSrc} alt='your pfp' className={`profile-pic ${imageClassName != null ? imageClassName : ''}`} />
         </div>
   )
 }
