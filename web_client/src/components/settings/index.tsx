@@ -239,13 +239,19 @@ export const Settings = (): JSX.Element => {
                                     Save
                                 </button>
                               </div>
-                            ) : <label htmlFor='pfp-upload-input'>Upload</label>}
+                            ) : <label htmlFor='pfp-upload-input'>Change</label>}
                         </div>
 
                         <div>
                             <UserProfileInfo header='Username' value={username} />
                             <UserProfileInfo header='Email' value={email} />
                         </div>
+                    </div>
+                </SettingsSection>
+
+                <SettingsSection title='Emails' isTheLastSection={false}>
+                    <div>
+                        
                     </div>
                 </SettingsSection>
 
