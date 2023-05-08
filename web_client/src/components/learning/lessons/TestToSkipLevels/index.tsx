@@ -11,8 +11,18 @@ export const TestToSkipLevels = (): JSX.Element => {
   const { testSlug } = useParams()
   const [testQuestions, changeTestQuestions] = useState<JapaneseSubjectData[]>([])
   const [passedTest, changePassedTest] = useState(false)
-  const [subjectsMarkedAsKnown, changeSubjectsMarkedAsKnown] = useState(0)
   const [errorLoadingTestRules, changeErrorLoadingTestResults] = useState(false)
+  const [gotAtLeastOneQuestionRight, changeGotAtLeastOneQuestionRight] = useState(false)
+
+  const resultsPageMessage = passedTest ? (
+    "Congratulations on passing the test! You've now jumped ahead a few levels!"
+  ) : (
+    gotAtLeastOneQuestionRight ? (
+      "Unfortunately you didn't pass the test but for the questions you got right, we took note of that so now you can skip those concepts! If you see anymore that you know of during your lessons, you can always press the 'Already Know' button to skip it!"
+    ) : (
+      "Unfortunately you didn't pass the test but you can always skip any subject you see in the lessons by pressing the 'Already Know' button!"
+    )
+  )
 
   useEffect(() => {
     if (testSlug != null) {
@@ -53,8 +63,8 @@ export const TestToSkipLevels = (): JSX.Element => {
             } )
             .then((res) => {
               changePassedTest(res.data['passed'])
-              changeSubjectsMarkedAsKnown(res.data['subjects_marked_as_known'])
               changeErrorLoadingTestResults(false)
+              changeGotAtLeastOneQuestionRight(correctSubjects.length > 0)
             })
             .catch(() => {
               changeErrorLoadingTestResults(true)
@@ -64,7 +74,7 @@ export const TestToSkipLevels = (): JSX.Element => {
             hasIncorrectSection: true,
             leaveButtonLink: LESSONS_PATH,
             leaveButtonText: 'Lessons',
-            messageOnTop: 'Results of your test'
+            messageOnTop: errorLoadingTestRules ? 'Sorry, there was an error processing your test results at the moment. We will get to it as soon as we can.' : resultsPageMessage
           }}
       />
   )

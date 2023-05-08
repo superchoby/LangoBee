@@ -7,7 +7,8 @@ from .models import (Course,
     UsersArticleProgress, 
     TestForSkippingACoursesLevels,
     CustomQuestionForTestForSkippingACoursesLevels,
-    UsersProgressOnTest
+    UsersProgressOnTest,
+    CourseLevels
 )
 from subjects.serializers import (
     JapaneseSubjectSerializer, 
@@ -247,11 +248,16 @@ class TestToSkipCoursesLevelsView(APIView):
                 )
         
         user_passed_the_test = request.data['score'] < 80
+        test = TestForSkippingACoursesLevels.objects.get(slug=tests_slug)
         UsersProgressOnTest.objects.update_or_create(
             user = request.user,
-            test = TestForSkippingACoursesLevels.objects.get(slug=tests_slug),
+            test = test,
             status = PASSED_TEST if user_passed_the_test else FAILED_TEST
         )
+
+        if user_passed_the_test:
+            course_level_to_jump_to = CourseLevels.objects.get(number=test.levels_this_finishes_covering.number + 1, course=test.course)
+            request.user.change_level(course_level_to_jump_to.course.language_this_course_teaches, course_level_to_jump_to.course.name, course_level_to_jump_to.number + 1)
 
         return Response({
             'passed': user_passed_the_test,
