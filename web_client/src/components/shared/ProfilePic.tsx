@@ -23,7 +23,7 @@ export const ProfilePic = ({
   const imgSrc = customImage != null ? (
     customImage
   ) : (
-    profilePicture != null ? (
+    profilePicture != null && profilePicture.length > 0? (
       `${CLOUDFRONT_BASE_URL}profile_pics/${IS_IN_DEV_MODE ? 'dev' : 'prod'}/${profilePicture}`
     ) : (
       DefaultUserIcon
