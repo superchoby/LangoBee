@@ -183,14 +183,5 @@
       "article": 5,
       "position": 1
     }
-  },
-  {
-    "model": "languages.ArticleSection",
-    "pk": 11,
-    "fields": {
-      "content": "So now that we had an overview of Japanese counters, let's go ahead and learn them!",
-      "article": 5,
-      "position": 2
-    }
   }
 ]

@@ -46,7 +46,7 @@ const ArticlePreview = ({
 
 export const ArticlesHomepage = (): JSX.Element => {
   const [articles, changeArticles] = useState<ArticlePreviewProps[]>([])
-  const { fetchData, error, isFetching, isSuccess, isError, isIdle } = useFetchStatus<ArticlePreviewProps[]>('languages/article', changeArticles);
+  const { fetchData, isFetching, isError } = useFetchStatus<ArticlePreviewProps[]>('languages/article', changeArticles);
 
   useEffect(() => {
     fetchData()
