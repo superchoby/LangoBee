@@ -33,11 +33,7 @@
     "img": "/assets/images/textBubbles.png",
     "primaryAction": {
       "text": "Let's go!",
-      "href": "/home"
-    },
-    "secondaryAction": {
-      "text": "Email us",
-      "href": "mailto:issaafakattan@gmail.com?subject=I like react landing page!"
+      "href": "/signup"
     }
   },
   "product": {
