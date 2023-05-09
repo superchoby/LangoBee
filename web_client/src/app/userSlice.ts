@@ -22,7 +22,7 @@ export interface UserSliceStateType {
   email: string
   experiencePoints: number
   readMsgForCurrentLevel: boolean
-  profilePicture: string
+  profilePicture: string | null
   datesStudied: DatesStudiedType[]
   dateJoined: string
   progressOnCourses: ProgressOnEachLanguagesCourses
@@ -41,7 +41,7 @@ export const userSliceInitialState: UserSliceStateType = {
   email: '',
   experiencePoints: 0,
   readMsgForCurrentLevel: false,
-  profilePicture: '',
+  profilePicture: null,
   datesStudied: [],
   dateJoined: (new Date()).toString(),
   progressOnCourses: {

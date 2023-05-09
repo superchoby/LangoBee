@@ -134,51 +134,49 @@ const ProtectedRoute = (): JSX.Element => {
           }
           return await Promise.reject(error)
         })
-        if (window.location.pathname !== HOME_PATH) {
-          axios.get('users/homepage/')
-            .then(res => {
-              const {
-                review_cards: reviewCardsData,
-                username,
-                email,
-                experience_points: experiencePoints,
-                readMsgForCurrentLevel,
-                profile_picture: profilePicture,
-                dates_studied: datesStudied,
-                date_joined: dateJoined,
-                srs_limit: srsLimit,
-                num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
-                has_access_to_paid_features: hasAccessToPaidFeatures,
-                user_is_on_free_trial: isOnFreeTrial,
-                wants_reminder_emails: wantsReminderEmails,
-                reminder_emails_review_threshold: reminderEmailsReviewThreshold,
-              } = res.data
+        axios.get('users/homepage/')
+          .then(res => {
+            const {
+              review_cards: reviewCardsData,
+              username,
+              email,
+              experience_points: experiencePoints,
+              readMsgForCurrentLevel,
+              profile_picture: profilePicture,
+              dates_studied: datesStudied,
+              date_joined: dateJoined,
+              srs_limit: srsLimit,
+              num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
+              has_access_to_paid_features: hasAccessToPaidFeatures,
+              user_is_on_free_trial: isOnFreeTrial,
+              wants_reminder_emails: wantsReminderEmails,
+              reminder_emails_review_threshold: reminderEmailsReviewThreshold,
+            } = res.data
 
-              dispatch(updateUserInfo({
-                username,
-                email,
-                experiencePoints,
-                readMsgForCurrentLevel,
-                profilePicture,
-                datesStudied,
-                dateJoined,
-                srsLimit,
-                numOfSubjectsToTeachPerLesson,
-                hasAccessToPaidFeatures,
-                isOnFreeTrial,
-                wantsReminderEmails,
-                reminderEmailsReviewThreshold
-              }))
-              const reviewCards = reviewCardsData.map((card: any) => keysToCamel(card))
-              dispatch(updateSrsFlashcards({
-                srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => nextReviewDate != null && ((new Date(nextReviewDate)) <= new Date())),
-                allSrsCards: reviewCards
-              }))
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
+            dispatch(updateUserInfo({
+              username,
+              email,
+              experiencePoints,
+              readMsgForCurrentLevel,
+              profilePicture,
+              datesStudied,
+              dateJoined,
+              srsLimit,
+              numOfSubjectsToTeachPerLesson,
+              hasAccessToPaidFeatures,
+              isOnFreeTrial,
+              wantsReminderEmails,
+              reminderEmailsReviewThreshold
+            }))
+            const reviewCards = reviewCardsData.map((card: any) => keysToCamel(card))
+            dispatch(updateSrsFlashcards({
+              srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => nextReviewDate != null && ((new Date(nextReviewDate)) <= new Date())),
+              allSrsCards: reviewCards
+            }))
+          })
+          .catch(err => {
+            console.log(err)
+          })
       })
       .catch(_err => {
         axios.post(verifyTokenPath, { token: refresh })
