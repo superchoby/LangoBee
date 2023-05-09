@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import (Course, 
+from .models import (
+    Course, 
     UsersProgressOnCourse, 
     Language, 
     Article, 
@@ -16,7 +17,11 @@ from subjects.serializers import (
     SubjectPolymorphicSerializer, 
     SubjectsDifferencesExplanationSerializer
 )
-from .serializers import CourseLevelSerializer, ArticleSerializer, TestForSkippingACoursesLevelsSerializer
+from .serializers import (
+    CourseLevelSerializer, 
+    ArticleSerializer, 
+    TestForSkippingACoursesLevelsSerializer
+)
 from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
 from rest_framework import status
@@ -197,7 +202,7 @@ class GetUsersSubjectsForLessons(APIView):
             'subjects_to_teach': subjects_to_teach
         })
 
-class ArticleView(APIView):
+class SpecificArticleView(APIView):
     def get(self, request, language, slug):
         language = Language.objects.get(name=language)
         article = Article.objects.get(language=language, slug=slug)
@@ -214,6 +219,11 @@ class ArticleView(APIView):
             'article': ArticleSerializer(article).data,
             'user_has_finished_this_article': user_has_finished_this_article
         })
+
+class GeneralArticleView(APIView):
+    def get(self, request):
+        article_data = ArticleSerializer(Article.objects.all(), many=True, context={'get_first_section_only': True}).data
+        return Response(article_data)
 
 class MarkArticleAsReadView(APIView):
     def get(self, request, language, slug):

@@ -16,6 +16,16 @@ courseNames = [
     ('main', 'Main course of that language'),
 ]
 
+article_categories = [
+    ('vocabulary', 'vocabulary'),
+    ('grammar', 'grammar'),
+    ('speaking', 'speaking'),
+    ('listening', 'listening'),
+    ('kanji', 'kanji'),
+    ('alphabet', 'alphabet'),
+    ('kana', 'kana')
+]
+
 class LanguageManager(models.Manager):
     def get_by_natural_key(self, name):
         return self.get(name=name)
@@ -144,6 +154,7 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
     users_that_have_read_this = models.ManyToManyField(get_user_model(), related_name='read_articles', through='UsersArticleProgress')
     slug = models.SlugField()
+    category = models.CharField(choices=article_categories, max_length=max(len(article_category[0]) for article_category in article_categories), null=True)
 
     def __str__(self):
         return self.title
@@ -157,6 +168,10 @@ class ArticleSection(models.Model):
     header = models.CharField(max_length=100, null=True)
     content = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='sections')
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['position']
 
     def __str__(self):
         return self.header

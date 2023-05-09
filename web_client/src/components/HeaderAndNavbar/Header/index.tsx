@@ -2,7 +2,8 @@ import './index.scss'
 import {
   ProfileIcon,
   StreakIcon,
-  NotificationsIcon
+  // NotificationsIcon,
+  ArticlesLink
 } from './HeaderIcons'
 import { Link } from 'react-router-dom'
 import { HOME_PATH } from 'src/paths'
@@ -16,9 +17,9 @@ export const Header = () => {
                     <img src={Logo} className='header-logo' alt="Logo" />
                 </Link>
                 <div className='header-right-side header-side-container'>
-                    {/* <ArticlesLink /> */}
+                    <ArticlesLink />
                     <StreakIcon />
-                    <NotificationsIcon />
+                    {/* <NotificationsIcon /> */}
                     <ProfileIcon />
                 </div>
             </div>

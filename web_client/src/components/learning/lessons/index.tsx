@@ -38,6 +38,7 @@ interface CourseLevel {
   number: number
   article: {
     slug: string
+    title: string
   } | null
   standardsLevel: {
     description: string
@@ -78,7 +79,8 @@ const getNewPosition = (position: number, positionIncreasing: boolean) => {
 export const Lessons = (): JSX.Element => {
   const [subjectsRemainingAtCurrentLevel, changeSubjectsRemainingAtCurrentLevel] = useState<SubjectsRemaining>({})
   const [showThisLevelsContents, changeShowThisLevelsContents] = useState<boolean>(false)
-  const [previewThisLevelsArticle, changePreviewThisLevelsArticle] = useState(false)
+  // const [previewThisLevelsArticle, changePreviewThisLevelsArticle] = useState(false)
+  const [articleToPreview, changeArticleToPreview] = useState<{ title: string, slug: string } | null>(null)
   const [levelsList, changeLevelsList] = useState<CourseLevel[]>([])
   const [subjectsCompletedForCurrentLevel, changeSubjectsCompletedForCurrentLevel] = useState(0)
   const [currentLevelOnCourse, changeCurrentLevelOnCourse] = useState(1)
@@ -164,6 +166,7 @@ export const Lessons = (): JSX.Element => {
         const thisButtonIsForTheCurrentLevel = number === currentLevelOnCourse
         const articleExistsForCurrentLevel = article != null
         if (articleExistsForCurrentLevel) {
+
           levelsForCurrentStandard.push(
             <LessonButton
               key={article.slug}
@@ -172,7 +175,7 @@ export const Lessons = (): JSX.Element => {
               position={position as 1 | 2 | 3 | 4 | 5}
               currentButton={thisButtonIsForTheCurrentLevel && !userReadCurrentLevelsArticle}
               // onClick={() => navigate(ARTICLE_PATH(true, 'Japanese', article.slug))}
-              onClick={() => { changePreviewThisLevelsArticle(true) }}
+              onClick={() => { changeArticleToPreview(article) }}
               hideHereIndicator={showThisLevelsContents}
               percentOfContentsComplete={userReadCurrentLevelsArticle ? 100 : 0}
               buttonType={ARTICLE_BUTTON_TYPE}
@@ -270,20 +273,20 @@ export const Lessons = (): JSX.Element => {
       <Modal
         ariaHideApp={false}
         className='lessons-content-preview'
-        isOpen={previewThisLevelsArticle || showThisLevelsContents}
+        isOpen={articleToPreview != null || showThisLevelsContents}
         onRequestClose={(() => { changeShowThisLevelsContents(false) })}
         preventScroll={true}
       >
-        {previewThisLevelsArticle
+        {articleToPreview != null
           ? (
           <>
             <h2 className='lesson-preview-header'>Article</h2>
             <div className='article-preview-description'>
-              You will be reading about: <span className='bold-span'>{thisLevelsArticle?.title}</span>
+              You will be reading about: <span className='bold-span'>{articleToPreview?.title}</span>
             </div>
             <div className='lesson-levels-button-container'>
-              <button className='cancel-lesson-button' onClick={() => { changePreviewThisLevelsArticle(false) }}>Cancel</button>
-              <button className='start-lesson-button' onClick={() => { navigate(ARTICLE_PATH(true, 'Japanese', thisLevelsArticle?.slug)) }}>Start</button>
+              <button className='cancel-lesson-button' onClick={() => { changeArticleToPreview(null) }}>Cancel</button>
+              <button className='start-lesson-button' onClick={() => { navigate(ARTICLE_PATH(true, 'Japanese', articleToPreview?.slug)) }}>Start</button>
             </div>
           </>
             )
