@@ -36,6 +36,10 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = ['title', 'sections', 'slug']
         editable = False
 
+class ArticlePreviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ['title', 'category']
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:

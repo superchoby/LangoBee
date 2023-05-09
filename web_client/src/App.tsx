@@ -239,7 +239,7 @@ function App () {
             <Route path="/Settings" element={<HeaderAndNavbar PageContents={<Settings />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={ARTICLE_PATH(false)} element={<Article />} />
             <Route path={ARTICLE_PATH(true)} element={<Article />} />
-            <Route path="/Articles">
+            <Route path="/articles_home">
               <Route index element={<ArticlesHomepage />} />
               <Route path=":articleCategory/:articleName" element={<Article />} />
             </Route>
