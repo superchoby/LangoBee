@@ -168,6 +168,10 @@ class ArticleSection(models.Model):
     header = models.CharField(max_length=100, null=True)
     content = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='sections')
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['position']
 
     def __str__(self):
         return self.header

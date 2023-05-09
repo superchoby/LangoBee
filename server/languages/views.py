@@ -20,8 +20,7 @@ from subjects.serializers import (
 from .serializers import (
     CourseLevelSerializer, 
     ArticleSerializer, 
-    TestForSkippingACoursesLevelsSerializer,
-    ArticlePreviewSerializer
+    TestForSkippingACoursesLevelsSerializer
 )
 from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
@@ -220,10 +219,11 @@ class SpecificArticleView(APIView):
             'article': ArticleSerializer(article).data,
             'user_has_finished_this_article': user_has_finished_this_article
         })
-    
+
 class GeneralArticleView(APIView):
     def get(self, request):
-        return Response(ArticlePreviewSerializer(Article.objects.all()).data)
+        article_data = ArticleSerializer(Article.objects.all(), many=True, context={'get_first_section_only': True}).data
+        return Response(article_data)
 
 class MarkArticleAsReadView(APIView):
     def get(self, request, language, slug):

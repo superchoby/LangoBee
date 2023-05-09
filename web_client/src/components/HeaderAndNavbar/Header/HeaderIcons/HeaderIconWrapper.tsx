@@ -5,7 +5,7 @@ import './HeaderIcon.scss'
 
 interface HeaderIconWrapperProps {
   Icon: JSX.Element
-  TooltipContents: JSX.Element
+  TooltipContents?: JSX.Element
   isTheRightMostIcon: boolean
   link?: string
 }
@@ -24,12 +24,13 @@ export const HeaderIconWrapper = ({
   useEffect(() => {
     changeShowTooltip(false)
   }, [pathname])
-
+  
   return (
         <div
             className='header-element-container'
             data-testid='header-icon-wrapper'
-            onMouseEnter={() => { changeShowTooltip(true) }}
+            style={{cursor: TooltipContents == null ? 'pointer' : 'auto'}}
+            onMouseEnter={() => { changeShowTooltip(TooltipContents != null) }}
             onMouseLeave={() => { changeShowTooltip(false) }}
         >
             <div className='header-element-icon-container' onClick={() => { if (link != null)navigate(link) }}>

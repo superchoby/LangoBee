@@ -1,6 +1,5 @@
 import { RiArticleLine } from 'react-icons/ri'
 import { HeaderIconWrapper } from '../HeaderIconWrapper'
-import { SuggestedArticles } from './SuggestedArticles'
 import { ARTICLE_HOMEPAGE_PATH } from 'src/paths'
 import './index.scss'
 
@@ -12,7 +11,6 @@ export const ArticlesLink = (): JSX.Element => {
             <RiArticleLine className='articles-icon'/>
           </div>
         }
-        TooltipContents={<SuggestedArticles />}
         isTheRightMostIcon={false}
         link={ARTICLE_HOMEPAGE_PATH}
     />

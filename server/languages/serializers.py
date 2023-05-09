@@ -26,20 +26,26 @@ class ArticleSectionSerializer(serializers.ModelSerializer):
 class ArticleSlugSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['slug']
+        fields = ['slug', 'title']
         editable = False
 
 class ArticleSerializer(serializers.ModelSerializer):
     sections = ArticleSectionSerializer(many=True)
     class Meta:
         model = Article
-        fields = ['title', 'sections', 'slug']
+        fields = ['title', 'sections', 'slug', 'category']
         editable = False
 
-class ArticlePreviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = ['title', 'category']
+    def get_sections(self, obj):
+        get_first_section_only = self.context.get('get_first_section_only', False)
+        if get_first_section_only:
+            first_section = obj.sections.first()
+            if first_section:
+                return ArticleSectionSerializer(first_section).data
+            else:
+                return None
+        else:
+            return ArticleSectionSerializer(obj.sections.all(), many=True).data
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
