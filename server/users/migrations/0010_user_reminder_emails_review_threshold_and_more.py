@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='reminder_emails_review_threshold',
-            field=models.PositiveIntegerField(default=50),
+            field=models.PositiveIntegerField(default=30),
         ),
         migrations.AddField(
             model_name='user',

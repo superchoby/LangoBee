@@ -17,7 +17,7 @@ class User(AbstractUser):
     num_of_subjects_to_teach_per_lesson = models.PositiveIntegerField(default=5)
     subscription = models.OneToOneField(Subscription, on_delete=models.SET_NULL, related_name='user', null=True)
     wants_reminder_emails = models.BooleanField(default=True)
-    reminder_emails_review_threshold = models.PositiveIntegerField(default=50)
+    reminder_emails_review_threshold = models.PositiveIntegerField(default=30)
     stripe_customer_id = models.CharField(max_length=40, null=True)
     needs_to_update_payment_information = models.BooleanField(default=False)
 

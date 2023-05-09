@@ -11,6 +11,8 @@ from .views import (
     UserSrsLimit,
     DeleteUser,
     SubjectsPerSessionLimit,
+    ReminderEmailsView,
+    ReminderEmailsThresholdView
 )
 
 urlpatterns = [
@@ -25,4 +27,6 @@ urlpatterns = [
     path('change-srs-limit/', UserSrsLimit.as_view()),
     path('delete/', DeleteUser.as_view()),
     path('change-subjects-per-session-limit/', SubjectsPerSessionLimit.as_view()),
+    path('change-reminder-emails-setting/', ReminderEmailsView.as_view()),
+    path('change-reminder-emails-review-threshold-setting/', ReminderEmailsThresholdView.as_view()),
 ]
