@@ -150,6 +150,8 @@ const ProtectedRoute = (): JSX.Element => {
                 num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
                 has_access_to_paid_features: hasAccessToPaidFeatures,
                 user_is_on_free_trial: isOnFreeTrial,
+                wants_reminder_emails: wantsReminderEmails,
+                reminder_emails_review_threshold: reminderEmailsReviewThreshold,
               } = res.data
 
               dispatch(updateUserInfo({
@@ -163,7 +165,9 @@ const ProtectedRoute = (): JSX.Element => {
                 srsLimit,
                 numOfSubjectsToTeachPerLesson,
                 hasAccessToPaidFeatures,
-                isOnFreeTrial
+                isOnFreeTrial,
+                wantsReminderEmails,
+                reminderEmailsReviewThreshold
               }))
               const reviewCards = reviewCardsData.map((card: any) => keysToCamel(card))
               dispatch(updateSrsFlashcards({

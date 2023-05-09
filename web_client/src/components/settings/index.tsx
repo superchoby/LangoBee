@@ -6,6 +6,8 @@ import {
   updateSrsLimit, 
   updateSubjectsPerSessionLimit,
   updateProfilePic,
+  updateWantsReminderEmails,
+  updateReminderEmailsReviewThreshold
 } from 'src/app/userSlice'
 import { DeleteAccount } from './DeleteAccount'
 import { 
@@ -109,11 +111,15 @@ export const Settings = (): JSX.Element => {
     username,
     email,
     srsLimit,
-    numOfSubjectsToTeachPerLesson
+    numOfSubjectsToTeachPerLesson,
+    wantsReminderEmails,
+    reminderEmailsReviewThreshold
   } = useAppSelector(state => state.user)
   const dispatch = useAppDispatch()
   const [newPfp, changeNewPfp] = useState<File | null>(null)
   const [uploadingPfp, changeUploadingPfp] = useState<FETCH_TYPE | null>(null)
+  const [userWantsReminderEmails, changeUserWantsReminderEmails] = useState(wantsReminderEmails)
+  const [usersReminderEmailsReviewThreshold, changeUsersReminderEmailsReviewThreshold] = useState(reminderEmailsReviewThreshold)
 
   const handleLessonsLimitSave = (changeCurrentlyEditing: (editing: false) => void, newLessonLimit: string) => {
     axios.post('users/change-srs-limit/', { newSrsLimit: parseInt(newLessonLimit) })
@@ -155,6 +161,26 @@ export const Settings = (): JSX.Element => {
         changeUploadingPfp(FETCHED_DATA_ERROR)
       })
     }
+  }
+  
+  const uploadUserWantsReminderEmails = () => {
+    axios.post('users/change-reminder-emails-setting/', { wants_reminder_emails: userWantsReminderEmails })
+    .then(_ => {
+      dispatch(updateWantsReminderEmails({ wantsReminderEmails: userWantsReminderEmails }))
+    })
+    .catch(_ => {
+
+    })
+  }
+
+  const uploadUserThresholdForWhenTheyWantReviewEmailReminders = () => {
+    axios.post('users/change-reminder-emails-review-threshold-setting/', { reminder_emails_review_threshold: usersReminderEmailsReviewThreshold })
+    .then(_ => {
+      dispatch(updateReminderEmailsReviewThreshold({reminderEmailsReviewThreshold: usersReminderEmailsReviewThreshold}))
+    })
+    .catch(_ => {
+
+    })
   }
 
   return (
@@ -210,7 +236,6 @@ export const Settings = (): JSX.Element => {
                                 imageClassName='settings-pfp-container' 
                               />
                             )}
-                            
                             <input 
                               id='pfp-upload-input' 
                               type='file' 
@@ -249,9 +274,53 @@ export const Settings = (): JSX.Element => {
                     </div>
                 </SettingsSection>
 
-                <SettingsSection title='Emails' isTheLastSection={false}>
+                <SettingsSection title='Email' isTheLastSection={false}>
                     <div>
-                        
+                      <UserProfileInfo header='Email' value={email} />
+                      <div>
+                        <label>Notify me when when my reviews are ready&nbsp;
+                          <select 
+                            className='settings-select'
+                            defaultValue={userWantsReminderEmails ? 'yes' : 'no'}
+                            onChange={( {target: { value } } ) => changeUserWantsReminderEmails(value === 'yes')}
+                          >
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                          </select>
+                        </label>
+                        {userWantsReminderEmails !== wantsReminderEmails && (
+                          <button 
+                            className='settings-change-button' 
+                            onClick={uploadUserWantsReminderEmails}
+                          >
+                              Save
+                          </button>
+                        )}
+                      </div>
+                      {userWantsReminderEmails && (
+                        <div>
+                          <label>Remind me when I have &nbsp;
+                            <select 
+                              className='settings-select'
+                              defaultValue={usersReminderEmailsReviewThreshold.toString()}
+                              onChange={( {target: { value } } ) => changeUsersReminderEmailsReviewThreshold(parseInt(value))}
+                            >
+                              {Array(20).fill(0).map((_, i) => <option value={((i + 1) * 10).toString()}>{(i + 1) * 10}</option>)}
+                            </select>
+                            &nbsp;
+                          </label>
+                          reviews
+
+                          {usersReminderEmailsReviewThreshold !== reminderEmailsReviewThreshold && (
+                            <button 
+                              className='settings-change-button' 
+                              onClick={uploadUserThresholdForWhenTheyWantReviewEmailReminders}
+                            >
+                                Save
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                 </SettingsSection>
 

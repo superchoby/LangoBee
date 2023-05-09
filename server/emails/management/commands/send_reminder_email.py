@@ -19,7 +19,7 @@ class Command(BaseCommand):
             if len(reviews_that_are_ready) > threshold:
                 subject = f'Your Reviews are Waiting'
                 email_html_message  = render_to_string(
-                    './reminder_email.html', {
+                    'reminder_email.html', {
                         'username': user.username,
                         'ready_reviews': len(reviews_that_are_ready),
                         'reviews_url': f'{domain}reviews',

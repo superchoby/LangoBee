@@ -1,5 +1,5 @@
 .settings-page-container {
-    // margin-top: 60px;
+
 }
 
 .change-pfp-button {
@@ -79,6 +79,11 @@ $settings-pfp-container-size: 60px;
 
 .incorrect-srs-limit-set {
     color: red;
+}
+
+.settings-select {
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 @media only screen and (min-width: 842px) {  

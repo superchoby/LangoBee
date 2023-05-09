@@ -242,3 +242,17 @@ class SubjectsPerSessionLimit(APIView):
         user.num_of_subjects_to_teach_per_lesson = request.data['newSubjectsLimit']
         user.save()
         return Response(status=status.HTTP_200_OK)
+
+class ReminderEmailsView(APIView):
+    def post(self, request):
+        user = request.user
+        user.wants_reminder_emails = request.data['wants_reminder_emails']
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+    
+class ReminderEmailsThresholdView(APIView):
+    def post(self, request):
+        user = request.user
+        user.reminder_emails_review_threshold = request.data['reminder_emails_review_threshold']
+        user.save()
+        return Response(status=status.HTTP_200_OK)

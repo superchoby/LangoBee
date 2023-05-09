@@ -32,6 +32,8 @@ export interface UserSliceStateType {
   numOfSubjectsToTeachPerLesson: number
   hasAccessToPaidFeatures: boolean
   isOnFreeTrial: boolean
+  wantsReminderEmails: boolean
+  reminderEmailsReviewThreshold: number
 }
 
 export const userSliceInitialState: UserSliceStateType = {
@@ -55,7 +57,9 @@ export const userSliceInitialState: UserSliceStateType = {
   srsLimit: 15,
   numOfSubjectsToTeachPerLesson: 5,
   hasAccessToPaidFeatures: false,
-  isOnFreeTrial: false
+  isOnFreeTrial: false,
+  wantsReminderEmails: true,
+  reminderEmailsReviewThreshold: 50
 }
 
 export const userSlice = createSlice({
@@ -74,7 +78,9 @@ export const userSlice = createSlice({
         srsLimit,
         numOfSubjectsToTeachPerLesson,
         hasAccessToPaidFeatures,
-        isOnFreeTrial
+        isOnFreeTrial,
+        wantsReminderEmails,
+        reminderEmailsReviewThreshold
       } = action.payload
 
       state.username = (username.charAt(0).toUpperCase() as string) + (username.slice(1).toLowerCase() as string)
@@ -85,6 +91,8 @@ export const userSlice = createSlice({
       state.numOfSubjectsToTeachPerLesson = numOfSubjectsToTeachPerLesson
       state.hasAccessToPaidFeatures = hasAccessToPaidFeatures
       state.isOnFreeTrial = isOnFreeTrial
+      state.wantsReminderEmails = wantsReminderEmails
+      state.reminderEmailsReviewThreshold = reminderEmailsReviewThreshold
       
       interface DatesStudiedElementType {
         expGained: number
@@ -134,7 +142,19 @@ export const userSlice = createSlice({
         newSubjectsPerSessionLimit
       } = action.payload
       state.numOfSubjectsToTeachPerLesson = newSubjectsPerSessionLimit
-    }
+    },
+    updateWantsReminderEmails: (state, action) => {
+      const {
+        wantsReminderEmails
+      } = action.payload
+      state.wantsReminderEmails = wantsReminderEmails
+    },
+    updateReminderEmailsReviewThreshold: (state, action) => {
+      const {
+        reminderEmailsReviewThreshold
+      } = action.payload
+      state.reminderEmailsReviewThreshold = reminderEmailsReviewThreshold
+    },
   }
 })
 
@@ -145,7 +165,9 @@ export const {
   updateProfilePic,
   userAddedMoreSubjectsToReview,
   updateSrsLimit,
-  updateSubjectsPerSessionLimit
+  updateSubjectsPerSessionLimit,
+  updateWantsReminderEmails,
+  updateReminderEmailsReviewThreshold
 } = userSlice.actions
 
 const expNeededForThisLevel = (currentLevel: number): number => {
