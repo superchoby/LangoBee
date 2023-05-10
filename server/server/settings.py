@@ -105,7 +105,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://localhost:5000",
     'https://www.langobee.com',
-    'https://www.langobee.com',
+    'https://langobee.com',
     "http://localhost:8080",
 ]
 
