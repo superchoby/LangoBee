@@ -2,6 +2,13 @@ import React from 'react';
 
 import config from '../config/index.json';
 
+const isInDevMode =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+const signupLink = isInDevMode
+  ? 'http://localhost:3000/signup'
+  : 'https://www.langobee.com/signup';
+
 const About = () => {
   const { company, about } = config;
   const { logoWithText, name: companyName } = company;
@@ -20,7 +27,7 @@ const About = () => {
           {sections.map((section, index) => (
             <a
               key={`${section.name}-${index}`}
-              href={section.href}
+              href={signupLink}
               className="hover:text-primary text-base cursor-pointer leading-4 text-gray-800 dark:text-gray-400 dark:hover:text-white"
             >
               {section.name}

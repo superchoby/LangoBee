@@ -41,7 +41,7 @@ const PricingOption = ({
       className={`flex justify-around flex-col h-96 lg:w-72 lg:h-94 xl:h-110 xl:w-102 bg-background wjustify-around items-center text-gray-600 overflow-hidden shadow-lg py-10 px-6 my-4 border-primary rounded-xl relative`}
     >
       {price_message != null && (
-        <div className="absolute lg:text-lg top-2 bg-primary px-3 py-0.5 text-white rounded-lg">
+        <div className="absolute lg:text-lg top-2 bg-blue-600 px-3 py-0.5 text-white rounded-lg">
           {price_message}!
         </div>
       )}
@@ -60,7 +60,7 @@ const PricingOption = ({
           window.location.href = urlWithSearchRef.toString();
         }}
       >
-        Continue
+        Ready to Learn!
       </button>
     </div>
   );
