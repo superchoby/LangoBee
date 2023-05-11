@@ -1,0 +1,94 @@
+.dictionary-entry {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+
+    h1 {
+        font-weight: 600;
+    }
+}
+
+.dictionary-entry > div {
+    text-align: left;
+}
+
+.dictionary-entry-word {
+    h1 {
+        margin: 0;
+    }
+}
+
+.dictionary-tags-container {
+    display: flex;
+}
+
+.dictionary-word-tag {
+    align-items: center;
+    border-radius: 6px;
+    color: white;
+    display: flex;
+    font-size: 11px;
+    font-weight: bold;
+    height: 18px;
+    justify-content: center;
+    margin-right: 6px;
+    width: 90px;
+}
+
+.langobee-level-tag {
+    background-color: var(--strong-yellow);
+    color: var(--dark-gray);
+}
+
+.jlpt-level-tag {
+    background-color: var(--light-blue);
+}
+
+.common-tag {
+    background-color: var(--light-green);
+}
+
+.dictionary-meaning {
+    font-size: 20px;
+}
+
+.meaning-number {
+    color: gray;
+}
+
+.dictionary-part-of-speech {
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media only screen and (min-width: 992px) {
+    .dictionary-entry-for-short-word {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .dictionary-entry-word {
+            flex: .25;
+        }
+    
+        .dictionary-sense-information {
+            flex: .75;
+        }
+    }
+
+    .dictionary-entry-for-long-word {
+        .dictionary-sense-information {
+            margin-left: 25%;
+        }
+    }
+
+    .dictionary-tags-container {
+        flex-direction: column;
+    }
+
+    .dictionary-word-tag {
+        margin-bottom: 6px;
+        margin-right: 0;
+    }
+}

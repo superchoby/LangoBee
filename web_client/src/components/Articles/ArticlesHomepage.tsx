@@ -49,7 +49,7 @@ export const ArticlesHomepage = (): JSX.Element => {
   const { fetchData, isFetching, isError } = useFetchStatus<ArticlePreviewProps[]>('languages/article', changeArticles);
 
   useEffect(() => {
-    fetchData()
+    fetchData({type: 'get'})
   }, [fetchData])
 
   return (

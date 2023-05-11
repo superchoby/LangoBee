@@ -20,7 +20,7 @@ from .models import (
     AcceptableResponsesButNotWhatLookingFor,
     SubjectsDifferencesExplanation
 )
-from languages.serializers import LanguageSerializer
+from languages.serializers import LanguageSerializer, CourseLevelNumberSerializer
 from jmdict.serializers import (
     JMDictEntriesSerializer,
     JmDictEntriesSerializerForVocabDifferences
@@ -196,6 +196,19 @@ class VocabularyExampleSerializer(serializers.ModelSerializer):
         fields = [
             'jlpt_level',
             'jmdict',
+        ]
+
+class VocabularySerializerForDictionary(serializers.ModelSerializer):
+    jmdict = JMDictEntriesSerializer()
+    course_level = CourseLevelNumberSerializer()
+    
+    class Meta:
+        model = JapaneseVocabulary
+        editable=False
+        fields = [
+            'jlpt_level',
+            'jmdict',
+            'course_level'
         ]
 
 class KanjiSerializer(serializers.ModelSerializer):  

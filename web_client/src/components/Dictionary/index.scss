@@ -1,0 +1,31 @@
+.dictionary-results-container {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.dictionary-header {
+    font-size: 20px;
+    text-align: left;
+}
+
+.word-user-is-searching-for {
+    font-weight: 500;
+}
+
+@media only screen and (min-width: 700px) {
+    .dictionary-results-container {
+        margin: 0;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .dictionary-results-container {
+        width: 600px;
+    }
+}
+
+@media only screen and (min-width: 1350px) {
+    .dictionary-results-container {
+        width: 700px;
+    }
+}
