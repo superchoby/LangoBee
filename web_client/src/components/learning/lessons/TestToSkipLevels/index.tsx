@@ -35,7 +35,7 @@ export const TestToSkipLevels = (): JSX.Element => {
       axios.get(`languages/tests_to_skip_courses_levels/${testSlug}/`)
         .then(res => {
           const questionDataForQuizGenerator: JapaneseSubjectData[] = []
-          for (const { question, answer, wrong_choices: wrongChoices } of shuffle(res.data.custom_questions).slice(0, 20) as any) {
+          for (const { question, answer, wrong_choices: wrongChoices } of shuffle(res.data.custom_questions).slice(0, 10) as any) {
             questionDataForQuizGenerator.push({
               question,
               answer,

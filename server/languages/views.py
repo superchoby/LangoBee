@@ -267,7 +267,7 @@ class TestToSkipCoursesLevelsView(APIView):
 
         if user_passed_the_test:
             course_level_to_jump_to = CourseLevels.objects.get(number=test.levels_this_finishes_covering.number + 1, course=test.course)
-            request.user.change_level(course_level_to_jump_to.course.language_this_course_teaches, course_level_to_jump_to.course.name, course_level_to_jump_to.number + 1)
+            request.user.change_level(course_level_to_jump_to.course.language_this_course_teaches, course_level_to_jump_to.course.name, course_level_to_jump_to.number)
 
         return Response({
             'passed': user_passed_the_test,
