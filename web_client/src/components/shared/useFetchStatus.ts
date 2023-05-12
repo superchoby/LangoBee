@@ -22,7 +22,16 @@ export const useFetchStatus = <T>(url: string, onData: (data: T) => void) => {
     setFetching();
     try {
       const response = await (requestData.type === 'get' ? axios.get(url) : axios.post(url, requestData.data));
-      onData(Array.isArray(response.data) ? response.data.map(data => keysToCamel(data)) : response.data);
+      const camelVersionOfData: T = (() => {
+        if (Array.isArray(response.data)) {
+          return response.data.map(data => keysToCamel(data))
+        } else {
+          return Object.entries(response.data).reduce((acc, [key, value]) => (
+            {...acc, [key]: keysToCamel(value)} 
+          ), {} as any)
+        }
+      })()
+      onData(camelVersionOfData);
       setSuccess();
     } catch (error) {
       setError(error);

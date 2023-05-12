@@ -1,4 +1,3 @@
-import { ArticlesDict } from './ArticlesList'
 import { Link } from 'react-router-dom'
 import { PageContainer } from '../shared/PageContainer'
 import { useEffect, useState } from 'react'
@@ -6,7 +5,6 @@ import { useFetchStatus } from '../shared/useFetchStatus'
 import { ARTICLE_PATH } from 'src/paths'
 import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
 import './ArticlesHomepage.scss'
-import axios from 'axios'
 
 interface ArticlesWithinThisCategoryType {
   title: string

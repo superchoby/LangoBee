@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import GetUsersSubjectsForLessons
+from .views import DictionarySearch
 
 urlpatterns = [
-    path('<str:language>/<str:course>/', GetUsersSubjectsForLessons.as_view()),
+    path('search/', DictionarySearch.as_view()),
 ]

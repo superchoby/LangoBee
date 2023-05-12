@@ -201,7 +201,7 @@ class VocabularyExampleSerializer(serializers.ModelSerializer):
 class VocabularySerializerForDictionary(serializers.ModelSerializer):
     jmdict = JMDictEntriesSerializer()
     course_level = CourseLevelNumberSerializer()
-    
+
     class Meta:
         model = JapaneseVocabulary
         editable=False
@@ -230,7 +230,7 @@ class KanjiSerializer(serializers.ModelSerializer):
             'radicals_used',
             'kanji_contained_within_this',
             'main_meanings_to_use'
-        ]
+        ]    
 
 class JapaneseVocabularyAudioFileSerializer(serializers.ModelSerializer):
     class Meta:

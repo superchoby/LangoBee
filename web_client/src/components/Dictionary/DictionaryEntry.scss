@@ -3,7 +3,8 @@
     flex-direction: column;
     margin-bottom: 40px;
 
-    h1 {
+    h2 {
+        font-size: 32px;
         font-weight: 600;
     }
 }
@@ -13,7 +14,7 @@
 }
 
 .dictionary-entry-word {
-    h1 {
+    h2 {
         margin: 0;
     }
 }
@@ -62,6 +63,10 @@
     font-size: 14px;
     font-weight: 600;
 }
+
+// .dictionary-entry-container {
+//     text-align: center;
+// }
 
 @media only screen and (min-width: 992px) {
     .dictionary-entry-for-short-word {

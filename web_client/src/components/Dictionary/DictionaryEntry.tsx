@@ -72,16 +72,15 @@ export const DictionaryEntry = ({
                 <div>
                     {kanjiVocabulary.length > 0 ? (
                         <>
-                            {wordIsMainlyKanji && <span>{kanaVocabulary[0].text}</span>}
-                            <h1>{kanjiVocabulary[0].text}</h1>
+                            {<span>{kanaVocabulary[0].text}</span>}
+                            <h2>{kanjiVocabulary[0].text}</h2>
                         </>
                     ) : (
                         <>
-                            <h1>{kanaVocabulary[0].text}</h1>
+                            <h2>{kanaVocabulary[0].text}</h2>
                         </>
                     )}
                 </div>
-                
                 
                 <div className='dictionary-tags-container'>
                     {courseLevel != null && <WordTags tagType={LANGOBEE_LEVEL} text={courseLevel.number} />}

@@ -12,6 +12,17 @@
     font-weight: 500;
 }
 
+.dictionary-vocab-kanji-selector {
+    
+    button {
+        align-items: center;
+        display: flex;
+        height: 30px;
+        justify-content: center;
+        width: 90px;
+    }
+}
+
 @media only screen and (min-width: 700px) {
     .dictionary-results-container {
         margin: 0;

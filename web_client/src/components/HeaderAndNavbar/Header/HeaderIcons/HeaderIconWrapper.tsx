@@ -7,6 +7,7 @@ interface HeaderIconWrapperProps {
   Icon: JSX.Element
   TooltipContents?: JSX.Element
   isTheRightMostIcon: boolean
+  isTheLeftMostIcon?: boolean
   link?: string
 }
 
@@ -14,7 +15,8 @@ export const HeaderIconWrapper = ({
   Icon,
   TooltipContents,
   isTheRightMostIcon,
-  link
+  link,
+  isTheLeftMostIcon
 }: HeaderIconWrapperProps): JSX.Element => {
   const [showTooltip, changeShowTooltip] = useState(false)
   const positionClassname = isTheRightMostIcon ? 'rightmost-header-element' : 'not-rightmost-header-element'
@@ -24,12 +26,14 @@ export const HeaderIconWrapper = ({
   useEffect(() => {
     changeShowTooltip(false)
   }, [pathname])
+
+  const marginClass = isTheLeftMostIcon === true ? {marginLeft: 0} : {}
   
   return (
         <div
             className='header-element-container'
             data-testid='header-icon-wrapper'
-            style={{cursor: TooltipContents == null ? 'pointer' : 'auto'}}
+            style={{cursor: TooltipContents == null ? 'pointer' : 'auto', ...marginClass}}
             onMouseEnter={() => { changeShowTooltip(TooltipContents != null) }}
             onMouseLeave={() => { changeShowTooltip(false) }}
         >
