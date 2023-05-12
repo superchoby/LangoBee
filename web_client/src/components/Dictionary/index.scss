@@ -1,6 +1,13 @@
-.dictionary-results-container {
+.vocabulary-results-container {
     margin: 0 auto;
     width: 90%;
+}
+
+.kanji-results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
 }
 
 .dictionary-header {
@@ -12,31 +19,98 @@
     font-weight: 500;
 }
 
-.dictionary-vocab-kanji-selector {
-    
+.dictionary-vocab-kanji-selector-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 250px;
+
     button {
         align-items: center;
+        border-radius: 8px;
         display: flex;
-        height: 30px;
+        flex: .48;
+        font-size: 18px;
+        font-weight: 500;
+        height: 40px;
         justify-content: center;
-        width: 90px;
     }
 }
 
+.dictionary-vocab-selector-selected {
+    background-color: var(--med-blue);
+    color: white;
+}
+
+.dictionary-vocab-selector-not-selected {
+    color: var(--dark-gray);    
+}
+
+.dictionary-vocab-selector-not-selected:hover {
+    color: white;
+    background-color: var(--med-blue);
+    opacity: .6;
+}
+
+.dictionary-kanji-selector-selected {
+    background-color: var(--light-green);
+    color: white;
+}
+
+.dictionary-kanji-selector-not-selected {
+    color: var(--dark-gray);
+}
+
+.dictionary-kanji-selector-not-selected:hover {
+    color: white;
+    background-color: var(--light-green);
+    opacity: .6;
+}
+
 @media only screen and (min-width: 700px) {
-    .dictionary-results-container {
-        margin: 0;
+    .vocabulary-results-container {
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
 @media only screen and (min-width: 992px) {
-    .dictionary-results-container {
-        width: 600px;
+    // .dictionary-page-container {
+    //     margin: 0 auto;
+    //     width: 730px;
+    // }
+    
+    .dictionary-results-container-large-screen {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .vocabulary-results-container {
+        flex: .65;
+        width: auto;
+    }
+
+    .kanji-results-container {
+        display: block;
+        flex: .25;
+        flex-wrap: wrap;
+        margin-top: 0;
+    }
+
+    .dictionary-vocab-kanji-selector-container {
+        display: none;
     }
 }
 
-@media only screen and (min-width: 1350px) {
-    .dictionary-results-container {
-        width: 700px;
+@media only screen and (min-width: 1200px) {
+    .dictionary-page-container {
+        width: 800px;
     }
 }
+
+// @media only screen and (min-width: 1400px) {
+//     .dictionary-page-container {
+//         width: 900px;
+//     }
+// }

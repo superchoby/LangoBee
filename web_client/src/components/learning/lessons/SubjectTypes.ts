@@ -99,7 +99,7 @@ export interface RadicalSubject extends KanaAndRadicalBase {
 
 export interface KanjiSubject {
   character: string
-  stroke_count: number
+  strokeCount: number
   freq: number | null
   grade: number | null
   kunyomi: string[]

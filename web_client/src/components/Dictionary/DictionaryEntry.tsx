@@ -1,14 +1,28 @@
-import { JMDict, JMDictSense } from '../learning/lessons/SubjectTypes'
+import { JMDict, JMDictSense, KanjiSubject } from '../learning/lessons/SubjectTypes'
+import { cleanKanjiReadings } from '../shared/cleanKanjiReadings'
+import { toKatakana, toRomaji } from 'wanakana'
 import './DictionaryEntry.scss'
 
 const JLPT_LEVEL = 'jlpt'
 const LANGOBEE_LEVEL = 'level'
 const COMMON = 'common'
 
+
+interface AddToReviewButtonProps {
+    className?: string
+}
+
+const AddToReviewButton = ({
+    className = ''
+}: AddToReviewButtonProps) => {
+    return <button className={`dictionary-add-to-review-button ${className}`}>Add To Reviews</button>
+}
+
 interface WordTagsProps {
     tagType: typeof JLPT_LEVEL | typeof LANGOBEE_LEVEL | typeof COMMON
     text: string | number
 }
+
 
 const WordTags = ({
     tagType,
@@ -32,7 +46,7 @@ interface DictionaryMeaningProps {
     index: number
 }
 
-const DicitionaryMeaning = ({
+const VocabularyDictionaryMeaning = ({
     senseInfo: {
         gloss,
         partOfSpeech,
@@ -45,7 +59,8 @@ const DicitionaryMeaning = ({
         <div className='dictionary-meaning'>
             <span className='dictionary-part-of-speech'>{partOfSpeech.join(', ')}</span>
             <div>
-                <span className='meaning-number'>{index}. </span>{gloss.map(({text}) => text).join('; ')}
+                <span className='meaning-number'>{index}. </span>
+                {gloss.map(({text}) => text).join('; ')}
             </div>
         </div>
     )
@@ -53,7 +68,7 @@ const DicitionaryMeaning = ({
 
 export type JmdictAndLevels =  { jmdict: JMDict, jlptLevel: number | null, courseLevel: {number: number} | null}
 
-export const DictionaryEntry = ({
+export const VocabularyDictionaryEntry = ({
     jmdict: {
         kanjiVocabulary,
         kanaVocabulary,
@@ -68,18 +83,27 @@ export const DictionaryEntry = ({
 
     return (
         <div className={`dictionary-entry ${wordsLength >= 5 ? 'dictionary-entry-for-long-word' : 'dictionary-entry-for-short-word'}`}>
+            <AddToReviewButton className='dictionary-add-to-reviews-for-vocab' />
             <div className='dictionary-entry-word'>
                 <div>
-                    {kanjiVocabulary.length > 0 ? (
-                        <>
-                            {<span>{kanaVocabulary[0].text}</span>}
-                            <h2>{kanjiVocabulary[0].text}</h2>
-                        </>
+                    {wordIsMainlyKanji && <span className='dictionary-entry-words-main-representation'>{kanjiVocabulary[0].text}</span>}
+                    <span className={`dictionary-entry-words-main-representation${wordIsMainlyKanji ? 's-reading' : ''}`}>
+                        {kanaVocabulary[0].text}
+                    </span>
+                    <rt className='dictionary-entry-words-main-representations-reading-romaji'>{toRomaji(kanaVocabulary[0].text)}</rt>
+                    {/* {kanjiVocabulary.length > 0 ? (
+                        <div className='dictionary-entry-kanji-and-reading'>
+                            <span className='dictionary-entry-words-main-representations-reading'>
+                                (<ruby>{kanaVocabulary[0].text}
+                                
+                                </ruby>)
+                            </span>
+                        </div>
                     ) : (
                         <>
-                            <h2>{kanaVocabulary[0].text}</h2>
+                            <span className='dictionary-entry-words-main-representation'>{kanaVocabulary[0].text}</span>
                         </>
-                    )}
+                    )} */}
                 </div>
                 
                 <div className='dictionary-tags-container'>
@@ -94,8 +118,34 @@ export const DictionaryEntry = ({
             
             <div className='dictionary-sense-information'>
                 <ul>
-                    {sense.map((senseInfo, i) => <DicitionaryMeaning key={i + 1} index={i + 1} senseInfo={senseInfo} />)}
+                    {sense.map((senseInfo, i) => <VocabularyDictionaryMeaning key={i + 1} index={i + 1} senseInfo={senseInfo} />)}
                 </ul>
+            </div>
+        </div>
+    )
+}
+
+export const KanjiDictionaryEntry = ({
+    character,
+    kunyomi,
+    onyomi,
+    meanings
+}: KanjiSubject) => {
+
+    return (
+        <div className=''>
+            <AddToReviewButton />
+            <div className='kanji-dictionary-entry'>
+                <div className='dictionary-kanji-character'>{character}</div>
+                <div className='kanji-dictionary-entry-info'>
+                    <div className='kanji-dictionary-entry-info-meanings'>{meanings.join(', ')}</div>
+                    <div className='kanji-dictionary-entry-info-readings'>
+                        <span>on:&nbsp;</span>{cleanKanjiReadings(onyomi).map(reading => toKatakana(reading)).join(', ')}
+                    </div>
+                    <div className='kanji-dictionary-entry-info-readings'>
+                        <span>kun:&nbsp;</span>{cleanKanjiReadings(kunyomi).join(', ')}
+                    </div>
+                </div>   
             </div>
         </div>
     )

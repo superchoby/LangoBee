@@ -1,26 +1,54 @@
 .dictionary-entry {
+    // border: 2px solid gray;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     margin-bottom: 40px;
-
-    h2 {
-        font-size: 32px;
-        font-weight: 600;
-    }
+    position: relative;
+    // padding: 5px;
 }
 
 .dictionary-entry > div {
     text-align: left;
 }
 
-.dictionary-entry-word {
-    h2 {
-        margin: 0;
-    }
+.dictionary-entry-words-main-representation {
+    font-size: 32px;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+.dictionary-entry-kanji-and-reading {
+    // align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
+}
+
+.dictionary-entry-words-main-representations-reading {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.dictionary-entry-words-main-representations-reading-romaji {
+    font-size: 18px;
 }
 
 .dictionary-tags-container {
     display: flex;
+}
+
+.dictionary-add-to-review-button {
+    // background-color: var(--strong-yellow);
+    border-radius: 10px;
+    color: var(--med-blue);
+    display: block;
+    font-size: 16px;
+    margin-left: auto;
+}
+
+.dictionary-add-to-review-button:hover {
+    text-decoration: underline;
 }
 
 .dictionary-word-tag {
@@ -64,37 +92,76 @@
     font-weight: 600;
 }
 
-// .dictionary-entry-container {
-//     text-align: center;
-// }
+.kanji-dictionary-entry {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    width: 250px;
+}
+
+.dictionary-kanji-character {
+    flex: .3;
+    font-size: 60px;
+    line-height: 60px;
+}
+
+.kanji-dictionary-entry-info {
+    flex: .6;
+    text-align: left;
+}
+
+.kanji-dictionary-entry-info-meanings {
+    font-size: 20px;
+}
+
+.kanji-dictionary-entry-info-readings {
+    font-size: 18px;
+}
 
 @media only screen and (min-width: 992px) {
-    .dictionary-entry-for-short-word {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        .dictionary-entry-word {
-            flex: .25;
-        }
-    
-        .dictionary-sense-information {
-            flex: .75;
-        }
+    .dictionary-add-to-reviews-for-vocab {
+        margin-left: 0;
+        position: absolute;
+        right: 0;
     }
 
-    .dictionary-entry-for-long-word {
-        .dictionary-sense-information {
-            margin-left: 25%;
-        }
+    .dictionary-add-to-review-button {
+        font-size: 18px;
     }
 
-    .dictionary-tags-container {
-        flex-direction: column;
-    }
-
-    .dictionary-word-tag {
-        margin-bottom: 6px;
-        margin-right: 0;
-    }
+    // .dictionary-kanji-character {
+    //     color: var(--med-blue);
+    // }
 }
+
+
+// @media only screen and (min-width: 992px) {
+//     .dictionary-entry-for-short-word {
+//         display: flex;
+//         flex-direction: row;
+//         justify-content: space-between;
+
+//         .dictionary-entry-word {
+//             flex: .25;
+//         }
+    
+//         .dictionary-sense-information {
+//             flex: .75;
+//         }
+//     }
+
+//     .dictionary-entry-for-long-word {
+//         .dictionary-sense-information {
+//             margin-left: 25%;
+//         }
+//     }
+
+//     .dictionary-tags-container {
+//         flex-direction: column;
+//     }
+
+//     .dictionary-word-tag {
+//         margin-bottom: 6px;
+//         margin-right: 0;
+//     }
+// }

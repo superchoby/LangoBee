@@ -95,9 +95,9 @@ class DictionarySearch(APIView):
         # really slow at getting all the JapaneseVocabuary instances of them so I process all the data beforehand, filter out everything
         # I don't need and then after that I actually fetch from the DB.
     
-        sorted_filtered_data = sorted(search_results.entries, key=sort_key_func, reverse=True)
+        sorted_filtered_data = sorted(search_results.entries, key=sort_key_func, reverse=True)[:20]
         kanji_chars = list(set([char for entry in sorted_filtered_data if len(entry.kanji_forms) > 0 for char in str(entry.kanji_forms[0]) if not is_all_hiragana_or_katakana(char)]))
-        list_of_jmdict_ids_to_get  = [entry.idseq for entry in sorted_filtered_data[:20]]
+        list_of_jmdict_ids_to_get  = [entry.idseq for entry in sorted_filtered_data]
         words_data = VocabularySerializerForDictionary(JapaneseVocabulary.objects.filter(jmdict_id__in=list_of_jmdict_ids_to_get), many=True).data
         kanji_data = KanjiSerializer(Kanji.objects.filter(character__in=kanji_chars), many=True).data
         sorted_kanji_data = sorted(kanji_data, key=lambda kanji: kanji_chars.index(kanji['character']))
