@@ -1,4 +1,4 @@
-from .jamdict import Jamdict
+from jamdict import Jamdict
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
@@ -23,6 +23,7 @@ class JMDictSearch(APIView):
         jam = Jamdict()
         japanese_regex = r"[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]"
         word_is_japanese = bool(re.search(japanese_regex, request.data['word']))
+        word_is_english_and_has_quotes = not word_is_japanese and len(request.data['word']) > 0 and request.data['word'][0] == '"' and request.data['word'][-1] == '"'
         search_results = None
         words_to_search_for = []
         if not word_is_japanese:
@@ -35,8 +36,12 @@ class JMDictSearch(APIView):
                 word_is_japanese = True
                 words_to_search_for = [hiragana_version, katakana_version]
             else: 
-                search_results = jam.lookup(request.data['word'], lookup_ne=False)
-                words_to_search_for = [request.data['word']]
+                word_to_search = request.data['word'][1:-1] if word_is_english_and_has_quotes else request.data['word']
+                search_results = jam.lookup(word_to_search)
+                words_to_search_for = [word_to_search]
+                if len(search_results.entries) == 0:
+                    search_results = jam.lookup(f'to {word_to_search}')
+                    words_to_search_for = [f'to {word_to_search}']
         else: 
             search_results = jam.lookup(f"{request.data['word']}%", lookup_ne=False)
             words_to_search_for = [request.data['word']]
@@ -50,7 +55,7 @@ class JMDictSearch(APIView):
                     if entry.kanji_forms[i].text in words_to_search_for:
                         words_index = i
                         break
-                    elif entry.kanji_forms[i].text.startswith(request.data['word'][0]) and word_that_contains_this_word_in_beginning_index is None:
+                    elif entry.kanji_forms[i].text.startswith(words_to_search_for[0]) and word_that_contains_this_word_in_beginning_index is None:
                         word_that_contains_this_word_in_beginning_index = i
                 
                 if words_index is None:
@@ -58,36 +63,33 @@ class JMDictSearch(APIView):
                         if entry.kana_forms[i].text in words_to_search_for:
                             words_index = i
                             break
-                        elif entry.kana_forms[i].text.startswith(request.data['word'][0]) and (word_that_contains_this_word_in_beginning_index is None or i < word_that_contains_this_word_in_beginning_index):
+                        elif entry.kana_forms[i].text.startswith(words_to_search_for[0]) and (word_that_contains_this_word_in_beginning_index is None or i < word_that_contains_this_word_in_beginning_index):
                             word_that_contains_this_word_in_beginning_index = i
             else:
                 # Find what index the meaning appears in list of meanings, if there is none, find words who's meaning starts with the
                 # word the user is searching for as prefix
                 for i in range(len(entry.senses)):
                     sense = entry.senses[i]
-                    for j in range(len(sense.get('gloss'))):
-                        gloss = sense.get('gloss')[j]
-                        text = gloss.get('text')
+                    for j in range(len(sense.gloss)):
+                        gloss = sense.gloss[j]
+                        text = gloss.text
                         if text in words_to_search_for:
                             words_index = (i + 1) * (j + 1)
                             break
-                        elif text.startswith(request.data['word'][0]) and word_that_contains_this_word_in_beginning_index is None:
+                        elif text.startswith(words_to_search_for[0]) and word_that_contains_this_word_in_beginning_index is None:
                             word_that_contains_this_word_in_beginning_index = (i + 1) * (j + 1)
 
             word_index_info[entry.idseq] = {
                 'words_index': words_index,
                 'word_that_contains_this_word_in_beginning_index': word_that_contains_this_word_in_beginning_index
             }
-                
-        def get_sort_tuple(jmdict_id):
-            index_info = word_index_info[jmdict_id]
-            words_index = index_info['words_index']
-            word_that_contains_this_word_in_beginning_index = index_info['word_that_contains_this_word_in_beginning_index']
-            return (words_index * -1 if words_index is not None else -100, str(jmdict_id) in jmdict_common_entries, (word_that_contains_this_word_in_beginning_index * -1) if word_that_contains_this_word_in_beginning_index is not None else -100)
-        
+                 
         jmdict_common_entries = json.load(open('jmdict/common_jmdict_entries.json'))
         def sort_key_func(item):
-            return get_sort_tuple(item.idseq)
+            index_info = word_index_info[item.idseq]
+            words_index = index_info['words_index']
+            word_that_contains_this_word_in_beginning_index = index_info['word_that_contains_this_word_in_beginning_index']
+            return (words_index * -1 if words_index is not None else -100, str(item.idseq) in jmdict_common_entries, (word_that_contains_this_word_in_beginning_index * -1) if word_that_contains_this_word_in_beginning_index is not None else -100)
 
         # For some queries with a LOT of entries in the dictionary, such as "shi", there are too many entries to process so code is 
         # really slow at getting all the JapaneseVocabuary instances of them so I process all the data beforehand, filter out everything
@@ -99,7 +101,13 @@ class JMDictSearch(APIView):
 
         # need to sort again cuz when fetching from db, reverts the order of all the fetched stuff back to jmdictID order
         def sort_after_querying(item):
-            return get_sort_tuple(item['jmdict']['jm_dict_id'])
+            index_info = word_index_info[item['jmdict']['jm_dict_id']]
+            words_index = index_info['words_index']
+            word_that_contains_this_word_in_beginning_index = index_info['word_that_contains_this_word_in_beginning_index']
+            word_index_sort = words_index * -1 if words_index is not None else -100
+            course_level_sort = item['course_level']['number'] * -1 if item['course_level'] is not None else -300
+            word_that_starts_with_this_word_sort = (word_that_contains_this_word_in_beginning_index * -1) if word_that_contains_this_word_in_beginning_index is not None else -100
+            return (word_index_sort, course_level_sort, word_that_starts_with_this_word_sort)
 
         jmdict_tags_human_readable_names = json.load(open('jmdict/jmdict_tag_to_human_readable.json'))
 

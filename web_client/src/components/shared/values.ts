@@ -10,3 +10,4 @@ export const FETCHED_DATA_ERROR = 'fetched error'
 export const FETHCED_DATA_PROCESSING = 'fetch processing'
 export type FETCH_TYPE = typeof FETCHED_DATA_SUCCESS | typeof FETCHED_DATA_ERROR | typeof FETHCED_DATA_PROCESSING
 export const IS_IN_DEV_MODE = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
+export const JAPANESE_CHAR_REGEX = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/
