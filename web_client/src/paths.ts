@@ -17,7 +17,7 @@ export const TERMS_OF_SERVICE_PATH = '/terms-of-service'
 export const TEST_PATH = '/tests'
 export const ARTICLE_HOMEPAGE_PATH = '/articles-home'
 export const DICTIONARY_PATH = '/dictionary'
-export const FORGOT_PASSWORD_PATH = '/forgot_password'
+export const FORGOT_PASSWORD_PATH = '/forgot-password'
 export const IMMERSION_LEVEL_INFO_PATH = '/immersion-level-info'
 export const SETTINGS_PATH = '/settings'
 export const RESET_PASSWORD_PATH = '/reset-password'
@@ -26,7 +26,7 @@ export const ARTICLE_PATH = (forLesson: boolean, language?: string, slug?: strin
   return `${base}/${language != null ? language : ':language'}/${slug != null ? slug : ':slug'}`
 }
 export const LIST_OF_EXERCISES_PATHS = {
-  WRITING_SHEETS: '/writing_sheets',
-  NUMBER_DRILLS: '/number_drills',
-  WRITING_CANVAS: '/writing_canvas'
+  WRITING_SHEETS: '/writing-sheets',
+  NUMBER_DRILLS: '/number-drills',
+  WRITING_CANVAS: '/writing-canvas'
 }
