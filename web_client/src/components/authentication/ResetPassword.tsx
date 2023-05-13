@@ -4,7 +4,7 @@ import axios from 'axios'
 import { AuthenticationInput } from './AuthenticationInput'
 import './ResetPassword.scss'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
-import { LOGIN_PATH } from 'src/paths'
+import { LOGIN_PATH, FORGOT_PASSWORD_PATH } from 'src/paths'
 
 export const ResetPassword = (): JSX.Element => {
   const [resetTokenIsValid, changeResetTokenIsValid] = useState(true)
@@ -99,7 +99,7 @@ export const ResetPassword = (): JSX.Element => {
         <div className='default-reset-password-container'>
             <span>
                 Your token is no longer valid, please go back and
-                <Link to='/forgot_password'> request a new password</Link>
+                <Link to={FORGOT_PASSWORD_PATH}> request a new password</Link>
             </span>
         </div>
       )

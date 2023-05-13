@@ -21,6 +21,7 @@ from django.conf import settings
 import logging
 from botocore.exceptions import ClientError
 from mimetypes import guess_type
+from django.core.mail import send_mail
 
 # Create your views here.
 class CreateUserView(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -77,30 +78,27 @@ class UserLessonInfoView(APIView):
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     IS_IN_PROD_ENVIRON = 'SECRET_KEY' in os.environ
-    fullUrl = ('https://www.langobee.com' if IS_IN_PROD_ENVIRON else 'http://localhost:3000') + f'/reset_password/{reset_password_token.key}'
+    fullUrl = ('https://www.langobee.com' if IS_IN_PROD_ENVIRON else 'http://localhost:3000') + f'/reset-password/{reset_password_token.key}'
 
-    message = Mail(
-        from_email='thomasqtrnh@gmail.com',
-        to_emails=reset_password_token.user.email,
-        subject="Password Reset for LangoBee",
-        html_content=f"""
-            Hello {User.objects.get(username=reset_password_token.user).username.capitalize()}, <br><br>
-
-            There was recently a request to change the password for your account.<br><br>
-
-            If you requested this change, set a new password here:<br><br>
-
-            {fullUrl}<br><br>
-
-            Note: This url is invalid after 24 hours.<br><br>
-
-            If you did not make this request, you can ignore this email and your password will remain the same.
-        """,
-    )
-    
     try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        sg.send(message)
+        send_mail(
+            "Password Reset for LangoBee",
+            f"""
+                Hello {User.objects.get(username=reset_password_token.user).username.capitalize()}, <br><br>
+
+                There was recently a request to change the password for your account.<br><br>
+
+                If you requested this change, set a new password here:<br><br>
+
+                {fullUrl}<br><br>
+
+                Note: This url is invalid after 24 hours.<br><br>
+
+                If you did not make this request, you can ignore this email and your password will remain the same.
+            """,
+            settings.EMAIL_HOST_USER,
+            [reset_password_token.user.email]
+        )
         return Response(status=status.HTTP_200_OK)
     except Exception as e:
         return Response(status=status.HTTP_400_BAD_REQUEST)

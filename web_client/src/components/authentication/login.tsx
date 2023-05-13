@@ -5,7 +5,7 @@ import './login.scss'
 import axios from 'axios'
 import { updateToken } from '../../app/tokenSlice'
 import { useAppDispatch } from '../../app/hooks'
-import { HOME_PATH } from 'src/paths'
+import { HOME_PATH, FORGOT_PASSWORD_PATH } from 'src/paths'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
 
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
@@ -68,7 +68,7 @@ export const Login = (): JSX.Element => {
               }} />
             </div>
             <div>
-              <span>Forgot your password? <Link to='/forgot_password'>Click here</Link></span>
+              <span>Forgot your password? <Link to={FORGOT_PASSWORD_PATH}>Click here</Link></span>
               <Link to='' onClick={() => {
                 window.location.href = isInDevelopmentEnv ? 'http://localhost:3001' : 'https://LangoBee.com'
               }} />
