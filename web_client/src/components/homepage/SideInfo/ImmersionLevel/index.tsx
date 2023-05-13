@@ -1,5 +1,6 @@
 import ProgressBar from '@ramonak/react-progress-bar'
 import { Link } from 'react-router-dom'
+import { IMMERSION_LEVEL_INFO_PATH } from 'src/paths'
 import './index.scss'
 
 export const ImmersionLevel = (): JSX.Element => {
@@ -10,7 +11,7 @@ export const ImmersionLevel = (): JSX.Element => {
             </h2>
             <Link
                 className='side-bar-link'
-                to='/ImmersionLevelInfo'
+                to={IMMERSION_LEVEL_INFO_PATH}
             >
                 More info on immersion level
             </Link>
