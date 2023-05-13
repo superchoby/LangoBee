@@ -51,6 +51,18 @@
     text-decoration: underline;
 }
 
+.dictionary-add-to-review-button-non-clickable {
+    color: black;
+}
+
+.dictionary-add-to-review-button-non-clickable:hover {
+    text-decoration: none;
+}
+
+.kanji-dictionary-entry-add-to-review-button {
+    margin-bottom: 12px;
+}
+
 .dictionary-word-tag {
     align-items: center;
     border-radius: 6px;

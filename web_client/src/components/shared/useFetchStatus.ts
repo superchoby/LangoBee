@@ -10,7 +10,7 @@ export type RequestData = {
   data: Object
 }
 
-export const useFetchStatus = <T>(url: string, onData: (data: T) => void) => {
+export const useFetchStatus = <T>(url: string, onData?: (data: T) => void) => {
   const [status, setStatus] = useState<FetchStatus>('idle');
   const [error, setError] = useState<any>(null);
 
@@ -31,7 +31,9 @@ export const useFetchStatus = <T>(url: string, onData: (data: T) => void) => {
           ), {} as any)
         }
       })()
-      onData(camelVersionOfData);
+      if (onData != null) {
+        onData(camelVersionOfData);
+      }
       setSuccess();
     } catch (error) {
       setError(error);

@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { JMDict, JMDictSense, KanjiSubject } from '../learning/lessons/SubjectTypes'
 import { cleanKanjiReadings } from '../shared/cleanKanjiReadings'
 import { toKatakana, toRomaji } from 'wanakana'
+import { useFetchStatus } from '../shared/useFetchStatus'
+import { PulseLoader } from 'react-spinners'
 import './DictionaryEntry.scss'
 
 const JLPT_LEVEL = 'jlpt'
@@ -10,12 +13,55 @@ const COMMON = 'common'
 
 interface AddToReviewButtonProps {
     className?: string
+    dataToAddToReview: {
+        subject_type: 'vocabulary'
+        jmdict_id: number
+    } | {
+        subject_type: 'kanji'
+        kanji_character: string
+    }
 }
 
 const AddToReviewButton = ({
-    className = ''
+    className = '',
+    dataToAddToReview
 }: AddToReviewButtonProps) => {
-    return <button className={`dictionary-add-to-review-button ${className}`}>Add To Reviews</button>
+    const [userAlreadyKnowsThis, changeUserAlreadyKnowsThis] = useState(false)
+    const { 
+        fetchData, 
+        isFetching, 
+        isSuccess, 
+        isIdle 
+    } = useFetchStatus<{user_already_has_this_in_reviews: boolean}>(
+        'subjects/add_dictionary_entry_to_review/', 
+        (data) => changeUserAlreadyKnowsThis(data.user_already_has_this_in_reviews)
+    );
+
+    const addToReviews = () => {
+        fetchData({
+            type: 'post',
+            data: dataToAddToReview
+        })
+    }
+   
+    return (
+        <button 
+            className={`dictionary-add-to-review-button ${className} ${isIdle ? '' : 'dictionary-add-to-review-button-non-clickable'}`}
+            onClick={() => { if (isIdle) addToReviews() }}
+        >
+            {(() => {
+                if (isIdle) {
+                    return 'Add To Reviews'
+                } else if (isFetching) {
+                    return <PulseLoader size={4} color='#3A3A3A' />
+                } else if (isSuccess) {
+                    return userAlreadyKnowsThis ? 'Already in your Reviews' : 'Finished Adding!'
+                } else {
+                    return 'Error, please try later'
+                }
+            })()}
+        </button>
+    )
 }
 
 interface WordTagsProps {
@@ -73,6 +119,7 @@ export const VocabularyDictionaryEntry = ({
         kanjiVocabulary,
         kanaVocabulary,
         sense,
+        jmDictId
     },
     jlptLevel,
     courseLevel,
@@ -83,7 +130,7 @@ export const VocabularyDictionaryEntry = ({
 
     return (
         <div className={`dictionary-entry ${wordsLength >= 5 ? 'dictionary-entry-for-long-word' : 'dictionary-entry-for-short-word'}`}>
-            <AddToReviewButton className='dictionary-add-to-reviews-for-vocab' />
+            <AddToReviewButton className='dictionary-add-to-reviews-for-vocab' dataToAddToReview={{subject_type: 'vocabulary', jmdict_id: jmDictId}} />
             <div className='dictionary-entry-word'>
                 <div>
                     {wordIsMainlyKanji && <span className='dictionary-entry-words-main-representation'>{kanjiVocabulary[0].text}</span>}
@@ -134,7 +181,10 @@ export const KanjiDictionaryEntry = ({
 
     return (
         <div className=''>
-            <AddToReviewButton />
+            <AddToReviewButton 
+                className='kanji-dictionary-entry-add-to-review-button' 
+                dataToAddToReview={{subject_type: 'kanji', kanji_character: character}} 
+            />
             <div className='kanji-dictionary-entry'>
                 <div className='dictionary-kanji-character'>{character}</div>
                 <div className='kanji-dictionary-entry-info'>

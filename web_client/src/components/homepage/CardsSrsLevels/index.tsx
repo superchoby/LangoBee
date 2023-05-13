@@ -54,55 +54,57 @@ export const CardsSrsLevels = ({
 
     for (let i = 0; i < allSrsCards.length; ++i) {
       if (!allSrsCards[i].userAlreadyKnowsThis) {
-        const { currentLevel: { stage: currentStage, systemThisBelongsTo: { name: systemType } } } = allSrsCards[i]
-        const isFastReviewCard = systemType === 'fast'
-        if (isFastReviewCard) {
-          switch (currentStage) {
-            case 1:
-              newBeginnersOneCardsCount += 1
-              break
-            case 2:
-              newNoviceOneCardsCount += 1
-              break
-            case 3:
-              newIntermediateCardsCount += 1
-              break
-            case 4:
-              newExpertCardsCount += 1
-              break
-            case 5:
-              newMasterCardsCount += 1
-              break
-          }
-        } else {
-          switch (currentStage) {
-            case 1:
-              newBeginnersOneCardsCount += 1
-              break
-            case 2:
-              newBeginnersTwoCardsCount += 1
-              break
-            case 3:
-              newBeginnersThreeCardsCount += 1
-              break
-            case 4:
-              newBeginnersFourCardsCount += 1
-              break
-            case 5:
-              newNoviceOneCardsCount += 1
-              break
-            case 6:
-              newNoviceTwoCardsCount += 1
-              break
-            case 7:
-              newIntermediateCardsCount += 1
-              break
-            case 8:
-              newExpertCardsCount += 1
-              break
-            case 9:
-              newMasterCardsCount += 1
-              break
+        if (allSrsCards[i].currentLevel) {
+          const { currentLevel: { stage: currentStage, systemThisBelongsTo: { name: systemType } } } = allSrsCards[i]
+          const isFastReviewCard = systemType === 'fast'
+          if (isFastReviewCard) {
+            switch (currentStage) {
+              case 1:
+                newBeginnersOneCardsCount += 1
+                break
+              case 2:
+                newNoviceOneCardsCount += 1
+                break
+              case 3:
+                newIntermediateCardsCount += 1
+                break
+              case 4:
+                newExpertCardsCount += 1
+                break
+              case 5:
+                newMasterCardsCount += 1
+                break
+            }
+          } else {
+            switch (currentStage) {
+              case 1:
+                newBeginnersOneCardsCount += 1
+                break
+              case 2:
+                newBeginnersTwoCardsCount += 1
+                break
+              case 3:
+                newBeginnersThreeCardsCount += 1
+                break
+              case 4:
+                newBeginnersFourCardsCount += 1
+                break
+              case 5:
+                newNoviceOneCardsCount += 1
+                break
+              case 6:
+                newNoviceTwoCardsCount += 1
+                break
+              case 7:
+                newIntermediateCardsCount += 1
+                break
+              case 8:
+                newExpertCardsCount += 1
+                break
+              case 9:
+                newMasterCardsCount += 1
+                break
+            }
           }
         }
       }

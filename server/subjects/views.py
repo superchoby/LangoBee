@@ -7,6 +7,8 @@ from .serializers import VocabularySerializerForDictionary, KanjiSerializer
 import json
 import re
 from romkan import to_hiragana, to_katakana
+from reviews.models import Review
+from django.utils import timezone
 
 class LookupClass:
     def __init__(self, entries):
@@ -143,3 +145,21 @@ class DictionarySearch(APIView):
             'kanji': sorted_kanji_data,
         }, status.HTTP_200_OK)
 
+class AddDictionaryEntryToReviewView(APIView):
+    def post(self, request):
+        if request.data['subject_type'] in ['vocabulary', 'kanji']:
+            subject_to_add = JapaneseVocabulary.objects.get(jmdict_id=request.data['jmdict_id']) if request.data['subject_type'] == 'vocabulary' else Kanji.objects.get(character=request.data['kanji_character'])
+            user_already_has_this_in_reviews = request.user.subjects.filter(pk=subject_to_add.id).exists()
+            if not user_already_has_this_in_reviews:
+                Review.create_brand_new_level_one_review(
+                    request.user, 
+                    subject_to_add, 
+                    False,
+                    True
+                )
+
+            return Response({
+                'user_already_has_this_in_reviews': user_already_has_this_in_reviews
+            }, status.HTTP_200_OK)
+        else:
+            return Response(status.HTTP_400_BAD_REQUEST)
