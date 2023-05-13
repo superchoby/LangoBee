@@ -64,9 +64,13 @@ export const ResetPassword = (): JSX.Element => {
         onSubmit={changePassword}
         authenticationProcessErrorMessage={errorMsg}
         alternativeLinks={
-          <div>
+          passwordHasBeenChanged ? (
+            <></>
+          ) : (
+            <div>
               Remember your password? <Link to={LOGIN_PATH}>Log in</Link>
-          </div>
+            </div>
+          )
         }
         infoHasBeenSubmitted={passwordHasBeenChanged}
         contentToShowAfterSubmit={

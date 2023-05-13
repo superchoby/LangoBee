@@ -84,15 +84,15 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         send_mail(
             "Password Reset for LangoBee",
             f"""
-                Hello {User.objects.get(username=reset_password_token.user).username.capitalize()}, <br><br>
+                Hello {User.objects.get(username=reset_password_token.user).username.capitalize()}, 
 
-                There was recently a request to change the password for your account.<br><br>
+                There was recently a request to change the password for your account.
 
-                If you requested this change, set a new password here:<br><br>
+                If you requested this change, set a new password here:
 
-                {fullUrl}<br><br>
+                {fullUrl}
 
-                Note: This url is invalid after 24 hours.<br><br>
+                Note: This url is invalid after 24 hours.
 
                 If you did not make this request, you can ignore this email and your password will remain the same.
             """,
