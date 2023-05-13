@@ -64,13 +64,11 @@ class SpacedRepetitionSystemStages(models.Model):
 
 class Review(models.Model):
     subject=models.ForeignKey('subjects.Subject', on_delete=models.CASCADE)
-    # current_level=models.PositiveIntegerField(default=1, choices=srsStages)
     current_level=models.ForeignKey(SpacedRepetitionSystemStages, null=True, on_delete=models.SET_NULL)
     next_review_date=models.DateTimeField(null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='reviews')
     user_already_knows_this = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
-    # These two fields are for when a user stops reviews midway and only answers one of the questions
     already_answered_reading_correctly = models.BooleanField(default=False)
     already_answered_meaning_correctly = models.BooleanField(default=False)
     times_got_reading_incorrect = models.PositiveIntegerField(default=0)
@@ -78,6 +76,23 @@ class Review(models.Model):
     times_user_attempted_reading = models.PositiveIntegerField(default=0)
     times_user_attempted_meaning = models.PositiveIntegerField(default=0)
     times_this_was_completed = models.PositiveBigIntegerField(default=0)
+
+    @classmethod
+    def create_brand_new_level_one_review(cls, user, subject, is_fast_review_card, review_now):        
+        srs_system_name = (SpaceRepetitionSystems.FAST if is_fast_review_card else SpaceRepetitionSystems.DEFAULT).value
+        srs_system = SpacedRepetitionSystem.objects.get(name=srs_system_name) 
+
+        instance = cls.objects.create(
+            user=user, 
+            subject=subject,
+            next_review_date=timezone.now() if review_now else timezone.now() + timedelta(hours=subject.srs_type.stages.get(stage=1).time_until_next_review),
+            current_level=SpacedRepetitionSystemStages.objects.get(
+                stage=1, 
+                system_this_belongs_to=srs_system,
+            )
+        )
+
+        return instance
 
     class Meta:
         ordering = ('next_review_date',)

@@ -142,7 +142,7 @@ export const QuizGenerator = ({
             if (onCompletedAllSubjectsQuestions != null) {
               onCompletedAllSubjectsQuestions(subjectId, userGotCorrect)
             }
-            if (!correctSubjects.some(data => data.subjectId === subjectId)) {
+            if (timesSubjectAnsweredAndNeedsToBeAnswered[currentQuestion.subjectData.subjectId].userGotCorrect && !correctSubjects.some(data => data.subjectId === subjectId)) {
               changeCorrectSubjects([...correctSubjects, currentQuestion.subjectData ])
             }
           }
@@ -344,7 +344,7 @@ export const QuizGenerator = ({
               }}
             />
             <div className='quiz-generator-total-progress'>
-              <div className='quiz-generator-current-progress' style={{ width: `${((content.length - questionsOrder.length) / totalPointsNeeded) * 100}%` }} />
+              <div className='quiz-generator-current-progress' style={{ width: `${(usersTotalPoints / totalPointsNeeded) * 100}%` }} />
             </div>
             <div className='quiz-generator-users-progress-fraction'>{usersTotalPoints} / {totalPointsNeeded}</div>
           </div>

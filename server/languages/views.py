@@ -83,7 +83,6 @@ class GetRemainingSubjectsForLevel(APIView):
                     else:
                         subjects_remaining_in_this_level['grammar'] += 1
 
-
         for subject in users_progress_on_course.current_level.subjects.all():
             if request.user.subjects.filter(pk=subject.id).exists():
                 subjects_already_done_this_level += 1

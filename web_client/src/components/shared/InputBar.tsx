@@ -1,5 +1,6 @@
 import { toHiragana, toKatakana, isHiragana, isKatakana, isJapanese } from 'wanakana'
 import { useEffect, useRef, useState } from 'react'
+import { JAPANESE_CHAR_REGEX } from './values'
 import './InputBar.scss'
 import unbind from './QuizGenerator/src/unbind'
 import bind from './QuizGenerator/src/bind'
@@ -55,7 +56,6 @@ export const inputIsInvalid = (value: string, answerIsInJapanese: boolean): bool
   if (value.length === 0) {
     return true
   }
-  const japaneseCharRegex = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/
   let hasHiragana = false
   let hasKatakana = false
   let hasANumber = false
@@ -71,7 +71,7 @@ export const inputIsInvalid = (value: string, answerIsInJapanese: boolean): bool
       hasANumber = true
     } else if (/^[a-zA-Z]+$/.test(char)) {
       hasEnglish = true
-    } else if (japaneseCharRegex.test(char)) {
+    } else if (JAPANESE_CHAR_REGEX.test(char)) {
       hasJapaneseChar = true
     }
   }

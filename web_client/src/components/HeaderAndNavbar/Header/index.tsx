@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import { HOME_PATH } from 'src/paths'
 import Logo from '../../../images/Logo.png'
+import { SearchDictionary } from './SearchDictionary'
 
 export const Header = () => {
   return (
@@ -16,6 +17,7 @@ export const Header = () => {
                 <Link to={HOME_PATH}>
                     <img src={Logo} className='header-logo' alt="Logo" />
                 </Link>
+                <SearchDictionary />
                 <div className='header-right-side header-side-container'>
                     <ArticlesLink />
                     <StreakIcon />

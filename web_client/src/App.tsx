@@ -30,6 +30,7 @@ import { SubscriptionsPage } from './components/Subscription'
 import { Privacy } from './components/Legal/Privacy'
 import { TermsOfService } from './components/Legal/TermsOfService'
 import { Checkout } from './components/Subscription/Checkout'
+import { Dictionary } from './components/Dictionary'
 import {
   LOGIN_PATH,
   HOME_PATH,
@@ -47,7 +48,8 @@ import {
   CHECKOUT_PATH,
   TERMS_OF_SERVICE_PATH,
   PRIVACY_PATH,
-  TEST_PATH
+  TEST_PATH,
+  DICTIONARY_PATH
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -233,7 +235,8 @@ function App () {
             <Route path={STATISTICS_PATH} element={<HeaderAndNavbar PageContents={<StatisticsSection />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
             {/* <Route path={`${CHECKOUT_PATH}/success`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} /> */}
-            <Route path={`${CHECKOUT_PATH}`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
+            <Route path={CHECKOUT_PATH} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
+            <Route path={`${DICTIONARY_PATH}/:word`} element={<HeaderAndNavbar PageContents={<Dictionary />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={REVIEWS_INFO_PATH} element={<InformationOnReviews />} />
             <Route path="/ImmersionLevelInfo" element={<ImmersionLevelInfo />} />
             <Route path="/Settings" element={<HeaderAndNavbar PageContents={<Settings />} hasGapBetweenHeaderAndContents={true} />} />

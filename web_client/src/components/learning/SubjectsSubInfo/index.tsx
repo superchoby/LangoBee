@@ -23,6 +23,7 @@ import {
 import { toKatakana, isKana } from 'wanakana'
 import { HiSpeakerWave } from 'react-icons/hi2'
 import { DifferenceExplanation } from './DifferenceExplanation'
+import { cleanKanjiReadings } from '../../shared/cleanKanjiReadings'
 import './index.scss'
 
 function removeParenthesesContent (input: string): string {
@@ -450,25 +451,14 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
           ) : <Fragment key='blank'></Fragment>
         ]
 
-        const getUniqueAndCleanReadings = (readings: string[]) => {
-          const readingSet = new Set<string>()
-          for (const reading of readings) {
-            let modifiedReading = reading
-            const dotIdx = modifiedReading.indexOf('.')
-            if (dotIdx !== -1) {
-              modifiedReading = modifiedReading.slice(0, dotIdx)
-            }
-            readingSet.add(modifiedReading.replace('-', ''))
-          }
-          return Array.from(readingSet)
-        }
+        
 
         const kanjiReadingsSubjectContent: JSX.Element[] = []
         if (onyomi.length > 0) {
           kanjiReadingsSubjectContent.push(
               <SubjectsSubInfoSection subheader='Onyomi' key='Onyomi'>
                 <div>
-                  {getUniqueAndCleanReadings(onyomi).map(reading => toKatakana(reading)).join(', ')}
+                  {cleanKanjiReadings(onyomi).map(reading => toKatakana(reading)).join(', ')}
                 </div>
               </SubjectsSubInfoSection>
           )
@@ -478,7 +468,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
           kanjiReadingsSubjectContent.push(
               <SubjectsSubInfoSection subheader='Kunyomi' key='Kunyomi' isLastSubsection={true}>
                 <div>
-                  {getUniqueAndCleanReadings(kunyomi).join(', ')}
+                  {cleanKanjiReadings(kunyomi).join(', ')}
                 </div>
               </SubjectsSubInfoSection>
           )

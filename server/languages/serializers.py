@@ -113,3 +113,12 @@ class CourseLevelSerializer(serializers.ModelSerializer):
             'standards_level',
             'test_that_ends_here'
         ]
+
+
+class CourseLevelNumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseLevels
+        editable = False
+        fields = [
+            'number',
+        ]

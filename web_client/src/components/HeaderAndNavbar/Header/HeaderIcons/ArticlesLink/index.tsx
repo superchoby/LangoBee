@@ -12,6 +12,7 @@ export const ArticlesLink = (): JSX.Element => {
           </div>
         }
         isTheRightMostIcon={false}
+        isTheLeftMostIcon={true}
         link={ARTICLE_HOMEPAGE_PATH}
     />
   )

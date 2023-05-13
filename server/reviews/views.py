@@ -42,17 +42,7 @@ class ReviewView(APIView):
                     user_already_knows_this=True
                 )
             else:
-                srs_system_name = (SpaceRepetitionSystems.FAST if request.data['isFastReviewCard'] else SpaceRepetitionSystems.DEFAULT).value
-                srs_system = SpacedRepetitionSystem.objects.get(name=srs_system_name) 
-                Review.objects.create(
-                    user=user, 
-                    subject=subject,
-                    next_review_date=timezone.now() + timedelta(hours=subject.srs_type.stages.get(stage=1).time_until_next_review),
-                    current_level=SpacedRepetitionSystemStages.objects.get(
-                        stage=1, 
-                        system_this_belongs_to=srs_system,
-                    )
-                )
+                Review.create_brand_new_level_one_review(request.user, subject, request.data['isFastReviewCard'], False)
 
             progress_on_course = UsersProgressOnCourse.objects.get(user=user, course=subject.course)
             user_has_completed_level = True
