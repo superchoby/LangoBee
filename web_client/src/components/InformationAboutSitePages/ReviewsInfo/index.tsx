@@ -11,6 +11,7 @@ export const InformationOnReviews = (): JSX.Element => {
         <PageContainer
             hasHomeButtonOnBottom={true}
             header='Space Repitition System'
+            homeButtonGoesToRoot={false}
         >
             <div className='information-about-site-pages-container'>
                 <div>

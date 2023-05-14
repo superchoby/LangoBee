@@ -54,7 +54,8 @@ import {
   FORGOT_PASSWORD_PATH,
   IMMERSION_LEVEL_INFO_PATH,
   SETTINGS_PATH,
-  RESET_PASSWORD_PATH
+  RESET_PASSWORD_PATH,
+  SIGN_UP_PATH
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -249,19 +250,16 @@ function App () {
             <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
             {/* <Route path={`${CHECKOUT_PATH}/success`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} /> */}
             <Route path={CHECKOUT_PATH} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={`${DICTIONARY_PATH}/:word?`} element={<HeaderAndNavbar PageContents={<Dictionary />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={REVIEWS_INFO_PATH} element={<InformationOnReviews />} />
             <Route path={IMMERSION_LEVEL_INFO_PATH} element={<ImmersionLevelInfo />} />
             <Route path={SETTINGS_PATH} element={<HeaderAndNavbar PageContents={<Settings />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={ARTICLE_PATH(false)} element={<Article />} />
             <Route path={ARTICLE_PATH(true)} element={<Article />} />
           </Route>
 
           <Route element={<RoutesAvailableForNonAuthAndAuthUsers />}>
-            <Route path={ARTICLE_HOMEPAGE_PATH}>
-              <Route index element={<ArticlesHomepage />} />
-              <Route path=":articleCategory/:articleName" element={<Article />} />
-            </Route>
+            <Route path={ARTICLE_PATH(false)} element={<Article />} />
+            <Route path={`${DICTIONARY_PATH}/:word?`} element={<HeaderAndNavbar PageContents={<Dictionary />} hasGapBetweenHeaderAndContents={true} />} />
+            <Route path={ARTICLE_HOMEPAGE_PATH} element={<ArticlesHomepage />} />
           </Route>
 
           <Route path={PRIVACY_PATH} element={<Privacy />} />
@@ -271,7 +269,7 @@ function App () {
               <Login />
             </ResetUserInfoWrapper>
           )} />
-          <Route path="/signup" element={(
+          <Route path={SIGN_UP_PATH} element={(
             <ResetUserInfoWrapper>
               <Signup />
             </ResetUserInfoWrapper>

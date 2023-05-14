@@ -13,6 +13,7 @@ import { toHiragana, isHiragana } from 'wanakana'
 import './index.scss'
 import { useNavigate } from 'react-router-dom'
 import { DICTIONARY_PATH } from 'src/paths'
+import { useOutletContext } from 'react-router-dom'
 
 interface DictionaryResults {
     vocabulary: JmdictAndLevels[]
@@ -29,6 +30,7 @@ export const Dictionary = () => {
         window.innerWidth,
         window.innerHeight,
     ])
+    const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -73,7 +75,7 @@ export const Dictionary = () => {
     ), [dictionaryResults.kanji])
 
     return (
-        <div className='dictionary-page-container'>
+        <div className={`dictionary-page-container ${userIsAuthenicated ? '' : 'dictionary-page-container-logged-out'}`}>
             <h1>Dictionary</h1>
             <input 
                 className='dictionary-page-input' 

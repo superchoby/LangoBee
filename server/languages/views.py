@@ -203,17 +203,19 @@ class GetUsersSubjectsForLessons(APIView):
         })
 
 class SpecificArticleView(APIView):
+    permission_classes = [permissions.AllowAny]
+    
     def get(self, request, language, slug):
         language = Language.objects.get(name=language)
         article = Article.objects.get(language=language, slug=slug)
-        user = User.objects.get(id=request.user.id)
-        user_has_finished_this_article = None
-        if user.read_articles.filter(pk=article.id).exists():
-            users_progress = UsersArticleProgress.objects.get(user=user, article=article)
-            user_has_finished_this_article = users_progress.user_finished_reading_this
-        else:
-            UsersArticleProgress.objects.create(user=user, article=article, user_finished_reading_this=False)
-            user_has_finished_this_article = False
+        user_has_finished_this_article = False
+        if request.user.is_authenticated:            
+            if request.user.read_articles.filter(pk=article.id).exists():
+                users_progress = UsersArticleProgress.objects.get(user=request.user, article=article)
+                user_has_finished_this_article = users_progress.user_finished_reading_this
+            else:
+                UsersArticleProgress.objects.create(user=request.user, article=article, user_finished_reading_this=False)
+                user_has_finished_this_article = False
 
         return Response({
             'article': ArticleSerializer(article).data,

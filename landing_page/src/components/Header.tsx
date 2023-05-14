@@ -6,6 +6,10 @@ import { Link } from 'react-scroll';
 
 import config from '../config/index.json';
 
+const isInDevMode =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+const webAppLocalHostURL = 'http://localhost:3000';
 const Menu = () => {
   const { navigation, company, callToAction } = config;
   const { name: companyName, logo } = company;
@@ -46,21 +50,34 @@ const Menu = () => {
               </div>
             </div>
             <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  spy={true}
-                  active="active"
-                  smooth={true}
-                  duration={1000}
-                  key={item.name}
-                  to={item.href}
-                  className="font-medium text-gray-500 hover:text-gray-900"
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map(({ name, href }) => {
+                if (href.includes('/')) {
+                  return (
+                    <a
+                      className="font-medium text-gray-500 hover:text-gray-900"
+                      key={name}
+                      href={isInDevMode ? `${webAppLocalHostURL}${href}` : href}
+                    >
+                      {name}
+                    </a>
+                  );
+                }
+                return (
+                  <Link
+                    spy={true}
+                    active="active"
+                    smooth={true}
+                    duration={1000}
+                    key={name}
+                    to={href}
+                    className="font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    {name}
+                  </Link>
+                );
+              })}
               <a
-                href="/home"
+                href={isInDevMode ? `${webAppLocalHostURL}/home` : '/home'}
                 className={`font-medium text-primary hover:text-secondary`}
               >
                 Login
@@ -99,22 +116,41 @@ const Menu = () => {
                 </div>
               </div>
               <div className="px-2 pt-2 pb-3 space-y-1">
-                {navigation.map((item) => (
-                  <Link
-                    spy={true}
-                    active="active"
-                    smooth={true}
-                    duration={1000}
-                    key={item.name}
-                    to={item.href}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {navigation.map(({ name, href }) => {
+                  if (href.includes('/')) {
+                    return (
+                      <a
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                        key={name}
+                        href={
+                          isInDevMode ? `${webAppLocalHostURL}${href}` : href
+                        }
+                      >
+                        {name}
+                      </a>
+                    );
+                  }
+                  return (
+                    <Link
+                      spy={true}
+                      active="active"
+                      smooth={true}
+                      duration={1000}
+                      key={name}
+                      to={href}
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    >
+                      {name}
+                    </Link>
+                  );
+                })}
               </div>
               <a
-                href={callToAction.href}
+                href={
+                  isInDevMode
+                    ? `${isInDevMode}${callToAction.href}`
+                    : callToAction.href
+                }
                 className={`block w-full px-5 py-3 text-center font-medium text-primary bg-gray-50 hover:bg-gray-100`}
               >
                 {callToAction.text}

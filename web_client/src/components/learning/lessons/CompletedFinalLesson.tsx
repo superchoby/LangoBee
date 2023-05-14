@@ -6,6 +6,7 @@ export const CompletedFinalLesson = (): JSX.Element => {
         <PageContainer
               hasHomeButtonOnBottom={true}
               header='Reached our Last Lesson'
+              homeButtonGoesToRoot={false}
         >
             <>
                 <p>
