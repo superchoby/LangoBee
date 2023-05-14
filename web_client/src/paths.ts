@@ -1,3 +1,5 @@
+export const IS_IN_DEV_MODE = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
+export const ROOT_PATH = IS_IN_DEV_MODE ? 'http://localhost:8080/' : '/'
 export const HOME_PATH = '/home'
 export const STORIES_HOME_PATH = '/stories'
 export const READ_STORY = '/stories/:language/:slug'
@@ -10,6 +12,7 @@ export const REVIEWS_INFO_PATH = '/reviews-info'
 export const LESSONS_SESSION_PATH = `${LESSONS_PATH}/session`
 export const LOGIN_PATH = '/login'
 export const CONTACT_US_PATH = '/contact-us'
+export const SIGN_UP_PATH = '/signup'
 export const SUBSCRIPTION_PATH = '/subscription'
 export const CHECKOUT_PATH = '/checkout'
 export const PRIVACY_PATH = '/privacy'

@@ -4,6 +4,7 @@ import { cleanKanjiReadings } from '../shared/cleanKanjiReadings'
 import { toKatakana, toRomaji } from 'wanakana'
 import { useFetchStatus } from '../shared/useFetchStatus'
 import { PulseLoader } from 'react-spinners'
+import { useOutletContext } from 'react-router-dom'
 import './DictionaryEntry.scss'
 
 const JLPT_LEVEL = 'jlpt'
@@ -27,6 +28,8 @@ const AddToReviewButton = ({
     dataToAddToReview
 }: AddToReviewButtonProps) => {
     const [userAlreadyKnowsThis, changeUserAlreadyKnowsThis] = useState(false)
+    const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
+    const [unauthenticatedUserTriedToAddThis, changeUnauthenticatedUserTriedToAddThis] = useState(false)
     const { 
         fetchData, 
         isFetching, 
@@ -47,10 +50,18 @@ const AddToReviewButton = ({
     return (
         <button 
             className={`dictionary-add-to-review-button ${className} ${isIdle ? '' : 'dictionary-add-to-review-button-non-clickable'}`}
-            onClick={() => { if (isIdle) addToReviews() }}
+            onClick={() => { 
+                if (userIsAuthenicated && isIdle) {
+                    addToReviews()
+                } else if (!userIsAuthenicated) {
+                    changeUnauthenticatedUserTriedToAddThis(true)
+                }
+            }}
         >
             {(() => {
-                if (isIdle) {
+                if (unauthenticatedUserTriedToAddThis) {
+                    return 'Join to Study this Subject!'
+                } else if (isIdle) {
                     return 'Add To Reviews'
                 } else if (isFetching) {
                     return <PulseLoader size={4} color='#3A3A3A' />
@@ -127,14 +138,15 @@ export const VocabularyDictionaryEntry = ({
     const wordIsMainlyKanji = kanjiVocabulary.length > 0 && kanjiVocabulary[0].common
     const wordsLength = (kanjiVocabulary.length > 0 ? kanjiVocabulary[0].text : kanaVocabulary[0].text).length
     const isACommonWord = wordIsMainlyKanji || kanaVocabulary[0].common
+    // debugger
 
     return (
         <div className={`dictionary-entry ${wordsLength >= 5 ? 'dictionary-entry-for-long-word' : 'dictionary-entry-for-short-word'}`}>
             <AddToReviewButton className='dictionary-add-to-reviews-for-vocab' dataToAddToReview={{subject_type: 'vocabulary', jmdict_id: jmDictId}} />
             <div className='dictionary-entry-word'>
                 <div>
-                    {wordIsMainlyKanji && <span className='dictionary-entry-words-main-representation'>{kanjiVocabulary[0].text}</span>}
-                    <span className={`dictionary-entry-words-main-representation${wordIsMainlyKanji ? 's-reading' : ''}`}>
+                    {kanjiVocabulary.length > 0 && <span className='dictionary-entry-words-main-representation'>{kanjiVocabulary[0].text}</span>}
+                    <span className={`dictionary-entry-words-main-representation${kanjiVocabulary.length > 0 ? 's-reading' : ''}`}>
                         {kanaVocabulary[0].text}
                     </span>
                     <rt className='dictionary-entry-words-main-representations-reading-romaji'>{toRomaji(kanaVocabulary[0].text)}</rt>

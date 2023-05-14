@@ -6,6 +6,7 @@ export const ImmersionLevelInfo = (): JSX.Element => {
         <PageContainer
             header='Immersion Level'
             hasHomeButtonOnBottom={true}
+            homeButtonGoesToRoot={false}
         >
             <div className='information-about-site-pages-container'>
                 <div>

@@ -11,6 +11,9 @@ import { JAPANESE_CHAR_REGEX } from '../shared/values'
 import { KanjiSubject } from '../learning/lessons/SubjectTypes'
 import { toHiragana, isHiragana } from 'wanakana'
 import './index.scss'
+import { useNavigate } from 'react-router-dom'
+import { DICTIONARY_PATH } from 'src/paths'
+import { useOutletContext } from 'react-router-dom'
 
 interface DictionaryResults {
     vocabulary: JmdictAndLevels[]
@@ -20,12 +23,15 @@ interface DictionaryResults {
 export const Dictionary = () => {
     const { word } = useParams()
     const [dictionaryResults, changeDictionaryResults] = useState<DictionaryResults>({vocabulary: [] ,kanji: []})
-    const { fetchData, isFetching, isError } = useFetchStatus<DictionaryResults>('subjects/search/', changeDictionaryResults);
+    const { fetchData, isFetching, isError, isSuccess } = useFetchStatus<DictionaryResults>('subjects/search/', changeDictionaryResults);
     const [typeOfEntriesToShow, changeTypeOfEntriesToShow] = useState<'vocab' | 'kanji'>('vocab')
+    const [usersCurrentSearchEntry, changeUsersCurrentSearchEntry] = useState('')
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
     ])
+    const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (word != null && word.length > 0) {
@@ -44,6 +50,10 @@ export const Dictionary = () => {
           window.removeEventListener('resize', handleWindowResize);
         };
       }, []);    
+
+    const searchForWord = () => {
+        navigate(`${DICTIONARY_PATH}/${usersCurrentSearchEntry}`)
+    }
 
     const wordIsJapanese = word != null && JAPANESE_CHAR_REGEX.test(word)
     const quotesAroundWord = word != null && word.length > 1 && word[0] === '"' && word[word.length - 1] === '"'
@@ -65,24 +75,17 @@ export const Dictionary = () => {
     ), [dictionaryResults.kanji])
 
     return (
-        <div className='dictionary-page-container'>
+        <div className={`dictionary-page-container ${userIsAuthenicated ? '' : 'dictionary-page-container-logged-out'}`}>
             <h1>Dictionary</h1>
-            <div className='dictionary-vocab-kanji-selector-container'>
-                <button
-                    className={`dictionary-vocab-selector-${typeOfEntriesToShow === 'vocab' ? 'selected' : 'not-selected'}`} 
-                    onClick={() => changeTypeOfEntriesToShow('vocab')}
-                >
-                    Vocabulary
-                </button>
-                <button
-                    className={`dictionary-kanji-selector-${typeOfEntriesToShow === 'kanji' ? 'selected' : 'not-selected'}`} 
-                    onClick={() => changeTypeOfEntriesToShow('kanji')}
-                >
-                    Kanji
-                </button>
-            </div>
+            <input 
+                className='dictionary-page-input' 
+                onChange={(({target: {value}}) => changeUsersCurrentSearchEntry(value))}
+                placeholder="Enter any word or kanji and I'll show you the world" 
+                value={usersCurrentSearchEntry}
+                onKeyDown={({key}) => {if (key === 'Enter') searchForWord()}}
+            />
 
-            {word != null && (
+            {word != null ? (
                 <p className='dictionary-header'>
                     Search results for:&nbsp;
                     <span className='word-user-is-searching-for'>
@@ -90,6 +93,29 @@ export const Dictionary = () => {
                     </span>
                     {!wordIsJapanese && !(quotesAroundWord  || !isHiragana(toHiragana(word))) && <span>&nbsp;Type "{word}" to search for it in English</span>}
                 </p>
+            ) : (
+                <p className='dictionary-header'>Enter a word in the input above and press enter to search for it.</p>
+            )}
+
+            {isSuccess && (
+                dictionaryResults.kanji.length === 0 && dictionaryResults.vocabulary.length === 0 ? (
+                    <p className='dictionary-nothing-found'>No results were found</p>
+                ) : (
+                    <div className='dictionary-vocab-kanji-selector-container'>
+                        <button
+                            className={`dictionary-vocab-selector-${typeOfEntriesToShow === 'vocab' ? 'selected' : 'not-selected'}`} 
+                            onClick={() => changeTypeOfEntriesToShow('vocab')}
+                        >
+                            Vocabulary
+                        </button>
+                        <button
+                            className={`dictionary-kanji-selector-${typeOfEntriesToShow === 'kanji' ? 'selected' : 'not-selected'}`} 
+                            onClick={() => changeTypeOfEntriesToShow('kanji')}
+                        >
+                            Kanji
+                        </button>
+                    </div>
+                )
             )}
 
             {

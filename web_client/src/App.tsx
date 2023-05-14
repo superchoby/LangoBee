@@ -1,5 +1,5 @@
 import { Homepage } from './components/homepage'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Children, isValidElement, cloneElement } from 'react'
 import './App.scss'
 import { BrowserRouter, Routes, Route, useNavigate, Outlet, createSearchParams } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
@@ -54,7 +54,8 @@ import {
   FORGOT_PASSWORD_PATH,
   IMMERSION_LEVEL_INFO_PATH,
   SETTINGS_PATH,
-  RESET_PASSWORD_PATH
+  RESET_PASSWORD_PATH,
+  SIGN_UP_PATH
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -82,7 +83,9 @@ const ResetUserInfoWrapper = ({ children }: { children: JSX.Element }): JSX.Elem
   return children
 }
 
-const ProtectedRoute = (): JSX.Element => {
+const ProtectedRoute = ({
+  ComponentToRender
+}: {ComponentToRender?: JSX.Element}): JSX.Element => {
   const { access, refresh } = useAppSelector(state => state.token)
   const [finishedVerifyingToken, setFinishedVerifyingToken] = useState(false)
   const navigate = useNavigate()
@@ -198,7 +201,13 @@ const ProtectedRoute = (): JSX.Element => {
       })
   }, [access, dispatch, navigate, refresh])
 
-  return finishedVerifyingToken ? <Outlet /> : <></>
+  return finishedVerifyingToken ? (ComponentToRender == null ? <Outlet context={{userIsAuthenicated: true}} /> : ComponentToRender) : <></>
+}
+
+const RoutesAvailableForNonAuthAndAuthUsers = () => {
+  const { access } = useAppSelector(state => state.token)
+
+  return access === '' ? <Outlet context={{userIsAuthenicated: false}} /> : <ProtectedRoute ComponentToRender={<Outlet context={{userIsAuthenicated: true}} />}/>
 }
 
 const PaidUsersOnlyRoute = () => {
@@ -241,26 +250,26 @@ function App () {
             <Route path={SUBSCRIPTION_PATH} element={<HeaderAndNavbar PageContents={<SubscriptionsPage />} hasGapBetweenHeaderAndContents={true} />} />
             {/* <Route path={`${CHECKOUT_PATH}/success`} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} /> */}
             <Route path={CHECKOUT_PATH} element={<HeaderAndNavbar PageContents={<Checkout />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={`${DICTIONARY_PATH}/:word`} element={<HeaderAndNavbar PageContents={<Dictionary />} hasGapBetweenHeaderAndContents={true} />} />
             <Route path={REVIEWS_INFO_PATH} element={<InformationOnReviews />} />
             <Route path={IMMERSION_LEVEL_INFO_PATH} element={<ImmersionLevelInfo />} />
             <Route path={SETTINGS_PATH} element={<HeaderAndNavbar PageContents={<Settings />} hasGapBetweenHeaderAndContents={true} />} />
-            <Route path={ARTICLE_PATH(false)} element={<Article />} />
             <Route path={ARTICLE_PATH(true)} element={<Article />} />
-            <Route path={ARTICLE_HOMEPAGE_PATH}>
-              <Route index element={<ArticlesHomepage />} />
-              <Route path=":articleCategory/:articleName" element={<Article />} />
-            </Route>
           </Route>
+
+          <Route element={<RoutesAvailableForNonAuthAndAuthUsers />}>
+            <Route path={ARTICLE_PATH(false)} element={<Article />} />
+            <Route path={`${DICTIONARY_PATH}/:word?`} element={<HeaderAndNavbar PageContents={<Dictionary />} hasGapBetweenHeaderAndContents={true} />} />
+            <Route path={ARTICLE_HOMEPAGE_PATH} element={<ArticlesHomepage />} />
+          </Route>
+
           <Route path={PRIVACY_PATH} element={<Privacy />} />
           <Route path={TERMS_OF_SERVICE_PATH} element={<TermsOfService />} />
-
           <Route path={LOGIN_PATH} element={(
             <ResetUserInfoWrapper>
               <Login />
             </ResetUserInfoWrapper>
           )} />
-          <Route path="/signup" element={(
+          <Route path={SIGN_UP_PATH} element={(
             <ResetUserInfoWrapper>
               <Signup />
             </ResetUserInfoWrapper>

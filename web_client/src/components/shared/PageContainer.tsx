@@ -1,6 +1,6 @@
 import { BackButton } from './BackButton'
 import { Link } from 'react-router-dom'
-import { HOME_PATH } from 'src/paths'
+import { HOME_PATH, ROOT_PATH } from 'src/paths'
 import './PageContainer.scss'
 
 interface PageContainerProps {
@@ -8,21 +8,24 @@ interface PageContainerProps {
   header: string
   children: JSX.Element
   hasHomeButtonOnBottom: boolean
+  homeButtonGoesToRoot: boolean
 }
 
 export const PageContainer = ({
   className,
   header,
   children,
-  hasHomeButtonOnBottom
+  hasHomeButtonOnBottom,
+  homeButtonGoesToRoot
 }: PageContainerProps): JSX.Element => {
+
   return (
         <div className={`page-container ${className ?? ''}`}>
-            <BackButton />
+            <BackButton link={homeButtonGoesToRoot ? ROOT_PATH : HOME_PATH} />
             <h1 className='page-container-header'>{header}</h1>
             {children}
             {hasHomeButtonOnBottom && (
-                <Link to={HOME_PATH} className='page-container-home-link'>
+                <Link to={homeButtonGoesToRoot ? ROOT_PATH : HOME_PATH} className='page-container-home-link'>
                     Home
                 </Link>
             )}

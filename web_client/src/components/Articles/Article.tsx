@@ -1,15 +1,17 @@
 import { useParams, useNavigate, useMatch } from 'react-router-dom'
-import { ArticlesDict } from './ArticlesList'
-import { PageContainer } from '../shared/PageContainer'
 import { useEffect, useState } from 'react'
 import {
   ARTICLE_PATH,
-  LESSONS_PATH
+  LESSONS_PATH,
+  ARTICLE_HOMEPAGE_PATH
 } from 'src/paths'
 import axios from 'axios'
 import { Header } from 'src/components/HeaderAndNavbar/Header'
 import { BsCheckLg } from 'react-icons/bs'
 import './Article.scss'
+import { useOutletContext } from 'react-router-dom'
+import { BackButton } from '../shared/BackButton'
+import { LoggedOutHeader } from '../HeaderAndNavbar/Header/LoggedOutHeader'
 
 interface ArticleSection {
   content: string
@@ -28,6 +30,7 @@ export const Article = (): JSX.Element => {
   const [userHasFinishedThisArticle, changeUserHasFinishedThisArticle] = useState(false)
   const [errorUpdatingArticleAsRead, changeErrorUpdatingArticleAsRead] = useState(false)
   const [currentlyUpdatingArticleAsRead, changeCurrentlyUpdatingArticleAsRead] = useState(false)
+  const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
   const isLessonArticle = useMatch(ARTICLE_PATH(true)) != null
   const navigate = useNavigate()
 
@@ -89,7 +92,9 @@ export const Article = (): JSX.Element => {
   }
 
   const getButtonText = () => {
-    if (isLessonArticle) {
+    if (!userIsAuthenicated) {
+      return 'Back to Articles'
+    } else if (isLessonArticle) {
       return 'Back to Lesson'
     } else if (userHasFinishedThisArticle) {
       return (
@@ -104,8 +109,14 @@ export const Article = (): JSX.Element => {
   }
 
   return (
-      <div className='article-page' data-testid='article-page'>
-        <Header />
+      <div className={`article-page ${userIsAuthenicated ? '' : 'article-page-logged-out'}`} data-testid='article-page'>
+        
+        {userIsAuthenicated ? <Header /> : (
+          <>
+            <LoggedOutHeader />
+            <BackButton text='Articles' link={ARTICLE_HOMEPAGE_PATH}/>
+          </>
+        )}
         <h1>{article.title}</h1>
         {article.sections.map(({ header, content }) => {
           return <div className='article-section' key={header}>

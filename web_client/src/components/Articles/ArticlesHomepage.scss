@@ -18,6 +18,26 @@
     }
 }
 
+.articles-homepage-header {
+    font-size: 36px;
+    font-weight: 500;
+    margin: 15px auto 30px auto;
+    text-align: center;
+    width: 100%;
+}
+
+.articles-homepage {
+    font-size: 20px;
+    margin: 0 auto;
+    padding-bottom: 85px;
+    text-align: left;
+    width: 85%;
+
+    div {
+        text-align: center;
+    }
+}
+
 .more-articles-to-come-out-msg {
     margin-top: 30px;
 }
@@ -38,5 +58,27 @@
 
     a:hover {
         text-decoration: underline;
+    }
+}
+
+@media only screen and (min-width: 678px) {
+    .articles-homepage {
+        width: 580px;
+    }
+}
+
+@media only screen and (min-width: 775px) {
+    .articles-homepage-header {
+        margin-top: 25px;
+    }  
+}
+
+@media only screen and (min-width: 992px) {
+    .articles-homepage-header {
+        font-size: 40px;
+    }  
+    
+    .articles-homepage {
+        width: 700px;
     }
 }

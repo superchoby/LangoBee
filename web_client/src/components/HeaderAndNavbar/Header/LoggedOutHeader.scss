@@ -1,0 +1,25 @@
+.logged-out-header-container {
+    margin-bottom: 60px;
+}
+
+.logged-out-header-sign-up {
+    background-color: var(--light-blue);
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.logged-out-header-login {
+    font-weight: bold;
+}
+
+.logged-out-header-right-side > a {
+    margin-left: 15px;
+}
+
+@media only screen and (min-width: 992px) {
+    .logged-out-header-right-side > a {
+        font-size: 18px;
+    }
+}

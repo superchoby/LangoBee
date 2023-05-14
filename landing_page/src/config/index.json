@@ -20,6 +20,14 @@
     {
       "name": "Contact",
       "href": "contact"
+    },
+    {
+      "name": "Articles",
+      "href": "/articles-home"
+    },
+    {
+      "name": "Dictionary",
+      "href": "/dictionary"
     }
   ],
   "callToAction": {

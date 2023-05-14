@@ -39,7 +39,7 @@ class DictionarySearch(APIView):
                 words_to_search_for = [hiragana_version, katakana_version]
             else: 
                 word_to_search = request.data['word'][1:-1] if word_is_english_and_has_quotes else request.data['word']
-                search_results = jam.lookup(word_to_search)
+                search_results = jam.lookup(f"{word_to_search}{'%' if len(word_to_search) > 2 else ''}")
                 words_to_search_for = [word_to_search]
                 if len(search_results.entries) == 0:
                     search_results = jam.lookup(f'to {word_to_search}')
@@ -55,18 +55,18 @@ class DictionarySearch(APIView):
             if word_is_japanese:                
                 for i in range(len(entry.kanji_forms)):
                     if entry.kanji_forms[i].text in words_to_search_for:
-                        words_index = i
+                        words_index = i + 1
                         break
                     elif entry.kanji_forms[i].text.startswith(words_to_search_for[0]) and word_that_contains_this_word_in_beginning_index is None:
-                        word_that_contains_this_word_in_beginning_index = i
+                        word_that_contains_this_word_in_beginning_index = i + 1
                 
                 if words_index is None:
                     for i in range(len(entry.kana_forms)):
                         if entry.kana_forms[i].text in words_to_search_for:
-                            words_index = i
+                            words_index = i + 1
                             break
                         elif entry.kana_forms[i].text.startswith(words_to_search_for[0]) and (word_that_contains_this_word_in_beginning_index is None or i < word_that_contains_this_word_in_beginning_index):
-                            word_that_contains_this_word_in_beginning_index = i
+                            word_that_contains_this_word_in_beginning_index = i + 1
             else:
                 # Find what index the meaning appears in list of meanings, if there is none, find words who's meaning starts with the
                 # word the user is searching for as prefix
@@ -76,10 +76,10 @@ class DictionarySearch(APIView):
                         gloss = sense.gloss[j]
                         text = gloss.text
                         if text in words_to_search_for:
-                            words_index = (i + 1) * (j + 1)
+                            words_index = (i + 5) + (j + 1)
                             break
                         elif text.startswith(words_to_search_for[0]) and word_that_contains_this_word_in_beginning_index is None:
-                            word_that_contains_this_word_in_beginning_index = (i + 1) * (j + 1)
+                            word_that_contains_this_word_in_beginning_index = (i * 5) + (j + 1)
 
             word_index_info[entry.idseq] = {
                 'words_index': words_index,
@@ -91,7 +91,7 @@ class DictionarySearch(APIView):
             index_info = word_index_info[item.idseq]
             words_index = index_info['words_index']
             word_that_contains_this_word_in_beginning_index = index_info['word_that_contains_this_word_in_beginning_index']
-            return (words_index * -1 if words_index is not None else -100, str(item.idseq) in jmdict_common_entries, (word_that_contains_this_word_in_beginning_index * -1) if word_that_contains_this_word_in_beginning_index is not None else -100)
+            return (str(item.idseq) in jmdict_common_entries, words_index * -1 if words_index is not None else -100, (word_that_contains_this_word_in_beginning_index * -1) if word_that_contains_this_word_in_beginning_index is not None else -100)
 
         # For some queries with a LOT of entries in the dictionary, such as "shi", there are too many entries to process so code is 
         # really slow at getting all the JapaneseVocabuary instances of them so I process all the data beforehand, filter out everything
@@ -110,9 +110,8 @@ class DictionarySearch(APIView):
             words_index = index_info['words_index']
             word_that_contains_this_word_in_beginning_index = index_info['word_that_contains_this_word_in_beginning_index']
             word_index_sort = words_index * -1 if words_index is not None else -100
-            course_level_sort = item['course_level']['number'] * -1 if item['course_level'] is not None else -300
             word_that_starts_with_this_word_sort = (word_that_contains_this_word_in_beginning_index * -1) if word_that_contains_this_word_in_beginning_index is not None else -100
-            return (word_index_sort, course_level_sort, word_that_starts_with_this_word_sort)
+            return (str(item['jmdict']['jm_dict_id']) in jmdict_common_entries, word_index_sort, word_that_starts_with_this_word_sort)
 
         jmdict_tags_human_readable_names = json.load(open('subjects/jmdict_tag_to_human_readable.json'))
 

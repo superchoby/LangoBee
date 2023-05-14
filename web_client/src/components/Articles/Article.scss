@@ -2,6 +2,10 @@
     padding-bottom: 80px;
     margin: 0 auto;
     width: 90%;
+
+    h1 {
+        margin-bottom: 40px;
+    }
 }
 
 .article-section {
@@ -30,9 +34,9 @@
     // transition: background-color .2s;
 }
 
-.article-page {
-    font-size: 16px;
-    line-height: 18px;
+.article-section {
+    font-size: 18px;
+    line-height: 21px;
 }
 
 .article-done-button-check-mark {
@@ -47,8 +51,6 @@
 
 @media only screen and (min-width: 670px) {
     .article-page {
-        font-size: 18px;
-        line-height: 21px;
         width: 500px;
     }
 }

@@ -3,6 +3,17 @@
     width: 90%;
 }
 
+.dictionary-page-input {
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: var(--dark-gray);
+    font-size: 20px;
+    margin-bottom: 30px;
+    outline: none;
+    padding: 10px 10px;
+    width: 90%;
+}
+
 .kanji-results-container {
     display: flex;
     flex-wrap: wrap;
@@ -67,6 +78,11 @@
     opacity: .6;
 }
 
+.dictionary-nothing-found {
+    font-size: 22px;
+    margin-top: 100px;
+}
+
 @media only screen and (min-width: 700px) {
     .vocabulary-results-container {
         margin-left: 0;
@@ -75,10 +91,9 @@
 }
 
 @media only screen and (min-width: 992px) {
-    // .dictionary-page-container {
-    //     margin: 0 auto;
-    //     width: 730px;
-    // }
+    .dictionary-page-input {
+        margin-bottom: 10px;
+    }
     
     .dictionary-results-container-large-screen {
         display: flex;
@@ -106,6 +121,12 @@
 @media only screen and (min-width: 1200px) {
     .dictionary-page-container {
         width: 800px;
+    }
+}
+
+@media only screen and (min-width: 1350px) {
+    .dictionary-page-container-logged-out {
+        margin: 0 auto;
     }
 }
 
