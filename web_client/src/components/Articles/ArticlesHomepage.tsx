@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useFetchStatus } from '../shared/useFetchStatus'
 import { ARTICLE_PATH } from 'src/paths'
 import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
+import { useOutletContext } from 'react-router-dom'
 import './ArticlesHomepage.scss'
 
 interface ArticlesWithinThisCategoryType {
@@ -45,6 +46,7 @@ const ArticlePreview = ({
 export const ArticlesHomepage = (): JSX.Element => {
   const [articles, changeArticles] = useState<ArticlePreviewProps[]>([])
   const { fetchData, isFetching, isError } = useFetchStatus<ArticlePreviewProps[]>('languages/article', changeArticles);
+  const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
 
   useEffect(() => {
     fetchData({type: 'get'})
@@ -66,7 +68,7 @@ export const ArticlesHomepage = (): JSX.Element => {
                 ) : (
                   <>
                     <ul className='articles-homepage-articles-list'>
-                      {articles.map(props => <ArticlePreview {...props} />)}
+                      {articles.map(props => <ArticlePreview key={props.title} {...props} />)}
                     </ul>
                     
                     <p className='more-articles-to-come-out-msg'>More articles to come out in the future!</p>

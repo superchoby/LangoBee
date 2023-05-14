@@ -32,6 +32,7 @@ from .test_statuses import (
     PASSED_TEST,
     FAILED_TEST
 )
+from rest_framework import permissions, status
 
 class GetLevelsForLanguagesCourse(APIView):
     def get(self, request, language, course):
@@ -220,6 +221,8 @@ class SpecificArticleView(APIView):
         })
 
 class GeneralArticleView(APIView):
+    permission_classes = [permissions.AllowAny]
+    
     def get(self, request):
         article_data = ArticleSerializer(Article.objects.all(), many=True, context={'get_first_section_only': True}).data
         return Response(article_data)
