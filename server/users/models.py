@@ -39,7 +39,7 @@ class User(AbstractUser):
     def user_is_on_free_trial(self):
             now = timezone.now()
             seven_days_ago = now - timedelta(days=7)
-            return self.date_joined >= seven_days_ago and self.subscription is None or self.subscription.subscription_plan is None
+            return self.date_joined >= seven_days_ago and (self.subscription is None or self.subscription.subscription_plan is None)
     
     def has_access_to_paid_features(self):
         return self.user_is_on_free_trial() or (self.subscription is not None and self.subscription.end_date >= timezone.now())
