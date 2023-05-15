@@ -41,7 +41,7 @@ const App = () => {
     } else {
       changeCheckedForToken(true);
     }
-  }, []);
+  }, [checkedForToken]);
 
   return (
     <div
