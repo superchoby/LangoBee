@@ -2,7 +2,6 @@ import {
   AddToReviewButton,
   VocabularyDictionaryEntry,
   KanjiDictionaryEntry,
-  AddToReviewButtonProps,
   ADD_TO_REVIEW_BUTTON_MESSAGES,
   JmdictAndLevels,
   WordTags,
@@ -10,8 +9,7 @@ import {
   LANGOBEE_LEVEL,
   COMMON,
 } from '../DictionaryEntry'
-import { JMDict } from 'src/components/learning/lessons/SubjectTypes'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, cleanup } from '@testing-library/react'
 import { RouterWithLinks } from 'src/__mocks__/RouterWithLinks'
 import { toKatakana, toRomaji } from 'wanakana'
 
@@ -145,5 +143,38 @@ describe('Dictionary Entry', () => {
         render(<WordTags tagType={COMMON} text='dafadf' />)
         expect(screen.queryByText(COMMON)).toBeInTheDocument()
       })
+    })
+
+    describe('KanjiDictionaryEntry', () => {
+      const TEST_CHARACTER = '一'
+      const TEST_KUNYOMI = ['いち', 'に', 'さん']
+      const TEST_ONYOMI = ['し', 'ご', 'ろく']
+      const TEST_MEANINGS = ['1', '2']
+      
+      render(
+        <RouterWithLinks>
+          <KanjiDictionaryEntry 
+            character={TEST_CHARACTER}
+            kunyomi={TEST_KUNYOMI}
+            onyomi={TEST_ONYOMI}
+            meanings={TEST_MEANINGS}
+            strokeCount={1}
+            freq={1}
+            grade={1}
+            readingMnemonic=''
+            meaningMnemonic=''
+            radicalsUsed={[]}
+            kanjiContainedWithinThis={[]}
+            vocabularyThatUsesThis={null}
+            mainMeaningsToUse={[]}
+          />
+        </RouterWithLinks>
+      )
+      
+      expect(screen.queryByText(TEST_CHARACTER)).toBeInTheDocument()
+      expect(screen.queryByText(TEST_KUNYOMI.join(', '))).toBeInTheDocument()
+      expect(screen.queryByText(TEST_ONYOMI.map(reading => toKatakana(reading)).join(', '))).toBeInTheDocument()
+      expect(screen.queryByText(TEST_MEANINGS.join(', '))).toBeInTheDocument()
+      cleanup()
     })
 })

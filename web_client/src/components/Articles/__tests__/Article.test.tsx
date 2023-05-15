@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { Article } from '../Article';
 import { ARTICLE_HOMEPAGE_PATH } from 'src/paths';
-import {Routes, Route, MemoryRouter, Outlet} from 'react-router-dom'
+import { RouterWithLinks } from 'src/__mocks__/RouterWithLinks'
 
 const MockArticle = ({
     userIsAuthenticated,
@@ -9,17 +9,15 @@ const MockArticle = ({
 }: {
     userIsAuthenticated: boolean
     fetchesValidArticle: boolean
-}) => {
-    return (
-        <MemoryRouter initialEntries={[fetchesValidArticle ? '/articles/Japanese/test-slug' : '/articles/FalseLanguage/false-slug']}>
-            <Routes>
-                <Route path="/" element={<Outlet context={{userIsAuthenticated}} />}>
-                    <Route path='/articles/:language/:slug' element={<Article />} />
-                </Route>
-            </Routes>
-        </MemoryRouter>
-    )
-}
+}) => (
+    <RouterWithLinks 
+        initialEntries={[fetchesValidArticle ? '/articles/Japanese/test-slug' : '/articles/FalseLanguage/false-slug']}
+        componentsPath='/articles/:language/:slug'
+        context={{userIsAuthenticated}}
+    >
+        <Article />
+    </RouterWithLinks>
+)
 
 describe('Article', () => {
     describe('Logged Out Features',  () => {

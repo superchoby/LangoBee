@@ -7,18 +7,22 @@ interface RouterWithLinksProps {
     component: JSX.Element
   }>
   context?: { userIsAuthenticated: boolean }
+  initialEntries?: string[]
+  componentsPath?: string
 }
 
 export const RouterWithLinks = ({
   children,
   otherLinks=[],
-  context={userIsAuthenticated: true}
+  context={userIsAuthenticated: true},
+  initialEntries=[],
+  componentsPath,
 }: RouterWithLinksProps) => {
   return (
-    <MemoryRouter>
+    <MemoryRouter initialEntries={initialEntries}>
         <Routes>
           <Route path="/" element={<Outlet context={context} />}>
-            <Route index element={children} />
+            {componentsPath != null ? <Route path={componentsPath} element={children} /> : <Route index element={children} /> }
           </Route>
           {otherLinks.map(({ path, component }) => (
               <Route key={path} path={path} element={<>{component}</>}/>
