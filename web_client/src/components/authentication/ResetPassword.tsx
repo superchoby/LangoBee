@@ -82,6 +82,7 @@ export const ResetPassword = (): JSX.Element => {
               type='password'
               value={newPassword}
               changeValue={changeNewPassword}
+              key='new password'
           />,
           <AuthenticationInput
               id='reset-password-confirm-new-pass-input'
@@ -90,6 +91,7 @@ export const ResetPassword = (): JSX.Element => {
               type='password'
               value={confirmNewPassword}
               changeValue={changeConfirmNewPassword}
+              key='confirm new password'
           />
         ]}
         formName='login-form'
