@@ -17,13 +17,17 @@ export const HeaderAndNavbar = ({
   PageContents,
   hasGapBetweenHeaderAndContents
 }: HeaderAndNavbarProps): JSX.Element => {
-  const { isOnFreeTrial } = useAppSelector(state => state.user)
+  const { isOnFreeTrial, dateJoined } = useAppSelector(state => state.user)
   const [encourageUserToJoin, changeEncourageUserToJoin] = useState(isOnFreeTrial)
   const { userIsAuthenticated } = useUserIsAuthenticated()
 
   useEffect(() => {
-    changeEncourageUserToJoin(isOnFreeTrial)
-  }, [isOnFreeTrial])
+    let threeHoursAgo = new Date();
+    threeHoursAgo.setHours(threeHoursAgo.getHours() - 3);
+    changeEncourageUserToJoin(new Date(dateJoined) < threeHoursAgo)
+  }, [isOnFreeTrial, dateJoined])
+
+  console.log(encourageUserToJoin)
 
   return (
         <div className='header-and-navbar-container'>

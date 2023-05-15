@@ -4,7 +4,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import { updateToken } from '../../app/tokenSlice'
 import { useAppDispatch } from '../../app/hooks'
-import { HOME_PATH, SUBSCRIPTION_PATH } from 'src/paths'
+import { LESSONS_PATH, SUBSCRIPTION_PATH } from 'src/paths'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
 
 function ValidateEmail (email: string): boolean {
@@ -87,7 +87,7 @@ export const Signup = (): JSX.Element => {
           }))
           navigate(searchParams.get('take_to_subscription_page') === 'true' ? 
             SUBSCRIPTION_PATH :
-            HOME_PATH
+            LESSONS_PATH
           )
         })
         .catch(err => {
