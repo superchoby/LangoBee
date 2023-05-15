@@ -79,7 +79,6 @@ const getNewPosition = (position: number, positionIncreasing: boolean) => {
 export const Lessons = (): JSX.Element => {
   const [subjectsRemainingAtCurrentLevel, changeSubjectsRemainingAtCurrentLevel] = useState<SubjectsRemaining>({})
   const [showThisLevelsContents, changeShowThisLevelsContents] = useState<boolean>(false)
-  // const [previewThisLevelsArticle, changePreviewThisLevelsArticle] = useState(false)
   const [articleToPreview, changeArticleToPreview] = useState<{ title: string, slug: string } | null>(null)
   const [levelsList, changeLevelsList] = useState<CourseLevel[]>([])
   const [subjectsCompletedForCurrentLevel, changeSubjectsCompletedForCurrentLevel] = useState(0)
@@ -87,11 +86,11 @@ export const Lessons = (): JSX.Element => {
   const [userReadCurrentLevelsArticle, changeUserReadCurrentLevelsArticle] = useState(false)
   const [currentlyFetchingLevels, changeCurrentlyFetchingLevels] = useState(true)
   const [currentlyFetchingRemainingSubjectsForLevel, changeCurrentlyFetchingRemainingSubjectsForLevel] = useState(true)
-  // const [thisLevelsArticle, changeThisLevelsArticle] = useState<{ title: string, slug: string } | null>(null)
   const [usersSrsCountAndLimit, changeUsersSrsCountAndLimit] = useState({
     srsLimit: 0,
     srsSubjectsAddedToday: 0
   })
+
   const navigate = useNavigate()
 
   useEffect(() => {
