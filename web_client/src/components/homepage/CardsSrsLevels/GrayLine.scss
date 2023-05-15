@@ -6,11 +6,11 @@ $gray-line-height: 7px;
 }
 
 .left-gray-line {
-    border-top-right-radius: ($gray-line-height / 2);
-    border-bottom-right-radius: ($gray-line-height / 2);
+    border-top-right-radius: calc($gray-line-height / 2);
+    border-bottom-right-radius: calc($gray-line-height / 2);
 }
 
 .right-gray-line{
-    border-top-left-radius: ($gray-line-height / 2);
-    border-bottom-left-radius: ($gray-line-height / 2);
+    border-top-left-radius: calc($gray-line-height / 2);
+    border-bottom-left-radius: calc($gray-line-height / 2);
 }

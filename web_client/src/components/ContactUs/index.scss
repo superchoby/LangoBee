@@ -81,12 +81,16 @@
 }
 
 .contact-us-return {
+    align-items: center;
     background-color: var(--light-blue);
     border-radius: 8px;
     color: white;
+    display: flex;
     font-size: 18px;
     font-weight: bold;
     height: 45px;
+    justify-content: center;
+    margin: 0 auto;
     width: 110px;
 }
 

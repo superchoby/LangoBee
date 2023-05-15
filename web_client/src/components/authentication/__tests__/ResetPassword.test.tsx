@@ -17,21 +17,22 @@ jest.mock('react-router-dom', () => ({
   })
 }))
 describe('Reset Password Page Tests', () => {
-  it('Renders properly', () => {
+  it('Header and inputs render', () => {
     render(<MockResetPassword />)
-    const container = screen.getByLabelText('change password page')
-    expect(container).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'CHANGE PASSWORD' })).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('New Password')).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Confirm New Password')).toBeInTheDocument()
   })
 
   it('Shows success message after password change', async () => {
     const successMsg = 'Successfully changed password!'
     render(<MockResetPassword />)
 
-    const newPasswordInputElement = await screen.findByLabelText('New Password')
-    const confirmPasswordInputElement = await screen.getByLabelText('Confirm New Password')
+    const newPasswordInputElement = await screen.findByPlaceholderText('New Password')
+    const confirmPasswordInputElement = await screen.getByPlaceholderText('Confirm New Password')
     fireEvent.change(newPasswordInputElement, { target: { value: 'valid password' } })
     fireEvent.change(confirmPasswordInputElement, { target: { value: 'valid password' } })
-    const buttonElement = screen.getByText('CHANGE PASSWORD')
+    const buttonElement = screen.getByRole('button', { name: 'CHANGE PASSWORD' })
     fireEvent.click(buttonElement)
     expect(await screen.findByText(successMsg)).toBeInTheDocument()
   })
@@ -40,11 +41,11 @@ describe('Reset Password Page Tests', () => {
     const invalidPasswordMsg = 'The password is invalid'
     render(<MockResetPassword />)
 
-    const newPasswordInputElement = await screen.findByLabelText('New Password')
-    const confirmPasswordInputElement = await screen.getByLabelText('Confirm New Password')
+    const newPasswordInputElement = await screen.findByPlaceholderText('New Password')
+    const confirmPasswordInputElement = await screen.getByPlaceholderText('Confirm New Password')
     fireEvent.change(newPasswordInputElement, { target: { value: 'invalid password' } })
     fireEvent.change(confirmPasswordInputElement, { target: { value: 'invalid password' } })
-    const buttonElement = screen.getByText('CHANGE PASSWORD')
+    const buttonElement = screen.getByRole('button', { name: 'CHANGE PASSWORD' })
     fireEvent.click(buttonElement)
     expect(await screen.findByText(invalidPasswordMsg)).toBeInTheDocument()
   })

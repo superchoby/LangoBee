@@ -87,7 +87,7 @@ export const Lessons = (): JSX.Element => {
   const [userReadCurrentLevelsArticle, changeUserReadCurrentLevelsArticle] = useState(false)
   const [currentlyFetchingLevels, changeCurrentlyFetchingLevels] = useState(true)
   const [currentlyFetchingRemainingSubjectsForLevel, changeCurrentlyFetchingRemainingSubjectsForLevel] = useState(true)
-  const [thisLevelsArticle, changeThisLevelsArticle] = useState<{ title: string, slug: string } | null>(null)
+  // const [thisLevelsArticle, changeThisLevelsArticle] = useState<{ title: string, slug: string } | null>(null)
   const [usersSrsCountAndLimit, changeUsersSrsCountAndLimit] = useState({
     srsLimit: 0,
     srsSubjectsAddedToday: 0
@@ -103,14 +103,14 @@ export const Lessons = (): JSX.Element => {
           users_current_level,
           all_levels,
           user_read_current_levels_article,
-          this_levels_article
+          // this_levels_article
         } = res.data
 
         changeUserReadCurrentLevelsArticle(user_read_current_levels_article)
         changeCurrentLevelOnCourse(users_current_level)
         changeLevelsList(all_levels.map((level: any) => keysToCamel(level)))
         changeCurrentlyFetchingLevels(false)
-        changeThisLevelsArticle(this_levels_article)
+        // changeThisLevelsArticle(this_levels_article)
       })
       .catch(err => {
         console.error(err)

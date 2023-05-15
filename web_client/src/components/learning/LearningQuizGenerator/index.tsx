@@ -42,7 +42,7 @@ export const LearningQuizGenerator = ({
   subjectsAndTheirInitialReviewInfo
 }: LearningQuizGeneratorProps) => {
   const [subjectsAndTheirReviewLevel, changeSubjectsAndTheirReviewLevel] = useState<Record<string, { level: number, isFastReviewCard: boolean }>>(subjectsAndTheirInitialReviewInfo)
-  const [errorUpdatingStatusOfSubject, changeErrorUpdatingStatusOfSubject] = useState(false)
+  // const [errorUpdatingStatusOfSubject, changeErrorUpdatingStatusOfSubject] = useState(false)
   const [showNewReviewLevel, changeShowNewReviewLevel] = useState(false)
 
   const dispatch = useAppDispatch()
@@ -116,11 +116,11 @@ export const LearningQuizGenerator = ({
                       level: newSRSLevel
                     }
                   })
-                  changeErrorUpdatingStatusOfSubject(false)
+                  // changeErrorUpdatingStatusOfSubject(false)
                   changeShowNewReviewLevel(true)
                 })
                 .catch(() => {
-                  changeErrorUpdatingStatusOfSubject(true)
+                  // changeErrorUpdatingStatusOfSubject(true)
                 })
             }}
             onFinishedSubjectsQuestionsComponent={(_: boolean, subjectId: string, choiceSubmitted: boolean) => {

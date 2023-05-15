@@ -13,7 +13,7 @@ export const BackButton = ({
   link = HOME_PATH
 }: BackButtonProps): JSX.Element => {
   return (
-        <div className='page-back-button-container'>
+        <div className='page-back-button-container' data-testid='back-button'>
             <Link to={link} className='page-back-button'>
                 <AiOutlineArrowLeft /> {text}
             </Link>

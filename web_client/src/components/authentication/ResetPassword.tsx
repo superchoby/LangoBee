@@ -12,7 +12,6 @@ export const ResetPassword = (): JSX.Element => {
   const [confirmNewPassword, changeConfirmNewPassword] = useState('')
   const [emailIsBeingSent, changeEmailIsBeingSent] = useState(false)
   const [passwordHasBeenChanged, changePasswordHasBeenChanged] = useState(false)
-  const [errorHasOccurred, changeErrorHasOccurred] = useState(false)
   const [errorMsg, changeErrorMsg] = useState('')
   const { reset_token: resetToken } = useParams()
 
@@ -31,7 +30,6 @@ export const ResetPassword = (): JSX.Element => {
   const changePassword = (): void => {
     if (newPassword === confirmNewPassword && newPassword.length >= 8) {
       changeEmailIsBeingSent(true)
-      changeErrorHasOccurred(false)
       axios.post('api/password_reset/confirm/', {
         token: resetToken,
         password: newPassword
@@ -42,7 +40,6 @@ export const ResetPassword = (): JSX.Element => {
         })
         .catch(err => {
           changeEmailIsBeingSent(false)
-          changeErrorHasOccurred(true)
           try {
             changeErrorMsg(err.response.data.password[0])
           } catch (error) {
@@ -50,7 +47,6 @@ export const ResetPassword = (): JSX.Element => {
           }
         })
     } else {
-      changeErrorHasOccurred(true)
       changeErrorMsg(newPassword.length < 8 ? 'The password must be at least 8 characters' : 'The passwords must match')
     }
   }
@@ -86,6 +82,7 @@ export const ResetPassword = (): JSX.Element => {
               type='password'
               value={newPassword}
               changeValue={changeNewPassword}
+              key='new password'
           />,
           <AuthenticationInput
               id='reset-password-confirm-new-pass-input'
@@ -94,6 +91,7 @@ export const ResetPassword = (): JSX.Element => {
               type='password'
               value={confirmNewPassword}
               changeValue={changeConfirmNewPassword}
+              key='confirm new password'
           />
         ]}
         formName='login-form'

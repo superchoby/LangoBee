@@ -1,5 +1,5 @@
 import { Homepage } from './components/homepage'
-import { useEffect, useState, Children, isValidElement, cloneElement } from 'react'
+import { useEffect, useState } from 'react'
 import './App.scss'
 import { BrowserRouter, Routes, Route, useNavigate, Outlet, createSearchParams } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
@@ -63,6 +63,7 @@ import { ActualExercise } from './components/Exercises/ActualExercise'
 import { LessonSession } from './components/learning/lessons/session'
 import { StoriesHome } from './components/stories/StoriesHome'
 import { StoryReader } from './components/stories/StoryReader'
+import { getUserIsAuthenticatedObj } from './components/shared/useUserIsAuthenticated'
 
 const tokenInvalidMsg = 'Given token not valid for any token type'
 const userNotFoundMessage = 'User not found'
@@ -201,13 +202,13 @@ const ProtectedRoute = ({
       })
   }, [access, dispatch, navigate, refresh])
 
-  return finishedVerifyingToken ? (ComponentToRender == null ? <Outlet context={{userIsAuthenicated: true}} /> : ComponentToRender) : <></>
+  return finishedVerifyingToken ? (ComponentToRender == null ? <Outlet context={getUserIsAuthenticatedObj(true)} /> : ComponentToRender) : <></>
 }
 
 const RoutesAvailableForNonAuthAndAuthUsers = () => {
   const { access } = useAppSelector(state => state.token)
 
-  return access === '' ? <Outlet context={{userIsAuthenicated: false}} /> : <ProtectedRoute ComponentToRender={<Outlet context={{userIsAuthenicated: true}} />}/>
+  return access === '' ? <Outlet context={getUserIsAuthenticatedObj(false)} /> : <ProtectedRoute ComponentToRender={<Outlet context={getUserIsAuthenticatedObj(true)} />}/>
 }
 
 const PaidUsersOnlyRoute = () => {

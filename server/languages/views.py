@@ -207,8 +207,12 @@ class SpecificArticleView(APIView):
     
     def get(self, request, language, slug):
         language = Language.objects.get(name=language)
-        article = Article.objects.get(language=language, slug=slug)
+        try:
+            article = Article.objects.get(language=language, slug=slug)
+        except Article.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         user_has_finished_this_article = False
+        
         if request.user.is_authenticated:            
             if request.user.read_articles.filter(pk=article.id).exists():
                 users_progress = UsersArticleProgress.objects.get(user=request.user, article=article)

@@ -1,4 +1,4 @@
-import { ForgotPassword } from '../ForgotPassword'
+import { ForgotPassword, EMAIL_HAS_BEEN_SENT_MSG } from '../ForgotPassword'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { rest } from 'msw'
@@ -13,26 +13,27 @@ const MockForgotPassword = () => {
 }
 
 describe('Forgot Password Tests', () => {
-  it('Renders properly', () => {
+  it('header and inputs render', () => {
     render(<MockForgotPassword />)
-    const forgotPasswordElement = screen.getByTestId('forgot-password-container')
+    const forgotPasswordHeader = screen.getByRole('heading')
+    expect(forgotPasswordHeader).toHaveTextContent('FORGOT PASSWORD')
     const buttonElement = screen.getByText('SEND EMAIL')
-    expect(forgotPasswordElement).toBeInTheDocument()
     expect(buttonElement).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Email')).toBeInTheDocument()
   })
 
   it('Shows success message after sending a valid email string', async () => {
     render(<MockForgotPassword />)
-    const inputElement = screen.getByLabelText('Email')
+    const inputElement = screen.getByPlaceholderText('Email')
     fireEvent.change(inputElement, { target: { value: 'valid@email.com' } })
     const buttonElement = screen.getByText('SEND EMAIL')
     fireEvent.click(buttonElement)
-    expect(await screen.findByTestId('email-has-been-sent-message')).toBeInTheDocument()
+    expect(await screen.findByText(EMAIL_HAS_BEEN_SENT_MSG)).toBeInTheDocument()
   })
 
   it("Shows error message after trying to send a value that isn't an email", async () => {
     render(<MockForgotPassword />)
-    const inputElement = screen.getByLabelText('Email')
+    const inputElement = screen.getByPlaceholderText('Email')
     fireEvent.change(inputElement, { target: { value: 'invalid value' } })
     const buttonElement = screen.getByText('SEND EMAIL')
     fireEvent.click(buttonElement)
@@ -46,7 +47,7 @@ describe('Forgot Password Tests', () => {
       })
     )
     render(<MockForgotPassword />)
-    const inputElement = screen.getByLabelText('Email')
+    const inputElement = screen.getByPlaceholderText('Email')
     fireEvent.change(inputElement, { target: { value: 'valid@email.com' } })
     const buttonElement = screen.getByText('SEND EMAIL')
     fireEvent.click(buttonElement)

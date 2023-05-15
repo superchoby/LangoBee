@@ -68,22 +68,6 @@ export const NumberDrills = ({
         numbersToGuess.push(number)
       }
 
-      // header: 'Main',
-      //   content: [
-      //     (
-      //   <SubjectsSubInfoSection subheader='Reading' key='Reading'>
-      //     <span style={{fontWeight: 'bold'}}>{kanaSubject.reading}</span>
-      //   </SubjectsSubInfoSection>
-      //     ),
-      //     (
-      //       <SubjectsSubInfoSection subheader='Mnemonic' key='Mnemonic'>
-      //         <div dangerouslySetInnerHTML={{__html: xmlDoc.documentElement.innerHTML}} className='kana-mnemonic-container' />
-      //       </SubjectsSubInfoSection>
-      //     )
-      //   ]
-
-      // const answerBreakdown = useMemo(() => {
-
       changeNumbersToGuess(numbersToGuess.map(number => {
         const numberReversed = `${number}`.split('').reverse().join('')
         const breakdown: Array<[string, string]> = []

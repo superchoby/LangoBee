@@ -14,44 +14,48 @@ const MockSignup = () => {
 }
 
 describe('Signup Tests', () => {
-  it('Renders properly', () => {
+  it('header and inputs rendery', () => {
     renderWithProviders(<MockSignup />)
-    const header = screen.getByText('Sign up')
-    expect(header).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'SIGN UP' })).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Username')).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Email')).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Password')).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Reenter Password')).toBeInTheDocument()
   })
 
   it('Redirects to dashboard after successful login', async () => {
     const dashboardDummyText = 'Dashboard Dummy'
     renderWithProviders(
             <RouterWithLinks
-                mainComponent={<Signup />}
                 otherLinks={[{
                   path: HOME_PATH,
                   component: <div>{dashboardDummyText}</div>
                 }]}
-            />
+            >
+              <Signup />
+            </RouterWithLinks>
     )
 
-    const usernameInputElement = screen.getByLabelText('Username')
-    const emailInputElement = screen.getByLabelText('Email')
-    const passwordInputElement = screen.getByLabelText('Password')
-    const confirmPasswordInputElement = screen.getByLabelText('Confirm Password')
+    const usernameInputElement = screen.getByPlaceholderText('Username')
+    const emailInputElement = screen.getByPlaceholderText('Email')
+    const passwordInputElement = screen.getByPlaceholderText('Password')
+    const confirmPasswordInputElement = screen.getByPlaceholderText('Reenter Password')
     fireEvent.change(usernameInputElement, { target: { value: 'valid username' } })
     fireEvent.change(emailInputElement, { target: { value: 'valid@email.com' } })
     fireEvent.change(passwordInputElement, { target: { value: 'valid password' } })
     fireEvent.change(confirmPasswordInputElement, { target: { value: 'valid password' } })
-    const buttonElement = screen.getByText('SIGN UP')
+    const buttonElement = screen.getByRole('button', { name: 'SIGN UP' })
     fireEvent.click(buttonElement)
     expect(await screen.findByText(dashboardDummyText)).toBeInTheDocument()
   })
 
   it('Shows error messages for fields with invalid inputs', async () => {
     renderWithProviders(<MockSignup />)
-    const emailInputElement = screen.getByLabelText('Email')
-    const confirmPasswordInputElement = screen.getByLabelText('Confirm Password')
+    const emailInputElement = screen.getByPlaceholderText('Email')
+    const confirmPasswordInputElement = screen.getByPlaceholderText('Reenter Password')
     fireEvent.change(emailInputElement, { target: { value: 'invalid' } })
     fireEvent.change(confirmPasswordInputElement, { target: { value: 'non matching password' } })
-    const buttonElement = screen.getByText('SIGN UP')
+    const buttonElement = screen.getByRole('button', { name: 'SIGN UP' })
     fireEvent.click(buttonElement)
     expect(screen.getByText('The username you entered was invalid')).toBeInTheDocument()
     expect(screen.getByText('The email you entered was invalid')).toBeInTheDocument()
