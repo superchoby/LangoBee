@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { KeyboardTips } from '../KeyboardTips'
 import { VOCABULARY_TYPE } from 'src/components/learning/lessons/SubjectTypes'
 import { getPropsForSubjectsInfo } from '../../../learning/SubjectsSubInfo'
 import { InputBar } from 'src/components/shared/InputBar'
@@ -42,7 +41,6 @@ export const KanaVocabInputQuestion = ({
   changeHasNewQuestion
 }: KanaVocabInputQuestionProps) => {
   const [acceptableResponseReason, changeAcceptableResponseReason] = useState('')
-  const [showKeyboardTips, changeShowKeyboardTips] = useState(false)
 
   const {
     questionContents,
@@ -123,10 +121,6 @@ export const KanaVocabInputQuestion = ({
     changeGuessIsRightButWrongKana
   ])
 
-  useEffect(() => {
-    changeShowKeyboardTips(false)
-  }, [question])
-
   return (
         <>
             {japaneseSubjectType === VOCABULARY_TYPE && inputPlaceholder === 'Reading' && (
@@ -158,13 +152,9 @@ export const KanaVocabInputQuestion = ({
                 <div className='typing-in-hiragana-or-katakana-container'>
                     Typing in: <span className='typing-in-hiragana-or-katakana-indicator'>{typingInHiragana ? 'Hiragana' : 'Katakana'}</span>
                 </div>
-                {/* <div className='click-for-keyboard-tips' onClick={() => changeShowKeyboardTips(true)}>
-                    Click for keyboard tips
-                </div> */}
             </div>
             )}
 
-            {showKeyboardTips && <KeyboardTips changeShowKeyboardTips={changeShowKeyboardTips} />}
             <div className={`frq-correct-answer ${choiceSubmitted || currentAnswerStatus === 'acceptable but not correct' ? 'frq-correct-answer-reveal' : ''}`}>
                 {
                     currentAnswerStatus === 'acceptable but not correct'

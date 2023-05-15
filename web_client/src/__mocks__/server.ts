@@ -51,5 +51,35 @@ export const server = setupServer(
   }),
   rest.get('users/viewed-lesson-intro/', async (req, res, ctx) => {
     return await res(ctx.status(200))
-  })
+  }),
+  rest.get('languages/article/:language/:slug', async (req, res, ctx) => {
+    const { language, slug } = req.params
+    if (language === 'Japanese' && slug === 'test-slug') {
+      return await res(ctx.status(200), ctx.json({ 
+        article: {
+          title: 'Test Title',
+          sections: [{
+            content: 'Test Content',
+            header: 'Test Header'
+          }]
+        },
+        userHasFinishedThisArticle: false
+       }))
+    } else {
+      return await res(ctx.status(404))
+    }
+  }),
+  rest.get('languages/article', async (req, res, ctx) => {
+    return await res(ctx.status(200), ctx.json([
+      { 
+        category: 'test category',
+        title: 'test title', 
+        slug: 'test-slug',
+        sections: [{
+          header: 'test header',
+          content: 'test content'
+        }]
+      }
+    ]))
+  }),
 )

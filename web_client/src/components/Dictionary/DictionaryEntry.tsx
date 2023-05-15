@@ -37,14 +37,12 @@ const AddToReviewButton = ({
         isIdle 
     } = useFetchStatus<{user_already_has_this_in_reviews: boolean}>(
         'subjects/add_dictionary_entry_to_review/', 
+        'post',
         (data) => changeUserAlreadyKnowsThis(data.user_already_has_this_in_reviews)
     );
 
     const addToReviews = () => {
-        fetchData({
-            type: 'post',
-            data: dataToAddToReview
-        })
+        fetchData({dataToAddToReview})
     }
    
     return (

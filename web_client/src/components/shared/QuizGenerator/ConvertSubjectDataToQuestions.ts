@@ -192,7 +192,7 @@ export const convertSubjectDataToQuestions = (subjectData: JapaneseSubjectData[]
                   )
                 }
 
-                const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+                const specialChars = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/
                 if (specialChars.test(meaning)) {
                   const answerWithNoSpecialChars = meaning.split('').filter(char => !specialChars.test(char)).join('')
                   answers.push({

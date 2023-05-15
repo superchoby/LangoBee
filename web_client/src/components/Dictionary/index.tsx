@@ -23,7 +23,7 @@ interface DictionaryResults {
 export const Dictionary = () => {
     const { word } = useParams()
     const [dictionaryResults, changeDictionaryResults] = useState<DictionaryResults>({vocabulary: [] ,kanji: []})
-    const { fetchData, isFetching, isError, isSuccess } = useFetchStatus<DictionaryResults>('subjects/search/', changeDictionaryResults);
+    const { fetchData, isFetching, isError, isSuccess } = useFetchStatus<DictionaryResults>('subjects/search/', 'post', changeDictionaryResults);
     const [typeOfEntriesToShow, changeTypeOfEntriesToShow] = useState<'vocab' | 'kanji'>('vocab')
     const [usersCurrentSearchEntry, changeUsersCurrentSearchEntry] = useState('')
     const [windowSize, setWindowSize] = useState([
@@ -35,7 +35,7 @@ export const Dictionary = () => {
 
     useEffect(() => {
         if (word != null && word.length > 0) {
-            fetchData({type: 'post', data: {word}})
+            fetchData({word})
         }
     }, [word, fetchData])
 

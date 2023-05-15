@@ -14,7 +14,7 @@ function ValidateEmail (email: string): boolean {
 }
 
 const ENTER_EMAIL_FOR_LINK_MSG = 'Enter in your email to get a link to reset your password'
-const EMAIL_HAS_BEEN_SENT_MSG = 'An email with the link has been sent!'
+export const EMAIL_HAS_BEEN_SENT_MSG = 'An email with the link has been sent!'
 const emailHasBeenSendAgainMessage = (count: number) => (
   `An email has been sent again (${count})`
 )
@@ -87,6 +87,7 @@ export const ForgotPassword = (): JSX.Element => {
               type='text'
               value={email}
               changeValue={changeEmail}
+              key='email input'
           />
         ]}
         formName='login-form'

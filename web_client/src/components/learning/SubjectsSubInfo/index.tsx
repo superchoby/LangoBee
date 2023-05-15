@@ -540,7 +540,7 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
           differencesExplanations
         } = vocabularySubject
         // TODO: do something with this notes
-        const { note } = subject
+        // const { note } = subject
         const mainTextRepresentationExists = mainTextRepresentation != null && mainTextRepresentation.length > 0
 
         if (jmdict != null) {
@@ -645,8 +645,8 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                           generalDifference
                         }) => {
                           const explanation = generalDifference
-                          const differenceFromPerspectiveOfFirstSubjectIfExists = (differenceFromPerspectiveOfFirstSubject != null && differenceFromPerspectiveOfFirstSubject.length > 0) ? differenceFromPerspectiveOfFirstSubject : generalDifference
-                          const differenceFromPerspectiveOfSecondSubjectIfExists = (differenceFromPerspectiveOfSecondSubject != null && differenceFromPerspectiveOfSecondSubject.length > 0) ? differenceFromPerspectiveOfSecondSubject : generalDifference
+                          // const differenceFromPerspectiveOfFirstSubjectIfExists = (differenceFromPerspectiveOfFirstSubject != null && differenceFromPerspectiveOfFirstSubject.length > 0) ? differenceFromPerspectiveOfFirstSubject : generalDifference
+                          // const differenceFromPerspectiveOfSecondSubjectIfExists = (differenceFromPerspectiveOfSecondSubject != null && differenceFromPerspectiveOfSecondSubject.length > 0) ? differenceFromPerspectiveOfSecondSubject : generalDifference
                           // TODO: implement logic to get differnece explanation from first or second subject persepctive
                           // if (subjectUserIsLearningIsTheFirstSubject) {
                           //   subjectsDifferenceInfo.text = secondSubject.mainTextRepresentation

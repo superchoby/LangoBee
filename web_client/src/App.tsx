@@ -1,5 +1,5 @@
 import { Homepage } from './components/homepage'
-import { useEffect, useState, Children, isValidElement, cloneElement } from 'react'
+import { useEffect, useState } from 'react'
 import './App.scss'
 import { BrowserRouter, Routes, Route, useNavigate, Outlet, createSearchParams } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
