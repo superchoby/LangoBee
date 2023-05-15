@@ -129,6 +129,7 @@ export const Signup = (): JSX.Element => {
                 value={username}
                 changeValue={changeUsername}
                 errorMessage={usernameError}
+                key='username'
             />,
             <AuthenticationInput
                 id='signup-email-input'
@@ -138,6 +139,7 @@ export const Signup = (): JSX.Element => {
                 value={email}
                 changeValue={changeEmail}
                 errorMessage={emailError}
+                key='email'
             />,
             <AuthenticationInput
                 id='signup-password-input'
@@ -147,6 +149,7 @@ export const Signup = (): JSX.Element => {
                 value={password}
                 changeValue={changePassword}
                 errorMessage={passwordError}
+                key='password'
             />,
             <AuthenticationInput
                 id='signup-confirm-password-input'
@@ -156,6 +159,7 @@ export const Signup = (): JSX.Element => {
                 value={confirmPassword}
                 errorMessage={confirmPasswordError}
                 changeValue={changeConfirmPassword}
+                key='confirm password'
             />
           ]}
           formName='login-form'

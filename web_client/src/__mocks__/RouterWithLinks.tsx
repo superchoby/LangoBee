@@ -1,25 +1,29 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, Outlet } from 'react-router-dom'
 
 interface RouterWithLinksProps {
-  mainComponent: JSX.Element
-  otherLinks: Array<{
+  children: JSX.Element
+  otherLinks?: Array<{
     path: string
     component: JSX.Element
   }>
+  context?: { userIsAuthenticated: boolean }
 }
 
 export const RouterWithLinks = ({
-  mainComponent,
-  otherLinks
+  children,
+  otherLinks=[],
+  context={userIsAuthenticated: true}
 }: RouterWithLinksProps) => {
   return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<>{mainComponent}</>} />
-                {otherLinks.map(({ path, component }) => (
-                    <Route key={path} path={path} element={<>{component}</>}/>
-                ))}
-            </Routes>
-        </BrowserRouter>
+    <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<Outlet context={context} />}>
+            <Route index element={children} />
+          </Route>
+          {otherLinks.map(({ path, component }) => (
+              <Route key={path} path={path} element={<>{component}</>}/>
+          ))}
+        </Routes>
+    </MemoryRouter>
   )
 }

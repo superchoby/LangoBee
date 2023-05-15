@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import './index.scss'
 import { Navbar } from './Navbar'
 import { Header } from './Header'
-import { useOutletContext } from 'react-router-dom'
+import { useUserIsAuthenticated } from '../shared/useUserIsAuthenticated'
 import { BackButton } from '../shared/BackButton'
 import { LoggedOutHeader } from './Header/LoggedOutHeader'
 import { ROOT_PATH } from 'src/paths'
@@ -19,7 +19,7 @@ export const HeaderAndNavbar = ({
 }: HeaderAndNavbarProps): JSX.Element => {
   const { isOnFreeTrial } = useAppSelector(state => state.user)
   const [encourageUserToJoin, changeEncourageUserToJoin] = useState(isOnFreeTrial)
-  const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
+  const { userIsAuthenticated } = useUserIsAuthenticated()
 
   useEffect(() => {
     changeEncourageUserToJoin(isOnFreeTrial)
@@ -28,7 +28,7 @@ export const HeaderAndNavbar = ({
   return (
         <div className='header-and-navbar-container'>
           {
-            userIsAuthenicated ? (
+            userIsAuthenticated ? (
               <>
                 <Header />
                 {encourageUserToJoin && (

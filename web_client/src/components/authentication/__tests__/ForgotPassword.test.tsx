@@ -13,7 +13,7 @@ const MockForgotPassword = () => {
 }
 
 describe('Forgot Password Tests', () => {
-  it('Renders properly', () => {
+  it('header and inputs render', () => {
     render(<MockForgotPassword />)
     const forgotPasswordHeader = screen.getByRole('heading')
     expect(forgotPasswordHeader).toHaveTextContent('FORGOT PASSWORD')

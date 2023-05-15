@@ -42,7 +42,7 @@ const MockAuthenticationPageWrapper = ({
 }
 
 describe('Forgot Password Tests', () => {
-  it('Renders properly', () => {
+  it('Header and forgot password message and form renders', () => {
     render(<MockAuthenticationPageWrapper />)
     expect(screen.queryByRole('heading', { name: TEST_TITLE }))
     expect(screen.queryByRole('paragraph', { name: TEST_MESSAGE }))

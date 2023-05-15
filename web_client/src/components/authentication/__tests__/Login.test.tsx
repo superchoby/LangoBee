@@ -6,7 +6,7 @@ import { RouterWithLinks } from '../../../__mocks__/RouterWithLinks'
 import { HOME_PATH } from 'src/paths'
 
 describe('Login Tests', () => {
-  it('Renders properly', () => {
+  it('header and inputs render', () => {
     renderWithProviders(
       <BrowserRouter>
           <Login />
@@ -22,12 +22,13 @@ describe('Login Tests', () => {
     const dashboardDummyText = 'Dashboard Dummy'
     renderWithProviders(
       <RouterWithLinks
-          mainComponent={<Login />}
           otherLinks={[{
             path: HOME_PATH,
             component: <div>{dashboardDummyText}</div>
           }]}
-      />
+      >
+        <Login />
+      </RouterWithLinks>
     )
 
     const emailInputElement = screen.getByPlaceholderText('Username or email')

@@ -17,7 +17,7 @@ jest.mock('react-router-dom', () => ({
   })
 }))
 describe('Reset Password Page Tests', () => {
-  it('Renders properly', () => {
+  it('Header and inputs render', () => {
     render(<MockResetPassword />)
     expect(screen.queryByRole('heading', { name: 'CHANGE PASSWORD' })).toBeInTheDocument()
     expect(screen.queryByPlaceholderText('New Password')).toBeInTheDocument()

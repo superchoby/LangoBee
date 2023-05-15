@@ -82,4 +82,30 @@ export const server = setupServer(
       }
     ]))
   }),
+  rest.post('emails/contact_us/', async (req, res, ctx) => {
+    const {
+      message,
+    } = await req.json()
+
+    if (message === 'valid message') {
+      return await res(ctx.status(200))
+    } else {
+      return await res(ctx.status(400))
+    }
+  }),
+  rest.post('subjects/add_dictionary_entry_to_review/', async (req, res, ctx) => {
+    const {
+      jmdict_id,
+    } = await req.json()
+    if (jmdict_id === 1 || jmdict_id === 2) {
+      return await res(ctx.status(200), ctx.json({
+        user_already_has_this_in_reviews: jmdict_id === 2
+      }))
+    } else {
+      return await res(ctx.status(400))
+    }
+  }),
+
+
+  
 )

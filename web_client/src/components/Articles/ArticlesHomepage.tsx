@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import { useFetchStatus } from '../shared/useFetchStatus'
 import { ARTICLE_PATH, ROOT_PATH } from 'src/paths'
 import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
-import { useOutletContext } from 'react-router-dom'
 import { LoggedOutHeader } from '../HeaderAndNavbar/Header/LoggedOutHeader'
 import { PageContainer } from '../shared/PageContainer'
+import { useUserIsAuthenticated } from '../shared/useUserIsAuthenticated'
 import './ArticlesHomepage.scss'
 
 interface ArticlePreviewProps { 
@@ -42,18 +42,18 @@ const ArticlePreview = ({
 export const ArticlesHomepage = (): JSX.Element => {
   const [articles, changeArticles] = useState<ArticlePreviewProps[]>([])
   const { fetchData, isFetching, isError } = useFetchStatus<ArticlePreviewProps[]>('languages/article', 'get', changeArticles);
-  const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
+  const { userIsAuthenticated } = useUserIsAuthenticated()
 
   useEffect(() => {
     fetchData()
   }, [fetchData])
 
-  return userIsAuthenicated ? (
+  return userIsAuthenticated ? (
         <PageContainer
             header='Articles'
             className='articles-homepage'
             hasHomeButtonOnBottom={false}
-            homeButtonGoesToRoot={!userIsAuthenicated}
+            homeButtonGoesToRoot={!userIsAuthenticated}
         >
           <>
           <span>Come here to refresh or learn new, cool things about Japanese</span>
@@ -76,7 +76,7 @@ export const ArticlesHomepage = (): JSX.Element => {
         </PageContainer>
   ) : (
     <div className='articles-homepage'>
-        {!userIsAuthenicated && (
+        {!userIsAuthenticated && (
           <>
             <LoggedOutHeader />
             <BackButton link={ROOT_PATH} />

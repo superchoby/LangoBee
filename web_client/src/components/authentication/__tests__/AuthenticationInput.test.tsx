@@ -19,7 +19,7 @@ const MockAuthenticationInput = ({ testPlacholder }: { testPlacholder: string })
 describe('Authentication Input Tests', () => {
   const testLabel = 'Test Label'
   const testPlacholder = 'test placeholder'
-  it('Renders properly', () => {
+  it('Input renders', () => {
     render(
             <AuthenticationInput
                 id='test-input'

@@ -9,10 +9,10 @@ import { useFetchStatus } from '../shared/useFetchStatus'
 import { Header } from 'src/components/HeaderAndNavbar/Header'
 import { BsCheckLg } from 'react-icons/bs'
 import './Article.scss'
-import { useOutletContext } from 'react-router-dom'
 import { BackButton } from '../shared/BackButton'
 import { LoggedOutHeader } from '../HeaderAndNavbar/Header/LoggedOutHeader'
 import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
+import { useUserIsAuthenticated } from '../shared/useUserIsAuthenticated'
 
 interface ArticleSection {
   content: string
@@ -27,7 +27,7 @@ interface ArticleStructure {
 export const Article = (): JSX.Element => {
   const [article, changeArticle] = useState<ArticleStructure>({ title: '', sections: [] })
   const [userHasFinishedThisArticle, changeUserHasFinishedThisArticle] = useState(false)
-  const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
+  const { userIsAuthenticated } = useUserIsAuthenticated()
   const isLessonArticle = useMatch(ARTICLE_PATH(true)) != null
   const navigate = useNavigate()
 
@@ -73,7 +73,7 @@ export const Article = (): JSX.Element => {
   }
 
   const handleButtonClick = () => {
-    if (!userIsAuthenicated) {
+    if (!userIsAuthenticated) {
       navigate(ARTICLE_HOMEPAGE_PATH)
     } else  {
       if (!userHasFinishedThisArticle) {
@@ -86,7 +86,7 @@ export const Article = (): JSX.Element => {
   }
 
   const getButtonText = () => {
-    if (!userIsAuthenicated) {
+    if (!userIsAuthenticated) {
       return 'Back to Articles'
     } else if (isLessonArticle) {
       return 'Back to Lesson'
@@ -103,8 +103,8 @@ export const Article = (): JSX.Element => {
   }
 
   return (
-      <div className={`article-page ${userIsAuthenicated ? '' : 'article-page-logged-out'}`} data-testid='article-page'>
-        {userIsAuthenicated ? <Header /> : (
+      <div className={`article-page ${userIsAuthenticated ? '' : 'article-page-logged-out'}`} data-testid='article-page'>
+        {userIsAuthenticated ? <Header /> : (
           <>
             <LoggedOutHeader />
             <BackButton text='Articles' link={ARTICLE_HOMEPAGE_PATH}/>

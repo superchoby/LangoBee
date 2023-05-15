@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { ROOT_PATH, ARTICLE_PATH } from 'src/paths';
 import { ArticlesHomepage } from '../ArticlesHomepage';
-import { RenderRouteWithOutletContext } from 'src/components/shared/RenderWithOutletContext';
+import { RouterWithLinks } from 'src/__mocks__/RouterWithLinks';
 
 const MockArticlesHomepage = ({
     userIsAuthenticated
@@ -9,9 +9,9 @@ const MockArticlesHomepage = ({
     userIsAuthenticated: boolean
 }) => {
     return (
-        <RenderRouteWithOutletContext context={{userIsAuthenticated}}>
+        <RouterWithLinks context={{userIsAuthenticated}}>
             <ArticlesHomepage />
-        </RenderRouteWithOutletContext>
+        </RouterWithLinks>
     )
 }
 

@@ -4,15 +4,15 @@ import { cleanKanjiReadings } from '../shared/cleanKanjiReadings'
 import { toKatakana, toRomaji } from 'wanakana'
 import { useFetchStatus } from '../shared/useFetchStatus'
 import { PulseLoader } from 'react-spinners'
-import { useOutletContext } from 'react-router-dom'
+import { useUserIsAuthenticated } from '../shared/useUserIsAuthenticated'
 import './DictionaryEntry.scss'
 
-const JLPT_LEVEL = 'jlpt'
-const LANGOBEE_LEVEL = 'level'
-const COMMON = 'common'
+export const JLPT_LEVEL = 'jlpt'
+export const LANGOBEE_LEVEL = 'level'
+export const COMMON = 'common'
 
 
-interface AddToReviewButtonProps {
+export interface AddToReviewButtonProps {
     className?: string
     dataToAddToReview: {
         subject_type: 'vocabulary'
@@ -23,12 +23,20 @@ interface AddToReviewButtonProps {
     }
 }
 
-const AddToReviewButton = ({
+export const ADD_TO_REVIEW_BUTTON_MESSAGES = {
+    join: 'Join to Study this Subject!',
+    add: 'Add To Reviews',
+    alreadyInReviews: 'Already in your Reviews',
+    finished: 'Finished Adding!',
+    error: 'Error, please try later'
+}
+
+export const AddToReviewButton = ({
     className = '',
     dataToAddToReview
 }: AddToReviewButtonProps) => {
     const [userAlreadyKnowsThis, changeUserAlreadyKnowsThis] = useState(false)
-    const { userIsAuthenicated } = useOutletContext<{userIsAuthenicated: boolean}>()
+    const { userIsAuthenticated } = useUserIsAuthenticated()
     const [unauthenticatedUserTriedToAddThis, changeUnauthenticatedUserTriedToAddThis] = useState(false)
     const { 
         fetchData, 
@@ -42,31 +50,39 @@ const AddToReviewButton = ({
     );
 
     const addToReviews = () => {
-        fetchData({dataToAddToReview})
+        fetchData(dataToAddToReview)
     }
+
+    const {
+        join,
+        add,
+        alreadyInReviews,
+        finished,
+        error,
+    } = ADD_TO_REVIEW_BUTTON_MESSAGES
    
     return (
         <button 
             className={`dictionary-add-to-review-button ${className} ${isIdle ? '' : 'dictionary-add-to-review-button-non-clickable'}`}
             onClick={() => { 
-                if (userIsAuthenicated && isIdle) {
+                if (userIsAuthenticated && isIdle) {
                     addToReviews()
-                } else if (!userIsAuthenicated) {
+                } else if (!userIsAuthenticated) {
                     changeUnauthenticatedUserTriedToAddThis(true)
                 }
             }}
         >
             {(() => {
                 if (unauthenticatedUserTriedToAddThis) {
-                    return 'Join to Study this Subject!'
+                    return join
                 } else if (isIdle) {
-                    return 'Add To Reviews'
+                    return add
                 } else if (isFetching) {
                     return <PulseLoader size={4} color='#3A3A3A' />
                 } else if (isSuccess) {
-                    return userAlreadyKnowsThis ? 'Already in your Reviews' : 'Finished Adding!'
+                    return userAlreadyKnowsThis ? alreadyInReviews : finished
                 } else {
-                    return 'Error, please try later'
+                    return error
                 }
             })()}
         </button>
@@ -78,17 +94,16 @@ interface WordTagsProps {
     text: string | number
 }
 
+const tagToClassName = {
+    [LANGOBEE_LEVEL]: 'langobee-level-tag',
+    [JLPT_LEVEL]: 'jlpt-level-tag',
+    [COMMON]: 'common-tag'
+} as const
 
-const WordTags = ({
+export const WordTags = ({
     tagType,
     text
 }: WordTagsProps) => {
-    const tagToClassName = {
-        [LANGOBEE_LEVEL]: 'langobee-level-tag',
-        [JLPT_LEVEL]: 'jlpt-level-tag',
-        [COMMON]: 'common-tag'
-    } as const
-
     return (
         <div className={`dictionary-word-tag ${tagToClassName[tagType]}`}>
             {tagType} {tagType !== COMMON ? text : ''}
@@ -136,7 +151,6 @@ export const VocabularyDictionaryEntry = ({
     const wordIsMainlyKanji = kanjiVocabulary.length > 0 && kanjiVocabulary[0].common
     const wordsLength = (kanjiVocabulary.length > 0 ? kanjiVocabulary[0].text : kanaVocabulary[0].text).length
     const isACommonWord = wordIsMainlyKanji || kanaVocabulary[0].common
-    // debugger
 
     return (
         <div className={`dictionary-entry ${wordsLength >= 5 ? 'dictionary-entry-for-long-word' : 'dictionary-entry-for-short-word'}`}>
@@ -148,19 +162,6 @@ export const VocabularyDictionaryEntry = ({
                         {kanaVocabulary[0].text}
                     </span>
                     <rt className='dictionary-entry-words-main-representations-reading-romaji'>{toRomaji(kanaVocabulary[0].text)}</rt>
-                    {/* {kanjiVocabulary.length > 0 ? (
-                        <div className='dictionary-entry-kanji-and-reading'>
-                            <span className='dictionary-entry-words-main-representations-reading'>
-                                (<ruby>{kanaVocabulary[0].text}
-                                
-                                </ruby>)
-                            </span>
-                        </div>
-                    ) : (
-                        <>
-                            <span className='dictionary-entry-words-main-representation'>{kanaVocabulary[0].text}</span>
-                        </>
-                    )} */}
                 </div>
                 
                 <div className='dictionary-tags-container'>
