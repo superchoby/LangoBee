@@ -1,7 +1,14 @@
 import { Homepage } from './components/homepage'
 import { useEffect, useState } from 'react'
 import './App.scss'
-import { BrowserRouter, Routes, Route, useNavigate, Outlet, createSearchParams } from 'react-router-dom'
+import { 
+  BrowserRouter, 
+  Routes, 
+  Route, 
+  useNavigate, 
+  Outlet, 
+  createSearchParams
+} from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
 import { Login } from './components/authentication/login'
 import { Signup } from './components/authentication/signup'
@@ -59,7 +66,6 @@ import {
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
-// import { LessonLearning } from './components/lessons/session/LessonLearning'
 import { LessonSession } from './components/learning/lessons/session'
 import { StoriesHome } from './components/stories/StoriesHome'
 import { StoryReader } from './components/stories/StoryReader'
