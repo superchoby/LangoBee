@@ -56,22 +56,22 @@ export const ArticlesHomepage = (): JSX.Element => {
             homeButtonGoesToRoot={!userIsAuthenticated}
         >
           <>
-          <span>Come here to refresh or learn new, cool things about Japanese</span>
-          {isFetching ? (
-            <WaitingForDataToProcess />
-          ) : (
-            isError ? (
-              <p>Sorry, there was an issue loading the articles at this moment. Please try again later.</p>
+            <span>Come here to refresh or learn new, cool things about Japanese</span>
+            {isFetching ? (
+              <WaitingForDataToProcess />
             ) : (
-              <>
-                <ul className='articles-homepage-articles-list'>
-                  {articles.map(props => <ArticlePreview key={props.title} {...props} />)}
-                </ul>
-                
-                <p className='more-articles-to-come-out-msg'>More articles to come out in the future!</p>
-              </>
-            )
-          )}
+              isError ? (
+                <p>Sorry, there was an issue loading the articles at this moment. Please try again later.</p>
+              ) : (
+                <>
+                  <ul className='articles-homepage-articles-list'>
+                    {articles.map(props => <ArticlePreview key={props.title} {...props} />)}
+                  </ul>
+                  
+                  <p className='more-articles-to-come-out-msg'>More articles to come out in the future!</p>
+                </>
+              )
+            )}
           </>
         </PageContainer>
   ) : (

@@ -3,32 +3,57 @@
 import React, { Fragment } from 'react';
 
 import { Popover, Transition } from '@headlessui/react';
-// import { MenuIcon, XIcon } from '@heroicons/react/24/outline';
+import { AiOutlineMenu } from 'react-icons/ai'
+import { GrClose } from 'react-icons/gr'
 import { Link } from 'react-scroll';
-
+import NextLink from 'next/link'
 import config from './index.json';
 import './Header.css'
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 const isInDevMode =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
+const rootPath = '/'
+
 const webAppLocalHostURL = 'http://localhost:3000';
 const Menu = () => {
+  const pathname = usePathname()
+  const isAtRootPath = pathname === rootPath
   const { navigation, company, callToAction } = config;
   const { name: companyName, logo } = company;
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isInDevMode) {
+      const reduxPersistLocalStorage = localStorage.getItem('persist:root');
+      console.log(reduxPersistLocalStorage)
+      if (reduxPersistLocalStorage != null) {
+        const tokenInfo = JSON.parse(
+          JSON.parse(reduxPersistLocalStorage).token
+        );
+        const { access } = tokenInfo as {
+          access: string;
+          refresh: string;
+        };
+        if (access != null && access.length > 0) {
+          window.location.href = '/home';
+        } else {
+          localStorage.clear();
+        }
+      }
+    }
+  })
+
+  const LogoLinkContents = (
+    <>
+      <span className="sr-only">{companyName}</span>
+      <div className="logo-text">LangoBee</div>
+    </>
+  )
+
   return (
     <>
-      {/* <svg
-        className={`hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-background transform translate-x-1/2`}
-        fill="currentColor"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <polygon points="50,0 100,0 50,100 0,100" />
-      </svg> */}
-
       <Popover>
         <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
           <nav
@@ -37,17 +62,22 @@ const Menu = () => {
           >
             <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
               <div className="flex items-center justify-between w-full md:w-auto">
-                <a href="#">
-                  <span className="sr-only">{companyName}</span>
-                  {/* <img alt="logo" className="h-16 w-auto sm:h-16" src={logo} /> */}
-                  <div className="logo-text">LangoBee</div>
-                </a>
+                {isAtRootPath ? (
+                  <a href="#">
+                    {LogoLinkContents}
+                  </a>
+                ) : (
+                  <NextLink href="/">
+                    {LogoLinkContents}
+                  </NextLink>
+                )}
+                
                 <div className="-mr-2 flex items-center md:hidden">
                   <Popover.Button
                     className={`bg-background rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary`}
                   >
                     <span className="sr-only">Open main menu</span>
-                    {/* <MenuIcon className="h-6 w-6" aria-hidden="true" /> */}
+                    <AiOutlineMenu className="h-6 w-6" aria-hidden="true" />
                   </Popover.Button>
                 </div>
               </div>
@@ -59,13 +89,13 @@ const Menu = () => {
                     <a
                       className="font-medium text-gray-500 hover:text-gray-900"
                       key={name}
-                      href={isInDevMode ? `${webAppLocalHostURL}${href}` : href}
+                      href={(isInDevMode && name !== 'Articles') ? `${webAppLocalHostURL}${href}` : href}
                     >
                       {name}
                     </a>
                   );
                 }
-                return (
+                return isAtRootPath ? (
                   <Link
                     spy={true}
                     // active="active"
@@ -77,7 +107,15 @@ const Menu = () => {
                   >
                     {name}
                   </Link>
-                );
+                ) : (
+                  <NextLink 
+                    key={name}
+                    href={`/#${href}`}
+                    className="font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    {name}
+                  </NextLink>
+                )
               })}
               <a
                 href={isInDevMode ? `${webAppLocalHostURL}/home` : '/home'}
@@ -114,7 +152,7 @@ const Menu = () => {
                     className={`bg-background rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary`}
                   >
                     <span className="sr-only">Close main menu</span>
-                    {/* <XIcon className="h-6 w-6" aria-hidden="true" /> */}
+                    <GrClose className="h-6 w-6" aria-hidden="true" />
                   </Popover.Button>
                 </div>
               </div>
@@ -126,26 +164,34 @@ const Menu = () => {
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                         key={name}
                         href={
-                          isInDevMode ? `${webAppLocalHostURL}${href}` : href
+                          (isInDevMode && name !== 'Articles') ? `${webAppLocalHostURL}${href}` : href
                         }
                       >
                         {name}
                       </a>
                     );
                   }
-                  return (
-                    <Link
-                      spy={true}
-                      // active="active"
-                      smooth={true}
-                      duration={1000}
-                      key={name}
-                      to={href}
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                    >
-                      {name}
-                    </Link>
-                  );
+                  return isAtRootPath ? (
+                      <Link
+                        spy={true}
+                        // active="active"
+                        smooth={true}
+                        duration={1000}
+                        key={name}
+                        to={href}
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                      >
+                        {name}
+                      </Link>
+                    ) : (
+                      <NextLink 
+                        key={name}
+                        href={`/#${href}`}
+                        className="font-medium text-gray-500 hover:text-gray-900"
+                      >
+                        {name}
+                      </NextLink>
+                    )
                 })}
               </div>
               <a

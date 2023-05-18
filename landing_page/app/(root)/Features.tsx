@@ -10,22 +10,22 @@ const Features = () => {
     {
       "name": "Efficient Learning",
       "description": "Scientifically proven methods to ensure that concepts you learn stay in your long term memory",
-      "icon": "./images/brain.png"
+      "icon": "/images/brain.png"
     },
     {
       "name": "Graded Readers",
       "description": "At anytime have access to multitudes of resources to read suited perfectly for your level with in depth explanations in all of them.",
-      "icon": "./images/book.png"
+      "icon": "/images/book.png"
     },
     {
       "name": "Listening",
       "description": "Be able to work on your listening skills at anytime. Take quizzes to see how well you understood it.",
-      "icon": "./images/audio-book.png"
+      "icon": "/images/audio-book.png"
     },
     {
       "name": "Speaking",
       "description": "Resources to help you practice your pronunciation with native audio and speaking skills",
-      "icon": "./images/speaking.png"
+      "icon": "/images/speaking.png"
     }
   ]
 

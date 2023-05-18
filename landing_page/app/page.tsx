@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import axios from 'axios'
 import About from './(root)/About';
@@ -13,7 +14,11 @@ import Pricing from './(root)/Pricing';
 import Product from './(root)/Product';
 
 
+const isInDevMode =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
 export default function Home() {
+  
   return (
     <div
       className={`bg-background grid gap-y-16 overflow-hidden`}
