@@ -36,7 +36,7 @@ export const LIST_OF_EXERCISES_PATHS = {
 
 const LANGOBEE_TITLE_NAME= 'LangoBee / '
 
-export const PageTitleNames = {
+export const PAGE_TITLE_NAMES = {
   [HOME_PATH]: LANGOBEE_TITLE_NAME + 'Home',
   [STORIES_HOME_PATH]: LANGOBEE_TITLE_NAME + 'Stories',
   [EXERCISES_PATH]: LANGOBEE_TITLE_NAME + 'Exercises',
@@ -53,7 +53,7 @@ export const PageTitleNames = {
   [CHECKOUT_PATH]: LANGOBEE_TITLE_NAME + 'Checkout',
   [PRIVACY_PATH]: LANGOBEE_TITLE_NAME + 'Privacy',
   [TERMS_OF_SERVICE_PATH]: LANGOBEE_TITLE_NAME + 'TOS',
-  [ARTICLE_HOMEPAGE_PATH]: LANGOBEE_TITLE_NAME + 'Japanese Knowledge Database',
+  [ARTICLE_HOMEPAGE_PATH]: LANGOBEE_TITLE_NAME + 'Articles',
   [DICTIONARY_PATH]: 'Japanese Dictionary',
   [FORGOT_PASSWORD_PATH]: LANGOBEE_TITLE_NAME + 'Forgot Password',
   [IMMERSION_LEVEL_INFO_PATH]: LANGOBEE_TITLE_NAME + 'Immersion Information',

@@ -15,7 +15,7 @@ async function getArticle(language: string, slug: string) {
 
 export async function generateMetadata({ params }: { params: {language: string, slug: string} }) {
   const { article } = await getArticle(params.language, params.slug)
-  console.log(article.sections[0].content.slice(0, 100))
+
   return { 
     title: article.title,
     description: article.sections[0].content.slice(0, 100)

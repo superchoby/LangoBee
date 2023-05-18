@@ -27,8 +27,6 @@ export const HeaderAndNavbar = ({
     changeEncourageUserToJoin(new Date(dateJoined) < threeHoursAgo)
   }, [isOnFreeTrial, dateJoined])
 
-  console.log(encourageUserToJoin)
-
   return (
         <div className='header-and-navbar-container'>
           {

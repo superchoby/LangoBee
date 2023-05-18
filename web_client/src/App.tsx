@@ -7,7 +7,8 @@ import {
   Route, 
   useNavigate, 
   Outlet, 
-  createSearchParams
+  createSearchParams,
+  useLocation
 } from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
 import { Login } from './components/authentication/login'
@@ -62,7 +63,8 @@ import {
   IMMERSION_LEVEL_INFO_PATH,
   SETTINGS_PATH,
   RESET_PASSWORD_PATH,
-  SIGN_UP_PATH
+  SIGN_UP_PATH,
+  PAGE_TITLE_NAMES
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
@@ -93,10 +95,15 @@ const ResetUserInfoWrapper = ({ children }: { children: JSX.Element }): JSX.Elem
 const ProtectedRoute = ({
   ComponentToRender
 }: {ComponentToRender?: JSX.Element}): JSX.Element => {
+  const location = useLocation()
   const { access, refresh } = useAppSelector(state => state.token)
   const [finishedVerifyingToken, setFinishedVerifyingToken] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    document.title = PAGE_TITLE_NAMES.hasOwnProperty(location.pathname) ? PAGE_TITLE_NAMES[location.pathname] : 'LangoBee'
+  }, [location])
 
   useEffect(() => {
     axios.post(verifyTokenPath, { token: access })
