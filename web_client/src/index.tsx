@@ -7,16 +7,19 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
+import { HelmetProvider } from 'react-helmet-async';
 
 const persistor = persistStore(store)
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

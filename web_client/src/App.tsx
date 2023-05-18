@@ -1,7 +1,15 @@
 import { Homepage } from './components/homepage'
 import { useEffect, useState } from 'react'
 import './App.scss'
-import { BrowserRouter, Routes, Route, useNavigate, Outlet, createSearchParams } from 'react-router-dom'
+import { 
+  BrowserRouter, 
+  Routes, 
+  Route, 
+  useNavigate, 
+  Outlet, 
+  createSearchParams,
+  useLocation
+} from 'react-router-dom'
 import { Lessons } from './components/learning/lessons'
 import { Login } from './components/authentication/login'
 import { Signup } from './components/authentication/signup'
@@ -55,11 +63,11 @@ import {
   IMMERSION_LEVEL_INFO_PATH,
   SETTINGS_PATH,
   RESET_PASSWORD_PATH,
-  SIGN_UP_PATH
+  SIGN_UP_PATH,
+  PAGE_TITLE_NAMES
 } from './paths'
 import { Exercises } from './components/Exercises/ExercisesSelection'
 import { ActualExercise } from './components/Exercises/ActualExercise'
-// import { LessonLearning } from './components/lessons/session/LessonLearning'
 import { LessonSession } from './components/learning/lessons/session'
 import { StoriesHome } from './components/stories/StoriesHome'
 import { StoryReader } from './components/stories/StoryReader'
@@ -69,7 +77,7 @@ const tokenInvalidMsg = 'Given token not valid for any token type'
 const userNotFoundMessage = 'User not found'
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
 
-axios.defaults.baseURL = isInDevelopmentEnv ? 'http://127.0.0.1:8000' : 'https://langobee-server.herokuapp.com/'
+axios.defaults.baseURL = isInDevelopmentEnv ? 'http://127.0.0.1:8000/' : 'https://langobee-server.herokuapp.com/'
 
 const ResetUserInfoWrapper = ({ children }: { children: JSX.Element }): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -87,10 +95,15 @@ const ResetUserInfoWrapper = ({ children }: { children: JSX.Element }): JSX.Elem
 const ProtectedRoute = ({
   ComponentToRender
 }: {ComponentToRender?: JSX.Element}): JSX.Element => {
+  const location = useLocation()
   const { access, refresh } = useAppSelector(state => state.token)
   const [finishedVerifyingToken, setFinishedVerifyingToken] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    document.title = PAGE_TITLE_NAMES.hasOwnProperty(location.pathname) ? PAGE_TITLE_NAMES[location.pathname] : 'LangoBee'
+  }, [location])
 
   useEffect(() => {
     axios.post(verifyTokenPath, { token: access })
