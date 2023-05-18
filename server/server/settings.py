@@ -107,6 +107,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://www.langobee.com',
     'https://langobee.com',
     "http://localhost:8080",
+    'https://main.d37ozm532tp5n0.amplifyapp.com'
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
