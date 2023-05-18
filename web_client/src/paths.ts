@@ -25,7 +25,7 @@ export const IMMERSION_LEVEL_INFO_PATH = '/immersion-level-info'
 export const SETTINGS_PATH = '/settings'
 export const RESET_PASSWORD_PATH = '/reset-password'
 export const ARTICLE_PATH = (forLesson: boolean, language?: string, slug?: string) => {
-  const base = forLesson ? '/lesson-article' : '/articles'
+  const base = forLesson ? '/lesson-article' : '/article'
   return `${base}/${language != null ? language : ':language'}/${slug != null ? slug : ':slug'}`
 }
 export const LIST_OF_EXERCISES_PATHS = {
@@ -34,7 +34,7 @@ export const LIST_OF_EXERCISES_PATHS = {
   WRITING_CANVAS: '/writing-canvas'
 }
 
-const LANGOBEE_TITLE_NAME= 'LangoBee / '
+const LANGOBEE_TITLE_NAME = 'LangoBee / '
 
 export const PAGE_TITLE_NAMES = {
   [HOME_PATH]: LANGOBEE_TITLE_NAME + 'Home',
@@ -58,5 +58,5 @@ export const PAGE_TITLE_NAMES = {
   [FORGOT_PASSWORD_PATH]: LANGOBEE_TITLE_NAME + 'Forgot Password',
   [IMMERSION_LEVEL_INFO_PATH]: LANGOBEE_TITLE_NAME + 'Immersion Information',
   [SETTINGS_PATH]: LANGOBEE_TITLE_NAME + 'Settings',
-  [RESET_PASSWORD_PATH]: LANGOBEE_TITLE_NAME + 'Reset Password',
+  [RESET_PASSWORD_PATH]: LANGOBEE_TITLE_NAME + 'Reset Password'
 } as const

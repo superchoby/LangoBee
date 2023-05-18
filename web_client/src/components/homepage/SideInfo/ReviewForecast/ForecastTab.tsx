@@ -4,7 +4,7 @@ import {
   RxCaretUp
 } from 'react-icons/rx'
 import './ForecastTab.scss'
-import { CardsForHour, type CardsForHourProps } from './CardsForHour'
+import { CardsForHour, CardsForHourProps } from './CardsForHour'
 
 export interface ForecastTabProps {
   day: number

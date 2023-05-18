@@ -4,9 +4,9 @@ import { getPropsForSubjectsInfo } from '../../../learning/SubjectsSubInfo'
 import { InputBar } from 'src/components/shared/InputBar'
 import { toHiragana, toKatakana } from 'wanakana'
 import levenshtein from 'damerau-levenshtein'
-import { type QuizQuestion } from '../ConvertSubjectDataToQuestions'
+import { QuizQuestion } from '../ConvertSubjectDataToQuestions'
 import {
-  type KanaVocabQuestionType
+  KanaVocabQuestionType
 } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 
 interface KanaVocabInputQuestionProps {

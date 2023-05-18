@@ -1,4 +1,4 @@
-import { type InputHTMLAttributes, useState } from 'react'
+import { InputHTMLAttributes, useState } from 'react'
 import { SettingsSection } from './SettingsSection'
 import { ProfilePic } from '../shared/ProfilePic'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'

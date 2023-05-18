@@ -1,5 +1,5 @@
 import { QuizGenerator } from '../../shared/QuizGenerator'
-import { type JapaneseSubjectData, type JapaneseVocabularySubject, KANA_TYPE, type KanaSubject, VOCABULARY_TYPE } from '../lessons/SubjectTypes'
+import { JapaneseSubjectData, JapaneseVocabularySubject, KANA_TYPE, KanaSubject, VOCABULARY_TYPE } from '../lessons/SubjectTypes'
 import { useAppDispatch } from 'src/app/hooks'
 import { userAddedMoreSubjectsToReview } from '../../../app/userSlice'
 import { useState, useEffect } from 'react'

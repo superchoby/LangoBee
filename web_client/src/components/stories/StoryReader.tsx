@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { Header } from '../HeaderAndNavbar/Header'
-import { StorySection, type StorySectionProps } from './StorySection'
+import { StorySection, StorySectionProps } from './StorySection'
 import { HOME_PATH, STORIES_HOME_PATH } from 'src/paths'
 import './StoryReader.scss'
 

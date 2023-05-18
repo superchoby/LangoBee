@@ -1,35 +1,34 @@
 import {
-  type JapaneseSubjectData,
+  JapaneseSubjectData,
   KANA_TYPE,
   RADICAL_TYPE,
   VOCABULARY_TYPE,
   GRAMMAR_TYPE,
-  type KanaSubject,
+  KanaSubject,
   MULTIPLE_CHOICE_TYPE,
-  type RadicalSubject,
-  type JapaneseVocabularySubject,
-  type JMDictSense,
-  type JapaneseExerciseSubject,
+  RadicalSubject,
+  JapaneseVocabularySubject,
+  JMDictSense,
+  JapaneseExerciseSubject,
   EXERCISE_TYPE,
   KANJI_TYPE,
-  type KanjiSubject,
-  type GrammarSubject,
-  type MultipleChoiceSubject
+  KanjiSubject,
+  GrammarSubject,
+  MultipleChoiceSubject
 } from '../../learning/lessons/SubjectTypes'
 import shuffle from 'shuffle-array'
 import {
   ROMAJI_QUESTION_PROMPT,
   TRANSLATE_JAPANESE_VOCAB_PROMPT,
   KANJI_MEANING_QUESTION_PROMPT,
-  RADICAL_QUESTION_PROMPT
-  ,
-  type KanaVocabQuestionType,
-  type GrammarQuestionType,
-  type ConjugationQuestionType,
-  type MultipleChoiceQuestionType
+  RADICAL_QUESTION_PROMPT,
+  KanaVocabQuestionType,
+  GrammarQuestionType,
+  ConjugationQuestionType,
+  MultipleChoiceQuestionType
 } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 import { toRomaji, toHiragana } from 'wanakana'
-import { type SubjectsAnsweredStatus } from '.'
+import { SubjectsAnsweredStatus } from '.'
 
 const KANJI_TO_NUMBER = {
   一: { hiragana: 'いち', number: 1 },

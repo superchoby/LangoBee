@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 import './KanaVocabQuestion.scss'
 import {
-  type ConjugationQuestionType,
-  type ExtraInfo,
-  type ConjugationType
+  ConjugationQuestionType,
+  ExtraInfo,
+  ConjugationType
 } from '../../../context/JapaneseDatabaseContext/SharedVariables'
-import { InputBar } from 'src/components/shared/InputBar'
 import 'react-dropdown/style.css'
 
 export interface questionType extends ConjugationQuestionType {

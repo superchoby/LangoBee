@@ -8,14 +8,14 @@ import {
   EXERCISES_PATH,
   STATISTICS_PATH
 } from '../../paths'
-import { type IconBaseProps } from 'react-icons/lib'
+import { IconBaseProps } from 'react-icons/lib'
 import {
   BooksImage,
   DumbbellImage,
   HomeImage,
   StatsImage
 } from './images'
-import { type FC } from 'react'
+import { FC } from 'react'
 
 import './Navbar.scss'
 

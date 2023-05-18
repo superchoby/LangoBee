@@ -1,23 +1,23 @@
-import { useEffect, useState, type FC, useMemo, Fragment } from 'react'
+import { useEffect, useState, useMemo, Fragment } from 'react'
 import {
-  type JapaneseSubjectData,
+  JapaneseSubjectData,
   KANA_TYPE,
   RADICAL_TYPE,
   KANJI_TYPE,
   GRAMMAR_TYPE,
-  type GrammarSubject,
+  GrammarSubject,
   VOCABULARY_TYPE,
-  type KanaSubject,
-  type RadicalSubject,
-  type KanjiSubject,
-  type JapaneseVocabularySubject,
-  type JapaneseSubjectType,
-  type JapaneseExerciseSubject,
+  KanaSubject,
+  RadicalSubject,
+  KanjiSubject,
+  JapaneseVocabularySubject,
+  JapaneseSubjectType,
+  JapaneseExerciseSubject,
   EXERCISE_TYPE,
   MULTIPLE_CHOICE_TYPE,
-  type SubjectInfoToDisplay,
+  SubjectInfoToDisplay,
   GrammarFormalityAndDescriptions,
-  type JapaneseVocabularySubjectAudioFiles,
+  JapaneseVocabularySubjectAudioFiles,
   MultipleChoiceSubject
 } from '../lessons/SubjectTypes'
 import { toKatakana, isKana } from 'wanakana'
@@ -115,7 +115,7 @@ const SubjectsSubInfoAudioSection = ({
         let hasAlreadyGottenHigh = currentPitch === HIGH_PITCH
         if (lastHighPitch != null) {
           const lastHighPitchAccountForSmallKana = lastHighPitch + characters[i].split('').filter(char => SMALL_KANA.includes(char)).length
-          for (let j=1; j<=characters[i].length; ++j) {
+          for (let j = 1; j <= characters[i].length; ++j) {
             let className = ''
             if (currentPitch === LOW_PITCH) {
               className = 'pitch-breakdown-low'
@@ -450,8 +450,6 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
                 </SubjectsSubInfoSection>
           ) : <Fragment key='blank'></Fragment>
         ]
-
-        
 
         const kanjiReadingsSubjectContent: JSX.Element[] = []
         if (onyomi.length > 0) {
@@ -918,13 +916,13 @@ export const getPropsForSubjectsInfo = (subject: JapaneseSubjectData, isForQuiz:
         }
 
       case MULTIPLE_CHOICE_TYPE:
-          const multipleChoiceSubject = subject as MultipleChoiceSubject
-          return {
-            subjectText: multipleChoiceSubject.question,
-            subjectMainDescription: multipleChoiceSubject.answer,
-            subjectType: KANA_TYPE,
-            subjectInfoToDisplay: []
-          }
+        const multipleChoiceSubject = subject as MultipleChoiceSubject
+        return {
+          subjectText: multipleChoiceSubject.question,
+          subjectMainDescription: multipleChoiceSubject.answer,
+          subjectType: KANA_TYPE,
+          subjectInfoToDisplay: []
+        }
 
       case GRAMMAR_TYPE:
         const grammarSubject = subject as GrammarSubject
@@ -1109,7 +1107,7 @@ export const SubjectsSubInfo = ({
   contentToDisplay,
   setContentToDisplay
 }: SubjectsSubInfoProps) => {
-  const [subjectInfoHeaderAndContentObj, setSubjectInfoHeaderAndContentObj] = useState<Record<string, FC<SubjectsSubInfoSectionProps>>>({})
+  const [subjectInfoHeaderAndContentObj, setSubjectInfoHeaderAndContentObj] = useState<Record<string, JSX.Element>>({})
   useEffect(() => {
     setContentToDisplay(subjectInfo.length > 0 ? subjectInfo[0].header : '')
     setSubjectInfoHeaderAndContentObj(subjectInfo.reduce((accumulator, { header, content }) => ({ ...accumulator, [header]: content }), {}))
@@ -1130,7 +1128,7 @@ export const SubjectsSubInfo = ({
                     )
                     )}
             </div>
-            {contentToDisplay !== '' && subjectInfoHeaderAndContentObj[contentToDisplay]}
+            {contentToDisplay !== '' ? subjectInfoHeaderAndContentObj[contentToDisplay] : <></>}
         </div>
   )
 }

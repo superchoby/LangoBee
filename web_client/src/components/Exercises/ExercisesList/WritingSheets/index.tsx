@@ -1,4 +1,4 @@
-import { type ExerciseBaseProps } from '../types'
+import { ExerciseBaseProps } from '../types'
 import { getKanji, initDiagram, getDomFromString, StrokeOrderDiagram } from './GetKanjiStrokes'
 import { useEffect, useRef, useState } from 'react'
 import { WritingSheetsCharacterChoices } from './WritingSheetsCharacterChoices'

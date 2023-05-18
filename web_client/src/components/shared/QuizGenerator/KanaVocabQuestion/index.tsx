@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './KanaVocabQuestion.scss'
 import 'react-dropdown/style.css'
-import { type QuizQuestion } from '../ConvertSubjectDataToQuestions'
+import { QuizQuestion } from '../ConvertSubjectDataToQuestions'
 import { KanaVocabInputQuestion } from './InputQuestion'
 import { KanaVocabQuestionMultipleChoice } from './MultipleChoice'
 

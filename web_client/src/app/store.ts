@@ -1,4 +1,4 @@
-import { configureStore, type ThunkAction, type Action, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit'
 import tokenReducer from './tokenSlice'
 import srsFlashcardsReducer from './srsFlashcardsSlice'
 import storage from 'redux-persist/lib/storage'

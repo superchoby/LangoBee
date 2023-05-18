@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async'
 
 const persistor = persistStore(store)
 

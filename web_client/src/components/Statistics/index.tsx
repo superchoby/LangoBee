@@ -1,5 +1,5 @@
 import { ReviewsLessonsTracker } from './ReviewsLessonsTracker'
-import { JLPTContentCovered, type JLPTStats } from './JLPTContentCovered'
+import { JLPTContentCovered, JLPTStats } from './JLPTContentCovered'
 import { HOME_PATH, STATISTICS_PATH } from 'src/paths'
 import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'

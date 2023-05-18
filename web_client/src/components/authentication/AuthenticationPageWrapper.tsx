@@ -1,6 +1,6 @@
 import ClipLoader from 'react-spinners/ClipLoader'
 import Logo from '../../images/Logo.png'
-import { type SyntheticEvent } from 'react'
+import { SyntheticEvent } from 'react'
 import './AuthenticationPageWrapper.scss'
 
 interface AuthenticationPageWrapperProps {

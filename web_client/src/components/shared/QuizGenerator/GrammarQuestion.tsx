@@ -4,9 +4,9 @@ import { GrammarFillInInput } from './GrammarFillInInput'
 // import {
 //   GrammarQuestionType
 // } from '../../../context/JapaneseDatabaseContext/SharedVariables'
-import { type QuizQuestion } from './ConvertSubjectDataToQuestions'
-import { type GrammarQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
-import { type GrammarSubject, GrammarFormalityAndDescriptions } from 'src/components/learning/lessons/SubjectTypes'
+import { QuizQuestion } from './ConvertSubjectDataToQuestions'
+import { GrammarQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
+import { GrammarSubject, GrammarFormalityAndDescriptions } from 'src/components/learning/lessons/SubjectTypes'
 
 const parseHtmlString = (htmlString: string, className?: string) => {
   const parser = new DOMParser()

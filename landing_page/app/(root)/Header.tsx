@@ -11,6 +11,7 @@ import config from './index.json';
 import './Header.css'
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image'
 
 const isInDevMode =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
@@ -27,7 +28,6 @@ const Menu = () => {
   useEffect(() => {
     if (typeof window !== 'undefined' && !isInDevMode) {
       const reduxPersistLocalStorage = localStorage.getItem('persist:root');
-      console.log(reduxPersistLocalStorage)
       if (reduxPersistLocalStorage != null) {
         const tokenInfo = JSON.parse(
           JSON.parse(reduxPersistLocalStorage).token
@@ -145,7 +145,7 @@ const Menu = () => {
             >
               <div className="px-5 pt-4 flex items-center justify-between">
                 <div>
-                  <img className="h-8 w-auto" src={logo} alt="" />
+                  <Image className="h-8 w-auto" src={logo} alt="langobee logo" />
                 </div>
                 <div className="-mr-2">
                   <Popover.Button

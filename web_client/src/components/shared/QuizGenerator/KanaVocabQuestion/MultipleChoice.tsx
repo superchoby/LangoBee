@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MultipleChoice } from '../../MultipleChoice'
-import { type QuizQuestion } from '../ConvertSubjectDataToQuestions'
-import { type MultipleChoiceQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
+import { QuizQuestion } from '../ConvertSubjectDataToQuestions'
+import { MultipleChoiceQuestionType } from 'src/context/JapaneseDatabaseContext/SharedVariables'
 
 interface KanaVocabQuestionMultipleChoiceProps {
   currentGuess: string

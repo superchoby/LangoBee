@@ -1,6 +1,6 @@
 import {
   LEARNING_TYPE,
-  type GENERAL_CONCEPT_TYPE,
+  GENERAL_CONCEPT_TYPE,
   QUIZ_TYPE
 } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 import './index.scss'
@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { LessonLearning } from './LessonLearning'
 import axios from 'axios'
 import ClipLoader from 'react-spinners/ClipLoader'
-import { type JapaneseSubjectData } from '../SubjectTypes'
+import { JapaneseSubjectData } from '../SubjectTypes'
 import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { LearningQuizGenerator } from '../../LearningQuizGenerator'
 

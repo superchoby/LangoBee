@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
-import { type LearningFlashcard } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
+import { LearningFlashcard } from '../../../../context/JapaneseDatabaseContext/SharedVariables'
 import './LessonLearning.scss'
 import { ForwardBackButton } from './ForwardBackButton'
-import { type JapaneseSubjectData } from '../SubjectTypes'
+import { JapaneseSubjectData } from '../SubjectTypes'
 import Modal from 'react-modal'
 import { MdOutlineArrowForward } from 'react-icons/md'
 import axios from 'axios'
 import {
   SubjectsSubInfo,
   getPropsForSubjectsInfo,
-  type SubjectsInfoForComponents,
+  SubjectsInfoForComponents,
   defaultSubjectPresenterProps
 } from '../../SubjectsSubInfo'
 import { useNavigate } from 'react-router-dom'

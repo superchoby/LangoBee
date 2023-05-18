@@ -1,4 +1,4 @@
-import { type JapaneseSubjectData } from '../../../learning/lessons/SubjectTypes'
+import { JapaneseSubjectData } from '../../../learning/lessons/SubjectTypes'
 import { getPropsForSubjectsInfo } from '../../../learning/SubjectsSubInfo'
 import { Link } from 'react-router-dom'
 import { Header } from 'src/components/HeaderAndNavbar/Header'
