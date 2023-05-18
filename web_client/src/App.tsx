@@ -112,9 +112,6 @@ const ProtectedRoute = ({
         axios.interceptors.request.use(
           (config) => {
             const { access } = store.getState().token
-            if (config.headers == null) {
-              config.headers = {}
-            }
             if (access.length > 0) {
               config.headers.Authorization = `Bearer ${access}`
             } else {
