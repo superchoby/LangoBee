@@ -7,6 +7,8 @@ import { useUserIsAuthenticated } from '../shared/useUserIsAuthenticated'
 import { BackButton } from '../shared/BackButton'
 import { LoggedOutHeader } from './Header/LoggedOutHeader'
 import { ROOT_PATH } from 'src/paths'
+import { Link } from 'react-router-dom'
+import { SUBSCRIPTION_PATH } from 'src/paths'
 
 interface HeaderAndNavbarProps {
   PageContents: JSX.Element
@@ -35,7 +37,7 @@ export const HeaderAndNavbar = ({
                 <Header />
                 {encourageUserToJoin && (
                   <div className='encourage-user-to-sub-while-on-trial'>
-                      <p>Subscribe to maintain your full access after your trial ends!</p> <button onClick={() => changeEncourageUserToJoin(false)}>Hide</button>
+                      <p><Link to={SUBSCRIPTION_PATH} onClick={() => changeEncourageUserToJoin(false)}>Subscribe</Link> to maintain your full access after your trial ends!</p> <button onClick={() => changeEncourageUserToJoin(false)}>Hide</button>
                       {/* <AiFillCloseCircle onClick={() => changeEncourageUserToJoin(false)}/> */}
                   </div>
                 )}
