@@ -1,6 +1,4 @@
 'use client'
-import Image from 'next/image'
-import axios from 'axios'
 import About from './(root)/About';
 import Analytics from './(root)/Analytics';
 import Canvas from './(root)/Canvas';

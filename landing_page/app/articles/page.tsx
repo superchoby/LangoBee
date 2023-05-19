@@ -2,8 +2,9 @@ import Link from 'next/link';
 import './styles.scss'
 import Header from '../(root)/Header'
 import { BASE_URL } from '../shared';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
     title: 'Articles',
     description: 'Discover our wealth of Japanese explanations'
 }

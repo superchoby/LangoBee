@@ -1,13 +1,23 @@
-'use client'
-
-import React, { useEffect, useState } from 'react';
-
-import axios from 'axios';
-
 import config from './index.json';
 
 const isInDevMode =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+const domain = isInDevMode
+    ? 'http://127.0.0.1:8000/'
+    : 'https://langobee-server.herokuapp.com/';
+
+async function getPrices() {
+  const res = await fetch(`${domain}subscriptions/view_prices_nonauthenticated/`);
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error(`Failed to fetch data ${res.statusText}`);
+  }
+
+  return res.json();
+}
+  
 
 interface PricingOptionProps {
   name: 'Monthly' | 'Annual' | 'Lifetime';
@@ -68,35 +78,18 @@ const PricingOption = ({
   );
 };
 
-const Pricing = () => {
+const Pricing = async () => {
   const { pricing } = config;
   const { title } = pricing;
-  // const [firstPlan, secondPlan, thirdPlan] = items;
-  const [subscriptionPrices, changeSubscriptionPrices] = useState<
-    {
-      name: 'Monthly' | 'Annual' | 'Lifetime';
-      cost: string;
-      description: string;
-      price_message?: string;
-      price_id: string;
-    }[]
-  >([]);
+  const prices: any = JSON.parse(await getPrices())
 
-  useEffect(() => {
-    const domain = isInDevMode
-      ? 'http://127.0.0.1:8000/'
-      : 'https://langobee-server.herokuapp.com/';
-    axios
-      .get(`${domain}subscriptions/view_prices_nonauthenticated/`)
-      .then((res) => {
-        const { lifetime, monthly, annual } = JSON.parse(res.data);
-
-        changeSubscriptionPrices([lifetime, annual, monthly]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const subscriptionPrices: {
+    name: 'Monthly' | 'Annual' | 'Lifetime';
+    cost: string;
+    description: string;
+    price_message?: string;
+    price_id: string;
+  }[] = [prices.lifetime, prices.annual, prices.monthly]
 
   return (
     <section className={`bg-background py-8`} id="pricing">
@@ -123,9 +116,6 @@ const Pricing = () => {
           {subscriptionPrices.map((props) => (
             <PricingOption key={props.name} {...props} />
           ))}
-          {/* <PricingOption plan={thirdPlan!} />
-          <PricingOption plan={secondPlan!} />
-          <PricingOption plan={firstPlan!} /> */}
         </div>
       </div>
     </section>
