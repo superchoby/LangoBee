@@ -61,7 +61,7 @@ async function getData() {
    
     return (
         <main>
-            <Header />
+            <div className='w-7/8 my-auto'><Header /></div>
             <div className='articles-homepage'>
                 <h1 className='articles-homepage-header'>Knowledge Database</h1>
                 <span className='artices-come-here-message'>Come here to refresh or learn new, cool things about Japanese</span>

@@ -68,7 +68,7 @@ const Menu = () => {
                     {LogoLinkContents}
                   </a>
                 ) : (
-                  <NextLink href="/">
+                  <NextLink rel='canonical' href="/">
                     {LogoLinkContents}
                   </NextLink>
                 )}
@@ -104,7 +104,8 @@ const Menu = () => {
                     duration={1000}
                     key={name}
                     to={href}
-                    className="font-medium text-gray-500 hover:text-gray-900"
+                    rel='canonical'
+                    className="font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
                   >
                     {name}
                   </Link>
@@ -180,7 +181,8 @@ const Menu = () => {
                         duration={1000}
                         key={name}
                         to={href}
-                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                        rel='canonical'
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 cursor-pointer"
                       >
                         {name}
                       </Link>
