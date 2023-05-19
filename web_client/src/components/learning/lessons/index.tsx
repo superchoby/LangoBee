@@ -98,18 +98,15 @@ export const Lessons = (): JSX.Element => {
     axios.get('/languages/levels_for_course/Japanese/main')
       .then(res => {
         const {
-        // subjects_remaining_in_this_level,
           users_current_level,
           all_levels,
           user_read_current_levels_article,
-          // this_levels_article
         } = res.data
 
         changeUserReadCurrentLevelsArticle(user_read_current_levels_article)
         changeCurrentLevelOnCourse(users_current_level)
         changeLevelsList(all_levels.map((level: any) => keysToCamel(level)))
         changeCurrentlyFetchingLevels(false)
-        // changeThisLevelsArticle(this_levels_article)
       })
       .catch(err => {
         console.error(err)

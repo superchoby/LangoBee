@@ -4,13 +4,12 @@ from .models import (
     Course, 
     UsersProgressOnCourse, 
     Language, 
-    Article, 
-    UsersArticleProgress, 
     TestForSkippingACoursesLevels,
     CustomQuestionForTestForSkippingACoursesLevels,
     UsersProgressOnTest,
     CourseLevels
 )
+from articles.models import Article, UsersArticleProgress
 from subjects.serializers import (
     JapaneseSubjectSerializer, 
     KanaSerializer, 
@@ -19,9 +18,9 @@ from subjects.serializers import (
 )
 from .serializers import (
     CourseLevelSerializer, 
-    ArticleSerializer, 
     TestForSkippingACoursesLevelsSerializer
 )
+from articles.serializers import ArticleSerializer, ArticePreviewSerializer
 from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
 from rest_framework import status
@@ -43,7 +42,7 @@ class GetLevelsForLanguagesCourse(APIView):
         article_progress = None
         this_levels_article = None
         try:
-            this_levels_article = users_progress_on_course.current_level.article
+            this_levels_article = users_progress_on_course.current_level.suggested_article
             if this_levels_article:
                 article_progress = UsersArticleProgress.objects.get(user=request.user, article=this_levels_article).user_finished_reading_this
         except ObjectDoesNotExist:
@@ -52,8 +51,7 @@ class GetLevelsForLanguagesCourse(APIView):
         return Response({
             'users_current_level': CourseLevelSerializer(users_progress_on_course.current_level).data['number'],
             'all_levels': CourseLevelSerializer(course.levels.all(), many=True).data,
-            'user_read_current_levels_article': article_progress,
-            'this_levels_article': ArticleSerializer(this_levels_article).data
+            'user_read_current_levels_article': article_progress
         })
     
 class GetRemainingSubjectsForLevel(APIView):
@@ -230,7 +228,7 @@ class GeneralArticleView(APIView):
     permission_classes = [permissions.AllowAny]
     
     def get(self, request):
-        article_data = ArticleSerializer(Article.objects.all(), many=True, context={'get_first_section_only': True}).data
+        article_data = ArticePreviewSerializer(Article.objects.all(), many=True).data
         return Response(article_data)
 
 class MarkArticleAsReadView(APIView):
