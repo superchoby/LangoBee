@@ -7,8 +7,7 @@
         "typescriptreact",
     ],
     "eslint.workingDirectories": [
-        "web_client/",
-        "landing_page/"
+        "web_client/"
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true

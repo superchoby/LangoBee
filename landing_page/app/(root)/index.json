@@ -1,7 +1,7 @@
 {
   "company": {
     "name": "LangoBee",
-    "logo": "/assets/images/logo.png",
+    "logo": "./images/logo.png",
     "logoWithText": "/assets/images/LogoWithText.png"
   },
   "navigation": [

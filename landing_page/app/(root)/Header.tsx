@@ -11,6 +11,7 @@ import config from './index.json';
 import './Header.css'
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Logo from './images/logoNoText.png'
 import Image from 'next/image'
 
 const isInDevMode =
@@ -23,7 +24,7 @@ const Menu = () => {
   const pathname = usePathname()
   const isAtRootPath = pathname === rootPath
   const { navigation, company, callToAction } = config;
-  const { name: companyName, logo } = company;
+  const { name: companyName } = company;
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !isInDevMode) {
@@ -145,7 +146,7 @@ const Menu = () => {
             >
               <div className="px-5 pt-4 flex items-center justify-between">
                 <div>
-                  <Image className="h-8 w-auto" src={logo} alt="langobee logo" />
+                  <Image className="h-8 w-auto" src={Logo} alt="langobee logo" />
                 </div>
                 <div className="-mr-2">
                   <Popover.Button
