@@ -58,9 +58,9 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className="py-12 w-11/12 md:w-full max-w-md mx-auto" id="contact">
-      <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primary`">
+      <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-primary`">
         Contact Us
-      </h1>
+      </h2>
       <p className="mt-4 mb-8 max-w-2xl text-xl text-gray-500 lg:mx-auto">
         Have any questions? Feel free to ask us anything and we will get back to
         you soon.

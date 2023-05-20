@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'stories',
     'emails',
     'subscriptions',
+    'articles',
 
     # Third Party
     'rest_framework',

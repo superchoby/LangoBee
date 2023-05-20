@@ -6,6 +6,7 @@ from .test_statuses import (
     NEVER_TAKEN_TEST,
     IN_PROGRESS_TEST,
 )
+from articles.models import Article
 
 languages = [
     ('Japanese', 'Japanese'),
@@ -14,16 +15,6 @@ languages = [
 
 courseNames = [
     ('main', 'Main course of that language'),
-]
-
-article_categories = [
-    ('vocabulary', 'vocabulary'),
-    ('grammar', 'grammar'),
-    ('speaking', 'speaking'),
-    ('listening', 'listening'),
-    ('kanji', 'kanji'),
-    ('alphabet', 'alphabet'),
-    ('kana', 'kana')
 ]
 
 class LanguageManager(models.Manager):
@@ -74,7 +65,7 @@ class CourseLevelsManager(models.Manager):
 class CourseLevels(models.Model):
     number = models.PositiveIntegerField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='levels')
-    # users_that_have_started_this_course = models.Many(get_user_model())
+    suggested_article = models.OneToOneField(Article, on_delete=models.SET_NULL, null=True, related_name='level_that_uses_this')
 
     objects = CourseLevelsManager()
 
@@ -147,34 +138,6 @@ class WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels(models.Model
 
     def __str__(self):
         return self.text
-
-class Article(models.Model):
-    language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='articles')
-    level_that_it_appears_before = models.OneToOneField(CourseLevels, on_delete=models.CASCADE, related_name='article', null=True)
-    title = models.CharField(max_length=100)
-    users_that_have_read_this = models.ManyToManyField(get_user_model(), related_name='read_articles', through='UsersArticleProgress')
-    slug = models.SlugField()
-    category = models.CharField(choices=article_categories, max_length=max(len(article_category[0]) for article_category in article_categories), null=True)
-
-    def __str__(self):
-        return self.title
-
-class UsersArticleProgress(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='articles_progress')
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    user_finished_reading_this = models.BooleanField(default=False)
-
-class ArticleSection(models.Model):
-    header = models.CharField(max_length=100, null=True)
-    content = models.TextField()
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='sections')
-    position = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['position']
-
-    def __str__(self):
-        return self.header
 
 class UserEnrolledInLanguage(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

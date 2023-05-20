@@ -36,9 +36,11 @@ interface SubjectsRemaining {
 
 interface CourseLevel {
   number: number
-  article: {
-    slug: string
+  suggestedArticle: {
     title: string
+    body: string
+    slug: string
+    tags: { name: string }[]
   } | null
   standardsLevel: {
     description: string
@@ -98,18 +100,15 @@ export const Lessons = (): JSX.Element => {
     axios.get('/languages/levels_for_course/Japanese/main')
       .then(res => {
         const {
-        // subjects_remaining_in_this_level,
           users_current_level,
           all_levels,
           user_read_current_levels_article,
-          // this_levels_article
         } = res.data
 
         changeUserReadCurrentLevelsArticle(user_read_current_levels_article)
         changeCurrentLevelOnCourse(users_current_level)
         changeLevelsList(all_levels.map((level: any) => keysToCamel(level)))
         changeCurrentlyFetchingLevels(false)
-        // changeThisLevelsArticle(this_levels_article)
       })
       .catch(err => {
         console.error(err)
@@ -161,20 +160,20 @@ export const Lessons = (): JSX.Element => {
       let j = i
 
       while (j < levelsList.length && (levelsList[j].standardsLevel === null || j === i)) {
-        const { number, article, testThatEndsHere } = levelsList[j]
+        const { number, suggestedArticle, testThatEndsHere } = levelsList[j]
         const thisButtonIsForTheCurrentLevel = number === currentLevelOnCourse
-        const articleExistsForCurrentLevel = article != null
+        const articleExistsForCurrentLevel = suggestedArticle != null
         if (articleExistsForCurrentLevel) {
 
           levelsForCurrentStandard.push(
             <LessonButton
-              key={article.slug}
+              key={suggestedArticle.slug}
               isPastThisButtonsContents={number < currentLevelOnCourse || (number === currentLevelOnCourse && userReadCurrentLevelsArticle)}
               hasCompletedThisButton={number < currentLevelOnCourse || (number === currentLevelOnCourse && userReadCurrentLevelsArticle)}
               position={position as 1 | 2 | 3 | 4 | 5}
               currentButton={thisButtonIsForTheCurrentLevel && !userReadCurrentLevelsArticle}
               // onClick={() => navigate(ARTICLE_PATH(true, 'Japanese', article.slug))}
-              onClick={() => { changeArticleToPreview(article) }}
+              onClick={() => { changeArticleToPreview(suggestedArticle) }}
               hideHereIndicator={showThisLevelsContents}
               percentOfContentsComplete={userReadCurrentLevelsArticle ? 100 : 0}
               buttonType={ARTICLE_BUTTON_TYPE}

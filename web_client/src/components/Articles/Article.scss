@@ -8,8 +8,13 @@
     }
 }
 
-.article-section {
+.articles-contents {
     text-align: left;
+
+    p {
+        font-size: 18px;
+        line-height: 21px;
+    }
 }
 
 .button-at-bottom-of-article {
@@ -32,11 +37,6 @@
     margin-left: auto;
     margin-right: auto;
     // transition: background-color .2s;
-}
-
-.article-section {
-    font-size: 18px;
-    line-height: 21px;
 }
 
 .article-done-button-check-mark {

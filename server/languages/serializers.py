@@ -4,48 +4,17 @@ from .models import (
     Course, 
     UsersProgressOnCourse, 
     CourseLevels,
-    Article,
-    ArticleSection,
     LanguageStandardsLevels,
     TestForSkippingACoursesLevels,
     CustomQuestionForTestForSkippingACoursesLevels,
     WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels
 )
+from articles.serializers import ArticlePreviewSerializer
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
         fields = ['name']
-
-class ArticleSectionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ArticleSection
-        fields = ['header', 'content']
-        editable = False
-
-class ArticleSlugSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = ['slug', 'title']
-        editable = False
-
-class ArticleSerializer(serializers.ModelSerializer):
-    sections = ArticleSectionSerializer(many=True)
-    class Meta:
-        model = Article
-        fields = ['title', 'sections', 'slug', 'category']
-        editable = False
-
-    def get_sections(self, obj):
-        get_first_section_only = self.context.get('get_first_section_only', False)
-        if get_first_section_only:
-            first_section = obj.sections.first()
-            if first_section:
-                return ArticleSectionSerializer(first_section).data
-            else:
-                return None
-        else:
-            return ArticleSectionSerializer(obj.sections.all(), many=True).data
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -100,7 +69,7 @@ class TestForSkippingACoursesLevelsSerializer(serializers.ModelSerializer):
         ]
 
 class CourseLevelSerializer(serializers.ModelSerializer):
-    article = ArticleSlugSerializer()
+    suggested_article = ArticlePreviewSerializer()
     standards_level = LanguageStandardsLevelsSerializer()
     test_that_ends_here = TestForSkippingACoursesLevelsSerializer()
 
@@ -109,7 +78,7 @@ class CourseLevelSerializer(serializers.ModelSerializer):
         editable = False
         fields = [
             'number',
-            'article',
+            'suggested_article',
             'standards_level',
             'test_that_ends_here'
         ]
