@@ -34,7 +34,10 @@ export const Article = (): JSX.Element => {
   } = useParams()
 
   const { 
-    fetchData: markUserAsHavingReadArticle
+    fetchData: markUserAsHavingReadArticle,
+    isSuccess: doneMarkingSuccess,
+    isError: doneMarkingError,
+    isFetching: markingAsReadIsFetching,
   } = useFetchStatus(`languages/article/mark_as_read/Japanese/${slug}/`, 'get')
 
   const onFetchArticles = useCallback((data: {article: ArticleStructure, userHasFinishedThisArticle: boolean}) => {
@@ -45,6 +48,12 @@ export const Article = (): JSX.Element => {
     changeArticle(article)
     changeUserHasFinishedThisArticle(userHasFinishedThisArticle)
   }, [])
+
+  useEffect(() => {
+    if (doneMarkingSuccess) {
+      navigate(LESSONS_PATH)
+    }
+  }, [doneMarkingSuccess, navigate])
 
   const { 
     fetchData: fetchArticlesData, 
@@ -58,8 +67,7 @@ export const Article = (): JSX.Element => {
 
   const handleButtonClick = () => {
     if (isLessonArticle) {
-      markUserAsHavingReadArticle()
-      navigate(LESSONS_PATH)
+      markUserAsHavingReadArticle()      
     } else {
       if (userIsAuthenticated) {
         markUserAsHavingReadArticle()
