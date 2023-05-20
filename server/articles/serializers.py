@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from .models import (
     Article, 
-    Tag,
+    ArticleTag,
 )
 
-class TagSerializer(serializers.ModelSerializer):
+class ArticleTagSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Tag
+        model=ArticleTag
         fields=['name']
         editable=False
 
@@ -20,13 +20,14 @@ class ArticleSerializer(serializers.ModelSerializer):
         ]
         editable=False
 
-class ArticePreviewSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True)
+class ArticlePreviewSerializer(serializers.ModelSerializer):
+    tags = ArticleTagSerializer(many=True)
     class Meta:
         model = Article
         fields = [
             'title',
             'body',
             'slug',
+            'tags'
         ]
         editable=False

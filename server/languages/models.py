@@ -65,8 +65,7 @@ class CourseLevelsManager(models.Manager):
 class CourseLevels(models.Model):
     number = models.PositiveIntegerField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='levels')
-    suggested_article = models.ForeignKey(Article, on_delete=models.SET_NULL, null=True, related_name='levels_that_use_this')
-    # users_that_have_started_this_course = models.Many(get_user_model())
+    suggested_article = models.OneToOneField(Article, on_delete=models.SET_NULL, null=True, related_name='level_that_uses_this')
 
     objects = CourseLevelsManager()
 

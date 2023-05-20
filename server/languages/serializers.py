@@ -9,7 +9,7 @@ from .models import (
     CustomQuestionForTestForSkippingACoursesLevels,
     WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels
 )
-from articles.serializers import ArticePreviewSerializer
+from articles.serializers import ArticlePreviewSerializer
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,7 +69,7 @@ class TestForSkippingACoursesLevelsSerializer(serializers.ModelSerializer):
         ]
 
 class CourseLevelSerializer(serializers.ModelSerializer):
-    suggested_article = ArticePreviewSerializer()
+    suggested_article = ArticlePreviewSerializer()
     standards_level = LanguageStandardsLevelsSerializer()
     test_that_ends_here = TestForSkippingACoursesLevelsSerializer()
 

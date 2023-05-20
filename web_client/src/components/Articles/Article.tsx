@@ -13,19 +13,16 @@ import { BackButton } from '../shared/BackButton'
 import { LoggedOutHeader } from '../HeaderAndNavbar/Header/LoggedOutHeader'
 import { WaitingForDataToProcess } from '../shared/WaitingForDataToProcess'
 import { useUserIsAuthenticated } from '../shared/useUserIsAuthenticated'
-
-interface ArticleSection {
-  content: string
-  header: string | null
-}
+import ReactMarkdown from 'react-markdown'
 
 interface ArticleStructure {
   title: string
-  sections: ArticleSection[]
+  body: string
+  metaDescription: string
 }
 
 export const Article = (): JSX.Element => {
-  const [article, changeArticle] = useState<ArticleStructure>({ title: '', sections: [] })
+  const [article, changeArticle] = useState<ArticleStructure>({ title: '', body: '', metaDescription: ''})
   const [userHasFinishedThisArticle, changeUserHasFinishedThisArticle] = useState(false)
   const { userIsAuthenticated } = useUserIsAuthenticated()
   const isLessonArticle = useMatch(ARTICLE_PATH(true)) != null
@@ -119,12 +116,13 @@ export const Article = (): JSX.Element => {
           ) : (
             <>
               <h1 data-testid="article-title">{article.title}</h1>
-              {article.sections.map(({ header, content }) => {
+              {/* {article.sections.map(({ header, content }) => {
                 return <div className='article-section' key={header}>
                   {header != null && <h2>{header}</h2>}
                   <div dangerouslySetInnerHTML={{ __html: parseContent(content.split('<newline />').join('\n')) }} />
                 </div>
-              })}
+              })} */}
+              <ReactMarkdown children={article.body} className='articles-contents'/>
 
               <button
                 className={`button-at-bottom-of-article ${(!isLessonArticle && userHasFinishedThisArticle) ? 'article-done-button' : ''}`}

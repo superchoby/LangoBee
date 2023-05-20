@@ -1,0 +1,141 @@
+[
+  {
+    "model": "articles.ArticleTag",
+    "pk": 1,
+    "fields": {
+      "name": "vocabulary"
+    }
+  },
+  {
+    "model": "articles.ArticleTag",
+    "pk": 2,
+    "fields": {
+      "name": "grammar"
+    }
+  },
+  {
+    "model": "articles.ArticleTag",
+    "pk": 3,
+    "fields": {
+      "name": "speaking"
+    }
+  },
+  {
+    "model": "articles.ArticleTag",
+    "pk": 4,
+    "fields": {
+      "name": "listening"
+    }
+  },
+  {
+    "model": "articles.ArticleTag",
+    "pk": 5,
+    "fields": {
+      "name": "kanji"
+    }
+  },
+  {
+    "model": "articles.ArticleTag",
+    "pk": 6,
+    "fields": {
+      "name": "alphabet"
+    }
+  },
+  {
+    "model": "articles.ArticleTag",
+    "pk": 7,
+    "fields": {
+      "name": "kana"
+    }
+  },
+  {
+    "model": "articles.Article",
+    "pk": 1,
+    "fields": {
+      "language": [
+        "Japanese"
+      ],
+      "title": "The Japanese Writing System",
+      "slug": "japanese-writing-system",
+      "body": "\n\n## \n\nJapanese consists of three writing systems: Hiragana, Katakana, and Kanji.\n\n### Hiragana\n\nThe basic Japanese alphabet and is used for words that originated in Japan.\n\n### Katakana\n\nThe Japanese alphabet primarily used to represent words that came from other languages. One example of a katakana word is ペン(pen) and means, you guessed it, \"pen\".\n\n### Kanji\n\nThe symbols used to represent meanings. A hiragana character represents a \"sound\" like the sound \"ah\" while a kanji character would represent a meaning like \"water\". They are often used together with other kanji or hiragana to make a word and depending on the word, the pronunciation of the kanji varies.\n",
+      "meta_description": "Discover the three key systems of Japanese writing: Hiragana, Katakana, and Kanji. Ideal for beginners starting their language journey.",
+      "tags": [
+        [
+          "alphabet"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "articles.Article",
+    "pk": 2,
+    "fields": {
+      "language": [
+        "Japanese"
+      ],
+      "title": "Rendaku Introduction",
+      "slug": "what-is-rendaku",
+      "body": "\n## What is it?\n\nIt is when a sound becomes \"voiced.\" This is indicated by marks appearing on the top right of the kana, typically quotes \".\n\n## The Rules\n\nAdding a quote to a kana changes the sound according to these rules:\n\n- K hiragana -> G sound\n- S hiragana -> Z sound\n- T hiragana -> D sound\n- H hiragana -> B sound\n\nFor example, **か** is pronounced as ka and **が** is pronounced as ga. \n\nThere is also one more type of mark, an open circle.\n\nAdding an open to a kana that starts with an H changes according to these rules:\n- H hiragana -> P sound (ex. turning は into ぱ makes it \"pa\")\n\nNo worries about memorizing these right now, you will practice them in the upcoming lessons! So let's go and learn some more of these cool Hiragana!\n",
+      "meta_description": "Understand Rendaku - a key phenomenon in the Japanese language that changes the sound of words. Perfect for intermediate learners.",
+      "tags": [
+        [
+          "alphabet"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "articles.Article",
+    "pk": 3,
+    "fields": {
+      "language": [
+        "Japanese"
+      ],
+      "title": "Introduction To Kanji",
+      "slug": "kanji",
+      "body": "\n## What is it?\n\nThe third Japanese writing system that was adopted from Chinese. Unlike hiragana and katakana, kanji characters don't simply represent a pronunciation like the characters あ or ヤ for example.\n\nKanji characters represent meanings and correspond to a word. Combining the characters allows us to create even more words. For example, combining the kanji for \"fire\" and \"mountain\" make the word \"volcano\".\n\n## How we will learn them\n\nAlmost all Kanji have significantly more strokes than Hiragana and Katakana characters. What is good about them though is that there are many kanji that share the same components, for example, the kanji for old (古) and ten (十) both have the component that looks like a cross 十.\n\nRadicals are the building blocks or roots of kanji. Kanji often consist of radicals and other kanji characters inside of them. We will be learning kanji from the ground up based on its components. Before you learn any kanji, you will have learned its components already so instead of looking at a kanji by its individual stroke, some of which could have upwards of 15 or 20, we will break it down so that often, you can just memorize the kanji by a few radicals which greatly simplifies the learning process.\n\nSo let's get started on this fun kanji journey!",
+      "meta_description": "Dive deep into Kanji, the symbolic Japanese writing system, adopted from Chinese. Learn the basics and the importance of radicals.",
+      "tags": [
+        [
+          "kanji"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "articles.Article",
+    "pk": 4,
+    "fields": {
+      "language": [
+        "Japanese"
+      ],
+      "title": "Kanji Readings",
+      "slug": "kanji-readings",
+      "body": "\n## How the readings work\n\nAlmost all Japanese consist of two readings known as Onyomi and Kunyomi.\n\n### Onyomi\n\nAs mentioned earlier, Kanji is a writing system that was adopted from Chinese. Naturally, some of these Chinese words were adopted as well and their readings were kept the same. This created the \"onyomi\" reading of the kanji. The literal meaning of onyomi is \"sound reading\" and that explains exactly what Onyomi is, the Chinese derived sound/reading of the kanji.\n\n### Kunyomi\n\nOf course, when Chinese characters were adopted, Japanese already had it's own words. These Kanji characters were then also given the reading of the original Japanese words that had the same meaning. Essentially, kunyomi is the original Japanese reading.\n\n## Example\n\nLet's take a look at the kanji for mountain, 山. This character's chinese reading is shān and when this character became integrated into Japanese kanji it took the Onyomi (Chinese derived reading) さん(san). See the similarity? At the same time, in Japanese there was already a word for mountain called やま(yama). So since the Chinese character 山 meant \"mountain\" and the word for mountain in Japanese was やま, the kanji 山 was given the reading やま!\n\n## How are they used in Vocabulary?\n\nMany Japanese characters contain multiple kunyomi and onyomi readings. This presents a challenge as it can make it hard to know whether a word uses the onyomi or kunyomi reading of a kanji and which.\n\nWhat is good news though is that there are general rules for when onyomi or kunyomi is used and there are many kanji that have multiple onyomi or kunyomi but only use one of them for the most part.\n\nAs a rule of thumb, words that only have kanji, no hiragana or katakana, and use multiple of them, use the onyomi readings. These words consisting multiple kanji and only kanji, are called compound words, or じゅくご in Japanese which we will refer to them by.\n\nMany Japanese words consist of just one kanji either with or without okurigana, the hiragana that comes after it, for example in the word 大きい meaning (big), the きい is called the okurigana. These words are generally read with the kunyomi reading. For example, the kunyomi of the \"person\" kanji (人) is ひと and the word 人 is read as ひと as the kunyomi is used.\n\nAs mentioned earlier these are just general rules but there are definitely a fair amount of exceptions. We will teach them to you as the words come along!\n",
+      "meta_description": "Explore Onyomi and Kunyomi - the two essential readings of Kanji, and learn the practical usage of these readings in Japanese vocabulary.",
+      "tags": [
+        [
+          "kanji"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "articles.Article",
+    "pk": 5,
+    "fields": {
+      "language": [
+        "Japanese"
+      ],
+      "title": "Japanese Counters",
+      "slug": "japanese-counters",
+      "body": "\n        ## Japanese Counting System\n        \n        So you have learned the numbers in Japanese which obviously is very useful but one thing to note about Japanese is that objects aren't simply counted with just plain old 一, 二, 三 etc. There are different counters in Japanese suited for different objects. To count these objects in Japanese, we would attach the normal number kanji, and then add it right in front of the counter. \n        \n        ## Some Common Counters\n        \n        Japanese actually has a LOT of different counters that are suited depending on the object we are talking about.\n        \n        If I wanted to count, long, cylindrical objects, I would use what is known as the 本 counter which is read as ほん, the same way it is read for its meaning, \"book.\" For example, 9 books would be 九本（きゅうほん). There are some exceptions where the readings changed slightly and some rendaku occurs for example 1 book is いっぽん not いちほん. Luckily, these sort of scenarios where the reading slightly changes is a very common pattern among counters that you get used to really quickly.\n        \n        Although there are many, many Japanese counters, there is one that is by far the most important and it is simply known as the general counter because you really can use it for any situation if you really wanted to. Although it may be weird sometimes to use it, if you ever forget or don't know the proper counter for a word, you can always use this. This counter has a completely special set of readings that you will learn in the next lesson but just to give you a quick preview, some examples would be: (一つ, ひとつ), (五つ, いつつ), (十, とお). You can see they have quite special readings right? Also, keep note the last example, 十 is not read as じゅう but as とお in this case and does not have a つ at the end, this is very unique.\n        ",
+      "meta_description": "Learn the Japanese Counting System and the unique concept of counters. Ideal for students seeking to improve their grammar skills.",
+      "tags": [
+        [
+          "grammar"
+        ]
+      ]
+    }
+  }
+]

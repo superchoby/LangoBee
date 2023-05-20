@@ -20,7 +20,7 @@ from .serializers import (
     CourseLevelSerializer, 
     TestForSkippingACoursesLevelsSerializer
 )
-from articles.serializers import ArticleSerializer, ArticePreviewSerializer
+from articles.serializers import ArticleSerializer, ArticlePreviewSerializer
 from subjects.models import Kanji, SubjectsDifferencesExplanation
 from users.models import User
 from rest_framework import status
@@ -211,7 +211,7 @@ class SpecificArticleView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         user_has_finished_this_article = False
         
-        if request.user.is_authenticated:            
+        if request.user.is_authenticated:       
             if request.user.read_articles.filter(pk=article.id).exists():
                 users_progress = UsersArticleProgress.objects.get(user=request.user, article=article)
                 user_has_finished_this_article = users_progress.user_finished_reading_this
@@ -228,7 +228,7 @@ class GeneralArticleView(APIView):
     permission_classes = [permissions.AllowAny]
     
     def get(self, request):
-        article_data = ArticePreviewSerializer(Article.objects.all(), many=True).data
+        article_data = ArticlePreviewSerializer(Article.objects.all(), many=True).data
         return Response(article_data)
 
 class MarkArticleAsReadView(APIView):

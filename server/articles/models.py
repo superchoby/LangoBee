@@ -11,9 +11,15 @@ tags = [
     ('kana', 'kana')
 ]
 
-class Tag(models.Model):
+class ArticleTagManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(name=name)
+
+class ArticleTag(models.Model):
     name = models.CharField(choices=tags, max_length=max(len(choice[0]) for choice in tags), unique=True)
 
+    objects = ArticleTagManager()
+    
     def __str__(self):
         return self.name
 
@@ -24,11 +30,12 @@ class Article(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     body = models.TextField()
     meta_description = models.CharField(max_length=150, blank=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_modified = models.DateTimeField(auto_now=True, null=True)
     publish_date = models.DateTimeField(blank=True, null=True)
     published = models.BooleanField(default=False)
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(ArticleTag, blank=True, related_name='articles_with_this_tag')
+    users_that_have_read_this = models.ManyToManyField(get_user_model(), related_name='read_articles', through='UsersArticleProgress')
 
     def __str__(self):
         return self.title
