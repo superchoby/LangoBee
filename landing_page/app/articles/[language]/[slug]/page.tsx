@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 import { PROD_URL } from '../../../shared';
 
 async function getArticle(language: string, slug: string) {
-  const res = await fetch(`${BASE_URL}languages/article/${language}/${slug}/`);
+  const res = await fetch(`${BASE_URL}languages/article/${language}/${slug}/`, {cache: 'no-store'});
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
