@@ -24,16 +24,14 @@ export default function RootLayout({
       <Script 
         id="google-analytics"
         dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-RBFW56GGW2');
-        `,
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RBFW56GGW2');
+          `,
         }}
-      >
-        {``}
-      </Script>
+      />
       <body className={inter.className}>{children}</body>
     </html>
   )
