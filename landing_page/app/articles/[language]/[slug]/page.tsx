@@ -1,11 +1,13 @@
 import { BASE_URL } from '../../../shared';
 import Link from 'next/link';
-import { parse } from 'node-html-parser';
 import Header from '../../../(root)/Header'
 import './styles.scss'
+import ReactMarkdown from 'react-markdown'
+import { Metadata } from 'next';
+import { PROD_URL } from '../../../shared';
 
 async function getArticle(language: string, slug: string) {
-  const res = await fetch(`${BASE_URL}languages/article/${language}/${slug}/`);
+  const res = await fetch(`${BASE_URL}languages/article/${language}/${slug}/`, { next: { revalidate: 60 } });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
@@ -13,35 +15,24 @@ async function getArticle(language: string, slug: string) {
   return res.json();
 }
 
-export async function generateMetadata({ params }: { params: {language: string, slug: string} }) {
-  const { article } = await getArticle(params.language, params.slug)
+export async function generateMetadata({ params }: { params: {language: string, slug: string} }): Promise<Metadata> {
+  const { language, slug } = params
+  const { article }: { article: ArticleStructure } = await getArticle(language, slug)
 
   return { 
     title: article.title,
-    description: article.sections[0].content.slice(0, 100)
+    description: article.meta_description,
+    alternates: {
+      canonical: `${PROD_URL}${language}/${slug}/`
+    }
   }
-}
-
-interface ArticleSection {
-  content: string
-  header: string | null
 }
 
 interface ArticleStructure {
   title: string
-  sections: ArticleSection[]
+  body: string
+  meta_description: string
 }
-
-const parseContent = (content: string) => {
-  const root = parse(`<p>${content}</p>`);
-  const subheaders = root.querySelectorAll('subheader');
-  subheaders.forEach(subheader => {
-    const h3 = `<h3 class='text-xl font-bold my-3.5'>${subheader.text}</h3>`;
-    subheader.replaceWith(h3);
-  });
-
-  return root.innerHTML;
-};
 
 export default async function page({params}: { params: { language: string, slug: string } }) {
     const {language, slug} = params
@@ -57,12 +48,9 @@ export default async function page({params}: { params: { language: string, slug:
           >
             {article.title}
           </h1>
-          {article.sections.map(({ header, content }) => {
-            return <div className='article-section' key={header}>
-              {header != null && <h2 className='text-2xl font-bold my-3.5'>{header}</h2>}
-              <div dangerouslySetInnerHTML={{ __html: parseContent(content.split('<newline />').join('\n')) }} />
-            </div>
-          })}
+          <ReactMarkdown className='text-left article-contents'>
+            {article.body}
+          </ReactMarkdown>
 
           <Link 
             className='button-at-bottom-of-article py-3 text-white block w-40 text-center mx-auto'

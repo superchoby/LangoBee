@@ -56,29 +56,15 @@ export const Article = (): JSX.Element => {
     fetchArticlesData()
   }, [fetchArticlesData])
 
-  const parseContent = (content: string) => {
-    const parser = new DOMParser()
-    const xmlDoc = parser.parseFromString(`<p>${content}</p>`, 'text/xml')
-    const subheaders = xmlDoc.getElementsByTagName('subheader')
-    while (subheaders.length > 0) {
-      const span = document.createElement('h3')
-      // span.classList.add('kana-mnemonic-bold-pronunciation')
-      span.textContent = subheaders[0].textContent
-      subheaders[0].replaceWith(span)
-    }
-    return xmlDoc.documentElement.innerHTML
-  }
-
   const handleButtonClick = () => {
-    if (!userIsAuthenticated) {
-      navigate(ARTICLE_HOMEPAGE_PATH)
-    } else  {
-      if (!userHasFinishedThisArticle) {
+    if (isLessonArticle) {
+      markUserAsHavingReadArticle()
+      navigate(LESSONS_PATH)
+    } else {
+      if (userIsAuthenticated) {
         markUserAsHavingReadArticle()
       }
-      if (isLessonArticle) {
-        navigate(LESSONS_PATH)
-      }
+      navigate(ARTICLE_HOMEPAGE_PATH)
     }
   }
 
@@ -95,7 +81,7 @@ export const Article = (): JSX.Element => {
         </>
       )
     } else {
-      return 'Mark as Read'
+      return 'Done'
     }
   }
 
@@ -116,12 +102,6 @@ export const Article = (): JSX.Element => {
           ) : (
             <>
               <h1 data-testid="article-title">{article.title}</h1>
-              {/* {article.sections.map(({ header, content }) => {
-                return <div className='article-section' key={header}>
-                  {header != null && <h2>{header}</h2>}
-                  <div dangerouslySetInnerHTML={{ __html: parseContent(content.split('<newline />').join('\n')) }} />
-                </div>
-              })} */}
               <ReactMarkdown children={article.body} className='articles-contents'/>
 
               <button

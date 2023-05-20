@@ -3,10 +3,11 @@ import './styles.scss'
 import Header from '../(root)/Header'
 import { BASE_URL } from '../shared';
 import { Metadata } from 'next';
+import { removeMarkdown } from './shared';
 
 export const metadata: Metadata = {
     title: 'Articles',
-    description: 'Discover our wealth of Japanese explanations'
+    description: 'Discover our wealth of Japanese explanations where we breakdown Japanese concepts into the simplest explanations so that you can be a master of them.'
 }
 
 const ARTICLE_PATH = (forLesson: boolean, language?: string, slug?: string) => {
@@ -15,41 +16,28 @@ const ARTICLE_PATH = (forLesson: boolean, language?: string, slug?: string) => {
 }
 
 interface ArticlePreviewProps { 
-    category: string
-    title: string 
-    slug: string
-    sections: {
-      header: string
-      content: string
-    }[]
-}
-
-function removeXMLTags(input: string): string {
-    const regex = /<[^>]*>/g; // Match all XML tags
-    const output = input.replace(regex, ''); // Replace XML tags with an empty string
-    return output;
+  tags: {name: string}[]
+  title: string 
+  slug: string
+  body: string
 }
   
 const ArticlePreview = ({
-    category,
     title,
     slug,
-    sections
+    body
 }: ArticlePreviewProps) => {
     return (
       <li className='article-preview'>
         <Link href={ARTICLE_PATH(false, 'Japanese', slug)}>{title}</Link>
-        <p>{removeXMLTags(sections[0].content).slice(0, 130)}...</p>
+        <p>{removeMarkdown(body).slice(0, 130)}...</p>
       </li>
     )
 }
   
 async function getData() {
-    const res = await fetch(`${BASE_URL}languages/article`);
-
-    // Recommendation: handle errors
+    const res = await fetch(`${BASE_URL}languages/article`, { next: { revalidate: 60 } });
     if (!res.ok) {
-      // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to fetch data');
     }
    

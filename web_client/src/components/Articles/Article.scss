@@ -9,9 +9,12 @@
 }
 
 .articles-contents {
-    font-size: 18px;
-    line-height: 21px;
     text-align: left;
+
+    p {
+        font-size: 18px;
+        line-height: 21px;
+    }
 }
 
 .button-at-bottom-of-article {
