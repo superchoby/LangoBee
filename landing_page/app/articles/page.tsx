@@ -4,7 +4,7 @@ import Header from '../(root)/Header'
 import { BASE_URL } from '../shared';
 import { Metadata } from 'next';
 
-export function removeMarkdown(md: string) {
+function removeMarkdown(md: string) {
   console.log(md)
   let result = md.replace(/(^\s*#+\s*)([^#]+)/gm, '$2');
   result = result.replace(/(\*\*|__)(.*?)\1/g, '$2');
