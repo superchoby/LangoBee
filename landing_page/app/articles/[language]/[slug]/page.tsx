@@ -63,7 +63,7 @@ export default async function page({params}: { params: { language: string, slug:
     return (
       <main>
         <Header />
-        <div style={{color: '#3A3A3A'}} className='mt-10 w-5/6 my-0 mx-auto md:w-4/5 lg:w-2/3 xl:w-3/5 mb-28'>
+        <div style={{color: '#3A3A3A'}} className='mt-10 w-5/6 my-0 mx-auto md:w-4/5 lg:w-2/3 xl:w-1/2 mb-28'>
           {prerequisiteArticles.length > 0 && (
             <div className='mb-12'>
               <h2>Links to suggested readings if you arent familiar with:</h2>
