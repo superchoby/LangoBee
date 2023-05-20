@@ -5,7 +5,6 @@ import { BASE_URL } from '../shared';
 import { Metadata } from 'next';
 
 function removeMarkdown(md: string) {
-  console.log(md)
   let result = md.replace(/(^\s*#+\s*)([^#]+)/gm, '$2');
   result = result.replace(/(\*\*|__)(.*?)\1/g, '$2');
   result = result.replace(/(\*|_)(.*?)\1/g, '$2');
@@ -41,7 +40,6 @@ const ArticlePreview = ({
     slug,
     body
 }: ArticlePreviewProps) => {
-  console.log(title, 'title')
     return (
       <li className='article-preview'>
         <Link href={ARTICLE_PATH(false, 'Japanese', slug)}>{title}</Link>
@@ -51,7 +49,7 @@ const ArticlePreview = ({
 }
   
 async function getData() {
-    const res = await fetch(`${BASE_URL}languages/article`, { next: { revalidate: 60 } });
+    const res = await fetch(`${BASE_URL}languages/article`, {cache: 'no-store'} );
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
@@ -61,7 +59,6 @@ async function getData() {
    
 export default async function Page() {
   const articles: ArticlePreviewProps[] = await getData();
-  console.log(articles)
 
   return (
       <main>
