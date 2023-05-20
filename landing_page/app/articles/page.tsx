@@ -3,7 +3,21 @@ import './styles.scss'
 import Header from '../(root)/Header'
 import { BASE_URL } from '../shared';
 import { Metadata } from 'next';
-import { removeMarkdown } from './shared';
+
+export function removeMarkdown(md: string) {
+  console.log(md)
+  let result = md.replace(/(^\s*#+\s*)([^#]+)/gm, '$2');
+  result = result.replace(/(\*\*|__)(.*?)\1/g, '$2');
+  result = result.replace(/(\*|_)(.*?)\1/g, '$2');
+  result = result.replace(/(`)(.*?)\1/g, '$2');
+  result = result.replace(/(\~\~)(.*?)\1/g, '$2');
+  result = result.replace(/!\[([^\]]*)\]\(([^\)]+)\)/g, '$1');
+  result = result.replace(/\[([^\]]*)\]\(([^\)]+)\)/g, '$1');
+  result = result.replace(/\n\s*(>)\s*(.+)/g, '\n$2');
+  result = result.replace(/(\*\*\*|- - -|___)/g, '');
+  
+  return result;
+}
 
 export const metadata: Metadata = {
     title: 'Articles',
@@ -27,6 +41,7 @@ const ArticlePreview = ({
     slug,
     body
 }: ArticlePreviewProps) => {
+  console.log(title, 'title')
     return (
       <li className='article-preview'>
         <Link href={ARTICLE_PATH(false, 'Japanese', slug)}>{title}</Link>
@@ -46,6 +61,7 @@ async function getData() {
    
 export default async function Page() {
   const articles: ArticlePreviewProps[] = await getData();
+  console.log(articles)
 
   return (
       <main>
