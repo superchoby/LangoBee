@@ -20,18 +20,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-RBFW56GGW2" strategy="worker" />
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-RBFW56GGW2" strategy="afterInteractive" />
       <Script 
         id="google-analytics"
-        dangerouslySetInnerHTML={{
-          __html: `
+        strategy="afterInteractive"
+      >
+        {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-RBFW56GGW2');
-          `,
-        }}
-      />
+        `}
+      </Script>
       <body className={inter.className}>{children}</body>
     </html>
   )
