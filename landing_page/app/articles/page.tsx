@@ -42,21 +42,21 @@ async function getData() {
     }
    
     return res.json();
-  }
+}
    
-  export default async function Page() {
-    const articles: ArticlePreviewProps[] = await getData();
-   
-    return (
-        <main>
-            <div className='w-7/8 my-auto'><Header /></div>
-            <div className='articles-homepage'>
-                <h1 className='articles-homepage-header'>Knowledge Database</h1>
-                <span className='artices-come-here-message'>Come here to refresh or learn new, cool things about Japanese</span>
-                <ul className='articles-homepage-articles-list'>
-                    {articles.map(props => <ArticlePreview key={props.title} {...props} />)}
-                </ul>
-            </div>
-        </main>
-    )
-  }
+export default async function Page() {
+  const articles: ArticlePreviewProps[] = await getData();
+
+  return (
+      <main>
+          <div className='w-7/8 my-auto'><Header /></div>
+          <div className='articles-homepage'>
+              <h1 className='articles-homepage-header'>Knowledge Database</h1>
+              <span className='artices-come-here-message'>Come here to refresh or learn new, cool things about Japanese</span>
+              <ul className='articles-homepage-articles-list'>
+                  {articles.map(props => <ArticlePreview key={props.title} {...props} />)}
+              </ul>
+          </div>
+      </main>
+  )
+}

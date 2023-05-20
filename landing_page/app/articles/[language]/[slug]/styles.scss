@@ -1,10 +1,18 @@
 .button-at-bottom-of-article {
-    background-color: #0af;
     border-radius: 12px;
     font-size: 17px;
     font-weight: 500;
     margin-top: 50px;
 }
+
+a[href="/articles/"]{
+    background-color: #0af;
+}
+
+a[href="/signup/"]{
+    background-color: #F9C210;
+}
+// { next: { revalidate: 60 } }
 
 .article-contents {
     h2 {

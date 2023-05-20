@@ -21,22 +21,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-RBFW56GGW2" strategy="worker" />
-      <Script id="show-banner">
-        {`window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-RBFW56GGW2');`}
+      <Script 
+        id="google-analytics"
+        dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-RBFW56GGW2');
+        `,
+        }}
+      >
+        {``}
       </Script>
-
-{/* 
-<!-- Google tag (gtag.js) -->
-<script async src=""></script>
-<script>
-  
-</script> */}
-
-
       <body className={inter.className}>{children}</body>
     </html>
   )
