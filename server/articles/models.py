@@ -8,7 +8,8 @@ tags = [
     ('listening', 'listening'),
     ('kanji', 'kanji'),
     ('alphabet', 'alphabet'),
-    ('kana', 'kana')
+    ('kana', 'kana'),
+    ('learning', 'general language learning')
 ]
 
 linked_articles_types = [

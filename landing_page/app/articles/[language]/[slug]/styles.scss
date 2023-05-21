@@ -12,7 +12,6 @@ a[href="/articles/"]{
 a[href="/signup/"]{
     background-color: #F9C210;
 }
-// { next: { revalidate: 60 } }
 
 .article-contents {
     h2 {
@@ -51,5 +50,13 @@ a[href="/signup/"]{
         margin-block-end: 1em;
         margin-inline-start: 0px;
         margin-inline-end: 0px;
+    }
+
+    img {
+        height: 300px;   
+    }
+
+    a {
+        color: #64b5f6;
     }
 }

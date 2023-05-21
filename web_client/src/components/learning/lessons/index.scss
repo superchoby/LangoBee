@@ -121,6 +121,32 @@
     background-color: var(--gray-button);
 }
 
+.welcome-modal {
+    h2 {
+        text-align: center;
+    }
+
+    button {
+        background-color: var(--light-blue);
+        border-radius: 12px;
+        color: white;
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 auto;
+        padding: 10px 20px;
+    }
+
+    svg {
+        color: gray;
+        cursor: pointer;
+        height: 20px;
+        position: absolute;
+        right: 30px;
+        width: 20px;
+    }
+}
+
 @media only screen and (min-width: 700px) {
     .lessons-level-select-container {
         width: 80%;

@@ -13,6 +13,8 @@ import { LESSONS_SESSION_PATH, ARTICLE_PATH, REVIEWS_INFO_PATH } from 'src/paths
 import ClipLoader from 'react-spinners/ClipLoader'
 import { keysToCamel } from 'src/components/shared/keysToCamel'
 import { TestToSkipLevelsButton } from './TestToSkipLevelsButton'
+import { AiFillCloseCircle } from 'react-icons/ai'
+import { useSearchParams } from "react-router-dom";
 
 const SubjectsForLevelLi = ({
   subjectType,
@@ -88,6 +90,10 @@ export const Lessons = (): JSX.Element => {
   const [userReadCurrentLevelsArticle, changeUserReadCurrentLevelsArticle] = useState(false)
   const [currentlyFetchingLevels, changeCurrentlyFetchingLevels] = useState(true)
   const [currentlyFetchingRemainingSubjectsForLevel, changeCurrentlyFetchingRemainingSubjectsForLevel] = useState(true)
+  const [searchParams] = useSearchParams();
+  const justJoinedParam = searchParams.get('just_joined')
+  const justJoinedIsTrue = justJoinedParam != null && justJoinedParam === 'true'
+  const [showIntroModal, changeShowIntroModal] = useState(false)
   const [usersSrsCountAndLimit, changeUsersSrsCountAndLimit] = useState({
     srsLimit: 0,
     srsSubjectsAddedToday: 0
@@ -145,7 +151,8 @@ export const Lessons = (): JSX.Element => {
       .catch(err => {
         console.error(err)
       })
-  }, [])
+      changeShowIntroModal(justJoinedIsTrue)
+  }, [justJoinedIsTrue])
 
   const levels = []
   let levelsForCurrentStandard: JSX.Element[] = []
@@ -254,6 +261,28 @@ export const Lessons = (): JSX.Element => {
 
   return (
     <div className='lessons-level-select-container'>
+      <Modal
+        ariaHideApp={false}
+        className='lessons-content-preview welcome-modal'
+        isOpen={showIntroModal}
+        onRequestClose={(() => { changeShowIntroModal(false) })}
+        preventScroll={false}
+      >
+        <AiFillCloseCircle onClick={() => changeShowIntroModal(false)} />
+        <h2>Welcome!</h2>
+        <p>
+          Thanks for joining us here at LangoBee! On this page,
+          you can take your lessons and review them after you learn 
+          them! 
+        </p>
+        <p>
+          Btw, if you know Hiragana and/or Katakana already, 
+          scroll down to take those tests!
+        </p>
+
+        <button onClick={() => changeShowIntroModal(false)}>Got it!</button>
+      </Modal>
+      
       {currentlyFetchingLevels
         ? (
           <div className='lessons-learning-loading-msg'>
@@ -262,11 +291,11 @@ export const Lessons = (): JSX.Element => {
           </div>
           )
         : (
-        <>
-          {levels}
-          {/* <div className='more-lessons-to-come-msg'>More Lessons to come soon ! ✍️ </div> */}
-        </>
-          )}
+          <>
+            {levels}
+            {/* <div className='more-lessons-to-come-msg'>More Lessons to come soon ! ✍️ </div> */}
+          </>
+      )}
 
       <Modal
         ariaHideApp={false}
