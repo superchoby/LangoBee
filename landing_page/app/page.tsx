@@ -33,8 +33,9 @@ export default function Home() {
         } else {
           localStorage.clear();
         }
+      } else {
+        changeCheckedForToken(true)
       }
-      changeCheckedForToken(true)
     }
   }, [checkedForToken])
   
