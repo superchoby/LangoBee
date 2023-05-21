@@ -28,7 +28,6 @@ export const Signup = (): JSX.Element => {
   const [emailError, changeEmailError] = useState('')
   const [passwordError, changePasswordError] = useState('')
   const [confirmPasswordError, changeConfirmPasswordError] = useState('')
-  // const [generalErrorOccurred, changeGeneralErrorOccurred] = useState(false)
   const [signUpError, changeSignUpError] = useState('')
   const [signUpLoading, changeSignUpLoading] = useState(false)
   const [searchParams] = useSearchParams()

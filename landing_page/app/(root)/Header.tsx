@@ -9,7 +9,6 @@ import { Link } from 'react-scroll';
 import NextLink from 'next/link'
 import config from './index.json';
 import './Header.css'
-import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Logo from './images/logoNoText.png'
 import Image from 'next/image'
@@ -25,26 +24,6 @@ const Menu = () => {
   const isAtRootPath = pathname === rootPath
   const { navigation, company, callToAction } = config;
   const { name: companyName } = company;
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !isInDevMode) {
-      const reduxPersistLocalStorage = localStorage.getItem('persist:root');
-      if (reduxPersistLocalStorage != null) {
-        const tokenInfo = JSON.parse(
-          JSON.parse(reduxPersistLocalStorage).token
-        );
-        const { access } = tokenInfo as {
-          access: string;
-          refresh: string;
-        };
-        if (access != null && access.length > 0) {
-          window.location.href = '/home';
-        } else {
-          localStorage.clear();
-        }
-      }
-    }
-  })
 
   const LogoLinkContents = (
     <>

@@ -1,4 +1,5 @@
 'use client'
+
 import About from './(root)/About';
 import Analytics from './(root)/Analytics';
 import Canvas from './(root)/Canvas';
@@ -10,14 +11,34 @@ import MainHero from './(root)/MainHero';
 import MainHeroImage from './(root)/MainHeroImage';
 import Pricing from './(root)/Pricing';
 import Product from './(root)/Product';
-
-
-const isInDevMode =
-  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+import { useEffect, useState } from 'react';
+import { isInDevelopmentEnv } from './shared';
 
 export default function Home() {
+  const [checkedForToken, changeCheckedForToken] = useState(isInDevelopmentEnv)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isInDevelopmentEnv && !checkedForToken) {
+      const reduxPersistLocalStorage = localStorage.getItem('persist:root');
+      if (reduxPersistLocalStorage != null) {
+        const tokenInfo = JSON.parse(
+          JSON.parse(reduxPersistLocalStorage).token
+        );
+        const { access } = tokenInfo as {
+          access: string;
+          refresh: string;
+        };
+        if (access != null && access.length > 0) {
+          window.location.href = '/home';
+        } else {
+          localStorage.clear();
+        }
+      }
+      changeCheckedForToken(true)
+    }
+  }, [checkedForToken])
   
-  return (
+  return checkedForToken ? (
     <div
       className={`bg-background grid gap-y-16 overflow-hidden`}
       // style={{ display: checkedForToken ? 'block' : 'none' }}
@@ -66,5 +87,5 @@ export default function Home() {
       </LazyShow>
       <Analytics />
     </div>
-  )
+  ) : <></>
 }

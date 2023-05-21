@@ -72,6 +72,7 @@ import { LessonSession } from './components/learning/lessons/session'
 import { StoriesHome } from './components/stories/StoriesHome'
 import { StoryReader } from './components/stories/StoryReader'
 import { getUserIsAuthenticatedObj } from './components/shared/useUserIsAuthenticated'
+import { hotjar } from 'react-hotjar';
 
 const tokenInvalidMsg = 'Given token not valid for any token type'
 const userNotFoundMessage = 'User not found'
@@ -238,6 +239,9 @@ const PaidUsersOnlyRoute = () => {
 }
 
 const verifyTokenPath = 'api/token/verify/'
+const hotjarSiteId = 3501001;
+const hotjarVersion = 6;
+hotjar.initialize(hotjarSiteId, hotjarVersion);
 
 function App () {
   return (
