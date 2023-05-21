@@ -85,10 +85,13 @@ export const Signup = (): JSX.Element => {
             access,
             refresh
           }))
-          navigate(searchParams.get('take_to_subscription_page') === 'true' ? 
-            SUBSCRIPTION_PATH :
-            LESSONS_PATH
-          )
+          navigate({
+            pathname: searchParams.get('take_to_subscription_page') === 'true' ? 
+              SUBSCRIPTION_PATH :
+              LESSONS_PATH
+            ,
+            search: '?just_joined=true',
+          })
         })
         .catch(err => {
           changeSignUpLoading(false)
