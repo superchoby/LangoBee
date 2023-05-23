@@ -223,12 +223,12 @@ class CharacterStrokeNumberSerializer(serializers.ModelSerializer):
         editable = False
 
 class CharacterStrokeDataSerializer(serializers.ModelSerializer):
-    kanji_stroke_numbers = CharacterStrokeNumberSerializer(many=True)
+    character_stroke_numbers = CharacterStrokeNumberSerializer(many=True)
     class Meta:
         model = CharacterStrokeData
         fields = [
             'stroke_paths', 
-            'kanji_stroke_numbers'
+            'character_stroke_numbers'
         ]
         editable = False
 

@@ -3,6 +3,7 @@ import { getKanji, initDiagram, getDomFromString, StrokeOrderDiagram } from './G
 import { useEffect, useRef, useState } from 'react'
 import { WritingSheetsCharacterChoices } from './WritingSheetsCharacterChoices'
 import { useFetchStatus } from 'src/components/shared/useFetchStatus'
+import { keysToCamel } from 'src/components/shared/keysToCamel'
 import Yes from './fine'
 import axios from 'axios'
 
@@ -17,7 +18,12 @@ export const WritingSheets = ({}: ExerciseBaseProps) => {
   // This link is to see the japaneseCharacter but like big so easier to tell https://jisho.org/search/%E5%90%8D%20%23kanji
   // const [kanjiDiagramsList, changeKanjiDiagramsList] = useState<JSX.Element[]>([])
   const [selectedCharacters, changeSelectedCharacters] = useState<string[]>([])
-  const [kanjiDiagramsCache, changeKanjiDiagramsCache] = useState<Record<string, string>>({})
+  const [kanjiDiagramsCache, changeKanjiDiagramsCache] = useState<{
+    [character: string]: {
+      characterStrokeNumbers: { number: number, transform: string }
+      strokePaths: string[]
+    }
+  }>({})
   const [kanjiCharactersByJLPT, changeKanjiCharactersByJLPT] = useState<KanjiByJLPT>({
     1: [],
     2: [],
@@ -34,16 +40,23 @@ export const WritingSheets = ({}: ExerciseBaseProps) => {
     fetchKanjiByJLPT()
   }, [fetchKanjiByJLPT])
 
-  const onCharacterClick = (characterClicked: string, characterWasSelected: boolean) => {
+  const onCharacterClick = (characterClicked: string, characterWasSelected: boolean, character_type: 'kanji' | 'kana') => {
     if (characterWasSelected) {
       changeSelectedCharacters(selectedCharacters.filter(char => char !== characterClicked))
     } else {
       if (Object.prototype.hasOwnProperty.call(kanjiDiagramsCache, characterClicked)) {
         changeSelectedCharacters([...selectedCharacters, characterClicked].sort())
       } else {
-        axios.get(`subjects/character_stroke_data/${characterClicked}`)
+        axios.get(`subjects/character_stroke_data/${character_type}/${characterClicked}`)
         .then(res => {
-          console.log(res.data)
+          changeSelectedCharacters([characterClicked, ...selectedCharacters].sort())
+          changeKanjiDiagramsCache({
+            [characterClicked]: {
+              strokePaths: res.data.stroke_paths,
+              characterStrokeNumbers: res.data.character_stroke_numbers
+            },
+            ...kanjiDiagramsCache,
+          })
         })
         .catch(err => {
           console.error(err)
@@ -52,7 +65,6 @@ export const WritingSheets = ({}: ExerciseBaseProps) => {
       }
     }
   }
-  console.log(selectedCharacters)
 
   return (
         <div>
@@ -60,26 +72,45 @@ export const WritingSheets = ({}: ExerciseBaseProps) => {
                 header='Hiragana'
                 characters={HIRAGANA_CHARACTERS}
                 selectedCharacters={selectedCharacters}
-                onCharacterClick={onCharacterClick}
+                onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                  onCharacterClick(characterClicked, characterWasSelected, 'kana')
+                }}
             />
             <WritingSheetsCharacterChoices
                 header='Katakana'
                 characters={KATAKANA_CHARACTERS}
                 selectedCharacters={selectedCharacters}
-                onCharacterClick={onCharacterClick}
+                onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                  onCharacterClick(characterClicked, characterWasSelected, 'kana')
+                }}
             />
-            {
-              Object.entries(kanjiCharactersByJLPT)
-              .sort(([jlptLeveA], [jlptLeveB]) => Number(jlptLeveB) - Number(jlptLeveA))
-              .map(([jlptLevel, kanjiInThisLevel]) => (
-                <WritingSheetsCharacterChoices
-                    header={`JLPT N${jlptLevel} Kanji`}
-                    characters={kanjiInThisLevel}
-                    selectedCharacters={selectedCharacters}
-                    onCharacterClick={onCharacterClick}
-                />
-              ))
-            }
+            <div>
+              
+            </div>
+            <WritingSheetsCharacterChoices
+                  header={`Kanji`}
+                  characters={[]}
+                  customContent={(
+                    <>
+                      {Object.entries(kanjiCharactersByJLPT)
+                      .sort(([jlptLeveA], [jlptLeveB]) => Number(jlptLeveB) - Number(jlptLeveA))
+                      .map(([jlptLevel, kanjiInThisLevel]) => (
+                        <WritingSheetsCharacterChoices
+                            header={`JLPT N${jlptLevel}`}
+                            characters={kanjiInThisLevel}
+                            selectedCharacters={selectedCharacters}
+                            onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                              onCharacterClick(characterClicked, characterWasSelected, 'kanji')
+                            }}
+                        />
+                      ))}
+                    </>
+                  )}
+                  selectedCharacters={selectedCharacters}
+                  onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                    onCharacterClick(characterClicked, characterWasSelected, 'kanji')
+                  }}
+              />
             <div>
                 {selectedCharacters.map((char) => (
                     <div>

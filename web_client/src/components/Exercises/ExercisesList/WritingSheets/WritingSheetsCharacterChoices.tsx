@@ -10,6 +10,7 @@ interface WritingSheetsCharacterChoicesProps {
   header: string
   characters: readonly string[]
   selectedCharacters: string[]
+  customContent?: JSX.Element
   onCharacterClick: (characterClicked: string, characterWasSelected: boolean) => void
   // handleCharacterSelect(character: string, hasBeenSelected: boolean): void
 }
@@ -17,6 +18,7 @@ interface WritingSheetsCharacterChoicesProps {
 export const WritingSheetsCharacterChoices = ({
   header,
   characters,
+  customContent,
   selectedCharacters,
   onCharacterClick
   // handleCharacterSelect
@@ -25,16 +27,16 @@ export const WritingSheetsCharacterChoices = ({
 
   return (
         <div>
-            <div className='writing-sheet-character-choice-header'>
+            <div className='writing-sheet-character-choice-header' onClick={() => changeShowCharacters(!showCharacters)}>
               <h2>{header}</h2>
               {showCharacters ? 
-                <AiFillCaretUp onClick={() => changeShowCharacters(false)} size={30} /> : 
-                <AiFillCaretDown onClick={() => changeShowCharacters(true)} size={30} />
+                <AiFillCaretUp size={30} /> : 
+                <AiFillCaretDown size={30} />
               }
             </div>
             
             <div className='writing-sheets-character-choices-container'>
-                {showCharacters && characters.map(charactersCol => (
+                {showCharacters && (customContent == null ? characters.map(charactersCol => (
                     <div className='writing-sheets-character-choices-col' key={charactersCol}>
                         {charactersCol.split('').map(character => {
                           const isSelected = selectedCharacters.includes(character)
@@ -56,7 +58,7 @@ export const WritingSheetsCharacterChoices = ({
                           )
                         })}
                     </div>
-                ))}
+                )) : customContent)}
             </div>
 
         </div>
