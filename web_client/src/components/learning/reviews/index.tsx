@@ -34,7 +34,7 @@ export const Reviews = (): JSX.Element => {
         })
 
         subjectsAndReviewInfo[subject.id] = {
-            level: 0,
+            level: subject.currentReviewLevel,
             isFastReviewCard: subject.srsType === 'fast'
         }
       }
