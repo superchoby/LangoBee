@@ -36,6 +36,8 @@ export default function Home() {
       } else {
         changeCheckedForToken(true)
       }
+    } else {
+      changeCheckedForToken(true)
     }
   }, [checkedForToken])
   
