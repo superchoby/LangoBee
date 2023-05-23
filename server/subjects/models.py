@@ -112,6 +112,14 @@ class Radical(KanaAndRadicalBase, JapaneseSubject):
     def natural_key(self):
         return self.character
 
+class KanjiStrokeData(models.Model):
+    stroke_paths = ArrayField(models.TextField())
+
+class KanjiStrokeNumber(models.Model):
+    number = models.PositiveIntegerField()
+    transform = models.CharField(max_length=30)
+    kanji_stroke_data = models.ForeignKey(KanjiStrokeData, on_delete=models.CASCADE, related_name='kanji_stroke_numbers')
+
 class KanjiManager(PolymorphicManager):
     def get_by_natural_key(self, character):
         return self.get(character=character)
@@ -128,6 +136,7 @@ class Kanji(JapaneseSubject):
     meaning_mnemonic = models.TextField(default='')
     radicals_used = models.ManyToManyField(Radical, related_name='kanji_that_uses_this')
     kanji_contained_within_this = ArrayField(models.CharField(max_length=1), default=list)
+    stroke_data = models.OneToOneField(KanjiStrokeData, on_delete=models.SET_NULL, null=True, related_name='kanji')
 
     objects = KanjiManager()
 
