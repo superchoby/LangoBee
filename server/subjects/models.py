@@ -112,6 +112,9 @@ class Radical(KanaAndRadicalBase, JapaneseSubject):
     def natural_key(self):
         return self.character
 
+# TODO: Just realized gotta have this for kana too so gonna make this work for kanji and kana, have to change the models too and stuff back in the generator function
+
+
 class KanjiStrokeData(models.Model):
     stroke_paths = ArrayField(models.TextField())
 

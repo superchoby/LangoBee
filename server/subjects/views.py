@@ -2,8 +2,12 @@ from jamdict import Jamdict
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
-from .models import JapaneseVocabulary, Kanji
-from .serializers import VocabularySerializerForDictionary, KanjiSerializer
+from .models import JapaneseVocabulary, Kanji, Kana
+from .serializers import (
+    VocabularySerializerForDictionary, 
+    KanjiSerializer, 
+    KanjiStrokeDataSerializer
+)
 import json
 import re
 from romkan import to_hiragana, to_katakana
@@ -162,3 +166,14 @@ class AddDictionaryEntryToReviewView(APIView):
             }, status.HTTP_200_OK)
         else:
             return Response(status.HTTP_400_BAD_REQUEST)
+
+class CharacterStrokeDataView(APIView):
+    def get(self, request, char):
+        try:
+            if ()
+            return Response(
+                KanjiStrokeDataSerializer(Kanji.objects.get(character=char).stroke_data).data, 
+                status=status.HTTP_200_OK
+            )
+        except Kanji.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
