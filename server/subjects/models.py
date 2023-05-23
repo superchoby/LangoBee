@@ -74,11 +74,18 @@ class KanaAndRadicalBase(models.Model):
     class Meta:
         abstract = True
 
+class CharacterStrokeData(models.Model):
+    stroke_paths = ArrayField(models.TextField())
+
+class CharacterStrokeNumber(models.Model):
+    number = models.PositiveIntegerField()
+    transform = models.CharField(max_length=30)
+    character_stroke_data = models.ForeignKey(CharacterStrokeData, on_delete=models.CASCADE, related_name='character_stroke_numbers')
+
 class KanaManager(PolymorphicManager):
     def get_by_natural_key(self, character):
         return self.get(character=character)
 
-# Create your models here.
 class Kana(KanaAndRadicalBase, JapaneseSubject):
     character = models.CharField(max_length=7, unique=True)
     reading = models.CharField(max_length=20)
@@ -87,6 +94,7 @@ class Kana(KanaAndRadicalBase, JapaneseSubject):
     is_special_kana = models.BooleanField(default=False)
     special_kana_explanation = models.TextField(null=True)
     audio_file = models.TextField(null=True)
+    stroke_data = models.OneToOneField(CharacterStrokeData, on_delete=models.SET_NULL, null=True)
 
     objects = KanaManager()
 
@@ -112,17 +120,6 @@ class Radical(KanaAndRadicalBase, JapaneseSubject):
     def natural_key(self):
         return self.character
 
-# TODO: Just realized gotta have this for kana too so gonna make this work for kanji and kana, have to change the models too and stuff back in the generator function
-
-
-class KanjiStrokeData(models.Model):
-    stroke_paths = ArrayField(models.TextField())
-
-class KanjiStrokeNumber(models.Model):
-    number = models.PositiveIntegerField()
-    transform = models.CharField(max_length=30)
-    kanji_stroke_data = models.ForeignKey(KanjiStrokeData, on_delete=models.CASCADE, related_name='kanji_stroke_numbers')
-
 class KanjiManager(PolymorphicManager):
     def get_by_natural_key(self, character):
         return self.get(character=character)
@@ -139,7 +136,7 @@ class Kanji(JapaneseSubject):
     meaning_mnemonic = models.TextField(default='')
     radicals_used = models.ManyToManyField(Radical, related_name='kanji_that_uses_this')
     kanji_contained_within_this = ArrayField(models.CharField(max_length=1), default=list)
-    stroke_data = models.OneToOneField(KanjiStrokeData, on_delete=models.SET_NULL, null=True, related_name='kanji')
+    stroke_data = models.OneToOneField(CharacterStrokeData, on_delete=models.SET_NULL, null=True)
 
     objects = KanjiManager()
 

@@ -19,8 +19,8 @@ from .models import (
     JapaneseCounterWordSpecialNumber,
     AcceptableResponsesButNotWhatLookingFor,
     SubjectsDifferencesExplanation,
-    KanjiStrokeNumber,
-    KanjiStrokeData
+    CharacterStrokeData,
+    CharacterStrokeNumber
 )
 from languages.serializers import LanguageSerializer, CourseLevelNumberSerializer
 from jmdict.serializers import (
@@ -212,20 +212,20 @@ class VocabularySerializerForDictionary(serializers.ModelSerializer):
             'jmdict',
             'course_level'
         ]
-
-class KanjiStrokeNumberSerializer(serializers.ModelSerializer):
+    
+class CharacterStrokeNumberSerializer(serializers.ModelSerializer):
     class Meta:
-        model = KanjiStrokeNumber
+        model = CharacterStrokeNumber
         fields = [
             'number',
             'transform',
         ]
         editable = False
 
-class KanjiStrokeDataSerializer(serializers.ModelSerializer):
-    kanji_stroke_numbers = KanjiStrokeNumberSerializer(many=True)
+class CharacterStrokeDataSerializer(serializers.ModelSerializer):
+    kanji_stroke_numbers = CharacterStrokeNumberSerializer(many=True)
     class Meta:
-        model = KanjiStrokeData
+        model = CharacterStrokeData
         fields = [
             'stroke_paths', 
             'kanji_stroke_numbers'

@@ -1,5 +1,10 @@
 import { BsCheckLg } from 'react-icons/bs'
 import './WritingSheetsCharacterChoices.scss'
+import { useState } from 'react'
+import { 
+  AiFillCaretDown,
+  AiFillCaretUp
+} from 'react-icons/ai'
 
 interface WritingSheetsCharacterChoicesProps {
   header: string
@@ -16,11 +21,20 @@ export const WritingSheetsCharacterChoices = ({
   onCharacterClick
   // handleCharacterSelect
 }: WritingSheetsCharacterChoicesProps) => {
+  const [showCharacters, changeShowCharacters] = useState(false)
+
   return (
         <div>
-            <h2>{header}</h2>
+            <div className='writing-sheet-character-choice-header'>
+              <h2>{header}</h2>
+              {showCharacters ? 
+                <AiFillCaretUp onClick={() => changeShowCharacters(false)} size={30} /> : 
+                <AiFillCaretDown onClick={() => changeShowCharacters(true)} size={30} />
+              }
+            </div>
+            
             <div className='writing-sheets-character-choices-container'>
-                {characters.map(charactersCol => (
+                {showCharacters && characters.map(charactersCol => (
                     <div className='writing-sheets-character-choices-col' key={charactersCol}>
                         {charactersCol.split('').map(character => {
                           const isSelected = selectedCharacters.includes(character)

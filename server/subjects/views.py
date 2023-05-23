@@ -6,7 +6,7 @@ from .models import JapaneseVocabulary, Kanji, Kana
 from .serializers import (
     VocabularySerializerForDictionary, 
     KanjiSerializer, 
-    KanjiStrokeDataSerializer
+    CharacterStrokeDataSerializer
 )
 import json
 import re
@@ -170,10 +170,18 @@ class AddDictionaryEntryToReviewView(APIView):
 class CharacterStrokeDataView(APIView):
     def get(self, request, char):
         try:
-            if ()
             return Response(
-                KanjiStrokeDataSerializer(Kanji.objects.get(character=char).stroke_data).data, 
+                CharacterStrokeDataSerializer(Kanji.objects.get(character=char).stroke_data).data, 
                 status=status.HTTP_200_OK
             )
         except Kanji.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+class KanjiByJLPTView(APIView):
+    def get(self, request):
+        kanji_by_jlpt_level = {1: [], 2: [], 3: [], 4: [], 5: []}
+        for kanji in Kanji.objects.all():
+            if kanji.jlpt_level is not None:
+                kanji_by_jlpt_level[kanji.jlpt_level].append(kanji.character)
+        
+        return Response(kanji_by_jlpt_level)
