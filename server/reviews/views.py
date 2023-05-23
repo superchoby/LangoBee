@@ -25,13 +25,15 @@ class ReviewView(APIView):
             srs_system = SpacedRepetitionSystem.objects.get(name=srs_system_name) 
             review = Review.objects.get(user=user, subject=subject)
             new_review_level = SpacedRepetitionSystemStages.objects.get(
-                stage=request.data['newSRSLevel'], 
+                stage=request.data['newSRSLevel'] if request.data['newSRSLevel'] <= srs_system.finished_position else srs_system.finished_position, 
                 system_this_belongs_to=srs_system,
             )
             # eventually handle the times reading and writing incorrect features
             review.current_level = new_review_level
             if new_review_level.time_until_next_review: # If this is null, the user has reached the final level
                 review.next_review_date = get_next_review_date(new_review_level.time_until_next_review)
+            else:
+                review.next_review_date = None
             review.times_this_was_completed += 1
             review.save()
         else:

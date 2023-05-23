@@ -32,8 +32,6 @@ export const WritingSheetsCharacterChoices = ({
                                       onCharacterClick(character, isSelected)
                                     }}
                                 >
-                                    {/* <input className='writing-sheets-character-choice-checkbox' type='checkbox' />
-                                    <label>{character}</label> */}
                                     <span className={`writing-sheets-character-choice-checkbox ${isSelected ? 'writing-sheets-character-choice-checkbox-selected' : ''}`}>
                                         <BsCheckLg className='writing-sheets-character-choice-checkmark' color='white' />
                                     </span>
