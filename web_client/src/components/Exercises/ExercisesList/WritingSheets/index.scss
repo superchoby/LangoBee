@@ -1,30 +1,54 @@
+.writing-sheets-container {
+  padding-bottom: 70px;
+}
+
 .printable-sheet {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-auto-rows: 100px;
-    grid-gap: 20px;
-    font-size: 50px;
-    text-align: center;
-  }
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 100px;
+  grid-gap: 20px;
+  font-size: 50px;
+  text-align: center;
+}
   
-  .printable-row:nth-child(5n+1) .printable-cell {
-    border-top: 2px solid black;
-  }
+.printable-row:nth-child(5n+1) .printable-cell {
+  border-top: 2px solid black;
+}
   
-  .printable-cell:nth-child(5n+1) {
-    border-left: 2px solid black;
-  }
+.printable-cell:nth-child(5n+1) {
+  border-left: 2px solid black;
+}
   
-  .printable-cell {
-    border: 1px solid black;
-  }
+.printable-cell {
+  border: 1px solid black;
+}
 
 .writing-sheets-input {
-    width: 280px;
+  width: 280px;
 }
 
 .writing-sheets-printout-container {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
+}
+
+.writing-diagram-kanji-all-jlpt-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-writing-diagrams-container {
+  display: table;
+  margin: 0 auto 70px auto;
+}
+
+.download-writing-diagrams-button {
+  background-color: var(--light-blue);
+  border-radius: 12px;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 50px;
+  padding: 10px 20px;
 }

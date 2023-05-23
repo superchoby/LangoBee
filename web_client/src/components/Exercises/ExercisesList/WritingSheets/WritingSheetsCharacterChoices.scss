@@ -1,13 +1,10 @@
 .writing-sheet-character-choice-header {
     align-items: center;
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
-
-    svg {
-        cursor: pointer;
-    }
+    width: 330px;
 }
-
 
 .writing-sheets-character-choices-container {
     display: flex;

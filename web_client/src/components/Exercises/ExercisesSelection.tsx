@@ -32,7 +32,7 @@ export const Exercises = () => {
             <h1>Exercises</h1>
             <div className='exercise-options-container'>
                 {exercises.map(props => (
-                    <ExerciseOption {...props} />
+                    <ExerciseOption key={props.name} {...props} />
                 ))}
             </div>
         </div>

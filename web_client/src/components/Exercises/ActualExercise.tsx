@@ -21,7 +21,7 @@ export const ActualExercise = () => {
   } = LIST_OF_EXERCISES_PATHS
 
   const PATHS_TO_EXERCISES = {
-    [WRITING_SHEETS]: <WritingSheets changeExerciseHasStarted={changeExerciseHasStarted} exerciseHasStarted={exerciseHasStarted} />,
+    [WRITING_SHEETS]: <WritingSheets />,
     // [WRITING_SHEETS]: <WritingSheets />,
     [NUMBER_DRILLS]: <NumberDrills changeExerciseHasStarted={changeExerciseHasStarted} exerciseHasStarted={exerciseHasStarted} />,
     // [WRITING_CANVAS]: <WritingCanvas />
