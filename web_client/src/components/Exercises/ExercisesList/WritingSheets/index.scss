@@ -36,11 +36,12 @@
 .writing-diagram-kanji-all-jlpt-container {
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .all-writing-diagrams-container {
-  display: table;
-  margin: 0 auto 70px auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .download-writing-diagrams-button {
@@ -49,6 +50,9 @@
   color: white;
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 50px;
   padding: 10px 20px;
+}
+
+.character-write-diagram-limit-message {
+  color: red;
 }

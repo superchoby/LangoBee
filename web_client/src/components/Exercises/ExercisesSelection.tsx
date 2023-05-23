@@ -8,7 +8,7 @@ const exercises = [
   {
       name: 'Writing Sheets',
       icon: <FaPencilAlt />,
-      description: 'Japanese writing printouts',
+      description: 'Japanese writing practice printouts',
       path: LIST_OF_EXERCISES_PATHS.WRITING_SHEETS
   },
   {

@@ -5,15 +5,21 @@
     // grid-column-gap: 0;
     // grid-row-gap: 0;
     column-gap: 0;
-    margin: 0 auto;
+    margin: 0 auto 40px auto;
 }
 
+$svg-max-size: 100px;
 $svg-size: 32px;
 .writing-diagram-svg {
     border: 1px solid #ccc;
     // box-sizing: border-box;
     height: $svg-size;
     width: $svg-size;
+}
+
+.writing-diagram-svg-max-size {
+    height: $svg-max-size;
+    width: $svg-max-size;
 }
 
 .writing-diagram-characters-strokes {
@@ -31,6 +37,7 @@ $svg-size: 32px;
     stroke: #aaa;
 }
 
+$stroke-number-max-font-size: 17px;
 .writing-diagram-stroke-number-indicator {
     font-weight: bold;
     font-size: 12px;
@@ -68,14 +75,13 @@ $svg-size: 32px;
     }
     
     .writing-diagram-stroke-number-indicator {
-        font-size: 17px;
+        font-size: $stroke-number-max-font-size;
     }
 }
 
 @media only screen and (min-width: 1100px) {
-    $svg-size: 100px;
     .writing-diagram-svg {
-        height: $svg-size;
-        width: $svg-size;
+        height: $svg-max-size;
+        width: $svg-max-size;
     }
 }

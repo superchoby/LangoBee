@@ -1,10 +1,11 @@
 import { BsCheckLg } from 'react-icons/bs'
 import './WritingSheetsCharacterChoices.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { 
   AiFillCaretDown,
   AiFillCaretUp
 } from 'react-icons/ai'
+import { PRINT_TYPE, CAN_PRINT_NOW } from '.';
 
 interface WritingSheetsCharacterChoicesProps {
   header: string
@@ -12,7 +13,7 @@ interface WritingSheetsCharacterChoicesProps {
   selectedCharacters: string[]
   customContent?: JSX.Element
   onCharacterClick: (characterClicked: string, characterWasSelected: boolean) => void
-  // handleCharacterSelect(character: string, hasBeenSelected: boolean): void
+  printStatus: PRINT_TYPE
 }
 
 export const WritingSheetsCharacterChoices = ({
@@ -20,10 +21,17 @@ export const WritingSheetsCharacterChoices = ({
   characters,
   customContent,
   selectedCharacters,
-  onCharacterClick
+  onCharacterClick,
+  printStatus
   // handleCharacterSelect
 }: WritingSheetsCharacterChoicesProps) => {
   const [showCharacters, changeShowCharacters] = useState(false)
+
+  useEffect(() => {
+    if (printStatus === CAN_PRINT_NOW) {
+      changeShowCharacters(false)
+    }
+  }, [printStatus])
 
   return (
         <div>
