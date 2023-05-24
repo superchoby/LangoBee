@@ -15,6 +15,12 @@ interface HeaderAndNavbarProps {
   hasGapBetweenHeaderAndContents: boolean
 }
 
+const daysSinceJoined = (dateJoined: Date) => {
+  const currentDate: Date = new Date();
+  let diffInTime: number = currentDate.getTime() - dateJoined.getTime();
+  return 7 - Math.floor(diffInTime / (1000 * 3600 * 24))
+}
+
 export const HeaderAndNavbar = ({
   PageContents,
   hasGapBetweenHeaderAndContents
@@ -26,7 +32,7 @@ export const HeaderAndNavbar = ({
   useEffect(() => {
     let threeHoursAgo = new Date();
     threeHoursAgo.setHours(threeHoursAgo.getHours() - 3);
-    changeEncourageUserToJoin(new Date(dateJoined) < threeHoursAgo)
+    changeEncourageUserToJoin(new Date(dateJoined) < threeHoursAgo && isOnFreeTrial)
   }, [isOnFreeTrial, dateJoined])
 
   return (
@@ -37,7 +43,10 @@ export const HeaderAndNavbar = ({
                 <Header />
                 {encourageUserToJoin && (
                   <div className='encourage-user-to-sub-while-on-trial'>
-                      <p><Link to={SUBSCRIPTION_PATH} onClick={() => changeEncourageUserToJoin(false)}>Subscribe</Link> to maintain your full access after your trial ends!</p> <button onClick={() => changeEncourageUserToJoin(false)}>Hide</button>
+                      <p>
+                        <Link to={SUBSCRIPTION_PATH} onClick={() => changeEncourageUserToJoin(false)}>Subscribe</Link> to maintain your access after your trial ends in {daysSinceJoined(new Date(dateJoined))} days!
+                      </p> 
+                      <button onClick={() => changeEncourageUserToJoin(false)}>Hide</button>
                       {/* <AiFillCloseCircle onClick={() => changeEncourageUserToJoin(false)}/> */}
                   </div>
                 )}
