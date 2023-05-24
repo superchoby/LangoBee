@@ -31,6 +31,7 @@ export default function Home() {
         if (access != null && access.length > 0) {
           window.location.href = '/home';
         } else {
+          changeCheckedForToken(true)
           localStorage.clear();
         }
       } else {
