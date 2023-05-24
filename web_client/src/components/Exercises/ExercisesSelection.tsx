@@ -5,25 +5,25 @@ import { LIST_OF_EXERCISES_PATHS } from 'src/paths'
 import './index.scss'
 
 const exercises = [
-  // {
-  //     name: 'Writing Sheets',
-  //     icon: <FaPencilAlt />,
-  //     description: 'Japanese writing printouts',
-  //     path: LIST_OF_EXERCISES_PATHS.WRITING_SHEETS
-  // },
+  {
+      name: 'Writing Sheets',
+      icon: <FaPencilAlt />,
+      description: 'Japanese writing practice printouts',
+      path: LIST_OF_EXERCISES_PATHS.WRITING_SHEETS
+  },
   {
     name: 'Number Drills',
     icon: <BsSpeedometer />,
     description: 'Practice converting numbers to Japanese',
     path: LIST_OF_EXERCISES_PATHS.NUMBER_DRILLS
   },
-  {
-    name: 'Writing Canvas',
-    icon: <span className='bold-span'>COMING SOON</span>,
-    description: 'Practice writing any character',
-    path: LIST_OF_EXERCISES_PATHS.WRITING_CANVAS,
-    comingSoon: true
-  }
+  // {
+  //   name: 'Writing Canvas',
+  //   icon: <span className='bold-span'>COMING SOON</span>,
+  //   description: 'Practice writing any character',
+  //   path: LIST_OF_EXERCISES_PATHS.WRITING_CANVAS,
+  //   comingSoon: true
+  // }
 ]
 
 export const Exercises = () => {
@@ -32,7 +32,7 @@ export const Exercises = () => {
             <h1>Exercises</h1>
             <div className='exercise-options-container'>
                 {exercises.map(props => (
-                    <ExerciseOption {...props} />
+                    <ExerciseOption key={props.name} {...props} />
                 ))}
             </div>
         </div>

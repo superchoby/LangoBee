@@ -2,8 +2,12 @@ from jamdict import Jamdict
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
-from .models import JapaneseVocabulary, Kanji
-from .serializers import VocabularySerializerForDictionary, KanjiSerializer
+from .models import JapaneseVocabulary, Kanji, Kana
+from .serializers import (
+    VocabularySerializerForDictionary, 
+    KanjiSerializer, 
+    CharacterStrokeDataSerializer
+)
 import json
 import re
 from romkan import to_hiragana, to_katakana
@@ -162,3 +166,34 @@ class AddDictionaryEntryToReviewView(APIView):
             }, status.HTTP_200_OK)
         else:
             return Response(status.HTTP_400_BAD_REQUEST)
+
+class CharacterStrokeDataView(APIView):
+    def get(self, request, char_type, char):
+        try:
+            stroke_data = None
+            if char_type == 'kana':
+                stroke_data = Kana.objects.get(character=char).stroke_data
+            elif char_type == 'kanji':
+                stroke_data = Kanji.objects.get(character=char).stroke_data
+            else: 
+                Response(status=status.HTTP_404_NOT_FOUND)
+                
+            return Response(
+                CharacterStrokeDataSerializer(stroke_data).data, 
+                status=status.HTTP_200_OK
+            )
+        except (Kana.DoesNotExist, Kanji.DoesNotExist):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+class KanjiByJLPTView(APIView):
+    def get(self, request):
+        kanji_by_jlpt_level = {1: [], 2: [], 3: [], 4: [], 5: []}
+        for kanji in Kanji.objects.all():
+            if kanji.jlpt_level is not None:
+                kanji_by_jlpt_level[kanji.jlpt_level].append([kanji.character, kanji.stroke_count])
+
+        for level in kanji_by_jlpt_level:
+            kanji_by_jlpt_level[level].sort(key=lambda x: x[1])  # Sort by stroke count
+            kanji_by_jlpt_level[level] = [kanji[0] for kanji in kanji_by_jlpt_level[level]]  # Convert to 1D array
+        
+        return Response(kanji_by_jlpt_level)

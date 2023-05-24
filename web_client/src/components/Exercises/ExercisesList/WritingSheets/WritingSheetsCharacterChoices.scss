@@ -1,58 +1,67 @@
-// .writing-sheets-character-choices-container {
-//     display: flex;
-//     flex-wrap: wrap;
-//   }
+.writing-sheet-character-choice-header {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 330px;
+}
+
+.writing-sheets-character-choices-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
   
-//   .writing-sheets-character-choices-col {
-//     margin: 0 10px 20px 0;
-//     width: 60px;
-//   }
+  .writing-sheets-character-choices-col {
+    margin: 0 10px 20px 0;
+    width: 60px;
+  }
   
-//   .writing-sheets-character-choice {
-//     align-items: center;
-//     background-color: #eaedf3;
-//     // border: 1px solid #e5e5e5;
-//     border-radius: 10px;
-//     cursor: pointer;
-//     display: flex;
-//     height: 35px;
-//     justify-content: center;
-//     margin-bottom: 10px;
-//     width: 100%;
-//   }
+  .writing-sheets-character-choice {
+    align-items: center;
+    background-color: #eaedf3;
+    // border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    height: 35px;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 100%;
+  }
   
-//   $checkbox-size: 17px;
-//   .writing-sheets-character-choice-checkbox {
-//     align-items: center;
-//     background-color: #d8d8d8;
-//     border-radius: 3px;
-//     display: flex;
-//     height: $checkbox-size;
-//     justify-content: center;
-//     margin-right: 5px;
-//     width: $checkbox-size;
+  $checkbox-size: 17px;
+  .writing-sheets-character-choice-checkbox {
+    align-items: center;
+    background-color: #d8d8d8;
+    border-radius: 3px;
+    display: flex;
+    height: $checkbox-size;
+    justify-content: center;
+    margin-right: 5px;
+    width: $checkbox-size;
   
-//     svg {
-//       display: none;
-//     }
-//   }
+    svg {
+      display: none;
+    }
+  }
   
-//   .writing-sheets-character-choice-checkbox-selected {
-//     background-color: var(--link-blue);
-//     transition: .5s;
+  .writing-sheets-character-choice-checkbox-selected {
+    background-color: var(--link-blue);
+    transition: .5s;
   
-//     svg {
-//       display: block;
-//     }
-//   }
+    svg {
+      display: block;
+    }
+  }
   
-//   .writing-sheets-character-choice-checkmark {
-//     height: 10px;
-//     width: 10px;
-//   }
+  .writing-sheets-character-choice-checkmark {
+    height: 10px;
+    width: 10px;
+  }
   
-//   .writing-sheets-character-choice-character {
-//     font-size: 17px;
-//     font-weight: 500;
-//   }
+  .writing-sheets-character-choice-character {
+    font-size: 17px;
+    font-weight: 500;
+  }
   

@@ -1,7 +1,7 @@
 import {
   NumberDrills,
-  // WritingSheets,
-  WritingCanvas
+  WritingSheets,
+  // WritingCanvas
 } from './ExercisesList'
 import { LIST_OF_EXERCISES_PATHS, EXERCISES_PATH } from 'src/paths'
 import { useParams } from 'react-router-dom'
@@ -15,16 +15,16 @@ export const ActualExercise = () => {
   const { exerciseName } = useParams()
 
   const {
-    // WRITING_SHEETS,
+    WRITING_SHEETS,
     NUMBER_DRILLS,
-    WRITING_CANVAS
+    // WRITING_CANVAS
   } = LIST_OF_EXERCISES_PATHS
 
   const PATHS_TO_EXERCISES = {
-    // [WRITING_SHEETS]: <WritingSheets changeExerciseHasStarted={changeExerciseHasStarted} exerciseHasStarted={exerciseHasStarted} />,
+    [WRITING_SHEETS]: <WritingSheets />,
     // [WRITING_SHEETS]: <WritingSheets />,
     [NUMBER_DRILLS]: <NumberDrills changeExerciseHasStarted={changeExerciseHasStarted} exerciseHasStarted={exerciseHasStarted} />,
-    [WRITING_CANVAS]: <WritingCanvas />
+    // [WRITING_CANVAS]: <WritingCanvas />
   } as const
 
   return (

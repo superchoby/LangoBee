@@ -18,7 +18,9 @@ from .models import (
     JapaneseCounterWordObjects,
     JapaneseCounterWordSpecialNumber,
     AcceptableResponsesButNotWhatLookingFor,
-    SubjectsDifferencesExplanation
+    SubjectsDifferencesExplanation,
+    CharacterStrokeData,
+    CharacterStrokeNumber
 )
 from languages.serializers import LanguageSerializer, CourseLevelNumberSerializer
 from jmdict.serializers import (
@@ -210,6 +212,25 @@ class VocabularySerializerForDictionary(serializers.ModelSerializer):
             'jmdict',
             'course_level'
         ]
+    
+class CharacterStrokeNumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CharacterStrokeNumber
+        fields = [
+            'number',
+            'transform',
+        ]
+        editable = False
+
+class CharacterStrokeDataSerializer(serializers.ModelSerializer):
+    character_stroke_numbers = CharacterStrokeNumberSerializer(many=True)
+    class Meta:
+        model = CharacterStrokeData
+        fields = [
+            'stroke_paths', 
+            'character_stroke_numbers'
+        ]
+        editable = False
 
 class KanjiSerializer(serializers.ModelSerializer):  
     radicals_used = RadicalComponentSerializer(many=True)
@@ -229,7 +250,7 @@ class KanjiSerializer(serializers.ModelSerializer):
             'meaning_mnemonic',
             'radicals_used',
             'kanji_contained_within_this',
-            'main_meanings_to_use'
+            'main_meanings_to_use',
         ]    
 
 class JapaneseVocabularyAudioFileSerializer(serializers.ModelSerializer):

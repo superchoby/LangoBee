@@ -1,114 +1,184 @@
-import { ExerciseBaseProps } from '../types'
-import { getKanji, initDiagram, getDomFromString, StrokeOrderDiagram } from './GetKanjiStrokes'
 import { useEffect, useRef, useState } from 'react'
 import { WritingSheetsCharacterChoices } from './WritingSheetsCharacterChoices'
-// import html2canvas from "html2canvas"
-// import jsPDF from 'jspdf'
-// import parse, { domToReact } from 'html-react-parser'
-
+import { useFetchStatus } from 'src/components/shared/useFetchStatus'
+import { WritingDiagram, CharacterStrokeInfo } from './WritingDiagram'
+import axios from 'axios'
+import html2canvas from 'html2canvas';
 import './index.scss'
 
-const baseUrl = 'https://raw.githubusercontent.com/KanjiVG/kanjivg/master/kanji/'
-
-function getCodePoint (kanji: string) {
-  return kanji && kanji.codePointAt(0)!.toString(16).padStart(5, '0')
-}
-
-function getURL (kanji: string) {
-  return `${baseUrl}${getCodePoint(kanji)}.svg`
-}
-
 const HIRAGANA_CHARACTERS = ['あいうえお', 'かきくけこ', 'さしすせそ', 'たちつてと', 'なにぬねの', 'はひふへほ', 'まみむめも', 'やゆよ', 'らりるれろ', 'わをん', 'がぎぐげご', 'ざじずぜぞ', 'だぢづでど', 'ばびぶべぼ', 'ぱぴぷぺぽ'] as const
+const KATAKANA_CHARACTERS = ['アイウエオ', 'カキクケコ', 'サシスセソ', 'タチツテト', 'ナニヌネノ', 'ハヒフヘホ', 'マミムメモ', 'ヤユヨ', 'ラリルレロ', 'ワヲン', 'ガギグゲゴ', 'ザジズゼゾ', 'ダヂヅデド', 'バビブベボ', 'パピプペポ'] as const;
+const CHARACTER_LIMIT_PER_PAGE = 5
+type KanjiByJLPT = {1: string[], 2: string[], 3: string[], 4: string[], 5: string[]}
+const NOT_PRINTING = 'not printing'
+export const TRYING_TO_PRINT = 'trying to print'
+export const CAN_PRINT_NOW = 'can print now'
 
-export const WritingSheets = ({}: ExerciseBaseProps) => {
+export type PRINT_TYPE = typeof NOT_PRINTING | typeof TRYING_TO_PRINT | typeof CAN_PRINT_NOW
+
+export const WritingSheets = () => {
   // This link is to see the japaneseCharacter but like big so easier to tell https://jisho.org/search/%E5%90%8D%20%23kanji
   // const [kanjiDiagramsList, changeKanjiDiagramsList] = useState<JSX.Element[]>([])
   const [selectedCharacters, changeSelectedCharacters] = useState<string[]>([])
-  const [kanjiDiagramsCache, changeKanjiDiagramsCache] = useState<Record<string, string>>({})
-  const pdfRef = useRef(null)
+  const [printStatus, changePrintStatus] = useState<PRINT_TYPE>(NOT_PRINTING)
+  const [kanjiDiagramsCache, changeKanjiDiagramsCache] = useState<{
+    [character: string]: CharacterStrokeInfo
+  }>({})
+  const [kanjiCharactersByJLPT, changeKanjiCharactersByJLPT] = useState<KanjiByJLPT>({
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: []
+  })
+  const { 
+    fetchData: fetchKanjiByJLPT, 
+    isError: errorWithArticlesFetch,
+  } = useFetchStatus<KanjiByJLPT>(`subjects/get_kanji_by_jlpt/`, 'get', changeKanjiCharactersByJLPT)
 
-  const onCharacterClick = (characterClicked: string, characterWasSelected: boolean) => {
+  const diagramsContainer = useRef<HTMLDivElement | null>(null)
+  const characterLimitMessageRef = useRef<HTMLParagraphElement | null>(null)
+
+  useEffect(() => {
+    fetchKanjiByJLPT()
+  }, [fetchKanjiByJLPT])
+
+  const onCharacterClick = (characterClicked: string, characterWasSelected: boolean, character_type: 'kanji' | 'kana') => {
     if (characterWasSelected) {
       changeSelectedCharacters(selectedCharacters.filter(char => char !== characterClicked))
-    } else {
+    } else if (selectedCharacters.length < CHARACTER_LIMIT_PER_PAGE) {
       if (Object.prototype.hasOwnProperty.call(kanjiDiagramsCache, characterClicked)) {
         changeSelectedCharacters([...selectedCharacters, characterClicked].sort())
       } else {
-        fetch(getURL(characterClicked))
-          .then(async data => {
-            return await data.text()
+        axios.get(`subjects/character_stroke_data/${character_type}/${characterClicked}`)
+        .then(res => {
+          changeSelectedCharacters([characterClicked, ...selectedCharacters].sort())
+          changeKanjiDiagramsCache({
+            [characterClicked]: {
+              strokePaths: res.data.stroke_paths,
+              characterStrokeNumbers: res.data.character_stroke_numbers
+            },
+            ...kanjiDiagramsCache,
           })
-          .then(svg => {
-            // const diagram = <StrokeOrderDiagram svgDocument={getDomFromString(svg)} />
-            changeKanjiDiagramsCache({
-              ...kanjiDiagramsCache,
-              [characterClicked]: svg
-            })
-            changeSelectedCharacters([...selectedCharacters, characterClicked].sort())
-          })
+        })
+        .catch(err => {
+          console.error(err)
+        })
+          
       }
+    } else if (characterLimitMessageRef.current) {
+      characterLimitMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
 
-  // const wow: SVGElement = `<svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109">
-  // <g id="kvg:StrokePaths_03081" style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;">
-  // <g id="kvg:03081" kvg:element="め">
-  //     <path id="kvg:03081-s1" d="M27.48,31.75c1.75,1,2.41,3.09,2.5,5.25c0.5,11.62,2.75,23.5,7.25,31.38c1.39,2.44,5.38,8.5,7.25,10.38"/>
-  //     <path id="kvg:03081-s2" d="M59.6,19.38c1,1.5,1.35,4.12,0.88,6.62c-2.75,14.62-13.62,37.75-20.1,47.24c-12.28,17.14-16.78,13.14-22.28,0.64c-5.38-15.38,26.4-42.18,53.42-35.28c29.08,8.27,23.96,46.02-7.98,50.15"/>
-  // </g>
-  // </g>
-  // <g id="kvg:StrokeNumbers_03081" style="font-size:8;fill:#808080">
-  //     <text transform="matrix(1 0 0 1 20.1 30)">1</text>
-  //     <text transform="matrix(1 0 0 1 50.1 18)">2</text>
-  // </g>
-  // </svg>`
+  const downloadPDF = () => {
+    changePrintStatus(TRYING_TO_PRINT)
+  }
+
+  useEffect(() => {
+    const diagramContainerRef = diagramsContainer.current
+    if (diagramContainerRef != null && printStatus === CAN_PRINT_NOW) {
+      html2canvas(diagramContainerRef, {
+        windowHeight: 2572,
+        windowWidth: 1384
+      }).then(function(canvas) {
+        const imgData = canvas.toDataURL('image/png');
+        // const doc = new jsPDF("l", "mm", "a4");
+        // doc.addImage(imgData, 'PNG', 10, 10, diagramContainerRef.clientWidth, diagramContainerRef.clientHeight);
+        // doc.save('writing_diagram.pdf')
+        const anchorElement = document.createElement('a');
+        anchorElement.href = imgData;
+        anchorElement.download = 'wow.png';
+
+        document.body.appendChild(anchorElement);
+        anchorElement.click();
+
+        changePrintStatus(NOT_PRINTING)
+        changeSelectedCharacters([])
+      });
+    }
+  }, [printStatus])
 
   return (
-        <div>
-            {/* <WritingSheetsCharacterChoices
+        <div className='writing-sheets-container'>
+            <h1>Writing Sheets</h1>
+            <p>
+              Select the characters below and download an image of it to print and practice your writing!
+            </p>
+            <WritingSheetsCharacterChoices
                 header='Hiragana'
                 characters={HIRAGANA_CHARACTERS}
+                printStatus={printStatus} 
                 selectedCharacters={selectedCharacters}
-                onCharacterClick={onCharacterClick}
+                onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                  onCharacterClick(characterClicked, characterWasSelected, 'kana')
+                }}
             />
-            <button onClick={() => {
-                if (pdfRef.current) {
-                    html2canvas(pdfRef.current)
-                    .then((canvas) => {
-                      const imgData = canvas.toDataURL('image/png');
-                      const pdf = new jsPDF();
-                    //   @ts-ignore
-                        pdf.addImage(imgData as HTMLImageElement, 'PNG', 0, 0);
-                        pdf.save("download.pdf");
-                    })
-                }
-            }}>yes</button>
+            <WritingSheetsCharacterChoices
+                header='Katakana'
+                characters={KATAKANA_CHARACTERS}
+                printStatus={printStatus} 
+                selectedCharacters={selectedCharacters}
+                onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                  onCharacterClick(characterClicked, characterWasSelected, 'kana')
+                }}
+            />
+            <WritingSheetsCharacterChoices
+                header={`Kanji`}
+                characters={[]}
+                printStatus={printStatus} 
+                customContent={(
+                  <div className='writing-diagram-kanji-all-jlpt-container'>
+                    {Object.entries(kanjiCharactersByJLPT)
+                    .sort(([jlptLeveA], [jlptLeveB]) => Number(jlptLeveB) - Number(jlptLeveA))
+                    .map(([jlptLevel, kanjiInThisLevel]) => (
+                      <WritingSheetsCharacterChoices
+                          key={jlptLevel}
+                          printStatus={printStatus} 
+                          header={`N${jlptLevel}`}
+                          characters={kanjiInThisLevel}
+                          selectedCharacters={selectedCharacters}
+                          onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                            onCharacterClick(characterClicked, characterWasSelected, 'kanji')
+                          }}
+                      />
+                    ))}
+                  </div>
+                )}
+                selectedCharacters={selectedCharacters}
+                onCharacterClick={(characterClicked: string, characterWasSelected: boolean) => {
+                  onCharacterClick(characterClicked, characterWasSelected, 'kanji')
+                }}
+            />
+            {selectedCharacters.length > 0 ? 
+              (
+                <button className='download-writing-diagrams-button' onClick={downloadPDF}>
+                  Download
+                </button>
+              ) : 
+              <p>Choose some characters to get started!</p>
+            }
 
-            {parse(`<svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109">
-<g id="kvg:StrokePaths_03081" style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;">
-<g id="kvg:03081" kvg:element="め">
-	<path id="kvg:03081-s1" d="M27.48,31.75c1.75,1,2.41,3.09,2.5,5.25c0.5,11.62,2.75,23.5,7.25,31.38c1.39,2.44,5.38,8.5,7.25,10.38"/>
-	<path id="kvg:03081-s2" d="M59.6,19.38c1,1.5,1.35,4.12,0.88,6.62c-2.75,14.62-13.62,37.75-20.1,47.24c-12.28,17.14-16.78,13.14-22.28,0.64c-5.38-15.38,26.4-42.18,53.42-35.28c29.08,8.27,23.96,46.02-7.98,50.15"/>
-</g>
-</g>
-<g id="kvg:StrokeNumbers_03081" style="font-size:8;fill:#808080">
-	<text transform="matrix(1 0 0 1 20.1 30)">1</text>
-	<text transform="matrix(1 0 0 1 50.1 18)">2</text>
-</g>
-</svg>`, {
-    replace: domNode => {
-      console.dir(domNode, { depth: null });
-    }
-  })}
-
-            <div className='writing-sheets-printout-container' ref={pdfRef}>
-                {selectedCharacters.map((character, idx) => (
-                    <>
-                        <StrokeOrderDiagram svgDocument={getDomFromString(kanjiDiagramsCache[character])} key={idx} />
-                        <br />
-                    </>
-                ))}
-            </div> */}
+            <p 
+              className={selectedCharacters.length >= CHARACTER_LIMIT_PER_PAGE ? 'character-write-diagram-limit-message' : ''} 
+              ref={characterLimitMessageRef}
+            >
+              {selectedCharacters.length < CHARACTER_LIMIT_PER_PAGE ? 
+                `You can add a total of ${CHARACTER_LIMIT_PER_PAGE - selectedCharacters.length} more` : 
+                'You have have added the max amount! You can download these characters and then add more after'
+              }
+            </p>
+            
+            <div className='all-writing-diagrams-container' ref={diagramsContainer}>
+              {selectedCharacters.map((char) => (
+                <WritingDiagram 
+                  key={char} 
+                  {...kanjiDiagramsCache[char]} 
+                  printStatus={printStatus} 
+                  changePrintStatusToPrintNow={() => changePrintStatus(CAN_PRINT_NOW)}
+                />
+              ))}
+            </div>
         </div>
   )
 }

@@ -1,0 +1,87 @@
+.writing-diagram-container {
+    display: inline-grid;
+    grid-template-columns: repeat(10, 1fr);
+    margin-bottom: 20px;
+    // grid-column-gap: 0;
+    // grid-row-gap: 0;
+    column-gap: 0;
+    margin: 0 auto 40px auto;
+}
+
+$svg-max-size: 100px;
+$svg-size: 32px;
+.writing-diagram-svg {
+    border: 1px solid #ccc;
+    // box-sizing: border-box;
+    height: $svg-size;
+    width: $svg-size;
+}
+
+.writing-diagram-svg-max-size {
+    height: $svg-max-size;
+    width: $svg-max-size;
+}
+
+.writing-diagram-characters-strokes {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round
+}
+
+.writing-diagram-characters-stroke-current {
+    stroke: #3A3A3A;
+}
+
+.writing-diagram-characters-stroke-previous {
+    stroke: #aaa;
+}
+
+$stroke-number-max-font-size: 17px;
+.writing-diagram-stroke-number-indicator {
+    font-weight: bold;
+    font-size: 12px;
+    fill: blue;
+}
+
+.writing-diagram-grid-divider {
+    stroke: #ccc;
+    stroke-width: 1px;
+    stroke-linecap: square;
+}
+
+@media only screen and (min-width: 480px) {
+    $svg-size: 40px;
+    .writing-diagram-svg {
+        height: $svg-size;
+        width: $svg-size;
+    }
+    
+}
+
+@media only screen and (min-width: 600px) {
+    $svg-size: 52px;
+    .writing-diagram-svg {
+        height: $svg-size;
+        width: $svg-size;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    $svg-size: 70px;
+    .writing-diagram-svg {
+        height: $svg-size;
+        width: $svg-size;
+    }
+    
+    .writing-diagram-stroke-number-indicator {
+        font-size: $stroke-number-max-font-size;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .writing-diagram-svg {
+        height: $svg-max-size;
+        width: $svg-max-size;
+    }
+}
