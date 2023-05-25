@@ -110,10 +110,18 @@ export const Signup = (): JSX.Element => {
   return (
       <AuthenticationPageWrapper
           title='SIGN UP'
-          message='Looking forward to you joining us!'
+          message='Looking forward to having you join us!'
           buttonText='SIGN UP'
           onSubmit={signUpUser}
           authenticationProcessErrorMessage={signUpError}
+          socialAuthHandlers={{
+            onSuccess: () => {
+
+            },
+            onFail: () => {
+
+            }
+          }}
           alternativeLinks={
             <>
               <span>Already have an account? <Link to='/login'>Log In</Link></span>

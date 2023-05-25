@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from .serializers import CustomJWTSerializer
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -35,7 +35,8 @@ urlpatterns = [
     path('stories/', include('stories.urls')),
     path('emails/', include('emails.urls')),
     path('subscriptions/', include('subscriptions.urls')),
-    path('subjects/', include('subjects.urls'))
+    path('subjects/', include('subjects.urls')),
+    re_path('api/social_auth/', include('drf_social_oauth2.urls', namespace='drf'))
 ]
 
 if settings.DEBUG:

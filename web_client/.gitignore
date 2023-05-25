@@ -26,3 +26,5 @@ yarn-error.log*
 /src/**/*.css*
 
 .eslintrc.json
+
+.env
