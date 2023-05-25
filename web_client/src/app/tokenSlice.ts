@@ -14,6 +14,7 @@ export const tokenSlice = createSlice({
         access,
         refresh
       } = action.payload
+      console.log(action.payload)
       state.access = access
       state.refresh = refresh
     },

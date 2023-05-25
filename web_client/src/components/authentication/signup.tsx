@@ -114,13 +114,25 @@ export const Signup = (): JSX.Element => {
           buttonText='SIGN UP'
           onSubmit={signUpUser}
           authenticationProcessErrorMessage={signUpError}
-          socialAuthHandlers={{
-            onSuccess: () => {
-
-            },
-            onFail: () => {
-
-            }
+          onSuccessfulSocialAuthLogin={(token: string, authProvider: "google-oauth2" | 'facebook') => {
+              axios.post('api/social_auth/convert-token/', {
+                "client_id": process.env.REACT_APP_DJANGO_SOCIAL_AUTH_CLIENT_ID,
+                "grant_type": "convert_token",
+                "client_secret": process.env.REACT_APP_DJANGO_SOCIAL_AUTH_CLIENT_SECRET,
+                "backend": authProvider,
+                token
+              })
+              .then(res => {
+                console.log(res)
+                dispatch(updateToken({
+                  access: res.data.access_token,
+                  refresh: res.data.refresh_token
+                }))
+                navigate(LESSONS_PATH)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
           alternativeLinks={
             <>
