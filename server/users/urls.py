@@ -12,7 +12,7 @@ from .views import (
     DeleteUser,
     SubjectsPerSessionLimit,
     ReminderEmailsView,
-    ReminderEmailsThresholdView
+    ReminderEmailsThresholdView,
 )
 
 urlpatterns = [

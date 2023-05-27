@@ -22,6 +22,7 @@ import logging
 from botocore.exceptions import ClientError
 from mimetypes import guess_type
 from django.core.mail import send_mail
+# from server.require_auth import require_auth
 
 # Create your views here.
 class CreateUserView(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -47,17 +48,20 @@ class UserInfo(APIView):
         return Response(userSerializer.data)
 
 class UserHomepageView(APIView):
+    # @require_auth(None)
     def get(self, request, format=None):
         user = request.user
         userSerializer = UserGeneralInfoSerializer(user)
-        allUsersSrsCards = ReviewsLevelAndDateSerializer(Review.objects.filter(user=request.user.id), many=True)
-        return Response(
-            {
-                **userSerializer.data, 
-                'user_is_on_free_trial': user.user_is_on_free_trial(),
-                'has_access_to_paid_features': user.has_access_to_paid_features(),
-                'review_cards': allUsersSrsCards.data,
-            }
+        print (vars(request.user), ' THE VARS')
+        print(request.user.id, 'THE USERS ID')
+        # allUsersSrsCards = ReviewsLevelAndDateSerializer(Review.objects.filter(user=request.user.id), many=True)
+        return Response({}
+            # {
+            #     **userSerializer.data, 
+            #     'user_is_on_free_trial': user.user_is_on_free_trial(),
+            #     'has_access_to_paid_features': user.has_access_to_paid_features(),
+            #     'review_cards': allUsersSrsCards.data,
+            # }
         )
 
 class UserLessonInfoView(APIView):
@@ -254,3 +258,19 @@ class ReminderEmailsThresholdView(APIView):
         user.reminder_emails_review_threshold = request.data['reminder_emails_review_threshold']
         user.save()
         return Response(status=status.HTTP_200_OK)
+    
+# class SocialLoginView(APIView):
+#     permission_classes = [permissions.AllowAny]
+
+#     @psa('social:complete')
+#     def post(self, request, backend):
+#         user = request.backend.do_auth(request.data.get('access_token'))
+#         if user:
+#             refresh = RefreshToken.for_user(user)
+
+#             return Response({
+#                 'refresh': str(refresh),
+#                 'access': str(refresh.access_token),
+#             })
+#         else:
+#             return Response({"error": "Wrong login details"})

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AuthenticationInput } from './AuthenticationInput'
 import { Link, useNavigate } from 'react-router-dom'
 import './login.scss'
@@ -7,6 +7,7 @@ import { updateToken } from '../../app/tokenSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { HOME_PATH, FORGOT_PASSWORD_PATH } from 'src/paths'
 import { AuthenticationPageWrapper } from './AuthenticationPageWrapper'
+import { useAuth0 } from "@auth0/auth0-react";
 
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
 
@@ -18,9 +19,23 @@ export const Login = (): JSX.Element => {
   const [password, changePassword] = useState('')
   const [errorMessage, changeErrorMessage] = useState('')
   const [loginInfoIsBeingSent, changeLoginInfoIsBeingSent] = useState(false)
-
+  const { loginWithRedirect } = useAuth0();
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const redirectToLogin = async () => {
+      await loginWithRedirect({
+        appState: {
+          returnTo: "/home",
+        },
+        authorizationParams: {
+          prompt: 'login'
+        }
+      })
+    }
+    redirectToLogin()
+  }, [loginWithRedirect])
 
   const loginUser = (): void => {
     changeLoginInfoIsBeingSent(true)

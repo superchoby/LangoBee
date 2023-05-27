@@ -115,12 +115,17 @@ export const Signup = (): JSX.Element => {
           onSubmit={signUpUser}
           authenticationProcessErrorMessage={signUpError}
           onSuccessfulSocialAuthLogin={(token: string, authProvider: "google-oauth2" | 'facebook') => {
-              axios.post('api/social_auth/convert-token/', {
-                "client_id": process.env.REACT_APP_DJANGO_SOCIAL_AUTH_CLIENT_ID,
-                "grant_type": "convert_token",
-                "client_secret": process.env.REACT_APP_DJANGO_SOCIAL_AUTH_CLIENT_SECRET,
-                "backend": authProvider,
-                token
+              // axios.post('api/social_auth/convert-token/', {
+              //   "client_id": process.env.REACT_APP_DJANGO_SOCIAL_AUTH_CLIENT_ID,
+              //   "grant_type": "convert_token",
+              //   "client_secret": process.env.REACT_APP_DJANGO_SOCIAL_AUTH_CLIENT_SECRET,
+              //   "backend": authProvider,
+              //   token
+              // })
+              axios.post('/dj-rest-auth/facebook/', {
+                // provider: authProvider,
+                // code: token,
+                access_token: token
               })
               .then(res => {
                 console.log(res)

@@ -73,6 +73,7 @@ import { StoriesHome } from './components/stories/StoriesHome'
 import { StoryReader } from './components/stories/StoryReader'
 import { getUserIsAuthenticatedObj } from './components/shared/useUserIsAuthenticated'
 import { hotjar } from 'react-hotjar';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const tokenInvalidMsg = 'Given token not valid for any token type'
 const userNotFoundMessage = 'User not found'
@@ -101,62 +102,19 @@ const ProtectedRoute = ({
   const [finishedVerifyingToken, setFinishedVerifyingToken] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-
+  const { loginWithRedirect, getAccessTokenSilently, user } = useAuth0();
+ 
   useEffect(() => {
     document.title = PAGE_TITLE_NAMES.hasOwnProperty(location.pathname) ? PAGE_TITLE_NAMES[location.pathname] : 'LangoBee'
   }, [location])
 
   useEffect(() => {
-    axios.post(verifyTokenPath, { token: access })
-      .then(_res => {
-        setFinishedVerifyingToken(true)
-        axios.interceptors.request.use(
-          (config) => {
-            const { access } = store.getState().token
-            if (access.length > 0) {
-              config.headers.Authorization = `Bearer ${access}`
-            } else {
-              config.headers.Authorization = ''
-            }
-            return config
-          },
-          async (error) => {
-            return await Promise.reject(error)
-          }
-        )
-
-        axios.interceptors.response.use(function (response) {
-          return response
-        }, async function (error) {
-          const { response, config } = error
-          const is401Error = typeof response !== 'undefined' && response.status === 401
-          const tokenIsInvalidOrUserNotFound = response.data.detail === tokenInvalidMsg || response.data.detail === userNotFoundMessage
-          if (is401Error && Object.keys(response.data).includes('detail') && tokenIsInvalidOrUserNotFound) {
-            if (config._retry == null) {
-              config._retry = true
-              try {
-                const res = await (axios.post('api/token/refresh/', {
-                  refresh: store.getState().token.refresh
-                }))
-                const {
-                  access,
-                  refresh
-                } = res.data
-
-                store.dispatch(updateToken({
-                  refresh,
-                  access
-                }))
-
-                return await axios(config)
-              } catch (error) {
-                window.location.href = isInDevelopmentEnv ? `http://localhost:3000${LOGIN_PATH}` : `https://www.langobee.com${LOGIN_PATH}`
-              }
-            }
-          }
-          return await Promise.reject(error)
-        })
-        axios.get('users/homepage/')
+    const setUpAxiosAndGetBaseInfo = async () => {
+      const accessToken = await getAccessTokenSilently()
+      console.log(accessToken)
+      axios.get('users/homepage/', {
+              headers: { Authorization: `Bearer ${accessToken}` }
+          })
           .then(res => {
             const {
               review_cards: reviewCardsData,
@@ -199,19 +157,124 @@ const ProtectedRoute = ({
           .catch(err => {
             console.log(err)
           })
-      })
-      .catch(_err => {
-        axios.post(verifyTokenPath, { token: refresh })
-          .then(_res => {
-            setFinishedVerifyingToken(true)
-            navigate(HOME_PATH)
-          })
-          .catch(_err => {
-            setFinishedVerifyingToken(false)
-            navigate(LOGIN_PATH)
-          })
-      })
-  }, [access, dispatch, navigate, refresh])
+      
+      // axios.post(verifyTokenPath, { token: accessToken })
+      // .then(_res => {
+      //   setFinishedVerifyingToken(true)
+      //   axios.interceptors.request.use(
+      //     (config) => {
+      //       // const { access } = store.getState().token
+      //       if (access.length > 0) {
+      //         config.headers.Authorization = `Bearer ${accessToken}`
+      //       } else {
+      //         config.headers.Authorization = ''
+      //       }
+      //       return config
+      //     },
+      //     async (error) => {
+      //       return await Promise.reject(error)
+      //     }
+      //   )
+
+      //   axios.interceptors.response.use(function (response) {
+      //     return response
+      //   }, async function (error) {
+      //     const { response, config } = error
+      //     const is401Error = typeof response !== 'undefined' && response.status === 401
+      //     const tokenIsInvalidOrUserNotFound = response.data.detail === tokenInvalidMsg || response.data.detail === userNotFoundMessage
+      //     if (is401Error && Object.keys(response.data).includes('detail') && tokenIsInvalidOrUserNotFound) {
+      //       if (config._retry == null) {
+      //         config._retry = true
+      //         try {
+      //           // const res = await (axios.post('api/token/refresh/', {
+      //           //   refresh: store.getState().token.refresh
+      //           // }))
+      //           // const {
+      //           //   access,
+      //           //   refresh
+      //           // } = res.data
+
+      //           // store.dispatch(updateToken({
+      //           //   refresh,
+      //           //   access
+      //           // }))
+
+      //           return await axios(config)
+      //         } catch (error) {
+      //           loginWithRedirect()
+      //           // window.location.href = isInDevelopmentEnv ? `http://localhost:3000${LOGIN_PATH}` : `https://www.langobee.com${LOGIN_PATH}`
+      //         }
+      //       }
+      //     }
+      //     return await Promise.reject(error)
+      //   })
+      //   axios.get('users/homepage/')
+      //     .then(res => {
+      //       const {
+      //         review_cards: reviewCardsData,
+      //         username,
+      //         email,
+      //         experience_points: experiencePoints,
+      //         readMsgForCurrentLevel,
+      //         profile_picture: profilePicture,
+      //         dates_studied: datesStudied,
+      //         date_joined: dateJoined,
+      //         srs_limit: srsLimit,
+      //         num_of_subjects_to_teach_per_lesson: numOfSubjectsToTeachPerLesson,
+      //         has_access_to_paid_features: hasAccessToPaidFeatures,
+      //         user_is_on_free_trial: isOnFreeTrial,
+      //         wants_reminder_emails: wantsReminderEmails,
+      //         reminder_emails_review_threshold: reminderEmailsReviewThreshold,
+      //       } = res.data
+
+      //       dispatch(updateUserInfo({
+      //         username,
+      //         email,
+      //         experiencePoints,
+      //         readMsgForCurrentLevel,
+      //         profilePicture,
+      //         datesStudied,
+      //         dateJoined,
+      //         srsLimit,
+      //         numOfSubjectsToTeachPerLesson,
+      //         hasAccessToPaidFeatures,
+      //         isOnFreeTrial,
+      //         wantsReminderEmails,
+      //         reminderEmailsReviewThreshold
+      //       }))
+      //       const reviewCards = reviewCardsData.map((card: any) => keysToCamel(card))
+      //       dispatch(updateSrsFlashcards({
+      //         srsCardsToReview: reviewCards.filter(({ nextReviewDate }: any) => nextReviewDate != null && ((new Date(nextReviewDate)) <= new Date())),
+      //         allSrsCards: reviewCards
+      //       }))
+      //     })
+      //     .catch(err => {
+      //       console.log(err)
+      //     })
+      // })
+      // .catch(_err => {
+      //   axios.post(verifyTokenPath, { token: refresh })
+      //     .then(_res => {
+      //       setFinishedVerifyingToken(true)
+      //       navigate(HOME_PATH)
+      //     })
+      //     .catch(_err => {
+      //       setFinishedVerifyingToken(false)
+      //       loginWithRedirect()
+      //       // navigate(LOGIN_PATH)
+      //     })
+      // })
+    } 
+    setUpAxiosAndGetBaseInfo()
+    
+  }, [
+    access, 
+    dispatch, 
+    navigate, 
+    refresh, 
+    loginWithRedirect, 
+    getAccessTokenSilently
+  ])
 
   return finishedVerifyingToken ? (ComponentToRender == null ? <Outlet context={getUserIsAuthenticatedObj(true)} /> : ComponentToRender) : <></>
 }

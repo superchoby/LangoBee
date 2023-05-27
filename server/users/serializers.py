@@ -16,7 +16,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
         japanese_language = Language.objects.get(name='Japanese')
         user = get_user_model().objects.create(**validated_data)
         user.languages.add(japanese_language)
-        user.set_password(validated_data['password'])
+        user.set_unusable_password()
+        user.login_method = validated_data['login_method']
         user.save()
         
         # japanese_language.users.add(user)

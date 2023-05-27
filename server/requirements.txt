@@ -40,3 +40,4 @@ stripe==4.2.0
 supermemo2==2.0.0
 urllib3==1.26.15
 whitenoise==6.0.0
+Authlib~=1.0.0

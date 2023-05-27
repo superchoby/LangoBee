@@ -4,7 +4,7 @@ import { SyntheticEvent } from 'react'
 import './AuthenticationPageWrapper.scss'
 import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from '@greatsumini/react-facebook-login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface AuthenticationPageWrapperProps {
   title: string
@@ -41,10 +41,14 @@ export const AuthenticationPageWrapper = ({
     onSubmit()
   }
 
-  const login = useGoogleLogin({
-    onSuccess: onSuccessfulSocialAuthLogin != null ? (codeResponse) => onSuccessfulSocialAuthLogin(codeResponse.access_token, 'google-oauth2') : () => {},
-    onError: (error) => changeSocialAuthFail(true)
-  });
+  // useEffect(() => {
+  //   navigate(LOGIN_PATH)
+  // }, [])
+
+  // const login = useGoogleLogin({
+  //   onSuccess: onSuccessfulSocialAuthLogin != null ? (codeResponse) => onSuccessfulSocialAuthLogin(codeResponse.access_token, 'google-oauth2') : () => {},
+  //   onError: (error) => changeSocialAuthFail(true)
+  // });
 
   return (
         <div className='authentication-page-wrapper'>
@@ -52,7 +56,7 @@ export const AuthenticationPageWrapper = ({
             <h2>{title}</h2>
             <p className='authentication-page-message'>{message}</p>
             {/* <button onClick={() => login()}>google</button> */}
-            {onSuccessfulSocialAuthLogin != null && (
+            {/* {onSuccessfulSocialAuthLogin != null && (
               <div className='authentication-page-social-auth-buttons-container'>
                 <button className="social-auth-button social-auth-button-google" onClick={() => login()}>
                   <img 
@@ -65,6 +69,7 @@ export const AuthenticationPageWrapper = ({
                   className="social-auth-button social-auth-button-facebook"
                   appId={process.env.REACT_APP_SOCIAL_AUTH_FACEBOOK_KEY!}
                   onSuccess={(response) => {
+                    console.log(response)
                     onSuccessfulSocialAuthLogin(response.accessToken, 'facebook')
                   }}
                   onFail={() => {
@@ -76,7 +81,7 @@ export const AuthenticationPageWrapper = ({
                   Sign up with Facebook
                 </FacebookLogin>
               </div>
-            )}
+            )} */}
             
             <p className='social-auth-and-normal-auth-divider'>or</p>
             

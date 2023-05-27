@@ -36,7 +36,8 @@ urlpatterns = [
     path('emails/', include('emails.urls')),
     path('subscriptions/', include('subscriptions.urls')),
     path('subjects/', include('subjects.urls')),
-    re_path('api/social_auth/', include('drf_social_oauth2.urls', namespace='drf'))
+    # path('api/login/', include('rest_social_auth.urls_jwt_pair')),
+    # re_path('api/social_auth/', include('drf_social_oauth2.urls', namespace='drf'))
 ]
 
 if settings.DEBUG:
