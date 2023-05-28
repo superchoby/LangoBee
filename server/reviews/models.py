@@ -66,7 +66,7 @@ class Review(models.Model):
     subject=models.ForeignKey('subjects.Subject', on_delete=models.CASCADE)
     current_level=models.ForeignKey(SpacedRepetitionSystemStages, null=True, on_delete=models.SET_NULL)
     next_review_date=models.DateTimeField(null=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, to_field='uuid', db_column='user_uuid', related_name='reviews')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='reviews')
     user_already_knows_this = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
     already_answered_reading_correctly = models.BooleanField(default=False)
