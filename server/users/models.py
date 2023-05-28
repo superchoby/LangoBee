@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from subscriptions.models import Subscription
 from datetime import timedelta
 from django.utils import timezone
+import uuid
 
 class User(AbstractUser):
     PLAN_TYPES = (
@@ -20,6 +21,7 @@ class User(AbstractUser):
     reminder_emails_review_threshold = models.PositiveIntegerField(default=30)
     stripe_customer_id = models.CharField(max_length=40, null=True)
     needs_to_update_payment_information = models.BooleanField(default=False)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
     def change_level(self, language, course_name, level):
         course = self.courses.get(language_this_course_teaches=self.languages.get(name=language), name=course_name)
