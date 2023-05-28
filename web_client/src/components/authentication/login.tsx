@@ -25,14 +25,14 @@ export const Login = (): JSX.Element => {
 
   useEffect(() => {
     const redirectToLogin = async () => {
-      await loginWithRedirect({
-        appState: {
-          returnTo: "/home",
-        },
-        authorizationParams: {
-          prompt: 'login'
-        }
-      })
+      // await loginWithRedirect({
+      //   appState: {
+      //     returnTo: "/home",
+      //   },
+      //   authorizationParams: {
+      //     prompt: 'login'
+      //   }
+      // })
     }
     redirectToLogin()
   }, [loginWithRedirect])

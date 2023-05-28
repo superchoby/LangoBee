@@ -127,8 +127,8 @@ EMAIL_HOST_PASSWORD = env('CONTACT_LANGOBEE_PASSWORD')
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'LangoBeeLocal',
-            # 'NAME': 'ProdCopy1',
+            # 'NAME': 'LangoBeeLocal',
+            'NAME': 'ProdCopy',
             'PASSWORD': '',
             'HOST': '127.0.0.1',
             'PORT': '5432',

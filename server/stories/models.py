@@ -28,7 +28,7 @@ class Story(models.Model):
         return (Language.objects.get(name=self.language).name, self.title)
 
 class UsersProgressOnStory(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_stories')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, to_field='uuid', db_column='user_uuid', related_name='progress_on_stories')
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
     completed_quiz = models.BooleanField(default=False)
     liked = models.BooleanField(default=False)
