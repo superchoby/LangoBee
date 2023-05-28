@@ -52,16 +52,14 @@ class UserHomepageView(APIView):
     def get(self, request, format=None):
         user = request.user
         userSerializer = UserGeneralInfoSerializer(user)
-        print (vars(request.user), ' THE VARS')
-        print(request.user.id, 'THE USERS ID')
-        # allUsersSrsCards = ReviewsLevelAndDateSerializer(Review.objects.filter(user=request.user.id), many=True)
-        return Response({}
-            # {
-            #     **userSerializer.data, 
-            #     'user_is_on_free_trial': user.user_is_on_free_trial(),
-            #     'has_access_to_paid_features': user.has_access_to_paid_features(),
-            #     'review_cards': allUsersSrsCards.data,
-            # }
+        allUsersSrsCards = ReviewsLevelAndDateSerializer(Review.objects.filter(user=request.user.id), many=True)
+        return Response(
+            {
+                **userSerializer.data, 
+                'user_is_on_free_trial': user.user_is_on_free_trial(),
+                'has_access_to_paid_features': user.has_access_to_paid_features(),
+                'review_cards': allUsersSrsCards.data,
+            }
         )
 
 class UserLessonInfoView(APIView):

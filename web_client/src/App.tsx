@@ -110,10 +110,10 @@ const ProtectedRoute = ({
 
   useEffect(() => {
     const setUpAxiosAndGetBaseInfo = async () => {
-      const accessToken = await getAccessTokenSilently()
-      console.log(accessToken)
+      // const accessToken = await getAccessTokenSilently()
+      // console.log(accessToken)
       axios.get('users/homepage/', {
-              headers: { Authorization: `Bearer ${accessToken}` }
+              headers: { Authorization: `Bearer ${access}` }
           })
           .then(res => {
             const {

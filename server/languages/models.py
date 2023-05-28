@@ -116,7 +116,9 @@ class UsersProgressOnTest(models.Model):
         (IN_PROGRESS_TEST, 'stopped taking the test partway through')
     ]
 
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_tests')
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_tests', to_field='uuid')
+    user_uuid = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_tests')
+    # user_uuid = models.UUIDField(editable=False, null=True, blank=True)
     test = models.ForeignKey(TestForSkippingACoursesLevels, on_delete=models.Case, related_name='users_progress_on_this')
     status = models.CharField(choices=languages, max_length=max(len(status_choice[0]) for status_choice in statuses), default=NEVER_TAKEN_TEST)
 
@@ -140,7 +142,9 @@ class WrongChoicesForCustomQuestionForTestForSkippingACoursesLevels(models.Model
         return self.text
 
 class UserEnrolledInLanguage(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, to_field='uuid')
+    user_uuid = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    # user_uuid = models.UUIDField(editable=False, null=True, blank=True)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     user_is_currently_studying_this_language = models.BooleanField(default=False)
     date_enrolled = models.DateField(auto_now_add=True)
@@ -149,6 +153,8 @@ class UserEnrolledInLanguage(models.Model):
         return f'{self.user.get_username()} studying ${self.language}'
 
 class UsersProgressOnCourse(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_courses')
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_courses', to_field='uuid')
+    user_uuid = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='progress_on_courses')
+    # user_uuid = models.UUIDField(editable=False, null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='users_progress')
     current_level = models.ForeignKey(CourseLevels, on_delete=models.SET_NULL, null=True, related_name='course_level')

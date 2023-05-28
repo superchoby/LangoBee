@@ -60,6 +60,8 @@ class LinkedArticles(models.Model):
     explanation = models.CharField(max_length=200)
 
 class UsersArticleProgress(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='articles_progress')
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='articles_progress', to_field='uuid')
+    user_uuid = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='articles_progress')
+    # user_uuid = models.UUIDField(editable=False, null=True, blank=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     user_finished_reading_this = models.BooleanField(default=False)

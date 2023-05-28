@@ -3,6 +3,20 @@
 from django.db import migrations, models
 import uuid
 
+def transfer_foreign_key_values(apps, _):
+    all_connected_models = [
+        ('articles', 'UsersArticleProgress'),
+        ('languages', 'UsersProgressOnTest'),
+        ('languages', 'UserEnrolledInLanguage'),
+        ('languages', 'UsersProgressOnCourse'),
+        ('reviews', 'Review'),
+        ('stories', 'UsersProgressOnStory'),
+        ('streaks', 'DatesStudied'),
+    ]
+
+    for [module, model_name] in all_connected_models:
+        migrations.RemoveField(model_name, 'user')
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -10,9 +24,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RemoveField(
+            model_name='user',
+            name='id',
+        ),
         migrations.AlterField(
             model_name='user',
             name='uuid',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, unique=True),
+            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True),
         ),
+        migrations.RunPython(transfer_foreign_key_values, reverse_code=migrations.RunPython.noop),
     ]

@@ -20,8 +20,11 @@ def gen_uuid(apps, _):
         user_row.save(update_fields=['uuid'])
         for model in all_connected_models:
             for model_instance in model.objects.all():
-                model_instance.user_uuid = user_row.uuid
-                model_instance.save(update_fields=['user_uuid'])
+                if model_instance.user.id == user_row.id:
+                    # model_instance.user = user_row.uuid
+                    # model_instance.save(update_fields=['user'])
+                    model_instance.user_uuid = user_row.uuid
+                    model_instance.save(update_fields=['user_uuid'])
 
 class Migration(migrations.Migration):
 

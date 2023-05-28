@@ -128,7 +128,7 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             # 'NAME': 'LangoBeeLocal',
-            'NAME': 'ProdCopy',
+            'NAME': 'ProdCopy4',
             'PASSWORD': '',
             'HOST': '127.0.0.1',
             'PORT': '5432',
@@ -195,7 +195,8 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -265,12 +266,12 @@ AUTH0_DOMAIN = env('AUTH0_DOMAIN')
 AUTH0_AUDIENCE = env('AUTH0_AUDIENCE')
 
 SIMPLE_JWT = {
-    'ALGORITHM': 'RS256',
-    'JWK_URL': f'https://{AUTH0_DOMAIN}/.well-known/jwks.json',
-    'AUDIENCE': AUTH0_AUDIENCE,
-    'ISSUER': f'https://{AUTH0_DOMAIN}/',
-    'USER_ID_CLAIM': 'sub',
-    'AUTH_TOKEN_CLASSES': ('authz.tokens.Auth0Token',),
+    # 'ALGORITHM': 'RS256',
+    # 'JWK_URL': f'https://{AUTH0_DOMAIN}/.well-known/jwks.json',
+    # 'AUDIENCE': AUTH0_AUDIENCE,
+    # 'ISSUER': f'https://{AUTH0_DOMAIN}/',
+    # 'USER_ID_CLAIM': 'sub',
+    # 'AUTH_TOKEN_CLASSES': ('authz.tokens.Auth0Token',),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
 }
