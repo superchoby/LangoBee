@@ -4,7 +4,12 @@ from reviews.models import Review
 from streaks.serializers import GetDatesStudiedSerializer
 from languages.models import Course, Language, CourseLevels, UsersProgressOnCourse
 from languages.serializers import CourseSerializer, LanguageSerializer
-from reviews.serializers import SpacedRepetitionSystemStagesSerializers
+from dj_rest_auth.registration.serializers import SocialLoginSerializer
+from allauth.socialaccount.helpers import complete_social_login
+from allauth.socialaccount.providers.oauth2.client import OAuth2Error
+from django.utils.translation import gettext_lazy as _
+from requests.exceptions import HTTPError
+from django.http import HttpResponseBadRequest
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,19 +21,27 @@ class CreateUserSerializer(serializers.ModelSerializer):
         japanese_language = Language.objects.get(name='Japanese')
         user = get_user_model().objects.create(**validated_data)
         user.languages.add(japanese_language)
-        user.set_password(validated_data['password'])
+        if validated_data['password'] == 'unusable':
+            user.set_unusable_password()
+        else:
+            user.set_password(validated_data['password'])
         user.save()
-        
-        # japanese_language.users.add(user)
-        # japanese_language.save()
         course = Course.objects.get(name='main', language_this_course_teaches=japanese_language)
-        # course.users.add(user, through_defaults={'current_level': CourseLevels.objects.get(course=course, number=1)})
         course.save()
         UsersProgressOnCourse.objects.create(user=user, course=course, current_level=CourseLevels.objects.get(course=course, number=1))
-        # users_progress_on_this_course = core_course.users_progresses.get(user=user)
-        # users_progress_on_this_course.current_level = CourseLevels.objects.get(course=course, number=1)
-        # users_progress_on_this_course.save()
+
         return user
+    
+    def update(self, instance, validated_data):
+        print("HERE TO SAVE THE DAY!!!!")
+        japanese_language = Language.objects.get(name='Japanese')
+        instance.languages.add(japanese_language)
+        instance.save()
+        course = Course.objects.get(name='main', language_this_course_teaches=japanese_language)
+        course.save()
+        UsersProgressOnCourse.objects.create(user=instance, course=course, current_level=CourseLevels.objects.get(course=course, number=1))
+
+        return instance
 
 class UserLessonInfoSerializer(serializers.ModelSerializer):
     class Meta:

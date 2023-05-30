@@ -7,20 +7,20 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
-import { HelmetProvider } from 'react-helmet-async'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const persistor = persistStore(store)
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_SOCIAL_AUTH_GOOGLE_OAUTH2_CLIENT_ID!}>
           <App />
-        </PersistGate>
-      </Provider>
-    </HelmetProvider>
+        </GoogleOAuthProvider>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 )
 

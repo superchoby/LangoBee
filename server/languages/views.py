@@ -236,6 +236,7 @@ class MarkArticleAsReadView(APIView):
         language = Language.objects.get(name=language)
         article = Article.objects.get(language=language, slug=slug)
         user = User.objects.get(id=request.user.id)
+        print(UsersArticleProgress.objects.filter(user=user, article=article), 'the filtered version')
         users_progress = UsersArticleProgress.objects.get(user=user, article=article)
         users_progress.user_finished_reading_this = True
         users_progress.save()

@@ -2,7 +2,7 @@ from .serializers import (
     CreateUserSerializer, 
     UserLessonInfoSerializer, 
     UserGeneralInfoSerializer,
-    UserSrsSerializer
+    UserSrsSerializer,
 )
 from rest_framework import mixins, generics, permissions, status
 from rest_framework.views import APIView
@@ -22,6 +22,18 @@ import logging
 from botocore.exceptions import ClientError
 from mimetypes import guess_type
 from django.core.mail import send_mail
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.oauth2.views import (
+    OAuth2Adapter
+)
+from allauth.socialaccount.providers.google.provider import GoogleProvider
+import jwt
+import random
+from allauth.socialaccount.providers.oauth2.client import OAuth2Error
+from django.core.exceptions import ObjectDoesNotExist
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
 # Create your views here.
 class CreateUserView(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -48,14 +60,13 @@ class UserInfo(APIView):
 
 class UserHomepageView(APIView):
     def get(self, request, format=None):
-        user = request.user
-        userSerializer = UserGeneralInfoSerializer(user)
+        userSerializer = UserGeneralInfoSerializer(request.user)
         allUsersSrsCards = ReviewsLevelAndDateSerializer(Review.objects.filter(user=request.user.id), many=True)
         return Response(
             {
                 **userSerializer.data, 
-                'user_is_on_free_trial': user.user_is_on_free_trial(),
-                'has_access_to_paid_features': user.has_access_to_paid_features(),
+                'user_is_on_free_trial': request.user.user_is_on_free_trial(),
+                'has_access_to_paid_features': request.user.has_access_to_paid_features(),
                 'review_cards': allUsersSrsCards.data,
             }
         )
@@ -254,3 +265,68 @@ class ReminderEmailsThresholdView(APIView):
         user.reminder_emails_review_threshold = request.data['reminder_emails_review_threshold']
         user.save()
         return Response(status=status.HTTP_200_OK)
+    
+def get_token_auth_header(request):
+    """Obtains the Access Token from the Authorization Header"""
+    auth = request.META.get('HTTP_AUTHORIZATION', '').split()
+    if len(auth) != 2:
+        return Response({'status': 'error', 'error': 'Invalid header. No credentials provided.'}, status=401)
+
+    elif auth[0].lower() != 'bearer':
+        return Response({'status': 'error', 'error': 'Invalid header. No "Bearer" keyword.'}, status=401)
+
+    return auth[1]
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+def generate_random_username():
+    while True:
+        random_username = f"User{''.join([str(random.randint(0, 9)) for _ in range(8)])}"
+        if not User.objects.filter(username=random_username).exists():
+            return random_username
+
+# class GoogleOAuth2Adapter(OAuth2Adapter):
+#     provider_id = GoogleProvider.id
+#     access_token_url = 'https://oauth2.googleapis.com/token'
+#     authorize_url = 'https://accounts.google.com/o/oauth2/v2/auth'
+#     id_token_issuer = 'https://accounts.google.com'
+
+#     def complete_login(self, request, app, token, response, **kwargs):
+#         try:
+#             identity_data = jwt.decode(
+#                 response["id_token"],
+#                 options={
+#                     "verify_signature": False,
+#                     "verify_iss": True,
+#                     "verify_aud": True,
+#                     "verify_exp": True,
+#                 },
+#                 issuer=self.id_token_issuer,
+#                 audience=app.client_id,
+#             )
+#         except jwt.PyJWTError as e:
+#             raise OAuth2Error("Invalid id_token") from e
+#         login = self.get_provider().sociallogin_from_response(request, identity_data)
+#         email = login.email_addresses[0].email
+#         try:
+#             User.objects.get(email=email)
+#         except ObjectDoesNotExist:
+#             print('does not exist')
+#             # serializer = CreateUserSerializer(data={
+#             #         'email': email,
+#             #         'password': 'unusable',
+#             #         'username': generate_random_username()
+#             #     },
+#             # )
+#             # if serializer.is_valid():
+#             #     serializer.save()
+#             # else:
+#             #     raise Exception(serializer.errors)
+#             # pass
+#         return login
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = '/lessons?just_joined=true'
+    client_class = OAuth2Client

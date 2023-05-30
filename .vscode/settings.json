@@ -12,4 +12,5 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+    "python.defaultInterpreterPath": "/Users/tomtrinh/Desktop/Github/LangoBee/server/venv/bin/python"
 }

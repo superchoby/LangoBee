@@ -35,6 +35,20 @@ export const Signup = (): JSX.Element => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
+  const storeTokensAndNavigate = (access: string, refresh: string) => {
+    dispatch(updateToken({
+      access,
+      refresh
+    }))
+    navigate({
+      pathname: searchParams.get('take_to_subscription_page') === 'true' ? 
+        SUBSCRIPTION_PATH :
+        LESSONS_PATH
+      ,
+      search: '?just_joined=true',
+    })
+  }
+
   const signUpUser = (): void => {
     let noErrors = true
 
@@ -80,17 +94,7 @@ export const Signup = (): JSX.Element => {
             access,
             refresh
           } = res.data
-          dispatch(updateToken({
-            access,
-            refresh
-          }))
-          navigate({
-            pathname: searchParams.get('take_to_subscription_page') === 'true' ? 
-              SUBSCRIPTION_PATH :
-              LESSONS_PATH
-            ,
-            search: '?just_joined=true',
-          })
+          storeTokensAndNavigate(access, refresh)
         })
         .catch(err => {
           changeSignUpLoading(false)
@@ -122,6 +126,7 @@ export const Signup = (): JSX.Element => {
               }} />
             </>
           }
+          handleSocialAuth={storeTokensAndNavigate}
           inputs={[
             <AuthenticationInput
                 id='signup-username-input'

@@ -2,6 +2,8 @@ import ClipLoader from 'react-spinners/ClipLoader'
 import Logo from '../../images/Logo.png'
 import { SyntheticEvent } from 'react'
 import './AuthenticationPageWrapper.scss'
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios'
 
 interface AuthenticationPageWrapperProps {
   title: string
@@ -15,6 +17,7 @@ interface AuthenticationPageWrapperProps {
   authenticationProcessErrorMessage: string
   infoHasBeenSubmitted?: boolean
   contentToShowAfterSubmit?: JSX.Element
+  handleSocialAuth?(access: string, refresh: string): void
 }
 
 export const AuthenticationPageWrapper = ({
@@ -28,7 +31,8 @@ export const AuthenticationPageWrapper = ({
   authenticationInfoIsBeingSent,
   authenticationProcessErrorMessage,
   infoHasBeenSubmitted,
-  contentToShowAfterSubmit
+  contentToShowAfterSubmit,
+  handleSocialAuth
 }: AuthenticationPageWrapperProps) => {
   const handleOnSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
@@ -39,6 +43,26 @@ export const AuthenticationPageWrapper = ({
         <div className='authentication-page-wrapper'>
             <img src={Logo} alt="LangoBee Logo" />
             <h2>{title}</h2>
+            {handleSocialAuth != null && (
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  console.log(credentialResponse)
+                  axios.post('social-login/google/', {
+                    access_token: credentialResponse.credential
+                  })
+                  .then(res => {
+                    console.log(res)
+                    handleSocialAuth(res.data.access, res.data.refresh)
+                  })
+                  .catch(err => {
+                    console.error(err)
+                  })
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+            )}
             <p className='authentication-page-message'>{message}</p>
             {infoHasBeenSubmitted && contentToShowAfterSubmit != null
               ? contentToShowAfterSubmit
@@ -56,9 +80,9 @@ export const AuthenticationPageWrapper = ({
                     </div>
                     <button className='authentication-submit-button' onClick={handleOnSubmit}>
                         {
-                            authenticationInfoIsBeingSent
-                              ? <ClipLoader color='white' loading={true} size={13} />
-                              : <span>{buttonText}</span>
+                          authenticationInfoIsBeingSent
+                            ? <ClipLoader color='white' loading={true} size={13} />
+                            : <span>{buttonText}</span>
                         }
                     </button>
                 </form>
