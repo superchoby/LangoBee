@@ -77,7 +77,7 @@ import { hotjar } from 'react-hotjar';
 const tokenInvalidMsg = 'Given token not valid for any token type'
 const userNotFoundMessage = 'User not found'
 const isInDevelopmentEnv = process.env.NODE_ENV == null || process.env.NODE_ENV === 'development'
-
+const verifyTokenPath = 'api/token/verify/'
 axios.defaults.baseURL = isInDevelopmentEnv ? 'http://127.0.0.1:8000/' : 'https://langobee-server.herokuapp.com/'
 
 const ResetUserInfoWrapper = ({ children }: { children: JSX.Element }): JSX.Element => {
@@ -107,6 +107,7 @@ const ProtectedRoute = ({
   }, [location])
 
   useEffect(() => {
+    
     axios.post(verifyTokenPath, { token: access })
       .then(_res => {
         setFinishedVerifyingToken(true)
@@ -238,7 +239,6 @@ const PaidUsersOnlyRoute = () => {
   return <Outlet />
 }
 
-const verifyTokenPath = 'api/token/verify/'
 const hotjarSiteId = 3501001;
 const hotjarVersion = 6;
 hotjar.initialize(hotjarSiteId, hotjarVersion);

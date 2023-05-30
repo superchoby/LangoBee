@@ -45,6 +45,8 @@ export const AuthenticationPageWrapper = ({
             <h2>{title}</h2>
             {handleSocialAuth != null && (
               <GoogleLogin
+                useOneTap={false}
+                text='signup_with'
                 onSuccess={credentialResponse => {
                   console.log(credentialResponse)
                   axios.post('social-login/google/', {

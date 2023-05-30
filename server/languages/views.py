@@ -210,13 +210,11 @@ class SpecificArticleView(APIView):
         except Article.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         user_has_finished_this_article = False
-        
-        if request.user.is_authenticated:       
-            if request.user.read_articles.filter(pk=article.id).exists():
-                users_progress = UsersArticleProgress.objects.get(user=request.user, article=article)
-                user_has_finished_this_article = users_progress.user_finished_reading_this
+        if request.user.is_authenticated: 
+            read_progress, created = UsersArticleProgress.objects.get_or_create(user=request.user, article=article)   
+            if created:
+                user_has_finished_this_article = read_progress.user_finished_reading_this
             else:
-                UsersArticleProgress.objects.create(user=request.user, article=article, user_finished_reading_this=False)
                 user_has_finished_this_article = False
 
         return Response({
@@ -236,7 +234,6 @@ class MarkArticleAsReadView(APIView):
         language = Language.objects.get(name=language)
         article = Article.objects.get(language=language, slug=slug)
         user = User.objects.get(id=request.user.id)
-        print(UsersArticleProgress.objects.filter(user=user, article=article), 'the filtered version')
         users_progress = UsersArticleProgress.objects.get(user=user, article=article)
         users_progress.user_finished_reading_this = True
         users_progress.save()

@@ -1,15 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from reviews.models import Review
 from streaks.serializers import GetDatesStudiedSerializer
 from languages.models import Course, Language, CourseLevels, UsersProgressOnCourse
 from languages.serializers import CourseSerializer, LanguageSerializer
-from dj_rest_auth.registration.serializers import SocialLoginSerializer
-from allauth.socialaccount.helpers import complete_social_login
-from allauth.socialaccount.providers.oauth2.client import OAuth2Error
+from users.models import User
 from django.utils.translation import gettext_lazy as _
-from requests.exceptions import HTTPError
-from django.http import HttpResponseBadRequest
+import random
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,9 +29,15 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
     
     def update(self, instance, validated_data):
-        print("HERE TO SAVE THE DAY!!!!")
+        def generate_username():
+            while True:
+                username = f"User{''.join([str(random.randint(0, 9)) for _ in range(8)])}"
+                if not User.objects.filter(username=username).exists():
+                    return username
+
         japanese_language = Language.objects.get(name='Japanese')
         instance.languages.add(japanese_language)
+        instance.username = generate_username()
         instance.save()
         course = Course.objects.get(name='main', language_this_course_teaches=japanese_language)
         course.save()

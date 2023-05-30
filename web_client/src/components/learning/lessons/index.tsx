@@ -223,6 +223,7 @@ export const Lessons = (): JSX.Element => {
           } = testThatEndsHere
           levelsForCurrentStandard.push(
             <TestToSkipLevelsButton
+              key={slug}
               message={textToEncourageUserToTake}
               testLink={slug}
             />

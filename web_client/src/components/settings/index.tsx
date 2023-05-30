@@ -305,7 +305,7 @@ export const Settings = (): JSX.Element => {
                               defaultValue={usersReminderEmailsReviewThreshold.toString()}
                               onChange={( {target: { value } } ) => changeUsersReminderEmailsReviewThreshold(parseInt(value))}
                             >
-                              {Array(20).fill(0).map((_, i) => <option value={((i + 1) * 10).toString()}>{(i + 1) * 10}</option>)}
+                              {Array(20).fill(0).map((_, i) => <option key={i} value={((i + 1) * 10).toString()}>{(i + 1) * 10}</option>)}
                             </select>
                             &nbsp;
                           </label>
