@@ -29,7 +29,6 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter
 )
 from allauth.socialaccount.providers.google.provider import GoogleProvider
-import jwt
 import random
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from django.core.exceptions import ObjectDoesNotExist
