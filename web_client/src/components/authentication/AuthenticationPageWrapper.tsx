@@ -89,7 +89,7 @@ export const AuthenticationPageWrapper = ({
             <img src={Logo} alt="LangoBee Logo" />
             <h2>{title}</h2>
             <p className='authentication-page-message'>{message}</p>
-            {redirectAfterSocialLogin != null && (
+            {/* {redirectAfterSocialLogin != null && (
               <>
                 <p style={{color: 'red'}}>{errorWithAuthentication !== 'none' && errorWithAuthentication}</p>
                 <div>
@@ -125,7 +125,7 @@ export const AuthenticationPageWrapper = ({
                   </p>
                 </div>
               </>
-            )}
+            )} */}
             {infoHasBeenSubmitted && contentToShowAfterSubmit != null
               ? contentToShowAfterSubmit
               : (
