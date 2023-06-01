@@ -126,7 +126,13 @@ export const Signup = (): JSX.Element => {
               }} />
             </>
           }
-          handleSocialAuth={storeTokensAndNavigate}
+          redirectAfterSocialLogin={{
+            pathname: searchParams.get('take_to_subscription_page') === 'true' ? 
+              SUBSCRIPTION_PATH :
+              LESSONS_PATH
+            ,
+            search: '?just_joined=true',
+          }}
           inputs={[
             <AuthenticationInput
                 id='signup-username-input'
