@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@greatsumini/react-facebook-login": "^3.3.3",
     "@ramonak/react-progress-bar": "^5.0.3",
     "@react-oauth/google": "^0.11.0",
     "@reduxjs/toolkit": "^1.9.5",
@@ -28,7 +29,6 @@
     "react-detect-click-outside": "^1.1.7",
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
-    "react-facebook-login": "^4.1.1",
     "react-ga": "^3.3.1",
     "react-google-button": "^0.7.2",
     "react-hotjar": "^6.1.0",
