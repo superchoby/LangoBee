@@ -6,12 +6,13 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import axios from 'axios'
 // import FacebookLogin from 'react-facebook-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { ImFacebook } from 'react-icons/im'
 import { updateToken } from '../../app/tokenSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { useNavigate, To } from 'react-router-dom'
 import { IS_IN_DEV_MODE } from '../shared/values';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 
 interface AuthenticationPageWrapperProps {
   title: string
@@ -103,8 +104,9 @@ export const AuthenticationPageWrapper = ({
                     appId={IS_IN_DEV_MODE ? '1305860207015809' : '1034736184550272'}
                     autoLoad={false}
                     fields="name,email,picture"
-                    callback={(res: any) => socialLogin('facebook', res.accessToken ?? '')}
-                    icon="fa-facebook"
+                    onSuccess={(res: any) => socialLogin('facebook', res.accessToken ?? '')}
+                    // callback={(res: any) => socialLogin('facebook', res.accessToken ?? '')}
+                    // icon="fa-facebook"
                     render={renderProps => {
                         return (
                           <button onClick={renderProps.onClick} className='social-login-button facebook-social-login-button'>
