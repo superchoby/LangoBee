@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from subscriptions.models import Subscription
 from datetime import timedelta
 from django.utils import timezone
+import uuid
 
 class User(AbstractUser):
     PLAN_TYPES = (

@@ -22,6 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 from django.conf import settings
+from users.views import FacebookLogin, GoogleLogin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,7 +36,12 @@ urlpatterns = [
     path('stories/', include('stories.urls')),
     path('emails/', include('emails.urls')),
     path('subscriptions/', include('subscriptions.urls')),
-    path('subjects/', include('subjects.urls'))
+    path('subjects/', include('subjects.urls')),
+    path('social-login/facebook/', FacebookLogin.as_view(), name='fb_login'),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')), 
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('social-login/google/', GoogleLogin.as_view(), name='google_login'),
+    path("accounts/", include("allauth.urls")),
 ]
 
 if settings.DEBUG:

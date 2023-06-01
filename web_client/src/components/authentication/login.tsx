@@ -75,6 +75,7 @@ export const Login = (): JSX.Element => {
             </div>
           </>
         }
+        redirectAfterSocialLogin={HOME_PATH}
         inputs={[
           <AuthenticationInput
               id='login-username-or-email-input'

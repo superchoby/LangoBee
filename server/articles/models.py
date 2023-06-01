@@ -63,3 +63,6 @@ class UsersArticleProgress(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='articles_progress')
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     user_finished_reading_this = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = (('user', 'article'),)
