@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: {language: string, 
     title: article.title,
     description: article.meta_description,
     alternates: {
-      canonical: `${PROD_URL}${language}/${slug}/`
+      canonical: `${PROD_URL}/articles/${language}/${slug}/`
     }
   }
 }
